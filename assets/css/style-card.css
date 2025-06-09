@@ -1,0 +1,466 @@
+/*-----------------------------------*\
+ * #style.css
+\*-----------------------------------*/
+
+/**
+ * copyright 2022 codewithsadee
+ */
+
+
+
+
+
+/*-----------------------------------*\
+ * #CUSTOM PROPERTY
+\*-----------------------------------*/
+
+:root {
+
+    /**
+     * colors
+     */
+
+    --maximum-blue-green_10: hsla(185, 75%, 45%, 0.1);
+    --rich-black-fogra-29: hsl(217, 28%, 9%);
+    --gray-x-11-gray: hsl(0, 0%, 74%);
+    --oxford-blue_60: hsla(230, 41%, 14%, 0.6);
+    --bittersweet: hsl(5, 100%, 69%);
+    --smoky-black: rgb(7, 6, 1);
+    --gainsboro: hsl(0, 0%, 88%);
+    --black_90: hsla(0, 0%, 0%, 0.9);
+    --cultured: hsl(200, 12%, 95%);
+    --salmon: hsl(5, 100%, 73%);
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 0%);
+    --onyx: hsl(0, 0%, 27%);
+
+    /**
+     * typography
+     */
+
+    --ff-roboto: 'Roboto', sans-serif;
+    --ff-josefin-sans: 'Josefin Sans', sans-serif;
+
+    --fs-1: 3rem;
+    --fs-2: 2.6rem;
+    --fs-3: 2.2rem;
+    --fs-4: 2rem;
+    --fs-5: 1.8rem;
+    --fs-6: 1.6rem;
+    --fs-7: 1.4rem;
+    --fs-8: 1.2rem;
+
+    --fw-300: 300;
+    --fw-500: 500;
+    --fw-600: 600;
+    --fw-700: 700;
+
+    /**
+     * transition
+     */
+
+    --transition-1: 0.25s ease;
+    --transition-2: 0.5s ease;
+    --cubic-out: cubic-bezier(0.51, 0.03, 0.64, 0.28);
+    --cubic-in: cubic-bezier(0.33, 0.85, 0.56, 1.02);
+
+    /**
+     * spacing
+     */
+
+    --section-padding: 60px;
+
+}
+
+
+
+
+
+/*-----------------------------------*\
+   * #RESET
+  \*-----------------------------------*/
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a,
+img,
+span,
+table,
+tbody,
+button,
+ion-icon {
+    display: block;
+}
+
+button,
+input {
+    font: inherit;
+    background: none;
+    border: none;
+}
+
+input {
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+address {
+    font-style: normal;
+    line-height: 1.8;
+}
+
+html {
+    font-family: var(--ff-josefin-sans);
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--white);
+    font-size: 1.6rem;
+    /* padding-block-start: 90px; */
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(0, 0%, 95%);
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(0, 0%, 80%);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0%, 70%);
+}
+header {
+    position: relative;
+    background-color: #fff;
+    margin-top: 15px;
+    padding: 7px 200px;
+    padding-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .icon-mobile {
+        display: none;
+    }
+
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        a {
+            margin: 0 25px;
+            color: var(--black);
+            font-size: 14px;
+            width: 100%;
+            transition: 0.3s;
+            -webkit-transition: 0.3s;
+            -moz-transition: 0.3s;
+            -ms-transition: 0.3s;
+            -o-transition: 0.3s;
+        }
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            margin: 0 15px;
+            color: var(--black);
+            font-size: 14px;
+        }
+
+        .fa-heart {
+            position: relative;
+
+            &::after {
+                content: "5";
+                position: absolute;
+                top: -7px;
+                right: -8px;
+                width: 15px;
+                height: 15px;
+                background-color: var(--bittersweet);
+                border-radius: 50%;
+                color: var(--white);
+                font-size: 9px;
+                text-align: center;
+                align-content: center;
+            }
+        }
+
+        .fa-bag-shopping {
+            position: relative;
+
+            &::after {
+                content: "4";
+                position: absolute;
+                top: -7px;
+                right: -8px;
+                width: 15px;
+                height: 15px;
+                background-color: var(--bittersweet);
+                border-radius: 50%;
+                color: var(--white);
+                font-size: 9px;
+                text-align: center;
+                align-content: center;
+            }
+        }
+    }
+}
+
+@media (max-width:767px) {
+    header {
+        position: fixed;
+        width: 100%;
+        padding: 7px 10px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 7px 10px;
+        top: -15px;
+        z-index: 3;
+
+        ul {
+            display: none;
+        }
+
+        .icon i:not(:last-child) {
+            display: none;
+
+        }
+
+        .icon {
+            position: relative;
+            margin-top: 5px;
+            background-color: var(--bittersweet);
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+
+            i {
+                display: block;
+                color: white;
+                font-size: 22px;
+            }
+        }
+    }
+}
+
+@media (max-width:767px) {
+    header .icon-mobile {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -235px;
+        height: 100vh;
+        background-color: #fff;
+
+        .logo {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            background-color: #e8f8f9;
+            align-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 50px;
+
+            i {
+                position: absolute;
+                top: 10px;
+                right: 15px;
+                color: black;
+                font-size: 21px;
+                cursor: pointer;
+            }
+
+            img {
+                width: 150px;
+                height: 50px;
+            }
+        }
+
+        .mobile-list {
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 226px;
+
+            li {
+                display: flex;
+                align-items: center;
+                width: calc(100%);
+                margin: 10px 0;
+                padding: 5px 0;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid #eee;
+                }
+
+                i {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .login {
+            position: relative;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+
+            li {
+                display: flex;
+                width: 100%;
+                margin: 22px 25px;
+                position: relative;
+
+                i {
+                    margin-right: 10px;
+                    position: relative;
+                }
+
+                .wishlist {
+                    &::after {
+                        content: "5";
+                        position: absolute;
+                        top: 1px;
+                        right: 41px;
+                        width: 15px;
+                        height: 15px;
+                        background-color: var(--bittersweet);
+                        border-radius: 50%;
+                        color: var(--white);
+                        font-size: 12px;
+                        text-align: center;
+                        align-content: center;
+                    }
+                }
+
+                .basket {
+                    &::after {
+                        content: "4";
+                        position: absolute;
+                        top: 1px;
+                        right: 41px;
+                        width: 15px;
+                        height: 15px;
+                        background-color: var(--bittersweet);
+                        border-radius: 50%;
+                        color: var(--white);
+                        font-size: 12px;
+                        text-align: center;
+                        align-content: center;
+                    }
+
+                }
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: -25px;
+                left: 0;
+                width: 100%;
+                height: 1px;
+                background-color: #eee;
+            }
+        }
+    }
+}
+
+
+.container table{
+    margin-left: 50%;
+        transform: translateX(-35%);
+        margin-top: 65px;
+        img {
+                width: 50px;       }
+}
+.container table td{
+    width: 277px;
+    text-align: center;
+    padding: 20px 0;
+}
+.container table td input{
+    width: 76px;
+        padding: 16px 13px;
+        border: 1px solid #777777;
+}
+.container table tbody tr{
+    box-shadow: 0 5px 10px -4px #eee;
+}
+
+.container .cart-title{
+    width: 800px;
+        margin: 66px auto;
+        .cart-total{
+                margin: 0 auto;
+                border: 1px solid #eeee;
+                padding: 15px;
+                border-radius: 20px;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+                -ms-border-radius: 20px;
+                -o-border-radius: 20px;
+}
+        h3{
+        margin-bottom: 20px;
+        color: var(--bittersweet);
+        background-color: #eeeeee67;
+        padding: 10px 0;
+        border-radius: 5px;
+    }
+    .info:not(:last-of-type){
+        width: 300px;
+        margin-bottom: 45px;
+    }
+    input{
+        width: fit-content;
+        color: var(--bittersweet);
+        cursor: pointer;
+        background-color: #eeeeee67;
+        padding: 5px 10px;
+        border: 1px solid #77777742;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+    }
+}
+

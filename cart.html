@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footcap - Find your footware</title>
+
+    <!-- 
+    - favicon
+  -->
+    <link rel="shortcut icon" href="./favicon.svg" type="image/svg+xml">
+
+    <!-- 
+    - custom css link
+  -->
+    <link rel="stylesheet" href="./assets/css/style-card.css">
+    <link rel="stylesheet" href="./assets/css/framwork.css">
+
+    <!-- 
+    - google font link
+  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- 
+    - preload banner
+  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="./assets/images/logo.svg" alt="">
+        </div>
+        <ul class="head">
+            <li><a href="">Home</a></li>
+            <li><a href="">About</a></li>
+            <li><a href="">Products</a></li>
+            <li><a href="">Shop</a></li>
+            <li><a href="">Blog</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+        <div class="icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-user"></i>
+            <i class="fa-regular fa-heart"></i>
+            <i class="fa-solid fa-bag-shopping"></i>
+            <i class="fa-solid fa-list-ul list d-none"></i>
+    
+        </div>
+        <div class="icon-mobile">
+            <ul class="mobile-list">
+                <div class="logo">
+                    <img src="./assets/images/logo.svg" alt="">
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <li><a href="">Home</a></li>
+                <li><a href="./assets/about.html">About</a></li>
+                <li><a href="">Products</a></li>
+                <li><a href="">Shop</a></li>
+                <li><a href="">Blog</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+            <ul class="login">
+                <li>
+                    <i class="fa-regular fa-user"></i>
+                    <p>Login / Register</p>
+                </li>
+                <li>
+                    <i class="fa-regular fa-heart"></i>
+                    <p class="wishlist">Wishlist</p>
+                </li>
+                <li>
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <p class="basket">Basket</p>
+                </li>
+            </ul>
+    
+        </div>
+        </header>
+        <div class="container">
+            <table class="fs-15 w-full">
+                <thead class="">
+                    <tr>
+                        <td>Product</td>
+                        <td>Price</td>
+                        <td>Quantity</td>
+                        <td>Subtotal</td>
+                    </tr>
+                </thead>
+                <!-- eow1 -->
+                <tbody class="">
+                    <tr>
+                        <td class="center-flex">
+                            <img src="./assets/images/product-1.jpg" alt="">
+                            <div class="text-c">
+                                <span>LCD Monitor</span>
+                            </div>
+                        </td>
+                        <td class="price">300$</td>
+                        <td >
+                            <input class="number rad-10" minlength="0" type="number">
+                        </td>
+                        <td class="subtotal"></td>
+                    </tr>
+                    <tr>
+                        <td class="center-flex">
+                            <img src="./assets/images/product-2.jpg" alt="">
+                            <div class="text-c">
+                                <span>LCD Monitor</span>
+                            </div>
+                        </td>
+                        <td class="price">561$</td>
+                        <td >
+                            <input class="number rad-10" minlength="0" type="number">
+                        </td>
+                        <td class="subtotal"></td>
+                    </tr>
+                </tbody>
+                </table>
+                <div class="cart-title between-flex">
+                  
+                    <div class="cart-total mt-50">
+                        <h3 class="fs-20 m-0 mp-15">Cart Total</h3>
+                        <div class="info m-0 mt-15 between-flex">
+                            <p>Subtotal</p>
+                            <p class="subtotal"></p>
+                        </div>
+                        <div class="info m-0 nt-15 between-flex">
+                            <p>Shipping</p>
+                            <p class="Shipping">$100</p>
+                        </div>
+                        <div class="info m-0 mt-15 between-flex">
+                            <p>Total</p>
+                            <p class="Total">$1700</p>
+                        </div>
+                        <div class="updata">
+                            <input class="rad-10 c-white mt-15" type="submit" value="Proceed to Checkout">
+                            <input type="submit" value="Update Cart">
+                            </div>
+                    </div>
+                    </div>
+        </div>
+<script src="./assets/js/cars.js"></script>
+</body>
+  
+

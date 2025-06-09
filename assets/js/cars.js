@@ -1,3 +1,55 @@
+
+// document.querySelectorAll("header ul.head li").forEach(li => {
+//     li.addEventListener("click", function(e) {
+//         e.preventDefault(); // يمنع الانتقال بالرابط
+//         // احصل على اسم التاب من النص أو من data attribute
+//         let tabName = li.textContent.trim();
+//         // يمكنك تخصيص المحتوى حسب اسم التاب
+//         let tabContent = `<div class="tab-content"> ${tabName}</div>`;
+//         document.querySelector(".tabs-container").innerHTML = tabContent;
+//         // يمكنك إضافة كلاس active على li لو أردت
+//         document.querySelectorAll("header ul.head li").forEach(x => x.classList.remove("active"));
+//         li.classList.add("active");
+//     });
+// });
+
+
+
+
+// function calculateSubtotal() {
+//     let price_t = document.querySelectorAll(".price")
+//     let quantity = document.querySelectorAll(".number")
+//     let subtotal = document.querySelectorAll(".subtotal")
+//     price_t.forEach(e => {
+//         let priceNumber = parseFloat(e.textContent);
+//     })
+//     quantity.forEach(x => {
+//         let quantityNumber = parseFloat(x.value);
+//     })
+//     subtotal.forEach(s => {
+        
+//         s.textContent = priceNumber * quantityNumber;
+//     })
+// }
+
+
+// function calculateSubtotal() {
+//     let price_t = document.querySelectorAll(".price");
+//     let quantity = document.querySelectorAll(".number");
+//     let subtotal = document.querySelectorAll(".subtotal");
+
+//     // نفترض أن كل صف له نفس الترتيب في العناصر الثلاثة
+//     for (let i = 0; i < price_t.length; i++) {
+//         let priceNumber = parseFloat(price_t[i].textContent);
+//         let quantityNumber = parseFloat(quantity[i].value);
+//         let total = priceNumber * quantityNumber;
+//         subtotal[i].textContent = isNaN(total) ? 0 : `${total}$`;
+//         let Subtotal = document.querySelector(".cart-total .info .subtotal")
+//         let Shipping = document.querySelector(".cart-total .info .Shipping")
+//         let Total = document.querySelector(".cart-total .info .Total")
+
+//     }
+// }
 function toggleMenu() {
     let navbar = document.querySelectorAll(".head li a");
 
@@ -110,51 +162,34 @@ ShowMenu();
 
 
 
-// let products=[]
-// let images = document.querySelectorAll(".Products .boxs .image");
+function calculateSubtotal() {
+    let price_t = document.querySelectorAll(".price");
+    let quantity = document.querySelectorAll(".number");
+    let subtotal = document.querySelectorAll(".subtotal");
 
-// images.forEach((e) => {
-//     e.addEventListener("click", () => {
-//         let img = e.querySelector("img");
-//         if (img) {
-//             console.log("src:", img.src, "alt:", img.alt);
-//         }
-//         let type = e.querySelector("h4");
-//         console.log(type.innerHTML);
-//         let price = e.querySelector(".price");
-//         console.log(price.innerHTML);
-    
-//         let product = {
-//             src: img ? img.src : "",
-//             alt: img ? img.alt : "",
-//             type: type ? type.innerHTML : "",
-//             price: price ? price.innerHTML : ""
-//         };
-//         products.push(product);
-//     });
-// })
-// localStorage.setItem("products", JSON.stringify(products));
-let images = document.querySelectorAll(".Products .boxs .image img");
+    let allSubtotal = 0;
+    for (let i = 0; i < price_t.length; i++) {
+        let priceNumber = parseFloat(price_t[i].textContent);      
+        let quantityNumber = parseFloat(quantity[i].value);
+        let total = priceNumber * quantityNumber;
+        subtotal[i].textContent = isNaN(total) ? "0$" : `${total}$`;
+        allSubtotal += isNaN(total) ? 0 : total;
+    }
 
-images.forEach((img) => {
-    img.addEventListener("click", function () {
-        let parent = img.querySelector(".image");
-        let type = parent.querySelector(".type") ? parent.querySelector(".type").textContent : "";
-        let name = parent.querySelector("h4") ? parent.querySelector("h4").textContent : "";
-        let price = parent.querySelector(".price") ? parent.querySelector(".price").textContent : "";
+    let Subtotal = document.querySelector(".cart-total .info .subtotal");
+    let Shipping = document.querySelector(".cart-total .info .Shipping");
+    let Total = document.querySelector(".cart-total .info .Total");
 
-        let product = {
-            src: img.src,
-            alt: img.alt,
-            type: type,
-            name: name,
-            price: price
-        };
+    if (Subtotal) Subtotal.innerHTML = `${allSubtotal}$`;
+    if (Shipping) Shipping.innerHTML = "100$";
+    if (Total) Total.innerHTML = `${allSubtotal + 100}$`;
+}
+let updata = document.querySelector(".updata");
+updata.addEventListener("click", () => {
+    calculateSubtotal()
+})
 
-        // خزّن بيانات المنتج المضغوط فقط
-        localStorage.setItem("selectedProduct", JSON.stringify(product));
 
-        // يمكنك تحويل المستخدم مباشرة لصفحة الكارت مثلاً
-        // window.location.href = "cart.html";
-    });
-});
+
+
+calculateSubtotal()
