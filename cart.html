@@ -40,18 +40,18 @@
             <img src="./assets/images/logo.svg" alt="">
         </div>
         <ul class="head">
-            <li><a href="">Home</a></li>
-            <li><a href="">About</a></li>
+            <li><a href="./index.html">Home</a></li>
+            <li><a href="./about.html">About</a></li>
             <li><a href="">Products</a></li>
-            <li><a href="">Shop</a></li>
+            <li><a href="./cart.html">Shop</a></li>
             <li><a href="">Blog</a></li>
             <li><a href="">Contact</a></li>
         </ul>
         <div class="icon">
             <i class="fa-solid fa-magnifying-glass"></i>
             <i class="fa-solid fa-user"></i>
-            <i class="fa-regular fa-heart"></i>
-            <i class="fa-solid fa-bag-shopping"></i>
+            <i class="fa-regular fa-heart"><span class="love">0</span></i>
+            <i class="fa-solid fa-bag-shopping shope"><span class="number">0</span></i>
             <i class="fa-solid fa-list-ul list d-none"></i>
     
         </div>
@@ -61,10 +61,10 @@
                     <img src="./assets/images/logo.svg" alt="">
                     <i class="fa-solid fa-xmark"></i>
                 </div>
-                <li><a href="">Home</a></li>
-                <li><a href="./assets/about.html">About</a></li>
+                <li><a href="./index.html">Home</a></li>
+                <li><a href="./about.html">About</a></li>
                 <li><a href="">Products</a></li>
-                <li><a href="">Shop</a></li>
+                <li><a href="./cart.html">Shop</a></li>
                 <li><a href="">Blog</a></li>
                 <li><a href="">Contact</a></li>
             </ul>
@@ -73,17 +73,21 @@
                     <i class="fa-regular fa-user"></i>
                     <p>Login / Register</p>
                 </li>
-                <li>
-                    <i class="fa-regular fa-heart"></i>
+                <li class="hearting">
+                    <i class="fa-regular fa-heart"><span class="love">0</span>
+                    </i>
                     <p class="wishlist">Wishlist</p>
                 </li>
-                <li>
-                    <i class="fa-solid fa-bag-shopping"></i>
+                <li class="shopping">
+                    <i class="fa-solid fa-bag-shopping shope"><span class="number">0</span></i>
                     <p class="basket">Basket</p>
                 </li>
+            <button class="log-out">log-out</button>
+
             </ul>
-    
         </div>
+        <span class="line"></span>
+        <button class="log-out-in-mobile">log-out</button>
         </header>
         <div class="container">
             <table class="fs-15 w-full">
@@ -97,55 +101,33 @@
                 </thead>
                 <!-- eow1 -->
                 <tbody class="">
-                    <tr>
-                        <td class="center-flex">
-                            <img src="./assets/images/product-1.jpg" alt="">
-                            <div class="text-c">
-                                <span>LCD Monitor</span>
-                            </div>
-                        </td>
-                        <td class="price">300$</td>
-                        <td >
-                            <input class="number rad-10" minlength="0" type="number">
-                        </td>
-                        <td class="subtotal"></td>
-                    </tr>
-                    <tr>
-                        <td class="center-flex">
-                            <img src="./assets/images/product-2.jpg" alt="">
-                            <div class="text-c">
-                                <span>LCD Monitor</span>
-                            </div>
-                        </td>
-                        <td class="price">561$</td>
-                        <td >
-                            <input class="number rad-10" minlength="0" type="number">
-                        </td>
-                        <td class="subtotal"></td>
-                    </tr>
+                    
                 </tbody>
                 </table>
-                <div class="cart-title between-flex">
-                  
+                <div class="cart-title flex-start">
+                  <div class="input">
+                    <input class="updata-cart" type="submit" value=" update Product">
+                  </div>
                     <div class="cart-total mt-50">
                         <h3 class="fs-20 m-0 mp-15">Cart Total</h3>
                         <div class="info m-0 mt-15 between-flex">
                             <p>Subtotal</p>
-                            <p class="subtotal"></p>
+                            <p class="subtotal-total">0$</p>
                         </div>
                         <div class="info m-0 nt-15 between-flex">
                             <p>Shipping</p>
-                            <p class="Shipping">$100</p>
+                            <p class="Shipping">100$</p>
                         </div>
                         <div class="info m-0 mt-15 between-flex">
                             <p>Total</p>
-                            <p class="Total">$1700</p>
+                            <p class="Total">0$</p>
                         </div>
                         <div class="updata">
                             <input class="rad-10 c-white mt-15" type="submit" value="Proceed to Checkout">
                             <input type="submit" value="Update Cart">
                             </div>
                     </div>
+
                     </div>
         </div>
 <script src="./assets/js/cars.js"></script>

@@ -23,9 +23,7 @@
   -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
   <!-- 
     - preload banner
@@ -39,55 +37,60 @@
   <!-- 
     - #HEADER
   -->
-<header>
-  <div class="logo">
-    <img src="./assets/images/logo.svg" alt="">
-  </div>
-  <ul class="head">
-    <li><a href="">Home</a></li>
-    <li><a href="">About</a></li>
-    <li><a href="">Products</a></li>
-    <li><a href="">Shop</a></li>
-    <li><a href="">Blog</a></li>
-    <li><a href="">Contact</a></li>
-  </ul>
-  <div class="icon">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <i class="fa-solid fa-user"></i>
-    <i class="fa-regular fa-heart"></i>
-    <i class="fa-solid fa-bag-shopping"></i>
-    <i class="fa-solid fa-list-ul list d-none"></i>
-
-  </div>
-  <div class="icon-mobile">
-    <ul class="mobile-list">
-      <div class="logo">
-        <img src="./assets/images/logo.svg" alt="">
-        <i class="fa-solid fa-xmark"></i>
-        </div>
-      <li><a href="">Home</a></li>
-      <li><a href="">About</a></li>
+  <header>
+    <div class="logo">
+      <img src="./assets/images/logo.svg" alt="">
+    </div>
+    <ul class="head">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./about.html">About</a></li>
       <li><a href="">Products</a></li>
-      <li><a href="">Shop</a></li>
+      <li><a href="./cart.html">Shop</a></li>
       <li><a href="">Blog</a></li>
       <li><a href="">Contact</a></li>
     </ul>
+    <div class="icon">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-user"></i>
+      <i class="fa-regular fa-heart heart"><span class="love">0</span></i>
+      <i class="fa-solid fa-bag-shopping shope"><span class="number">0</span></i>
+      <i class="fa-solid fa-list-ul list d-none"></i>
+  
+    </div>
+    <div class="icon-mobile">
+      <ul class="mobile-list">
+        <div class="logo">
+          <img src="./assets/images/logo.svg" alt="">
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./about.html">About</a></li>
+        <li><a href="">Products</a></li>
+        <li><a href="./cart.html">Shop</a></li>
+        <li><a href="">Blog</a></li>
+        <li><a href="">Contact</a></li>
+      </ul>
       <ul class="login">
-         <li>
+        <li>
           <i class="fa-regular fa-user"></i>
           <p>Login / Register</p>
         </li>
-        <li>
-          <i class="fa-regular fa-heart"></i>
+        <li class="hearting">
+          <i class="fa-regular fa-heart"><span class="love">0</span>
+          </i>
           <p class="wishlist">Wishlist</p>
         </li>
-        <li>
-          <i class="fa-solid fa-bag-shopping"></i>
+        <li class="shopping">
+          <i class="fa-solid fa-bag-shopping shope"><span class="number">0</span></i>
           <p class="basket">Basket</p>
         </li>
+        <button class="log-out">log-out</button>
+  
       </ul>
-  </div>
-</header>
+    </div>
+    <span class="line"></span>
+    <button class="log-out-in-mobile">log-out</button>
+  </header>
 <div class="container">
   <section class="hero">
     <div class="text">
@@ -119,33 +122,33 @@
     </ul>
   </div>
   <div class="Products">
-    <h1>Bestsellers Products</h1>
+    <h1 class="title">Bestsellers Products</h1>
     <ul class="categories">
-      <li class="active-background item">All<a href=""></a></li>
-      <li class="item">Nike<a href=""></a></li>
-      <li class="item">Adidas<a href=""></a></li>
-      <li class="item">Puma<a href=""></a></li>
-      <li class="item">Bate<a href=""></a></li>
-      <li class="item">Apex<a href=""></a></li>
+      <li class="active-background item all">All<a href=""></a></li>
+      <li class="item nike">Nike<a href=""></a></li>
+      <li class="item Adidas">Adidas<a href=""></a></li>
+      <li class="item Puma">Puma<a href=""></a></li>
+      <li class="item Bate">Bate<a href=""></a></li>
+      <li class="item apex">Apex<a href=""></a></li>
     </ul>
     <div class="boxs">
       <ul class="products-list">
-        <li>
-          <div class="image">
+        <li onclick="shopping(this)" class="apex">
           <span class="new">New</span>
+          <div class="image">
             <span class="icons-Products">
               <i class="fa-solid fa-cart-shopping icon-Products"></i>
               <i class="fa-solid fa-heart icon-Products"></i>
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-1.jpg" alt="">
+            <img src="./assets/images/apex2.jpg" alt="">
             <span class="type">men / women</span>
             <h4>Running Sneaker Shoes</h4>
             <span class="price">$180.85</span>
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" class="nike">
           <div class="image">
             <span class="icons-Products">
               <i class="fa-solid fa-cart-shopping icon-Products"></i>
@@ -159,7 +162,7 @@
             <span class="price">$190.85</span>
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)"  class="apex">
           <div class="image">
           <span class="new">New</span>
             <span class="icons-Products">
@@ -168,13 +171,13 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-3.jpg" alt="">
+            <img src="./assets/images/apex1.jpg" alt="">
             <span class="type">Men / Women</span>
             <h4>Simple Fabric Shoe</h4>
             <span class="price">$160.85</span>
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" ass="addidas">
           <div class="image">
           <span class="new">-25%</span>
             <span class="icons-Products">
@@ -183,13 +186,19 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-4.jpg" alt="">
+            <img src="./assets/images/adidas1.avif" alt="">
             <span class="type">men / women</span>
             <h4>Air Jordan 7 Retro</h4>
-            <span class="price">$170.85<del class="del">$200.21</del></span>
+            <div class="dell flex-end">
+              <p class="price">170.85$</p>
+              <p><del class="del">200.21$</del></p>
+            </div>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/adidas1.avif" alt="">
+            </span> -->
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" class="addidas">
           <div class="image">
           <span class="new">New</span>
             <span class="icons-Products">
@@ -198,13 +207,19 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-5.jpg" alt="">
+            <div class="imgs d-flex">
+              <img src="./assets/images/adidas2.avif" alt="">
+              <img src="./assets/images/adidas2-1.avif" alt="">
+            </div>
             <span class="type">Men / Women</span>
             <h4> Nike Air Max 270 SE </h4>
             <span class="price">$120.85</span>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/adidas2-1.avif" alt="">
+            </span> -->
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" class="nike">
           <div class="image">
             <span class="icons-Products">
               <i class="fa-solid fa-cart-shopping icon-Products"></i>
@@ -212,13 +227,20 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-6.jpg" alt="">
+            <div class="image d-flex">
+              <img src="./assets/images/nike9.jpeg" alt="">
+              <img class="swiap" src="./assets/images/nike9-1.avif" alt="">
+
+            </div>
             <span class="type">Men / Women</span>
             <h4>Adidas Sneakers Shoes</h4>
             <span class="price">$100.85</span>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/nike9-1.avif" alt="">
+            </span> -->
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" class="pate">
           <div class="image">
             <span class="icons-Products">
               <i class="fa-solid fa-cart-shopping icon-Products"></i>
@@ -226,13 +248,20 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-            <img src="./assets/images/product-7.jpg" alt="">    
+            <div class="image d-flex">
+              <img src="./assets/images/bata3.webp" alt="">    
+              <img class="swiap" src="./assets/images/bata3-1.webp" alt="">
+
+            </div>
             <span class="type">men / women</span>
             <h4>Nike Basketball shoes</h4>
             <span class="price">$120.85</span>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/bata3-1.webp" alt="">
+            </span> -->
           </div>
         </li>
-        <li>
+        <li onclick="shopping(this)" class="nike">
           <div class="image">
             <span class="icons-Products">
               <i class="fa-solid fa-cart-shopping icon-Products"></i>
@@ -240,11 +269,436 @@
               <i class="fa-solid fa-eye icon-Products"></i>
               <i class="fa-solid fa-share-from-square icon-Products"></i>
             </span>
-              <img src="./assets/images/product-8.jpg" alt="">        
+              <img src="./assets/images/nike1.jpeg" alt="">        
               <span class="type">men / women</span>
               <h4>Simple Fabric Shoe</h4>
               <span class="price">$100.85</span>
             </div>
+        </li>
+        <li onclick="shopping(this)" class="pume">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/puma1.avif" alt="">        
+              <img class="swiap" src="./assets/images/pumu1-1.avif" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/pumu1-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pate">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/bata1.webp" alt="">        
+              <img class="swiap" src="./assets/images/bata1-1.webp" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/bata1-1.webp" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image ">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img class="object-f" src="./assets/images/addidas8.jpg" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/ADIDAS-RESPONSE-RUNNER-U-SHOES-BLUE-ID7335-Activ-Abou-Alaa_39868329197812.jpg" class="object-f" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="imgs d-flex">
+              <img  src="./assets/images/adidas3.avif" alt="">   
+              <img  src="./assets/images/adidas3-1.avif" alt="">
+            </div>
+
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/adidas3-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="nike">
+          <div class="image">
+            <span class="new">-25%</span>
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <img src="./assets/images/nike2.jpeg" alt="">
+            <span class="type">men / women</span>
+            <h4>Air Jordan 7 Retro</h4>
+            <div class="dell flex-end">
+              <p class="price">170.85$</p>
+              <p><del class="del">200.21$</del></p>
+            </div>
+          </div>
+        </li>
+        <li onclick="shopping(this)" class="nike">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/nike1.webp" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="nike">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/nieke11.avif" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <span class="new">New</span>
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="imgs d-flex">
+              <img src="./assets/images/adidas5.avif" alt="">
+              <img src="./assets/images/adidas5-1.avif" alt="">
+            </div>
+            <span class="type">men / women</span>
+            <h4>Running Sneaker Shoes</h4>
+            <span class="price">$180.85</span>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/adidas5-1.avif" alt="">
+            </span> -->
+          </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="imgs d-flex">
+              <img src="./assets/images/adidas8.avif" alt="">        
+              <img src="./assets/images/adidas8-1.avif" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/adidas8-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pume">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/puma2.avif" alt="">        
+              <img class="swiap" src="./assets/images/puma2-2.avif" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/puma2-2.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pate">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/bata4.webp" alt="">        
+              <img class="swiap" src="./assets/images/bata4-1.webp" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/bata4-1.webp" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pate">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/bata2.webp" alt="">        
+              <img class="swiap" src="./assets/images/bata2-1.webp" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/bata2-1.webp" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="apex">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/apex3.jpg" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="apex">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/apex4.jpg" alt="">        
+              <span class="type">men / women</span>
+              <h4>Lorem ipsum dolor sit.</h4>
+              <span class="price">$220.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="apex">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/apex5.jpg" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Lorem ipsum dolor.</h4>
+              <span class="price">$150.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="apex">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/apex6.jpg" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pume">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/puma3.avif" alt="">        
+              <img class="swiap" src="./assets/images/puma3-1.avif" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/puma3-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)"  class="pume">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/puma4.avif" alt="">        
+              <img class="swiap" src="./assets/images/puma4-4.avif" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/puma4-4.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)"  class="pate">
+          <div class="image">
+            <span class="new">-10%</span>
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <img src="./assets/images/bata4.jpeg" alt="">
+            <span class="type">men / women</span>
+            <h4>Air Jordan 7 Retro</h4>
+            <div class="dell flex-end">
+              <p class="price">170.85$</p>
+              <p><del class="del">200.21$</del></p>
+            </div>
+          </div>
+        </li>
+        <li onclick="shopping(this)" class="nike">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <div class="image d-flex">
+              <img src="./assets/images/nike5.jpeg" alt="">        
+              <img class="swiap" src="./assets/images/nike5-1.jpeg" alt="">
+            </div>
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/nike5-1.jpeg" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="pume">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/puma5.avif" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/puma5-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image">
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+              <img src="./assets/images/adidas6.avif" alt="">        
+              <span class="type">men / women</span>
+              <h4>Simple Fabric Shoe</h4>
+              <span class="price">$100.85</span>
+              <!-- <span class="toggle">
+                <img class="swiap" src="./assets/images/adidas6-1.avif" alt="">
+                </span> -->
+            </div>
+        </li>
+        <li onclick="shopping(this)" class="addidas">
+          <div class="image">
+            <span class="new">-40%</span>
+            <span class="icons-Products">
+              <i class="fa-solid fa-cart-shopping icon-Products"></i>
+              <i class="fa-solid fa-heart icon-Products"></i>
+              <i class="fa-solid fa-eye icon-Products"></i>
+              <i class="fa-solid fa-share-from-square icon-Products"></i>
+            </span>
+            <img src="./assets/images/adidas4.avif" alt="">
+            <span class="type">men / women</span>
+            <h4>Air Jordan 7 Retro</h4>
+            <div class="dell flex-end">
+              <p class="price">170.85$</p>
+              <p><del class="del">200.21$</del></p>
+            </div>
+            <!-- <span class="toggle">
+              <img class="swiap" src="./assets/images/adidas4-1.avif" alt="">
+            </span> -->
+          </div>
         </li>
       </ul>
     </div>
@@ -411,6 +865,7 @@
     </ul>
 
   </div>
+</div>
   <div class="container-footer">
       <div class="footer">
     <div class="image">
@@ -434,80 +889,80 @@
     </div>
   </div>
   <div class="our-info">
-    <div class="concat-us">
-      <p class="Contact">Contact Us</p>
-      <ul>
-        <li>
-          <i class="fa-solid fa-location-dot"></i>
-          <span>2751 S Parker Rd, Aurora, CO 80014,<br> United States</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-phone"></i>
-          <span>+557343673257</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-envelope"></i>
-          <span>footcap@help.com</span>
-        </li>
-      </ul>
-    </div>
-    <div class="my-account">
-      <p class="account">My Account</p>
-      <ul>
-        <li><a href="">> My Account</a></li>
-        <li><a href="">> View Cart</a></li>
-        <li><a href="">> Wishlist</a></li>
-        <li><a href="">> Compare</a></li>
-        <li><a href="">> New Products</a></li>
-      </ul>
-    </div>
-    <div class="Opening-Time">
-      <p class="Opening-title">Opening Time</p>
-      <ul class="Time">
-        <li>
-          <span>Mon - Tue:</span>
-          <span>8AM - 10PM</span>
-        </li>
-        <li>
-          <span>Wed:</span>
-          <span>8AM - 7PM</span>
-        </li>
-        <li>
-          <span>Fri:</span>
-          <span>7AM - 12PM</span>
-        </li>
-        <li>
-          <span>Sat:</span>
-          <span>9AM - 8PM</span>
-        </li>
-        <li>
-          <span>Sun:</span>
-          <span>Closed</span>
-        </li>
 
-      </ul>
-    </div>
-    <div class="Newsletter">
-      <p class="Newsletter-title">Newsletter</p>
-      <ul>
-        <li>
-          <span>Authoritatively morph 24/7 potentialities with <br>error-free partnerships.</span>
-        </li>
-        <li>
-          <div class="search">
-            <input type="search" placeholder="Email Address">
-            <input class="button" type="submit" value="Subscribe">
-          </div>
-        </li>
-      </ul>
-    </div>
+      <div class="concat-us">
+        <p class="Contact">Contact Us</p>
+        <ul>
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <span>2751 S Parker Rd, Aurora, CO 80014,<br> United States</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <span>+557343673257</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <span>footcap@help.com</span>
+          </li>
+        </ul>
+      </div>
+      <div class="my-account">
+        <p class="account">My Account</p>
+        <ul>
+          <li><a href="">> My Account</a></li>
+          <li><a href="">> View Cart</a></li>
+          <li><a href="">> Wishlist</a></li>
+          <li><a href="">> Compare</a></li>
+          <li><a href="">> New Products</a></li>
+        </ul>
+      </div>
+      <div class="Opening-Time">
+        <p class="Opening-title">Opening Time</p>
+        <ul class="Time">
+          <li>
+            <span>Mon - Tue:</span>
+            <span>8AM - 10PM</span>
+          </li>
+          <li>
+            <span>Wed:</span>
+            <span>8AM - 7PM</span>
+          </li>
+          <li>
+            <span>Fri:</span>
+            <span>7AM - 12PM</span>
+          </li>
+          <li>
+            <span>Sat:</span>
+            <span>9AM - 8PM</span>
+          </li>
+          <li>
+            <span>Sun:</span>
+            <span>Closed</span>
+          </li>
+  
+        </ul>
+      </div>
+      <div class="Newsletter">
+        <p class="Newsletter-title">Newsletter</p>
+        <ul>
+          <li>
+            <span>Authoritatively morph 24/7 potentialities with <br>error-free partnerships.</span>
+          </li>
+          <li>
+            <div class="search">
+              <input type="search" placeholder="Email Address">
+              <input class="button" type="submit" value="Subscribe">
+            </div>
+          </li>
+        </ul>
+      </div>
   </div>
-  <div class="scroll-top">
+  <div class="scroll-top d-none">
     <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
   </div>
 </div>
 <script src="./assets/js/script.js"></script>
-
 </body>
 
 </html>

@@ -8,6 +8,16 @@
 .flex-1{
     flex: 1;
 }
+.flex-end{
+    display: flex;
+        align-items: self-end;
+        justify-content: center;
+}
+.flex-start{
+    display: flex;
+        align-items: self-start;
+        justify-content: center;
+}
 .flex-d{
     flex-direction: column;
 }
@@ -170,6 +180,9 @@
 .mt-100{
     margin-top:100px;
 }
+.mt-160{
+    margin-top:160px;
+}
 .mb-100{
     margin-bottom:100px;
 }
@@ -330,6 +343,9 @@
 /* end font */
 /* start color */
 
+.object-f{
+    object-fit: cover;
+}
 .bg-white{
     background-color: white;
 }
