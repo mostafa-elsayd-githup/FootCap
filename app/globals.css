@@ -1,0 +1,70 @@
+@import "tailwindcss";
+:root {
+
+  --bg-main: #ffffff;       
+  --bg-primary: #f5f5f5;
+  --bg-card: #ffffff;     
+  --bg-dis: #fcfaf2;        
+  --bg-navbar:#ffffff67 ;     
+  --bg-searchinput:#f5f5f5f5 ;       
+  
+  --color-primary: #000000; 
+  --color-main: #ffffff;    
+  --color-secondary: #767677; 
+  
+  --text-fetch: #00000077; 
+  --color-sale: #e32b2b;    
+  --rating-color: #2aba71;  
+  --border-color: #ebedee;  
+}
+
+.dark {
+--bg-main: linear-gradient(180deg, #121212 0%, #161616 100%);
+  --bg-primary: #1a1a1a;   
+  --bg-card: #1e1e1e;      
+  --bg-dis: #1c1b17;  
+   --bg-navbar: #00000067;      
+  --bg-searchinput:#ffffff67 ;      
+  
+  --color-primary: #ebebeb; 
+  --color-main: #000000;    
+  --color-secondary: #a0a0a1;
+  
+  --text-fetch: #ffffff65;
+  --color-sale: #ff5f5f;   
+  --rating-color: #ffb400;  
+  --border-color: #2c2c2c;  
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+ 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+
+  background-color: var(--bg-main);
+  color: var(--color-primary);
+  
+  font-family: "Cairo", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* السطر ده مهم عشان المتصفح يعرف يتعامل مع عناصر الـ UI الافتراضية */
+.dark html {
+  color-scheme: dark;
+}

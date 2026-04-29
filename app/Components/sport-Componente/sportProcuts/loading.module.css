@@ -1,0 +1,68 @@
+.wrapper {
+  max-width: 1300px;
+  margin: 120px auto 40px; /* مسافة للـ NavBar */
+  padding: 0 20px;
+}
+
+.headerSkeleton {
+  margin-bottom: 40px;
+}
+
+.titleSkeleton { width: 300px; height: 35px; }
+.descSkeleton { width: 600px; height: 15px; margin-top: 15px; }
+
+/* شبكة المنتجات - تطابق الـ Grid في موقعك */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageBox {
+  width: 100%;
+  aspect-ratio: 1 / 1.1; /* نفس نسبة عرض الصور في لقطة الشاشة */
+  margin-bottom: 15px;
+}
+
+.info {
+  padding: 0 5px;
+}
+
+.line {
+  margin-bottom: 8px;
+  border-radius: 2px;
+}
+
+.nameSkeleton { width: 80%; height: 18px; }
+.priceSkeleton { width: 40%; height: 16px; }
+.categorySkeleton { width: 50%; height: 14px; }
+.colorsSkeleton { width: 30%; height: 14px; }
+
+/* أنميشن النبض */
+.skeleton {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shine 1.5s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position-x: -200%; }
+}
+
+/* التوافق مع الشاشات الصغيرة */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr); /* كارتين في كل صف في الموبايل */
+  }
+}
+@media (min-width: 769px) and (max-width: 1233) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* كارتين في كل صف في الموبايل */
+  }
+}

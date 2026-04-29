@@ -1,0 +1,69 @@
+.container {
+  margin-top: 50px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.title {
+  margin-bottom: 20px;
+  margin-left: 5px;
+  text-transform: none;
+  color: var(--color-primary);
+  font-family: "AdineuePRO", sans-serif;
+  font-weight: 500 !important;
+  letter-spacing: 1.15px;
+  line-height: 38px;
+}
+.clubs {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin: 10px;
+}
+.product_card {
+  text-align: center;
+  width: 460px;
+  border: none;
+}
+.clubs_swiper {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  padding-bottom: 15px;
+}
+
+.club_item {
+  text-align: center;
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card {
+  text-align: center;
+  min-width: 28.5rem; /* عرض ثابت لكل كارت */
+}
+.button {
+  border: none;
+  background: transparent;
+  /* color: var(--color-primary); */
+  text-decoration: underline;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .card {
+    min-width: 25rem;
+  }
+  .product_card {
+    text-align: center;
+    width: 23rem;
+    border: none;
+  }
+  .container {
+    margin-top: 80px; /* تقليل المسافة العلوية في الموبايل */
+  }
+}
+@media (min-width: 769px) and (max-width: 1233px) {
+  .card {
+    min-width: 29rem; /* حدد عرض الكارت المناسب لك */
+  }
+}

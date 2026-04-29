@@ -1,0 +1,80 @@
+.error_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: var(--bg-main); /* يقلب أسود في الدارك */
+  color: var(--color-primary); /* يقلب أبيض في الدارك */
+  padding: 20px;
+}
+
+.icon_box {
+  margin-bottom: 2rem;
+}
+
+.icon_box i {
+  font-size: 4rem;
+  color: var(--rating-color); /* اللون الأصفر للتحذير */
+}
+
+.title {
+  font-weight: 800;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.description {
+  color: var(--color-secondary);
+  margin-bottom: 2rem;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.button_group {
+  display: flex;
+  gap: 15px;
+}
+
+.btn_reset {
+  background-color: var(--color-primary);
+  color: var(--bg-primary);
+  padding: 10px 30px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  border-radius: 0; /* ستايل أديداس الحاد */
+  text-transform: uppercase;
+}
+
+.btn_reset:hover {
+  opacity: 0.8;
+}
+
+.btn_home {
+  background-color: transparent;
+  color: var(--color-primary);
+  padding: 10px 30px;
+  font-weight: 700;
+  border: 2px solid var(--color-primary);
+  text-decoration: none;
+  border-radius: 0;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.btn_home:hover {
+  background-color: var(--color-primary);
+  color: var(--bg-main);
+}
+
+.error_code {
+  margin-top: 3rem;
+  text-transform: uppercase;
+  color: var(--text-fetch);
+  letter-spacing: 2px;
+  font-size: 0.7rem;
+}

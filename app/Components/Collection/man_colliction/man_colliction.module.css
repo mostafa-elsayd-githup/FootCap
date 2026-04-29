@@ -1,0 +1,205 @@
+.head {
+  margin-top: 80px;
+  background-image: url(/man-collicionback.svg);
+  width: 100%;
+  height: 42vw;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+margin-top: 75px;
+}
+.container_info {
+  color: white;
+  margin-left: 60px;
+}
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.p {
+  margin-bottom: 20px;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+  font-size: 1.6rem;
+}
+.button {
+  background-color: white;
+  color: black;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 50px;
+  margin: 10px auto;
+  position: relative;
+  width: 200px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-family: "AdihausDIN", sans-serif;
+
+}
+.button:hover {
+  background-color: #ffffffea;
+}
+.button::before {
+  content: "";
+  border: 1px solid #eee;
+  width: 100%;
+  height: 46px;
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  z-index: -1;
+}
+/* القسم التانى  */
+.head2 {
+  position: relative;
+  background-image: url(/mancolliction2back.jpg);
+  width: 100%;
+  height: 42vw;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  margin-top: 74px;
+}
+
+/* فسم قمصان كره القدم  */
+.hrader {
+  font-size: 2.1rem;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-transform: none;
+  color: var(--color-primary);
+  font-family: "AdineuePRO", sans-serif;
+  font-weight: 701 !important;
+  letter-spacing: 1.15px;
+  line-height: 38px;
+}
+.para {
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+  font-family: AdineuePRO, sans-serif;
+  font-size: 1.2rem;
+  line-height: 28px;
+}
+
+.section {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.clubs_swiper {
+  width: 100%;
+  height: auto;
+}
+
+.club_item {
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product_card {
+  text-align: center;
+  width: 460px;
+  border: none;
+}
+.title_clube {
+  font-size: 15px;
+  font-weight: normal;
+}
+.Button {
+  position: relative;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  color: #000;
+}
+.Button::after {
+  content: "";
+  background: #000;
+  width: calc(100% - 0px);
+  height: 1px;
+  position: absolute;
+  bottom: 1px;
+  left: -1px;
+}
+@media (max-width: 768px) {
+  .head {
+    background-image: url(/media_background_section1.svg);}.head2 {background-image: url(/media_background_section2.svg);}
+    .head , .head2{
+    width: 100%;
+    height: 135vw;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-top: 76px;
+    margin-bottom:4.7em;
+    }
+
+  .Button {
+   background-color: white;
+  color: black;
+  align-items: center;
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  line-height: 50px;
+  min-height: 40px;
+  padding: 0 21px;
+  margin: 10px auto;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 200px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-family: "AdihausDIN", sans-serif;
+  border: none;
+  }
+  .Button::before {
+    content: "";
+    border: 1px solid #eee;
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    z-index: -1;
+  }
+  .container_info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 0px auto;
+    position: relative;
+    margin-left: 20px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+}
+@media (min-width: 769px) {
+  .Container_shart {
+    position: relative;
+  }
+
+}
+/* @media (min-width: 769px) and (max-width: 1233px) {} */

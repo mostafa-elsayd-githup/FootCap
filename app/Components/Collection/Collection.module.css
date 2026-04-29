@@ -1,0 +1,101 @@
+.big_container {
+  margin: 0 10px;
+  margin-top: 90px;
+  h1 {
+  margin-bottom: 20px;
+  margin-left: 5px;
+  text-transform: none;
+  color: var(--color-primary);
+  font-family: "AdineuePRO", sans-serif;
+  font-weight: 500 !important;
+  letter-spacing: 1.15px;
+  line-height: 38px;
+  }
+}
+.menCollection {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 10px;
+}
+.man_card {
+  background-image: url("/mancollection_section.svg");
+}
+.woman_card{
+    background-image: url("/images.svg");
+}
+.child_card{
+
+  background-image: url("/child_collcition_section.svg");
+} 
+
+.child_card, .woman_card, .man_card {
+background-position: inherit;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 24vw;
+  padding: 20px;
+  display: flex;
+  position: relative;
+}
+
+.Button {
+color: var(--color-primary);
+  background-color: var(--bg-primary);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 3px;
+  width: 120px;
+  padding: 10px 0;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .menCollection {
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .child_card, .woman_card, .man_card {
+background-position: inherit;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70vw;
+  padding: 20px;
+  display: flex;
+  position: relative;
+}
+  .product_card {
+    min-width: 315px;
+    margin-right: 20px;
+  }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .product_card {
+    margin-right: 20px;
+  }
+  .child_card, .woman_card, .man_card {
+background-position: inherit;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 24vw;
+  padding: 20px;
+  display: flex;
+  position: relative;
+}
+}

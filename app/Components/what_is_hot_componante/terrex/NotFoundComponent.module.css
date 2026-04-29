@@ -1,0 +1,43 @@
+.notFoundWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  text-align: center;
+  height: 100vh;
+}
+
+.iconBox {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.noDataTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--bg-primary);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.noDataMsg {
+  color: var(--tetx-secondary);
+  max-width: 450px;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.backBtn {
+  background-color: var(--bg-primary);
+  color: var(--color-main);
+  padding: 15px 40px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.backBtn:hover {
+  background-color: var(--border-color);
+}

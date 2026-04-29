@@ -1,0 +1,53 @@
+.errorWrapper {
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.errorTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.errorMsg {
+  color: #767677;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+
+.errorActions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.retryBtn {
+  background-color: #000;
+  color: #fff;
+  padding: 12px 35px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.homeBtn {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+  padding: 12px 35px;
+  text-decoration: none;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.retryBtn:hover, .homeBtn:hover {
+  opacity: 0.8;
+}
