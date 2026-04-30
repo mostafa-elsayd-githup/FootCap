@@ -10,25 +10,24 @@
 .title {
   margin-top: 15px;
 }
-.Productlenght{
+.Productlenght {
   font-size: 1rem;
   color: var(--color-primary);
 }
+
 .card {
   overflow: hidden;
   position: relative;
   width: 100%;
-  background-color: var(--color-main);
-  transition: all 0.2s ease-in-out;
+  background-color: var(--bg-main);
   border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
 }
 .card:hover {
   border: 1px solid var(--color-primary);
   transform: translateY(-10px);
   z-index: 200;
-  box-shadow:
-    0 17px 40px -12px var(--color-secondary),
-    0 18px 6px -18px var(--color-secondary);
+  box-shadow: 0 12px 7px -5px var(--color-secondary);
   border-color: var(--color-main);
 }
 .icons {
@@ -40,20 +39,23 @@
   padding: 0 15px;
   z-index: 10;
   transition: all 0.2s ease-in-out;
-
 }
-.card:hover .icons{
+.card:hover .icons {
   right: 0;
 }
+.action_icon {
+  display: flex;
+  flex-direction: column;
+}
 .icon {
-pointer-events: auto;
+  display: flex;
+  color: #000;
+  font-size: 18px;
+  background: #eee;
+  pointer-events: auto;
   border-radius: 50%;
   margin: 10px 0;
   padding: 5px;
-  font-size: 18px;
-  display: flex;
-  color: #000;
-  background: #eee;
 }
 .products {
   display: grid;
@@ -71,7 +73,7 @@ pointer-events: auto;
 }
 .image {
   cursor: pointer;
-  mask-image: linear-gradient(var(--color-main) 90%, transparent);
+  mask-image: linear-gradient(var(--bg-card) 95%, transparent);
 }
 .small_products {
   padding: 0 0.2rem;
@@ -94,7 +96,6 @@ pointer-events: auto;
 .small_img:hover {
   border-bottom: 2px solid var(--color-primary);
 }
-
 .card:hover .small_img {
   display: block;
 }
@@ -208,7 +209,7 @@ pointer-events: auto;
 
 @media (max-width: 767px) {
   .Container {
-    margin:100px 0 0 0 ;
+    margin: 100px 0 0 0;
   }
   .text {
     padding: 0 20px;

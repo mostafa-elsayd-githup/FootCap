@@ -42,7 +42,9 @@ async function getProduct(id) {
 }
 
 export default async function ProductPage({ params }) {
+  
   const resolvedParams = await params;
+  // console.log(resolvedParams);
   const productId = resolvedParams.products;
   const products = await getProduct(productId);
   const wishlist = await getWishlist();

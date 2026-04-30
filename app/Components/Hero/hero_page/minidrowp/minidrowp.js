@@ -41,26 +41,26 @@ export default function MiniDrowp() {
       });
     }
   }, [state?.tokenstate, Router]);
-  useEffect(() => {
-    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-      // console.log("minidrop_client", state.wishliststate);
+useEffect(() => {
+  if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+ 
+    const newFavoriteStatus = !state.wishliststate;
+    
+    setisfevorite(newFavoriteStatus);
 
-      setisfevorite(state.wishliststate);
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-right",
+      showConfirmButton: false,
+      timer: 2000,
+    });
 
-      Toast.fire({
-        icon: "success",
-        title: state.wishliststate
-          ? "Added to Wishlist"
-          : "Removed from Wishlist",
-      });
-    }
-  }, [setisfevorite, state?.wishliststate]);
+    Toast.fire({
+      icon: "success",
+      title: newFavoriteStatus ? "Added to Wishlist" : "Removed from Wishlist",
+    });
+  }
+}, [state?.wishliststate, setisfevorite]);
 
   useEffect(() => {
     if (state?.cardState !== undefined && state?.cardState !== null) {

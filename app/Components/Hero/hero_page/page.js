@@ -87,7 +87,7 @@ async function Product() {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = wishlist.wishlist.some((wish) => wish.id === item.id);
+              const isfevorite = !!wishlist.wishlist.some((wish) => wish.id === item.id);
               return (
                 <SingleProduct
                   key={item.id}

@@ -7,16 +7,24 @@ import Footer from "../../../../footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
 import NotFoundComponent from "../../../Hero/NotFoundComponent";
 import MiniDrowp from "./minidrowp/minidrowp";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken"
 async function getWishlist() {
+  const tokenstor = await cookies();
+  const token = tokenstor.get("token")?.value;
+  if (!token) {
+    return { state: 401, message: "Please login to continue" };
+  }
+  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   try {
-    const res = await fetch(`http://localhost:1200/wishlist`, {
+    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
       cache: "no-store",
-      next: { tags: ["wishlist"] },
+      next: { tags: ["navbar"] },
     });
-    if (!res.ok) return [];
-    return await res.json();
+    const userWishlist = await res.json();
+    return userWishlist;
   } catch {
-    return null;
+    return [];
   }
 }
 async function gitData(categoryKey) {
@@ -82,7 +90,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = wishlist.some((e) => e.id === item.id);
+              const isfevorite = !!wishlist.wishlist.some((e) => e.id === item.id);
               return (
                 <SingleProduct
                   key={item.id}

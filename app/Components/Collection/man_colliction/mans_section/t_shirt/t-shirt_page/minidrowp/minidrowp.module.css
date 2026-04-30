@@ -66,20 +66,18 @@
   cursor: pointer;
   background-color: var(--bg-primary);
   border-radius: 10px 0 0 10px;
-  align-content: center;
-  width: 43px;
-  height: 99px;
-  font-size: 27px;
+  place-content: center;
+  align-items: center;
+  width: 40px;
+  height: 100px;
+  font-size: 20px;
   font-weight: 700;
   transition: all 0.4s ease-in-out;
+  display: flex;
   position: absolute;
   top: 50%;
-  left: -43px;
+  left: -31px;
   transform: translateY(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all ease-in-out 0.4s;
 }
 .imageGallery {
   grid-template-columns: 192px 1fr;
@@ -101,7 +99,7 @@
 .infoSection {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.1rem;
 }
 
 .productName {
@@ -130,19 +128,16 @@
   text-decoration: line-through;
 }
 
-/* 3. تفاصيل المقاس والكمية واللون */
 .sizeSection {
   font-size: 13px;
-  color: var(--color-secondary);
+  /* color: var(--color-primary); */
   margin: 2px 0;
 }
 
-/* كلمة "Only 1 Left" باللون الأحمر */
 .colors_available {
   font-size: 1.2rem;
   color: var(--color-primary);
   font-weight: bold;
-  margin-bottom: 10px;
 }
 .smil_image {
   display: flex;
@@ -152,7 +147,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .sizeSection {
   margin-top: 10px;
@@ -173,8 +168,8 @@
 }
 .activeSize {
   background-color: var(--color-primary);
-  color: var(--bg-main);
-  border-color: var(--color-primary);
+  color: var(--color-main);
+  border-color: var(--border-color);
 }
 .addToCartBtn,
 .View_ProductBtn {

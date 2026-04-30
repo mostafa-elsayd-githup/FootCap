@@ -52,6 +52,7 @@
 
 .inputField {
     width: 100%;
+    
     padding: 12px;
     background: var(--bg-primary); /* خلفية الانبوت */
     border: 1px solid var(--border-color);
@@ -115,6 +116,13 @@
     border-top: 2px solid var(--border-color);
     padding-top: 15px;
 }
+.Totalprice {
+    /* font-weight: 700; */
+    /* font-size: 1.2rem; */
+    color: var(--color-sale); /* استخدام لون السيل للـ Total */
+    /* border-top: 2px solid var(--border-color); */
+    /* padding-top: 15px; */
+}
 
 .orderBtn {
     width: 100%;
@@ -153,7 +161,10 @@
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
-
+.react-select__control {
+   background-color: var(--bg-input);
+   /* أي ستايل عاوزه */
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 992px) {

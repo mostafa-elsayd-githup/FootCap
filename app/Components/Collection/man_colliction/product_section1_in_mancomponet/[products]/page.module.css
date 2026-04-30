@@ -126,7 +126,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 0.5rem;
 }
 .sizeSection {
   margin-top: 10px;
@@ -152,9 +152,12 @@
   gap: 10px;
   margin-bottom: 20px;
   color: var(--color-primary);
+  margin-top: 30px;
+
 }
 
 .addToCartBtn {
+
   position: relative;
   flex: 1;
   background-color: var(--color-primary);

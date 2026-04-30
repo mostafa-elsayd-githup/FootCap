@@ -22,7 +22,7 @@ function Woman_section() {
       <div className={styles.contente}>
         <Card className={styles.bars}>
           <Card.Body className={styles.card}>
-            <Link href="/Components/Collection/woman_colliction/woman_section/shop_bras" className={styles.Button}>
+            <Link href="/Components/Collection/woman_colliction/woman_section/shop_bras/shop_pade" className={styles.Button}>
               SHOP BRAS
               <FontAwesomeIcon
                 icon={faArrowRight}

@@ -6,15 +6,22 @@ import { Container } from "react-bootstrap";
 import NotFoundComponent from "./NotFoundComponent";
 import NavAction from "../../../../../Navbar/NavAction";
 import MiniDrowp from "./shose_page/minidrowp/minidrowp";
-
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken"
 async function getWishlist() {
+  const tokenstor = await cookies();
+  const token = tokenstor.get("token")?.value;
+  if (!token) {
+    return { state: 401, message: "Please login to continue" };
+  }
+  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   try {
-    const res = await fetch(`http://localhost:1200/wishlist`, {
-      cache: "no-store", 
-      next: { tags: ["wishlist"] },
+    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
+      cache: "no-store",
+      next: { tags: ["navbar"] },
     });
-    if (!res.ok) return [];
-    return await res.json();
+    const userWishlist = await res.json();
+    return userWishlist;
   } catch {
     return [];
   }
@@ -52,7 +59,7 @@ async function Product() {
   return (
     <>
       <NavAction />
-      <Container className={styles.Container}>
+      <div className={styles.Container}>
         <div className={styles.text}>
           <span className={styles.spans}>
             <Link
@@ -79,7 +86,7 @@ async function Product() {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfvevorite = wishlist.some(
+              const isfvevorite = !!wishlist.wishlist.some(
                 (wishlist) => wishlist.id === item.id,
               );
               return (
@@ -91,7 +98,7 @@ async function Product() {
               );
             })}
         </div>
-      </Container>
+      </div>
     </>
   );
 }

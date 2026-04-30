@@ -3,56 +3,95 @@ import { useState, useEffect, useActionState } from "react";
 import styles from "./ckeckout.module.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { Form, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import handleOrder from "./ckeckoutServer";
-import { number } from "motion";
 export default function CheckoutPage({ cartItems }) {
-
   const router = useRouter();
   const [pendingclient, setPending] = useState(false);
-  const [actionTypeState, setActionTypeState] = useState("");
+  // const [actionTypeState, setActionTypeState] = useState("");
   const [FormDataClient, setFormDataClient] = useState({
     fullName: "",
-    phone: "",
+    val: "",
     address: "",
     card: "",
-    city: "Cairo",
+    phone: "",
+    city: "",
   });
   const initialState = { message: "", wishliststate: null };
-  const [state, formData, pending] = useActionState(handleOrder, initialState);
+  const [state, formAction, pending] = useActionState(
+    handleOrder,
+    initialState,
+  );
 
   const subtotal =
     cartItems?.reduce(
-      (acc, item) => acc + item.price.replace(/[^\d.]/g, "") * item.quantity,
+      (acc, item) => acc + item?.price.replace(/[^\d.]/g, "") * item?.quantity,
       0,
     ) || 0;
 
   const shipping = 50;
   const total = subtotal + shipping;
-
+  const egyptGovernorates = [
+    "Cairo",
+    "Giza",
+    "Alexandria",
+    "Dakahlia",
+    "Red Sea",
+    "Beheira",
+    "Fayoum",
+    "Gharbia",
+    "Ismailia",
+    "Menofia",
+    "Minya",
+    "Qalyubia",
+    "New Valley",
+    "Suez",
+    "Aswan",
+    "Assiut",
+    "Beni Suef",
+    "Port Said",
+    "Damietta",
+    "Sharkia",
+    "South Sinai",
+    "Kafr El Sheikh",
+    "Matrouh",
+    "Luxor",
+    "Qena",
+    "North Sinai",
+    "Sohag",
+  ];
   useEffect(() => {
     // Validate
     if (state?.inputState === 100) {
-      Swal.fire("Error", "Please fill all fields", "error");
-    } else if (state?.inputState === 102) {
-      Swal.fire("Error", "Credet Card & Phone Should be a Number", "error");
+      Swal.fire("Error", `${state?.message}`, "error");
+    } else if (
+      state?.inputState === 101 ||
+      state?.inputState === 102 ||
+      state?.inputState === 103
+    ) {
+      Swal.fire("Error", `${state?.message}`, "error");
+    } else if (state?.success) {
+      setTimeout(() => {
+        // setPending(false);
+        Swal.fire({
+          title: "Order Placed!",
+          text: "Your order has been received successfully.",
+          icon: "success",
+          confirmButtonColor: "#000",
+        }).then(() => {
+          router.push("/");
+        });
+      }, 2000);
     }
 
     // setPending(true);
-
-    // Simulate API Call
-    // setTimeout(() => {
-    //   // setPending(false);
-    //   Swal.fire({
-    //     title: "Order Placed!",
-    //     text: "Your order has been received successfully.",
-    //     icon: "success",
-    //     confirmButtonColor: "#000",
-    //   }).then(() => {
-    //     router.push("/");
-    //   });
-    // }, 2000);
-  }, [state?.inputState]);
+  }, [
+    state?.timeStamp,
+    state?.inputState,
+    state?.success,
+    state?.message,
+    router,
+  ]);
 
   return (
     <div className={styles.checkoutContainer}>
@@ -62,10 +101,9 @@ export default function CheckoutPage({ cartItems }) {
         </div>
       )}
 
-      {/* نموذج بيانات الشحن */}
       <div className={styles.shippingSection}>
         <h2 className={styles.title}>Shipping Information</h2>
-        <form action={formData} onClick={(e) => e.stopPropagation()}>
+        <form action={formAction}>
           {/* onSubmit={handle} */}
           <div className={styles.formGroup}>
             <label>Full Name</label>
@@ -88,10 +126,9 @@ export default function CheckoutPage({ cartItems }) {
               className={styles.inputField}
               placeholder="01xxxxxxxxx"
               maxLength={11}
-              value={FormDataClient.phone || ""}
               onChange={(e) => {
                 let val = e.target.value.replace(/\D/g, "");
-                setFormDataClient({ ...FormDataClient, phone: val });
+                setFormDataClient({ ...FormDataClient, phone: e.target.value });
               }}
             />
           </div>
@@ -115,37 +152,39 @@ export default function CheckoutPage({ cartItems }) {
               type="text"
               className={styles.inputField}
               placeholder="0000 0000 0000 0000"
-              value={FormDataClient.card || ""}
-              maxLength={19}
+              maxLength={16}
               onChange={(e) => {
                 let val = e.target.value.replace(/\D/g, "");
                 let formattedVal = val.match(/.{1,4}/g)?.join(" ") || "";
                 setFormDataClient({
                   ...FormDataClient,
-                  card: formattedVal,
+                  card: e.target.value,
                 });
               }}
             />
           </div>
           <div className={styles.formGroup}>
-            <label>City</label>
-            <select
+            <label>City {`[${egyptGovernorates.length}]`}</label>
+            <input
+              list="egypt-cities"
               className={styles.inputField}
+              placeholder="Seleck city...."
               onChange={(e) =>
                 setFormDataClient({ ...FormDataClient, city: e.target.value })
               }
-            >
-              <option value="Cairo">Cairo</option>
-              <option value="Giza">Giza</option>
-              <option value="Alexandria">Alexandria</option>
-            </select>
+            />
+            <datalist id="egypt-cities">
+              {egyptGovernorates.map((item) => (
+                <option key={item} value={item} />
+              ))}
+            </datalist>
           </div>
           <button
             type="submit"
             className={styles.orderBtn}
-            onMouseDown={() => {
-              setActionTypeState("submitaction");
-            }}
+            // onMouseDown={() => {
+            //   setActionTypeState("submitaction");
+            // }}
           >
             CONFIRM ORDER
           </button>
@@ -159,9 +198,16 @@ export default function CheckoutPage({ cartItems }) {
           <input type="hidden" name="phone" value={FormDataClient.phone} />
           <input type="hidden" name="city" value={FormDataClient.city} />
           <input type="hidden" name="card" value={FormDataClient.card} />
-          <input type="hidden" name="actionTypeState" value={actionTypeState} />
           {/* products Data  */}
-          <input type="hidden" name="allProducts" value={JSON.stringify(cartItems)} />
+          {cartItems.map((item) => (
+            <div key={item.id}>
+              <input
+                type="hidden"
+                name="allProducts"
+                value={JSON.stringify(item)}
+              />
+            </div>
+          ))}
         </form>
       </div>
 
@@ -179,7 +225,14 @@ export default function CheckoutPage({ cartItems }) {
                 <h5>{item.name}</h5>
                 <p>Size: {item.size}</p>
                 <p>Qty: {item.quantity}</p>
-                <p style={{ fontWeight: "700" }}>EGP {item.price}</p>
+                <p className={{ fontWeight: "700" }}>EGP {item.price}</p>
+                {item.quantity > 1 ? (
+                  <p style={{ fontWeight: "700", color:"#ff5f5f" }}>
+                    EGP {(Number(item.price.replace(/,/g, "")) * item.quantity).toLocaleString()}
+                  </p>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           ))}
@@ -188,7 +241,7 @@ export default function CheckoutPage({ cartItems }) {
         <div className={styles.totalTable}>
           <div className={styles.totalRow}>
             <span>Subtotal</span>
-            <span>EGP {subtotal}</span>
+            <span>EGP {subtotal.toLocaleString()}</span>
           </div>
           <div className={styles.totalRow}>
             <span>Shipping</span>
@@ -196,7 +249,7 @@ export default function CheckoutPage({ cartItems }) {
           </div>
           <div className={`${styles.totalRow} ${styles.grandTotal}`}>
             <span>Total</span>
-            <span>EGP {total}</span>
+            <span>EGP {total.toLocaleString()}</span>
           </div>
         </div>
       </div>
