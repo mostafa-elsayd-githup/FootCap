@@ -50,7 +50,7 @@ useEffect(() => {
 
     const Toast = Swal.mixin({
       toast: true,
-      position: "bottom-right",
+      position: "bottom-left",
       showConfirmButton: false,
       timer: 2000,
     });
@@ -67,7 +67,7 @@ useEffect(() => {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timerProgressBar: true,
         timer: 2000,

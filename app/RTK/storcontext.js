@@ -5,6 +5,7 @@ const storecontext = createContext();
 
 export const StoreProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenfeedback, setIsOpenfeedback] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isfevorite, setisfevorite] = useState(null);
   return (
@@ -15,7 +16,9 @@ export const StoreProvider = ({ children }) => {
         selectedProduct,
         setSelectedProduct,
         isfevorite,
-        setisfevorite
+        setisfevorite,
+        isOpenfeedback,
+        setIsOpenfeedback
       }}
     >
       {children}

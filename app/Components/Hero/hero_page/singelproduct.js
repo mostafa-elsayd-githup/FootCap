@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 const SingleProduct = ({ productItem, isfevorite }) => {
-  // console.log(productItem.url);
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem.image);
   const initialState = { message: "", wishliststate: null };
@@ -50,7 +49,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-end",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,

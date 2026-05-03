@@ -53,10 +53,10 @@ console.log(product);
 
         if (index !== -1) {
           carts[index].quantity += 1;
-          // console.log("quantity", index);
+
         } else {
           carts.push({ ...product, id: cartitemId, quantity: 1 });
-          // console.log("push", index);
+     
         }
         await fetch(`http://localhost:1200/users/${decryption.id}`, {
           method: "PATCH",

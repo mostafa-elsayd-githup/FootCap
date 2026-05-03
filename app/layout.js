@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { StoreProvider } from "./RTK/storcontext";
 import { ThemeProvider } from "next-themes";
+import Feedback from "./feedback_component/feedback";
+import { useState } from "react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -43,12 +45,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider
-          attribute="class" 
-          defaultTheme="system"
-          enableSystem
-        >
-          <StoreProvider>{children}</StoreProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <StoreProvider>
+            <Feedback />
+            {children}
+          </StoreProvider>
         </ThemeProvider>
       </body>
     </html>
