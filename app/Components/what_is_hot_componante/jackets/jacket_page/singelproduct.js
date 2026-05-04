@@ -122,7 +122,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
             onMouseDown={() => {
               setActionTypeState("eye");
               if (!pending) {
-                Router.push(`/Components/sport-Componente/${productItem.id}`);
+                Router.push(`/Components/what_is_hot_componante/jackets/${productItem.id}`);
               }
             }}
             style={{
@@ -197,7 +197,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link href={`/Components/sport-Componente/${style.id}`}>
+              <Link href={`/Components/what_is_hot_componante/jackets/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -218,7 +218,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
             <span className={styles.word}>LOW</span>
           </span>
         ) : null}
-        <Link href={`/Components/sport-Componente/${productItem.id}`}>
+        <Link href={`/Components/what_is_hot_componante/jackets/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         {/* السعر الأساسي */}

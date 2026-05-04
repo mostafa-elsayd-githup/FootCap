@@ -19,16 +19,15 @@ import handelAction from "./ActionFile";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
 import { useOpneing } from "../../../../RTK/storcontext";
-import { Card } from "react-bootstrap";
+import Swal from "sweetalert2";
 export default function Products({ fillWidth, product, isfevorite }) {
   const Router = useRouter();
-  const initialState = { massage: "", stat: null };
+  const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
     initialState,
   );
   const { setisfevorite } = useOpneing();
-
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
@@ -37,6 +36,42 @@ export default function Products({ fillWidth, product, isfevorite }) {
       redirect("/register");
     }
   }, [state, Router]);
+  useEffect(() => {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      setisfevorite(state.wishliststate);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: state.wishlistmessage,
+      });
+    }
+  }, [state?.wishliststate, state?.wishlistmessage, setisfevorite]);
+  useEffect(() => {
+    if (state?.cardState !== undefined && state?.cardState !== null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2000,
+      });
+      const isquantityUpdata = state.type === "quantity";
+      Toast.fire({
+        icon: "success",
+        title: isquantityUpdata ? "quintity +1" : "Added to Cart",
+      });   
+      console.log("yes");
+      setisfevorite(false)
+         
+    }
+  }, [setisfevorite, state?.cardState, state.timeStamp, state.type]);
   return (
     <>
       {/* loader */}
@@ -48,7 +83,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
       <div className={styles.container}>
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
-            <Card.Img
+            <img
               src={product.image}
               className={styles.mainImage}
               alt={product.name}
@@ -57,7 +92,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image_Hover ? (
-              <Card.Img
+              <img
                 src={product.image_Hover}
                 className={styles.mainImage}
                 alt={product.name}
@@ -67,7 +102,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image3 ? (
-            <Card.Img
+              <img
                 src={product.image3}
                 className={styles.mainImage}
                 alt={product.name}
@@ -85,7 +120,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image4 && (
-              <Card.Img
+              <img
                 src={product.image4}
                 className={styles.mainImage}
                 alt={product.name}
@@ -135,7 +170,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                   className={`${styles.sizeBox} ${selectedSize === size ? styles.activeSize : ""}`}
                   onClick={() => {
                     if (selectedSize === size) {
-                      setselectedSize("");
+                      setselectedSize(null);
                       setAddToCart(false);
                     } else {
                       setselectedSize(size);
@@ -147,6 +182,10 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 </button>
               ))}
             </div>
+
+            <span style={{ color: "red", fontSize: "1rem" }}>
+              {state?.sizemessage}
+            </span>
           </div>
 
           {/* actions */}
@@ -174,7 +213,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 value={actionTypeState || ""}
               />
               <button
-                className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
+                className={styles.addToCartBtn}
                 type="submit"
                 onMouseDown={() => setActionTypeState("card")}
               >
@@ -183,7 +222,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                   <FontAwesomeIcon icon={faRightLong} />
                 </span>
               </button>
-              <button
+              {/* <button
                 className={styles.wishlistBtn}
                 type="submit"
                 onMouseDown={() => {
@@ -195,12 +234,21 @@ export default function Products({ fillWidth, product, isfevorite }) {
                   className={styles.icon}
                   icon={isfevorite ? fasHeart : farHeart}
                 />
+              </button> */}
+              <button
+                className={styles.wishlistBtn}
+                type="submit"
+                disabled={pending}
+                onMouseDown={() => setActionTypeState("wishlist")}
+              >
+                <FontAwesomeIcon
+                  className={styles.icon}
+                  // استخدم الحالة اللي جاية من الـ Context عشان تفضل متزامنة
+                  icon={isfevorite ? fasHeart : farHeart}
+                />
               </button>
             </form>
           </div>
-          <span style={{ color: "red", fontSize: "1rem" }}>
-            {state?.message}
-          </span>
 
           <div className={styles.ratingWrapper}>
             <div className={styles.starsContainer}>
@@ -215,6 +263,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
             </div>
 
             <span className={styles.ratingText}>
+              [ {product.rating} ]
               <span className={styles.reviewsCount}>
                 ({product.watchde || 0} reviews)
               </span>

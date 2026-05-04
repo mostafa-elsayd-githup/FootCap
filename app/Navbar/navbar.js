@@ -64,6 +64,10 @@ function NavBar({productCount}) {
             <Link href="/register" className={style.link}>
               REGISTRE
             </Link>
+
+            <Link href="/Components/admin" className={style.link}>
+              admin
+            </Link>
           </Nav>
 
           <div className={style.icon_group}>

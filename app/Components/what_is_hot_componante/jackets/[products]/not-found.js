@@ -1,3 +1,4 @@
+"use client"
 import Link from 'next/link';
 import styles from './Not_found.module.css'; // تأكد من إضافة التنسيقات في ملف الـ CSS الخاص بك
 
