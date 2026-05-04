@@ -1,14 +1,3 @@
-
-.overlay {
-  z-index: 1000;
-  justify-content: flex-end;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  position: fixed;
-  transform: translateX(400px);
-  transition: 0.3s ease-in-out;
-}
 /* staer-loader */
 .overlaylouder {
   position: absolute;
@@ -42,27 +31,40 @@
   }
 }
 /* end-loader */
+.overlay {
+  z-index: 1000;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100vh !important;
+  display: flex;
+  position: fixed;
+  transform: translateX(400px);
+  transition: 0.3s ease-in-out;
+  pointer-events: none;
+}
 .activeOverlay {
   transform: translateX(0);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
+  pointer-events: auto;
 }
 .modalContainer {
   background: var(--bg-card);
   color: var(--color-primary);
+  border: 1px solid var(--border-color);
   width: 400px;
   padding: 30px;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  /* font-family: sans-serif; */
-  border: 1px solid var(--border-color);
   transition:
-    background 0.3s ease,
-    color 0.3s ease;
+    background 0.3s,
+    color 0.3s;
+  position: relative;
   transform: translateX(0);
+  box-shadow: 0 10px 30px #0000004d;
+  top: -27px;
+  pointer-events: auto;
 }
 .opneButton {
-  background-color: var(--bg-card);
+  background-color: var(--bg-primary);
   color: var(--color-feedback);
   position: absolute;
   top: 50%;
@@ -74,13 +76,14 @@
   align-content: center;
   font-weight: bold;
   font-size: 1.3rem;
-  border: none;
+  border: 1px solid;
+  border-bottom: none;
 }
 .logoArea {
   width: 120px;
   height: 40px;
   margin-bottom: 20px;
-  img{
+  img {
     width: 100%;
   }
 }
@@ -102,7 +105,6 @@
 }
 
 .title {
-  /* font-family: AdineuePRO, AdihausDIN, Helvetica, Arial, sans-serif; */
   text-transform: uppercase;
   font-size: 26px;
   letter-spacing: 1.5px;
@@ -208,7 +210,4 @@
 
 .nextButton span {
   font-size: 18px;
-}
-.feedbackSection {
-  /* display: none; */
 }

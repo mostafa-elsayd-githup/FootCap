@@ -62,7 +62,7 @@ export default function Feedback() {
   }, [state?.feedbackState, state?.timeStamp]);
   return (
     <div
-      className={`${styles.overlay} ${isOpenfeedback ? styles.activeOverlay : styles.overlay}`}
+      className={`${styles.overlay} ${isOpenfeedback ? styles.activeOverlay : ""}`}
     >
       <div className={styles.modalContainer}>
         <button

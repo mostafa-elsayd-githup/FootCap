@@ -6,7 +6,8 @@
   --bg-dis: #fcfaf2;
   --bg-navbar: #ffffff67;
   --bg-searchinput: #f5f5f5f5;
-
+  --bg-little: #ffffff;
+  --border_card: #e2dadaa9;
   --color-primary: #000000;
   --color-main: #ffffff;
   --color-secondary: #767677;
@@ -19,13 +20,14 @@
 }
 
 .dark {
-  --bg-main: linear-gradient(180deg, #121212 0%, #161616 100%);
+  --bg-main: #121212;
   --bg-primary: #1a1a1a;
-  --bg-card: #1e1e1e;
+   --bg-card: #1e1e1e;
   --bg-dis: #1c1b17;
   --bg-navbar: #00000067;
-  --bg-searchinput: #ffffff67;
-
+  --bg-searchinput: #ffffff1a;
+  --bg-little: #1a1b19da;
+ --border_card: #ffffff27;
   --color-primary: #ebebeb;
   --color-main: #000000;
   --color-secondary: #a0a0a1;
@@ -34,9 +36,8 @@
   --text-fetch: #ffffff65;
   --color-sale: #ff5f5f;
   --rating-color: #ffb400;
-  --border-color: #2c2c2c;
+  --border-color: #333333;
 }
-
 * {
   box-sizing: border-box;
   padding: 0;

@@ -19,8 +19,8 @@ import handelAction from "./ActionFile";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
 import { useOpneing } from "../../../../RTK/storcontext";
+import { Card } from "react-bootstrap";
 export default function Products({ fillWidth, product, isfevorite }) {
-  console.log(isfevorite);
   const Router = useRouter();
   const initialState = { massage: "", stat: null };
   const [state, formAction, pending] = useActionState(
@@ -48,7 +48,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
       <div className={styles.container}>
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
-            <img
+            <Card.Img
               src={product.image}
               className={styles.mainImage}
               alt={product.name}
@@ -57,7 +57,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image_Hover ? (
-              <img
+              <Card.Img
                 src={product.image_Hover}
                 className={styles.mainImage}
                 alt={product.name}
@@ -67,7 +67,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image3 ? (
-              <img
+            <Card.Img
                 src={product.image3}
                 className={styles.mainImage}
                 alt={product.name}
@@ -85,7 +85,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image4 && (
-              <img
+              <Card.Img
                 src={product.image4}
                 className={styles.mainImage}
                 alt={product.name}

@@ -4,41 +4,66 @@ import { Card } from "react-bootstrap";
 import styles from "./page.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHeart as farHeart, faEye} from "@fortawesome/free-regular-svg-icons"; 
-import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons"; 
+  faHeart as farHeart,
+  faEye,
+} from "@fortawesome/free-regular-svg-icons";
+import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import handleAction from "./ActionFile";
 import { useOpneing } from "../../../../RTK/storcontext";
-import {useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-const SingleProduct = ({ productItem, isfevorite}) => {
 
-  
-  const Router = useRouter()
+const SingleProduct = ({ productItem, isfevorite }) => {
+  // console.log(productItem.url);
+  const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem.image);
-  const initialState = { message: "", status: null };
+  const initialState = { message: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handleAction,
     initialState,
   );
-  useEffect(()=>{
-    if(state?.state === 401){
-     Swal.fire({
-         title: "Login Required",
-         text: "Please log in to continue. Redirecting...",
-         icon: "error",
-         timer: 3000, 
-         timerProgressBar: true, 
-         showConfirmButton: false,
-         willClose: () => { // <=callback function
-           Router.replace("/register");
-         },
-       });
-    }
-  })
   const [actionTypeState, setActionTypeState] = useState("");
-  const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
+  const { setIsOpen, setSelectedProduct, setisfevorite, setselectedSize } =
+    useOpneing();
+
+  useEffect(() => {
+    if (state?.state === 401) {
+      Swal.fire({
+        title: "Login Required",
+        text: "Please log in to continue. Redirecting...",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        willClose: () => {
+          // <=callback function
+          Router.replace("/register");
+        },
+      });
+    }
+  });
+  useEffect(() => {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      setisfevorite(state.wishliststate);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: state.wishliststate
+          ? "Added to Wishlist"
+          : "Removed from Wishlist",
+      });
+    }
+  }, [state?.wishliststate, setisfevorite]);
   return (
     <Card
       className={styles.card}
@@ -50,46 +75,9 @@ const SingleProduct = ({ productItem, isfevorite}) => {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-
-      <form
-        className={styles.icons}
-        onClick={(e) => e.stopPropagation()}
-        action={formAction}
-      >
-        {/*data for ActionFile*/}
-        <input type="hidden" name="id" value={productItem.id || ""} />
-        <input type="hidden" name="image" value={productItem.image || ""} />
-        <input type="hidden" name="dis" value={productItem.dis || ""} />
-        <input type="hidden" name="name" value={productItem.name || ""} />
-        <input type="hidden" name="price" value={productItem.price || ""} />
-        <input type="hidden" name="sizes" value={productItem.sizes[0] || ""} />
-        <input type="hidden" name="category" value={productItem.category || ""} />
-        <input type="hidden" name="actiontype" value={actionTypeState || ""} />
+      <div className={styles.icons}>
         <button
-          type="submit"
-          disabled={pending}
-          onMouseDown={() =>{
-             setActionTypeState("wishlist")
-            setisfevorite(!isfevorite)
-            }}
-          style={{
-            background: "none",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            color: "#000",
-            opacity: pending ? 0.1 : 1,
-          }}
-        >
-          <FontAwesomeIcon
-            className={styles.icon}
-            icon={isfevorite ? fasHeart : farHeart}
-          />
-        </button>
-        <button
-          type="submit"
-          disabled={pending}
-          onMouseDown={() => {
+          onClick={() => {
             setIsOpen(true);
             setSelectedProduct(productItem);
           }}
@@ -104,38 +92,103 @@ const SingleProduct = ({ productItem, isfevorite}) => {
         >
           <FontAwesomeIcon icon={faBagShopping} className={styles.icon} />
         </button>
-        <button
-          type="submit"
-          disabled={pending}
-          onMouseDown={() => setActionTypeState("eye")}
-          style={{
-            background: "none",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            color: "#000",
-            opacity: pending ? 0.1 : 1,
-          }}
+        <form
+          onClick={(e) => e.stopPropagation()}
+          action={formAction}
+          className={styles.action_icon}
         >
-          <FontAwesomeIcon icon={faEye} className={styles.icon} />
-        </button>
-      </form>
+          <button
+            type="submit"
+            disabled={pending}
+            onMouseDown={() => setActionTypeState("wishlist")} // بنحدد النوع بس
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              color: isfevorite ? "#ff4d4d" : "#000", // تغيير اللون لو هو مفضل
+              opacity: pending ? 0.5 : 1,
+              transition: "all 0.3s ease",
+            }}
+          >
+            <FontAwesomeIcon
+              className={styles.icon}
+              icon={isfevorite ? fasHeart : farHeart}
+            />
+          </button>
 
+          <button
+            disabled={pending}
+            onMouseDown={() => {
+              setActionTypeState("eye");
+              if (!pending) {
+                Router.push(`/Components/sport-Componente/${productItem.id}`);
+              }
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              color: "#000",
+              opacity: pending ? 0.1 : 1,
+            }}
+          >
+            <FontAwesomeIcon icon={faEye} className={styles.icon} />
+          </button>
+          {/*data for ActionFile*/}
+          <input type="hidden" name="id" value={productItem.id || ""} />
+          <input type="hidden" name="image" value={productItem?.image || ""} />
+          <input
+            type="hidden"
+            name="image_Hover"
+            value={productItem?.image_Hover || ""}
+          />
+          {productItem.url?.map((item, index) => (
+            <input
+              key={index}
+              type="hidden"
+              name="image_url"
+              value={item || ""}
+            />
+          ))}
+          <input
+            type="hidden"
+            name="video"
+            value={productItem.image3 || productItem.video || ""}
+          />
+          <input
+            type="hidden"
+            name="image4"
+            value={productItem?.image4 || ""}
+          />
+          <input type="hidden" name="dis" value={productItem.dis || ""} />
+          <input type="hidden" name="name" value={productItem.name || ""} />
+          <input type="hidden" name="price" value={productItem.price || ""} />
+          {productItem.sizes?.map((item, index) => (
+            <input key={index} type="hidden" name="sizes" value={item || ""} />
+          ))}
+          <input
+            type="hidden"
+            name="category"
+            value={productItem.category || ""}
+          />
+          <input
+            type="hidden"
+            name="actiontype"
+            value={actionTypeState || ""}
+          />
+        </form>
+      </div>
       <div style={{ position: "relative" }}>
-        <Link
-          href={`/Components/what_is_hot_componante/terrex/${productItem.id}`}
-        >
           <Card.Img
             name="image"
             variant="top"
             src={currentImg}
             alt={productItem.description}
-    
             onMouseEnter={() => setCurrentImg(productItem.image_Hover)}
-     
             className={styles.image}
           />
-        </Link>
         {productItem.oldPrice && (
           <span className={styles.dis}>{productItem.dis} %</span>
         )}
@@ -144,9 +197,7 @@ const SingleProduct = ({ productItem, isfevorite}) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link
-                href={`/Components/what_is_hot_componante/terrex/${style.id}`}
-              >
+              <Link href={`/Components/sport-Componente/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -167,9 +218,7 @@ const SingleProduct = ({ productItem, isfevorite}) => {
             <span className={styles.word}>LOW</span>
           </span>
         ) : null}
-        <Link
-          href={`/Components/what_is_hot_componante/terrex/${productItem.id}`}
-        >
+        <Link href={`/Components/sport-Componente/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         {/* السعر الأساسي */}
@@ -187,7 +236,7 @@ const SingleProduct = ({ productItem, isfevorite}) => {
             <input
               type="hidden"
               name="old_price"
-              value={productItem.oldPrice}
+              value={productItem.oldPrice || ""}
             />
           </>
         )}

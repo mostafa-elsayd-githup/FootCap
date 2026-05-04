@@ -20,9 +20,9 @@ async function getWishlist() {
 async function getProduct(id) {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running/${id}`,
+      `http://localhost:1200/WHAT'S_HOT_Jacket/${id}`,
       {
-        next: { revalidate: 60 }
+        cache:"no-store"
       },
     );
     if (!res.ok) return undefined;

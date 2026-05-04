@@ -23,10 +23,9 @@ async function getWishlist() {
 async function gitdata() {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running`,
-      { next: { revalidate: 60 } },
+      `http://localhost:1200/WHAT'S_HOT_Jacket`,
       {
-        cache: "no-cache",
+        cache: "no-store",
       },
     );
     if (!res.ok) {

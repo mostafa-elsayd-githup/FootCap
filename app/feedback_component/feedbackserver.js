@@ -6,7 +6,6 @@ export default async function FeedbackAction(prevState, formData) {
   const comment = formData.get("comment");
 
   try {
-    // تشيك على الأكشن بتاع الزرار العلوي
     if (intent === "open_dropdown_action") {
       return { openstate: 200, openmessage: "All set! Give your feedback about" };
     }

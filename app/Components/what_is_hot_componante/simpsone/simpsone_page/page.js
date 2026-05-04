@@ -23,7 +23,7 @@ async function getWishlist() {
 async function gitdata() {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running`,
+      `http://localhost:1200/WHAT'S_HOT_simpsons`,
       { next: { revalidate: 60 } },
       {
         cache: "no-cache",
@@ -72,12 +72,12 @@ async function Product() {
             </span>
           </span>
           <h1 className={styles.title}>
-           Sports Outdoor Shoes {""}
+            &quot;simpson&quot; {""}
             <span className={styles.Productlenght}> [{data.length} ]</span>
           </h1>
         </div>
 
-          <MiniDrowp />
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {
@@ -91,11 +91,10 @@ async function Product() {
                   isfevorite={isfvevorite}
                 />
               );
-              
             })}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

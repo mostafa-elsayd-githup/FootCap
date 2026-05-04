@@ -20,25 +20,24 @@
   position: relative;
   width: 100%;
   background-color: var(--bg-main);
-  border: 1px solid transparent;
   transition: all 0.2s ease-in-out;
+  border: 1px solid var( --border_card);
 }
 .card:hover {
-  border: 1px solid var(--color-primary);
   transform: translateY(-10px);
   z-index: 200;
   box-shadow: 0 12px 7px -5px var(--color-secondary);
   border-color: var(--color-main);
 }
 .icons {
-  position: absolute;
-  top: 15px;
-  right: -50;
-  display: flex;
+  z-index: 10;
   flex-direction: column;
   padding: 0 15px;
-  z-index: 10;
   transition: all 0.2s ease-in-out;
+  display: flex;
+  position: absolute;
+  top: 40px;
+  right: -50px;
 }
 .card:hover .icons {
   right: 0;
@@ -50,7 +49,7 @@
 .icon {
   display: flex;
   color: #000;
-  font-size: 18px;
+  font-size: 20px;
   background: #eee;
   pointer-events: auto;
   border-radius: 50%;
@@ -112,8 +111,8 @@
   text-decoration: underline;
 }
 
-.little {
-  text-align: center;
+/* .little { */
+  /* text-align: center;
   background-color: transparent;
   border: 1px solid #000;
   align-items: center;
@@ -123,15 +122,32 @@
   top: 0;
   left: -14px;
   right: 0.5rem;
-  transform: rotate(323deg);
+  transform: rotate(323deg); */
+  /* background-color: var(--bg-little);
+  color: var(--color-primary);
+  width: 56px;
+  height: 29px;
+  position: absolute;
+  top: 7px;
+  right: 0.5rem;
+  transform: rotate(360deg);
+  border-radius: 0 0 0 10px;
 }
-.word {
-  font-weight: 700;
+.word { */
+  /* font-weight: 700;
   position: absolute;
   font-size: 14px;
   top: -1px;
+  left: 13px; */
+  /* place-content: center; */
+  /* font-size: 14px; */
+  /* font-weight: 700;
+  display: flex;
+  position: absolute;
+  top: 50%;
   left: 13px;
-}
+  transform: translateY(-50%);
+} */
 .dis {
   text-align: center;
   background-color: var(--color-main);

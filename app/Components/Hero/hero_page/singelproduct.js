@@ -182,7 +182,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
 
         {/* <Link href={`/Components/Hero/${productItem.id}`}> */}
         {/* </Link> */}
-      <div style={{ position: "relative" }}>
+      <div className="p-2">
           <Card.Img
             name="image"
             variant="top"
@@ -211,7 +211,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
         </div>
       )}
       <Card.Body>
-        {productItem.Inventory === 0 ? (
+        {/* {productItem.Inventory === 0 ? (
           <span className={styles.little}>
             <span className={styles.word}>OUT</span>
           </span>
@@ -219,7 +219,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           <span className={styles.little}>
             <span className={styles.word}>LOW</span>
           </span>
-        ) : null}
+        ) : null} */}
         <Link href={`/Components/Hero/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>

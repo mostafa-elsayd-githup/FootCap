@@ -23,10 +23,9 @@ async function getWishlist() {
 async function gitdata() {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running`,
-      { next: { revalidate: 60 } },
+      `http://localhost:1200/WHAT'S_HOT_terrex`,
       {
-        cache: "no-cache",
+        cache: "no-store",
       },
     );
     if (!res.ok) {
@@ -72,7 +71,7 @@ async function Product() {
             </span>
           </span>
           <h1 className={styles.title}>
-           Sports Outdoor Shoes {""}
+            &quot;terrex&quot;
             <span className={styles.Productlenght}> [{data.length} ]</span>
           </h1>
         </div>
