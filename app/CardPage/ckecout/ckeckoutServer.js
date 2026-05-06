@@ -1,8 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { timeStamp } from "node:console";
-import { number } from "motion";
 import { revalidateTag } from "next/cache";
 
 export default async function handleOrder(prevstate, formData) {
@@ -18,6 +16,7 @@ export default async function handleOrder(prevstate, formData) {
   const phone = formData.get("phone");
   const city = formData.get("city");
   const card = formData.get("card");
+  const totalprice = formData.get("totalprice");
   const allProducts = formData.getAll("allProducts");
 
   const isInvalid =
@@ -60,6 +59,7 @@ export default async function handleOrder(prevstate, formData) {
     card,
     createdAt: new Date().toISOString(),
     products: allProducts,
+    totalprice : totalprice
   };
 
   try {

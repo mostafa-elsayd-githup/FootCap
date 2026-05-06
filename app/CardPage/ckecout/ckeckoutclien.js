@@ -16,6 +16,7 @@ export default function CheckoutPage({ cartItems }) {
     card: "",
     phone: "",
     city: "",
+    totalPrice: "",
   });
   const initialState = { message: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
@@ -30,6 +31,7 @@ export default function CheckoutPage({ cartItems }) {
     ) || 0;
 
   const shipping = 50;
+  
   const total = subtotal + shipping;
   const egyptGovernorates = [
     "Cairo",
@@ -81,7 +83,7 @@ export default function CheckoutPage({ cartItems }) {
         }).then(() => {
           router.push("/");
         });
-      }, 2000);
+      }, 1000);
     }
 
     // setPending(true);
@@ -198,6 +200,7 @@ export default function CheckoutPage({ cartItems }) {
           <input type="hidden" name="phone" value={FormDataClient.phone} />
           <input type="hidden" name="city" value={FormDataClient.city} />
           <input type="hidden" name="card" value={FormDataClient.card} />
+          <input type="hidden" name="totalprice" value={total} />
           {/* products Data  */}
           {cartItems.map((item) => (
             <div key={item.id}>

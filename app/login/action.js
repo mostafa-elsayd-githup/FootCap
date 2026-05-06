@@ -16,7 +16,7 @@ export async function loginAction(prevstate, formData) {
     if (users.length === 0 || users[0].password !== password) {
       return { message: "Email or Passowrd is Woring" };
     }
-  
+
     const token = jwt.sign(
       { id: users[0].id, email: users[0].email }, // => made the signature from payload and secret_key
       process.env.JWT_SECRET,
@@ -27,7 +27,7 @@ export async function loginAction(prevstate, formData) {
     cookieStore.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24, // يوم واحد
+      maxAge: 60 * 60 * 60 * 24, // يوم 60 
       path: "/",
     });
   } catch {

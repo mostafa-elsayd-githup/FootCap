@@ -65,7 +65,7 @@ function NavBar({productCount}) {
               REGISTRE
             </Link>
 
-            <Link href="/Components/admin" className={style.link}>
+            <Link href="/Components/dashboard" className={style.link}>
               admin
             </Link>
           </Nav>

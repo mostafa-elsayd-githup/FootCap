@@ -4,7 +4,7 @@ import { useState } from "react";
 import logoutfun from "./actionFile";
 import { useActionState } from "react";
 
-function ProfilePage({ users, User_statistics }) {
+function ProfilePage({ users }) {
   const date = new Date(users.createdAt).toLocaleDateString("eg-EG", {
     year: "numeric",
     month: "long",
@@ -30,7 +30,7 @@ function ProfilePage({ users, User_statistics }) {
                 <div class={`card-body text-center ${styles.card_body}`}>
                   <form action={formAction} onClick={(e) => e.preventDefault}>
                     <div class={styles.avatarWrapper}>
-                      <i class={`fa-solid fa-users ${styles.avatarIcon}`}></i>     
+                      <i class={`fa-solid fa-users ${styles.avatarIcon}`}></i>
                     </div>
                     <h4 class="fw-bold mt-3">{users.name}</h4>
 
@@ -102,7 +102,9 @@ function ProfilePage({ users, User_statistics }) {
                       </div>
                       <div class="ms-3">
                         <h6 class="mb-0">Orders</h6>
-                        <span class="fw-bold h5">{User_statistics.order?.length}</span>
+                        <span class="fw-bold h5">
+                          {users.order?.length}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -119,11 +121,9 @@ function ProfilePage({ users, User_statistics }) {
                       <div class="ms-3">
                         <h6 class="mb-0 ">Wishlist</h6>
                         <span class="fw-bold h5">
-<<<<<<< HEAD
-                          {User_statistics.wishlist?.length}
-=======
-                          {User_statistics?.length}
->>>>>>> c9dbbef083a510ff9ff89ee2a4d06dedd27d3460
+                          {/* {User_statistics.wishlist?.length} */}
+
+                          {users.wishlist?.length}
                         </span>
                       </div>
                     </div>
