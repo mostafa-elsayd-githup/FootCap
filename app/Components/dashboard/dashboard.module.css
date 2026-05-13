@@ -1,0 +1,118 @@
+.adminLayout {
+  display: flex;
+  background-color: var(--bg-main);
+  min-height: 100vh;
+  margin-top: 75px;
+}
+.sidebar {
+  width: 260px;
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+}
+.bolckLink {
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: var(--color-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-secondary);
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+.bolckLink:hover {
+  background-color: #ff5f5f;
+  color: var(--color-primary);
+}
+.navLink:hover {
+  background-color: var(--bg-primary);
+  color: var(--color-primary);
+}
+
+.navLink:hover,
+.activeLink {
+  background-color: var(--bg-primary);
+  color: var(--color-primary);
+}.content {
+  flex: 1;
+  padding: 2rem;
+}
+.titlepage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.topCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.card {
+  background-color: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px var(--border_card);
+}
+.cardTitle {
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.cardValue {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-top: 10px;
+  display: block;
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+}
+.chartBox {
+  background-color: var(--bg-card);
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+@media (max-width: 770px) {
+  .titlepage {
+    flex-direction: column;
+    display: flex;
+    align-items: start;
+    margin-bottom: 4px;
+  }
+}
