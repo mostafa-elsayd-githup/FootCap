@@ -8,6 +8,8 @@ export const StoreProvider = ({ children }) => {
   const [isOpenfeedback, setIsOpenfeedback] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isfevorite, setisfevorite] = useState(null);
+  const [viewProfile, setviewprofile] = useState(false);
+
   return (
     <storecontext.Provider
       value={{
@@ -18,7 +20,9 @@ export const StoreProvider = ({ children }) => {
         isfevorite,
         setisfevorite,
         isOpenfeedback,
-        setIsOpenfeedback
+        setIsOpenfeedback,
+        viewProfile,
+        setviewprofile,
       }}
     >
       {children}

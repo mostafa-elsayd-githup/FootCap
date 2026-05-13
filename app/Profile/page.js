@@ -5,15 +5,16 @@ import ProfilePage from "./profilepage";
 import jwt from "jsonwebtoken";
 
 
-const cookiestore = await cookies();
-const token = cookiestore.get("token")?.value;
-
-const decryption = jwt.verify(token, process.env.JWT_SECRET);
-
-
 export async function GetAll_UserData() {
+  const cookiestore = await cookies();
+  const token = cookiestore.get("token")?.value;
+  
+  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   const getuserdata = await fetch(
     `http://localhost:1200/users/${decryption.id}`,
+    {
+      cache: "no-store",
+    },
   );
   if (getuserdata.ok) {
     const userData = await getuserdata.json();
@@ -21,12 +22,8 @@ export async function GetAll_UserData() {
   }
 }
 
-
-
-
 export default async function products() {
   const user = await GetAll_UserData();
-  
 
   return (
     <>

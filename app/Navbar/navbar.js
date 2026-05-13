@@ -6,6 +6,7 @@ import Link from "next/link";
 import style from "./navbar.module.css";
 import ThemeToggle from "../button/button";
 function NavBar({productCount}) {
+  // console.log(productCount);
   
   return (
     <Navbar expand="lg" className={`fixed-top ${style.navbar_container}`}>
@@ -91,7 +92,7 @@ function NavBar({productCount}) {
 
             <Link href="/CardPage" className={style.icon_link}>
               <i className="fa-solid fa-bag-shopping"></i>
-              {productCount && productCount.cart.length > 0 ? (
+              {productCount && productCount.cart?.length > 0 ? (
                 <span className={style.badge}>{productCount.cart?.length || 0}</span>
               ) : null}
             </Link>
