@@ -2,8 +2,14 @@
 import React from "react";
 import styles from "./products.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faChartLine, faBoxOpen, faUsers, faPlus, faEdit, faTrash 
+import {
+  faChartLine,
+  faBoxOpen,
+  faUsers,
+  faPlus,
+  faEdit,
+  faTrash,
+  faBan,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { Card } from "react-bootstrap";
@@ -36,9 +42,7 @@ const productsList = [
 ];
 export default function AdminProducts() {
   return (
-  
     <div className={styles.adminLayout}>
-      
       {/* 1. السايد بار ثابت في كل الصفحات */}
       <aside className={styles.sidebar}>
         <h2>ADMIN PANEL</h2>
@@ -47,24 +51,40 @@ export default function AdminProducts() {
             <FontAwesomeIcon icon={faChartLine} /> Dashboard
           </Link>
 
-          <Link href="/Components/dashboard/product" className={`${styles.navLink} ${styles.activeLink}`}>
+          <Link
+            href="/Components/dashboard/product"
+            className={`${styles.navLink} ${styles.activeLink}`}
+          >
             <FontAwesomeIcon icon={faBoxOpen} /> Products
           </Link>
-          <Link href="/Components/dashboard/customer" className={styles.navLink}>
+          <Link
+            href="/Components/dashboard/customer"
+            className={styles.navLink}
+          >
             <FontAwesomeIcon icon={faUsers} /> Customers
+          </Link>
+          <Link
+            href="/Components/dashboard/blockLIst"
+            className={`${styles.bolckLink} `}
+          >
+            <FontAwesomeIcon icon={faBan} /> Block List
           </Link>
         </nav>
       </aside>
 
       <div className={styles.content}>
-        
         {/* Header Section */}
         <div className={styles.headerSection}>
           <div>
-            <h1 className="text-3xl font-black italic uppercase" style={{ color: "var(--color-primary)" }}>
+            <h1
+              className="text-3xl font-black italic uppercase"
+              style={{ color: "var(--color-primary)" }}
+            >
               Inventory Management
             </h1>
-            <p className="text-gray-500 text-sm">Monitor and update your store products</p>
+            <p className="text-gray-500 text-sm">
+              Monitor and update your store products
+            </p>
           </div>
           <button className={styles.addBtn}>
             <FontAwesomeIcon icon={faPlus} className="me-2" /> Add New Product

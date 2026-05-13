@@ -1,6 +1,6 @@
 "use server";
 import Link from "next/link";
-import styles from "../admin.module.css";
+import styles from "./products.module.css";
 import AdminProducts from "./products";
 import NavAction from "../../../Navbar/NavAction";
 import { cookies } from "next/headers";

@@ -6,10 +6,10 @@
 }
 
 .sidebar {
-  width: 250px;
+  width: 260px;
   background-color: var(--bg-card);
   border-right: 1px solid var(--border-color);
-  padding: 2rem 1rem;
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -17,33 +17,51 @@
   height: 100vh;
 }
 
-.content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
 .sidebar h2 {
   font-size: 1.2rem;
-  font-weight: 900;
-  font-style: italic;
-  color: var(--color-primary);
+  font-weight: 800;
   margin-bottom: 2rem;
-  text-align: center;
+  color: var(--color-primary);
+  letter-spacing: 1px;
 }
-
-.navLink {
+.bolckLink {
   padding: 12px 15px;
   border-radius: 8px;
   color: var(--color-secondary);
   text-decoration: none;
   font-weight: 600;
+  transition: 0.3s;
+  margin-bottom: 5px;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: 0.3s;
+}
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--color-secondary);
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
+.navLink:hover {
+  background-color: var(--bg-primary);
+  color: var(--color-primary);
+}
+
+.activeLink {
+  background-color: var(--color-sale);
+  color: white !important;
+}
+.bolckLink:hover {
+  background-color: #ff5f5f;
+  color: var(--color-primary);
+}
 .navLink:hover,
 .activeLink {
   background-color: var(--bg-primary);

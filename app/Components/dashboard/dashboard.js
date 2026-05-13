@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import styles from "./admin.module.css";
+import styles from "./dashboard.module.css";
 import {
   BarChart,
   Bar,
@@ -18,13 +18,16 @@ import {
   faUsers,
   faBoxOpen,
   faLayerGroup,
+  faBan
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 export default function Dashboard({ total, allUsers, orders, finalData }) {
-  const formatter = new Intl.NumberFormat("en", {
+  const totalmoney = new Intl.NumberFormat("en", {
     notation: "compact",
-  });
+    style: "currency",
+    currency: "EGP",
+  }).format(total);
   return (
     <div className={styles.adminLayout}>
       {/* Sidebar */}
@@ -46,11 +49,17 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           >
             <FontAwesomeIcon icon={faUsers} /> Customers
           </Link>
+          <Link
+            href="/Components/dashboard/blockLIst"
+            className={`${styles.bolckLink}`}
+          >
+            <FontAwesomeIcon icon={faBan} /> Block List
+          </Link>
         </nav>
       </aside>
 
       <main className={styles.content}>
-        <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className={styles.titlepage}>
           <h1 className="fw-bold" style={{ color: "var(--color-primary)" }}>
             Analytics Overview
           </h1>
@@ -66,18 +75,10 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           </button>
         </div>
 
-        {/* Stats Cards */}
         <div className={styles.topCards}>
           <div className={styles.card}>
             <span className={styles.cardTitle}>Total Revenue</span>
-            <span className={styles.cardValue}>
-              {new Intl.NumberFormat("en", {
-                notation: "compact",
-                style: "currency",
-                currency: "EGP",
-                maximumFractionDigits: 3,
-              }).format(total)}
-            </span>
+            <span className={styles.cardValue}>{totalmoney}</span>
           </div>
           <div className={styles.card}>
             <span className={styles.cardTitle}>Active Users</span>
@@ -91,7 +92,6 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           </div>
         </div>
 
-        {/* Charts */}
         <div className={styles.chartsGrid}>
           <div className={styles.chartBox}>
             <h5 className="mb-4" style={{ color: "var(--color-primary)" }}>
