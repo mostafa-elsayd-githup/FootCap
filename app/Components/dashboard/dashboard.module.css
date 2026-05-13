@@ -95,13 +95,13 @@
   color: var(--color-primary);
   margin-top: 10px;
   display: block;
-
+}
 .chartsGrid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 20px;
 }
-}
+
 .chartBox {
   background-color: var(--bg-card);
   padding: 20px;
