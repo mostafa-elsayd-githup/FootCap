@@ -5,7 +5,7 @@ export async function registerAction(prevstate, formData) {
   const name = formData.get("name");
   const email = formData.get("email") || "";
   const password = formData.get("password");
-
+un
   const newUser = {
     id: Date.now().toString(),
     name,
@@ -13,6 +13,9 @@ export async function registerAction(prevstate, formData) {
     password,
     role: "user",
     createdAt: new Date().toISOString(),
+    wishlist: [],
+    cart: [],
+    order: [],
   };
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //  <=Regex (chick email include a @ and two or three chr.. (.com or .org or .io ))
 

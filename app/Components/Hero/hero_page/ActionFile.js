@@ -47,7 +47,7 @@ export default async function handleAction(prevstate, formData) {
         let wishlist = user.wishlist || [];
 
         const exists = wishlist.some((item) => item.id === product.id);
-        // console.log("singel_Component_action", exists);
+   
 
         if (exists) {
           wishlist = wishlist.filter((item) => item.id !== product.id);

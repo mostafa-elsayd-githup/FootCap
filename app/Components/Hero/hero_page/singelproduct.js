@@ -70,7 +70,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
     >
       {/* loader */}
       {pending && (
-        <div className={styles.overlay}>
+        <div className={styles.overlay}>form
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}

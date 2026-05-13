@@ -52,6 +52,7 @@ export default async function handleOrder(prevstate, formData) {
     };
   }
   const order = {
+    id: Date.now().toString(),
     fullName,
     phone,
     address,
@@ -59,7 +60,7 @@ export default async function handleOrder(prevstate, formData) {
     card,
     createdAt: new Date().toISOString(),
     products: allProducts,
-    totalprice : totalprice
+    totalprice: totalprice,
   };
 
   try {
@@ -123,7 +124,7 @@ export default async function handleOrder(prevstate, formData) {
 //         <Row>
 //           {/* الجزء الأيسر: قائمة المنتجات */}
 //             <h2 className={styles.bag_title}>
-//               YOUR BAG 
+//               YOUR BAG
 //               <span className={styles.item_count}>
 //                 ({card.length} Unreserved Item)
 //               </span>
@@ -247,7 +248,7 @@ export default async function handleOrder(prevstate, formData) {
 //   font-style: italic;
 //   font-weight: 800;
 //   color: var(--color-primary);
-  
+
 // }
 
 // .item_count {
