@@ -1,6 +1,4 @@
 "use server";
-import Link from "next/link";
-import styles from "./admin.module.css";
 import Dashboard from "./dashboard";
 import NavAction from "../../Navbar/NavAction";
 import { cookies } from "next/headers";
@@ -38,17 +36,12 @@ async function getWishlist() {
     }, 0);
     const salesByDay = {};
 
-
     usersData.forEach((user) => {
-    
       if (user.order && Array.isArray(user.order)) {
         user.order.forEach((ord) => {
-          // console.log(user.order.createdAt);
-
           const day = new Date(ord.createdAt).toLocaleDateString("en-us", {
             weekday: "short",
           });
-
 
           const price = parseFloat(ord.totalprice) || 0;
 
@@ -64,7 +57,7 @@ async function getWishlist() {
 
     const finalData = daysOrder.map((day) => ({
       name: day,
-      sales: salesByDay[day] || 0, 
+      sales: salesByDay[day] || 0,
     }));
     return {
       users: usersData,
@@ -83,16 +76,12 @@ async function Product() {
   return (
     <>
       <NavAction />
-
-      <div className={styles.products}>
         <Dashboard
           total={totalRevenue}
           allUsers={users}
           orders={orders}
           finalData={finalData}
-        />
-      </div>
-      {/* order={orders} user={data}  */}
+          />
     </>
   );
 }
