@@ -16,7 +16,10 @@
   top: 0;
   height: 100vh;
 }
-
+.content {
+  width: 100%;
+  padding: 15px;
+}
 .sidebar h2 {
   font-size: 1.2rem;
   font-weight: 800;
@@ -126,7 +129,27 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
+.tableRow {
+  position: relative;
+  background-color: var(--bg-card);
+  transition: 0.3s ease;
+  border-radius: 10px;
 
+
+}
+.tableRow:not(:last-child)::before{
+  content: "";
+  width: 100%;
+  position: absolute;
+  height: 2px;
+  background: var(--bg-searchinput);
+  bottom: 0;
+}
+.tableRow:hover{
+  transform: scale(1.01);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+}
 .productTable {
   width: 100%;
   border-collapse: collapse;
@@ -144,7 +167,7 @@
 
 .productTable td {
   padding: 15px;
-  border-bottom: 1px solid var(--border-color);
+  /* border-bottom: 1px solid var(--border-color); */
   color: var(--color-primary);
   vertical-align: middle;
 }
