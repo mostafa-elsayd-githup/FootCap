@@ -1,9 +1,8 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 import styles from "./dashboard.module.css";
 import {
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   Tooltip,
@@ -17,17 +16,21 @@ import {
   faChartLine,
   faUsers,
   faBoxOpen,
-  faLayerGroup,
-  faBan
+  faBan,
+  faChevronDown,
+  faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-
 export default function Dashboard({ total, allUsers, orders, finalData }) {
   const totalmoney = new Intl.NumberFormat("en", {
     notation: "compact",
     style: "currency",
     currency: "EGP",
   }).format(total);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const toggleProducts = () => {
+    setIsProductsOpen(!isProductsOpen);
+  };
   return (
     <div className={styles.adminLayout}>
       {/* Sidebar */}
@@ -40,9 +43,51 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           >
             <FontAwesomeIcon icon={faChartLine} /> Dashboard
           </Link>
-          <Link href="/Components/dashboard/product" className={styles.navLink}>
-            <FontAwesomeIcon icon={faBoxOpen} /> Products
-          </Link>
+          <div
+            className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
+            onClick={toggleProducts}
+            style={{
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <span>
+              <FontAwesomeIcon
+                icon={faBoxOpen}
+                style={{ marginRight: "10px" }}
+              />
+              Products
+            </span>
+
+            <FontAwesomeIcon
+              icon={isProductsOpen ? faChevronUp : faChevronDown}
+              size="xs"
+            />
+          </div>
+          {isProductsOpen && (
+            <div className={styles.subMenu}>
+              <Link
+                href="/Components/dashboard/product/t-shirts"
+                className={styles.subNavLink}
+              >
+                T-shirts
+              </Link>
+              <Link
+                href="/Components/dashboard/product/shoes"
+                className={styles.subNavLink}
+              >
+                Shoes
+              </Link>
+              <Link
+                href="/Components/dashboard/product/accessories"
+                className={styles.subNavLink}
+              >
+                Accessories
+              </Link>
+            </div>
+          )}
           <Link
             href="/Components/dashboard/customer"
             className={`${styles.navLink}`}
