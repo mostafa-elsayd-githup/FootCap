@@ -1,0 +1,153 @@
+.sidebar {
+  width: 280px; 
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
+  padding: 2.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 74px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  padding-left: 15px;
+  color: var(--color-primary);
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+  margin-bottom: 6px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--color-secondary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+.navLink span {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.iconMargin {
+  margin-right: 12px;
+  width: 16px;
+}
+
+.navLink:hover,
+.activeLink {
+  background-color: var(--bg-primary);
+  color: var(--color-primary);
+}
+
+.bolckLink {
+  padding: 12px 15px;
+  border-radius: 12px;
+  color: var(--color-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bolckLink:hover {
+  background-color: #ff5f5f;
+  color: #fff;
+}
+
+.subMenu {
+  background-color: var(--bg-primary);
+  border-left: 2px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    padding 0.4s ease;
+}
+
+.subMenu.open {
+  max-height: 500px;
+  opacity: 1;
+  padding: 8px 0;
+}
+.nestedSubMenu.nestedOpen {
+  max-height: 200px;
+  opacity: 1;
+  padding: 4px 0;
+}
+.nestedSubMenu {
+  background-color: rgba(0, 0, 0, 0.1); 
+  margin-left: 15px;
+  border-left: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    padding 0.35s ease;
+}
+.nestedTrigger:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.nestedActive {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.nestedMenuWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nestedTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  color: #999;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+.subNavLink {
+  padding: 8px 12px;
+  color: #999;
+  text-decoration: none;
+  font-size: 0.88rem;
+  border-radius: 6px;
+  transition: all 0.25s ease;
+}
+
+.subNavLink:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding-left: 18px;
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+}
