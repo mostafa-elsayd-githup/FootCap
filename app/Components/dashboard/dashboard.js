@@ -26,6 +26,7 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
     notation: "compact",
     style: "currency",
     currency: "EGP",
+    
   }).format(total);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const toggleProducts = () => {
@@ -34,7 +35,7 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
   return (
     <div className={styles.adminLayout}>
       {/* Sidebar */}
-      <aside className={styles.sidebar}>
+      {/* <aside className={styles.sidebar}>
         <h2>ADMIN PANEL</h2>
         <nav>
           <Link
@@ -101,7 +102,7 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
             <FontAwesomeIcon icon={faBan} /> Block List
           </Link>
         </nav>
-      </aside>
+      </aside> */}
 
       <main className={styles.content}>
         <div className={styles.titlepage}>

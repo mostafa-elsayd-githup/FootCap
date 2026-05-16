@@ -3,16 +3,10 @@ import React, { useActionState } from "react";
 import styles from "./customer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartLine,
-  faBoxOpen,
-  faUsers,
   faSearch,
   faEye,
   faEnvelope,
   faUserSlash,
-  faBan,
-  faChevronDown,
-  faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -34,10 +28,6 @@ export default function AdminCustomers({ users }) {
   }, []);
 
   const displayUsers = state && state.length > 0 ? state : users;
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const toggleProducts = () => {
-    setIsProductsOpen(!isProductsOpen);
-  };
   return (
     <div className={styles.adminLayout}>
       {/* loader */}
@@ -46,73 +36,6 @@ export default function AdminCustomers({ users }) {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-      <aside className={styles.sidebar}>
-        <h2>ADMIN PANEL</h2>
-        <nav>
-          <Link href="/Components/dashboard" className={styles.navLink}>
-            <FontAwesomeIcon icon={faChartLine} /> Dashboard
-          </Link>
-          <div
-            className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
-            onClick={toggleProducts}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span>
-              <FontAwesomeIcon
-                icon={faBoxOpen}
-                style={{ marginRight: "10px" }}
-              />
-              Products
-            </span>
-
-            <FontAwesomeIcon
-              icon={isProductsOpen ? faChevronUp : faChevronDown}
-              size="xs"
-            />
-          </div>
-          {isProductsOpen && (
-            <div className={styles.subMenu}>
-              <Link
-                href="/Components/dashboard/product/t-shirts"
-                className={styles.subNavLink}
-              >
-                T-shirts
-              </Link>
-              <Link
-                href="/Components/dashboard/product/shoes"
-                className={styles.subNavLink}
-              >
-                Shoes
-              </Link>
-              <Link
-                href="/Components/dashboard/product/accessories"
-                className={styles.subNavLink}
-              >
-                Accessories
-              </Link>
-            </div>
-          )}
-          <Link
-            href="/Components/dashboard/customer"
-            className={`${styles.navLink} ${styles.activeLink}`}
-          >
-            <FontAwesomeIcon icon={faUsers} /> Customers
-          </Link>
-
-          <Link
-            href="/Components/dashboard/blockLIst"
-            className={styles.bolckLink}
-          >
-            <FontAwesomeIcon icon={faBan} /> Block List
-          </Link>
-        </nav>
-      </aside>
-
       <div className={styles.content}>
         <form action={formAction}>
           {state?.blockState && (

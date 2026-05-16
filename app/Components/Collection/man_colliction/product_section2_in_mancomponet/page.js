@@ -90,7 +90,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = !!wishlist.wishlist.some((e) => e.id === item.id);
+              const isfevorite = wishlist.wishlist?.some((e) => e.id === item.id);
               return (
                 <SingleProduct
                   key={item.id}

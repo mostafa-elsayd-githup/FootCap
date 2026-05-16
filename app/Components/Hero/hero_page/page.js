@@ -7,21 +7,23 @@ import NavAction from "../../../Navbar/NavAction";
 import MiniDrowp from "./minidrowp/minidrowp";
 import Footer from "../../../footer/Footre";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { Tag } from "lucide-react";
 
 async function getWishlist() {
-      const tokenstor = await cookies();
-      const token = tokenstor.get("token")?.value;
-      if (!token) {
-        return { state: 401, message: "Please login to continue" };
-      }
-      const decryption = jwt.verify(token, process.env.JWT_SECRET);
+  const tokenstor = await cookies();
+  const token = tokenstor.get("token")?.value;
+  if (!token) {
+    return { state: 401, message: "Please login to continue" };
+  }
+  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   try {
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {   cache: "no-store",
+    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
+      cache: "no-store",
       next: { tags: ["navbar"] },
     });
-const userWishlist = await res.json();
-return userWishlist
+    const userWishlist = await res.json();
+    return userWishlist;
   } catch {
     return [];
   }
@@ -31,7 +33,7 @@ async function gitdata() {
   try {
     const res = await fetch(
       `http://localhost:1200/your_sport_start_hear_running`,
-      { next: { revalidate: 60 } },
+      { next: { Tags: ["Hero"] }, cache: "no-store" },
     );
     if (!res.ok) {
       return undefined;
@@ -47,7 +49,6 @@ async function gitdata() {
 async function Product() {
   const data = await gitdata();
   const wishlist = await getWishlist();
-  
 
   if (!data || data.length === 0) {
     return (
@@ -87,7 +88,9 @@ async function Product() {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = !!wishlist.wishlist.some((wish) => wish.id === item.id);
+              const isfevorite = wishlist.wishlist?.some(
+                (wish) => wish.id === item.id,
+              );
               return (
                 <SingleProduct
                   key={item.id}
@@ -98,7 +101,7 @@ async function Product() {
             })}
         </div>
       </div>
-        <Footer />
+      <Footer />
     </>
   );
 }

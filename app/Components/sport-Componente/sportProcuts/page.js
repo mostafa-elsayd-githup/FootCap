@@ -27,17 +27,6 @@ async function getWishlist() {
   }
 }
 
-// async function getwishlist() {
-//   try {
-//     const res = await fetch("http://localhost:1200/wishlist", {
-//       cache: "no-store",
-//     });
-//     if (!res.ok) return [];
-//     return await res.json();
-//   } catch {
-//     return [];
-//   }
-// }
 
 async function getdata(category) {
   try {
@@ -98,7 +87,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = !!wishlistdata.wishlist.some(
+              const isfevorite = wishlistdata.wishlist?.some(
                 (wish) => wish.id === item.id,
               );
               return (

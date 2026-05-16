@@ -133,7 +133,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data && data.length > 0 ? (
             data.map((item) => {
-              const isfvevorite = !!wishlist.wishlist.some(
+              const isfvevorite = wishlist.wishlist?.some(
                 (wishlist) => wishlist.id === item.id,
               );
               return (

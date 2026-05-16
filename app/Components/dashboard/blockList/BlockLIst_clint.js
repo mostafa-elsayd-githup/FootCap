@@ -1,17 +1,11 @@
 "use client";
 import React, { useActionState, useState } from "react";
-import Link from "next/link";
 import styles from "./block.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChartLine,
-  faBoxOpen,
-  faUsers,
   faBan,
   faUserSlash,
   faTrashArrowUp,
-  faChevronDown,
-  faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import UnblockUsers from "./serverAction";
 export default function BlockListClient({ blockedUsers }) {
@@ -23,10 +17,7 @@ export default function BlockListClient({ blockedUsers }) {
     UnblockUsers,
     initialsate,
   );
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const toggleProducts = () => {
-    setIsProductsOpen(!isProductsOpen);
-  };
+
   return (
     <div className={styles.adminContainer}>
       {pending && (
@@ -34,71 +25,6 @@ export default function BlockListClient({ blockedUsers }) {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-      <aside className={styles.sidebar}>
-        <h2>ADMIN PANEL</h2>
-        <nav>
-          <Link href="/Components/dashboard" className={styles.navLink}>
-            <FontAwesomeIcon icon={faChartLine} /> Dashboard
-          </Link>
-          <div
-            className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
-            onClick={toggleProducts}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span>
-              <FontAwesomeIcon
-                icon={faBoxOpen}
-                style={{ marginRight: "10px" }}
-              />
-              Products
-            </span>
-
-            <FontAwesomeIcon
-              icon={isProductsOpen ? faChevronUp : faChevronDown}
-              size="xs"
-            />
-          </div>
-          {isProductsOpen && (
-            <div className={styles.subMenu}>
-              <Link
-                href="/Components/dashboard/product/t-shirts"
-                className={styles.subNavLink}
-              >
-                T-shirts
-              </Link>
-              <Link
-                href="/Components/dashboard/product/shoes"
-                className={styles.subNavLink}
-              >
-                Shoes
-              </Link>
-              <Link
-                href="/Components/dashboard/product/accessories"
-                className={styles.subNavLink}
-              >
-                Accessories
-              </Link>
-            </div>
-          )}
-          <Link
-            href="/Components/dashboard/customer"
-            className={styles.navLink}
-          >
-            <FontAwesomeIcon icon={faUsers} /> Customers
-          </Link>
-          <Link
-            href="/Components/dashboard/blockList"
-            className={`${styles.bolckLink} ${styles.activeLink}`}
-          >
-            <FontAwesomeIcon icon={faBan} /> Block List
-          </Link>
-        </nav>
-      </aside>
       <main className={styles.mainContent}>
         <form onClick={(e) => e.stopPropagation()} action={formAction}>
           {state?.blockState && (
