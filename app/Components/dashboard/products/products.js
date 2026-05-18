@@ -1,66 +1,37 @@
 "use client";
-import React from "react";
+import React, { useActionState } from "react";
 import { useState } from "react";
 import styles from "./products.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartLine,
-  faBoxOpen,
-  faUsers,
-  faPlus,
-  faEdit,
-  faTrash,
-  faBan,
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import { faPlus, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Card } from "react-bootstrap";
-
-const productsList = [
-  {
-    id: 1,
-    name: "Germany Home Jersey 24/25",
-    category: "Jerseys",
-    price: 1200,
-    stock: 15,
-    img: "https://via.placeholder.com/50",
-  },
-  {
-    id: 2,
-    name: "Adidas Predator Elite",
-    category: "Shoes",
-    price: 4500,
-    stock: 3,
-    img: "https://via.placeholder.com/50",
-  },
-  {
-    id: 3,
-    name: "Training Pants Black",
-    category: "Apparel",
-    price: 850,
-    stock: 0,
-    img: "https://via.placeholder.com/50",
-  },
-];
-export default function AdminProducts({ products }) {
-  
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const toggleProducts = () => {
-    setIsProductsOpen(!isProductsOpen);
-  };
+import ProductSHandle from "./server";
+import Link  from "next/link";
+export default function AdminProducts({ products }) {  
+  const initialstate = { state: null, message: "" };
+  const [state, formAcrion, pending] = useActionState(
+    ProductSHandle,
+    initialstate,
+  );
+  const [buttontype, setbuttontype] = useState("");
+  const [productId, setproductId] = useState("");
   return (
     <div className={styles.adminLayout}>
-
+      {/* loader */}
+      {pending && (
+        <div className={styles.overlay}>
+          form
+          <div className={styles.halfCircleLoader}></div>
+        </div>
+      )}
       <div className={styles.content}>
-        {/* Header Section */}
         <div className={styles.headerSection}>
           <div>
             <h1
               className="text-3xl font-black italic uppercase"
               style={{ color: "var(--color-primary)" }}
             >
-              Inventory Management / {products.title} ({products.data.length}) 
+              Inventory Management / {products.title} ({products.data.length})
             </h1>
             <p className="text-gray-500 text-sm">
               Monitor and update your store products
@@ -71,7 +42,6 @@ export default function AdminProducts({ products }) {
           </button>
         </div>
 
-        {/* Table Area */}
         <div className={styles.tableContainer}>
           <table className={styles.productTable}>
             <thead>
@@ -85,12 +55,12 @@ export default function AdminProducts({ products }) {
             </thead>
             <tbody>
               {products.data.map((product) => {
-                const number= product.price
-               const price = parseFloat(number)
+                const number = product.price;
+                const price = parseFloat(number);
                 const totalmoney = new Intl.NumberFormat("en", {
                   notation: "standard",
                   style: "currency",
-                  currency: "EGP",                 
+                  currency: "EGP",
                   minimumFractionDigits: 3,
                 }).format(price);
                 return (
@@ -121,14 +91,41 @@ export default function AdminProducts({ products }) {
                       </span>
                     </td>
                     <td>
-                      <div className={styles.actionButtons}>
-                        <button className={styles.editBtn} title="Edit">
-                          <FontAwesomeIcon icon={faEdit} />
-                        </button>
-                        <button className={styles.deleteBtn} title="Delete">
-                          <FontAwesomeIcon icon={faTrash} />
-                        </button>
-                      </div>
+                      <form
+                        action={formAcrion}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <input
+                          type="hidden"
+                          name="productType"
+                          value={products.title}
+                        />
+                        <input
+                          type="hidden"
+                          name="productId"
+                          value={productId}
+                        />
+                        <div className={styles.actionButtons}>
+                          <Link
+                            className={styles.editBtn}
+                            href={`/Components/dashboard/products/${product.id}`}
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                          </Link>
+                          <button
+                            className={styles.deleteBtn}
+                            name="button"
+                            value={buttontype}
+                            title="Delete"
+                            onClick={() => {
+                              (setbuttontype("Delete"),
+                                setproductId(product.id));
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        </div>
+                      </form>
                     </td>
                   </tr>
                 );
