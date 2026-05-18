@@ -29,11 +29,11 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata(categoryKey) {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running`,
-      { next: { Tags: ["Hero"] }, cache: "no-store" },
+      `http://localhost:1200/products?type=${categoryKey}`,
+      { next: { Tags: ["Running"] }, cache: "no-store" },
     );
     if (!res.ok) {
       return undefined;
@@ -46,8 +46,10 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({ searchParams }) {
+  const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {
