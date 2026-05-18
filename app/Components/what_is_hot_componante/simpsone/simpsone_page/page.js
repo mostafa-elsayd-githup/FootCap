@@ -20,18 +20,16 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata(categoryKey) {
   try {
     const res = await fetch(
-      `http://localhost:1200/WHAT'S_HOT_simpsons`,
-      { next: { revalidate: 60 } },
+      `http://localhost:1200/products?type=${categoryKey}`,
+      { next: { tags: ["simpsons"] }, cache: "no-store" },
       {
         cache: "no-cache",
       },
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+     if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -40,8 +38,12 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({searchParams}) {
+      const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  console.log(categoryKey);
+  
+  const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {

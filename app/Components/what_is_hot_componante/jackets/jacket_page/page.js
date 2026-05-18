@@ -20,17 +20,16 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata(categoryKey) {
   try {
     const res = await fetch(
-      `http://localhost:1200/WHAT'S_HOT_Jacket`,
+      `http://localhost:1200/products?type=${categoryKey}`,
       {
         cache: "no-store",
+        next: { tags: ["Jackets"] },
       },
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -39,8 +38,11 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({ searchParams }) {
+  const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+
+  const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {
@@ -71,12 +73,12 @@ async function Product() {
             </span>
           </span>
           <h1 className={styles.title}>
-           Sports Outdoor Shoes {""}
+            Sports Outdoor Shoes {""}
             <span className={styles.Productlenght}> [{data.length} ]</span>
           </h1>
         </div>
 
-          <MiniDrowp />
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {
@@ -90,11 +92,10 @@ async function Product() {
                   isfevorite={isfvevorite}
                 />
               );
-              
             })}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

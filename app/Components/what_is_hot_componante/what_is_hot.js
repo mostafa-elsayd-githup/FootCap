@@ -6,13 +6,13 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules"; // استيراد موديل الاوتو بلاي
+import { Autoplay } from "swiper/modules"; 
 
 function HotCOMPONANTE() {
   useEffect(() => {
     AOS.init({
-      duration: 1000, // مدة الأنميشن بالملي ثانية
-      once: true, // الأنميشن يشتغل مرة واحدة بس وأنت نازل
+      duration: 1000,
+      once: true,
     });
   }, []);
   return (
@@ -23,11 +23,11 @@ function HotCOMPONANTE() {
         spaceBetween={20}
         slidesPerView={"auto"}
         className="mySwiper"
-        // 2. فعل الموديلات هنا
+
         modules={[Autoplay]}
-        // 3. ضبط إعدادات الأوتو بلاي
+
         autoplay={{
-          delay: 3000, // 4 ثواني
+          delay: 3000, 
           disableOnInteraction: false,
         }}
       >
@@ -41,7 +41,7 @@ function HotCOMPONANTE() {
                 </div>
 
                 <Link
-                  href="/Components/what_is_hot_componante/jackets/jacket_page"
+                  href="/Components/what_is_hot_componante/jackets/jacket_page?type=Jacket"
                   className={styles.button}
                 >
                   Shop Now
@@ -60,7 +60,7 @@ function HotCOMPONANTE() {
                 </div>
 
                 <Link
-                  href="/Components/what_is_hot_componante/terrex/terrex_page"
+                  href="/Components/what_is_hot_componante/terrex/terrex_page?type=terrex"
                   className={styles.button}
                 >
                   Shop Now
@@ -78,7 +78,7 @@ function HotCOMPONANTE() {
                 </div>
 
                 <Link
-                  href="/Components/what_is_hot_componante/simpsone/simpsone_page"
+                  href="/Components/what_is_hot_componante/simpsone/simpsone_page?type=simpsons"
                   className={styles.button}
                 >
                   Shop Now

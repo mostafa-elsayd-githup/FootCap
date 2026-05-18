@@ -20,17 +20,13 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata(categoryKey) {
   try {
-    const res = await fetch(
-      `http://localhost:1200/WHAT'S_HOT_terrex`,
-      {
-        cache: "no-store",
-      },
-    );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+    const res = await fetch(`http://localhost:1200/products?type=${categoryKey}`, {
+      cache: "no-store",
+      next: { tags: ["terrex"] },
+    });
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -39,8 +35,10 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({searchParams}) {
+    const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {
@@ -76,7 +74,7 @@ async function Product() {
           </h1>
         </div>
 
-          <MiniDrowp />
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {
@@ -90,11 +88,10 @@ async function Product() {
                   isfevorite={isfvevorite}
                 />
               );
-              
             })}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

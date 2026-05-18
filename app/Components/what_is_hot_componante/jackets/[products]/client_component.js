@@ -21,6 +21,7 @@ import { useRouter, redirect } from "next/navigation";
 import { useOpneing } from "../../../../RTK/storcontext";
 import Swal from "sweetalert2";
 export default function Products({ fillWidth, product, isfevorite }) {
+    
   const Router = useRouter();
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
