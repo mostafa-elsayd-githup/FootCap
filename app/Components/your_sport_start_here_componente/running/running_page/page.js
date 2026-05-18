@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
@@ -9,7 +9,7 @@ import Footer from "../../../../footer/Footre";
 async function getWishlist() {
   try {
     const res = await fetch(`http://localhost:1200/wishlist`, {
-      cache: "no-store", 
+      cache: "no-store",
       next: { tags: ["wishlist"] },
     });
     if (!res.ok) return [];
@@ -19,15 +19,13 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata(categoryKey) {
   try {
     const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running`,
-      { next: { revalidate: 60 } },
+      `http://localhost:1200/products?type=${categoryKey}`,
+      { next: { tags: ["Running"] }, cache: "no-store" },
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+     if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -36,8 +34,10 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({searchParams}) {
+    const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {
@@ -68,13 +68,13 @@ async function Product() {
             </span>
           </span>
           <h1 className={styles.title}>
-            Running Collection {" "}
+            Running Collection{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
               [ {data.length} ]
             </span>
           </h1>
         </div>
-          <MiniDrowp />
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {
@@ -91,7 +91,7 @@ async function Product() {
             })}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

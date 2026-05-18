@@ -15,11 +15,11 @@ function SportComponete() {
         spaceBetween={20}
         slidesPerView={"auto"}
         className="mySwiper"
-        // 2. فعل الموديلات هنا
+  
         modules={[Autoplay]}
-        // 3. ضبط إعدادات الأوتو بلاي
+
         autoplay={{
-          delay: 3000, // 4 ثواني
+          delay: 3000, 
           disableOnInteraction: false,
         }}
       >
@@ -29,7 +29,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/running/running_page"
+                  href="/Components/your_sport_start_here_componente/running/running_page?type=running"
                   className={styles.button}
                 >
                   Running
@@ -42,7 +42,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/football/football_page"
+                  href="/Components/your_sport_start_here_componente/football/football_page?type=Football"
                   className={styles.button}
                 >
                   FootBall
@@ -55,7 +55,7 @@ function SportComponete() {
             </div>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/gym/gym_page"
+                  href="/Components/your_sport_start_here_componente/gym/gym_page?type=gym"
                   className={styles.button}
                 >
                   Gym
@@ -68,7 +68,7 @@ function SportComponete() {
             </div>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/tennis/tennis_page"
+                  href="/Components/your_sport_start_here_componente/tennis/tennis_page?type=tennis"
                   className={styles.button}
                 >
                   Tennis
@@ -81,7 +81,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/basket_ball/baskit_page"
+                  href="/Components/your_sport_start_here_componente/basket_ball/baskit_page?type=Basketball"
                   className={styles.button}
                 >
                   Basket ball
