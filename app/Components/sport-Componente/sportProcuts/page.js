@@ -31,7 +31,8 @@ async function getWishlist() {
 async function getdata(category) {
   try {
     const res = await fetch(`http://localhost:1200/products?type=${category}`, {
-      next: { revalidate: 60 },
+      next: { tags:["Training"]},
+
     });
     const data = await res.json();
     return data;
@@ -44,7 +45,6 @@ async function Product({ searchParams }) {
   const queryParams = await searchParams;
   const categoryKey = queryParams.type;
 
-  // استدعاء البيانات مباشرة
   const data = await getdata(categoryKey);
   const wishlistdata = await getWishlist();
 
