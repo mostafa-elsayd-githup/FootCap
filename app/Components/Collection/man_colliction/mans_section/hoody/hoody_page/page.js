@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
@@ -6,7 +6,7 @@ import NotFoundComponent from "../NotFoundComponent";
 import NavAction from "../../../../../../Navbar/NavAction";
 import MiniDrowp from "./minidrowp/minidrowp";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -26,15 +26,13 @@ async function getWishlist() {
   }
 }
 
-async function gitdata() {
+async function gitdata( categoryKey ) {
   try {
-    const res = await fetch(
-      `http://localhost:1200/man_section_hoody`,
-      { next: { revalidate: 60 } },
-    );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+    const res = await fetch(`http://localhost:1200/products?type=${categoryKey}`, {
+      next: { tags: ["Hoody"] },
+      cache: "no-store",
+    });
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -43,8 +41,11 @@ async function gitdata() {
   }
 }
 
-async function Product() {
-  const data = await gitdata();
+async function Product({searchParams}) {
+  const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  const data = await gitdata(categoryKey);
+  
   const wishlist = await getWishlist();
 
   if (!data || data.length === 0) {
@@ -81,7 +82,7 @@ async function Product() {
             </span>
           </h1>
         </div>
-        <MiniDrowp/>
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {

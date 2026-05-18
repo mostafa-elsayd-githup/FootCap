@@ -15,7 +15,7 @@ function Mans_section() {
           <Card className={styles.card}>
             <Link
               className={styles.Button}
-              href="/Components/Collection/man_colliction/mans_section/shoes"
+              href="/Components/Collection/man_colliction/mans_section/shoes?type=shoes"
             >
               Shoes
               <FontAwesomeIcon
@@ -29,7 +29,7 @@ function Mans_section() {
           <Card className={styles.card}>
             <Link
               className={styles.Button}
-              href="/Components/Collection/man_colliction/mans_section/t_shirt/t-shirt_page"
+              href="/Components/Collection/man_colliction/mans_section/t_shirt/t-shirt_page?type=tshirt"
             >
               T-shirt
               <FontAwesomeIcon
@@ -38,12 +38,13 @@ function Mans_section() {
               />
             </Link>
           </Card>
+
         </Card>
         <Card className={styles.Hoody}>
           <Card className={styles.card}>
             <Link
               className={styles.Button}
-              href="/Components/Collection/man_colliction/mans_section/hoody/hoody_page"
+              href="/Components/Collection/man_colliction/mans_section/hoody/hoody_page?type=hoogies"
             >
               Hoody
               <FontAwesomeIcon
@@ -57,7 +58,7 @@ function Mans_section() {
           <Card className={styles.card}>
             <Link
               className={styles.Button}
-              href="/Components/Collection/man_colliction/mans_section/short/short_page"
+              href="/Components/Collection/man_colliction/mans_section/short/short_page?type=short"
             >
               Shorts
               <FontAwesomeIcon

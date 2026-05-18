@@ -31,7 +31,7 @@ async function getData(categoryKey) {
   try {
     const res = await fetch(
       `http://localhost:1200/products?type=${categoryKey}`,
-      { next: { revalidate: 60 } },
+      { next: { tags: ["mans section"] }, cache: "no-store" },
     );
     if (res.ok) {
       const data = await res.json();

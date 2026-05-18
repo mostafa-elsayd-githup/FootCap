@@ -8,7 +8,7 @@ import DiscoundComponent from "../discound_componente/discounds";
 import NotFoundComponent from "../../../Hero/NotFoundComponent";
 import MiniDrowp from "./minidrowp/minidrowp";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -31,10 +31,10 @@ async function gitData(categoryKey) {
   try {
     const res = await fetch(
       `http://localhost:1200/products?type=${categoryKey}`,
+      { next: { tags: ["mans section"] }, cache: "no-store" },
     );
-    if (!res.ok) return undefined;
     const data = await res.json();
- return data
+    return data;
   } catch {
     throw new Error("");
   }
@@ -86,11 +86,13 @@ async function Product({ searchParams }) {
             forever classics.{" "}
           </p>
         </div>
-        <MiniDrowp/>
+        <MiniDrowp />
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = wishlist.wishlist?.some((e) => e.id === item.id);
+              const isfevorite = wishlist.wishlist?.some(
+                (e) => e.id === item.id,
+              );
               return (
                 <SingleProduct
                   key={item.id}

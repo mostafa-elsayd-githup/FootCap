@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+"use server"
 import Link from "next/link";
 import SingleProduct from "./SingleProduct_Liverpool";
 import styles from "./page.module.css";
@@ -8,7 +8,7 @@ import NotFoundComponent from "../../../Hero/NotFoundComponent";
 import NavAction from "../../../../Navbar/NavAction";
 import MiniDrowp from "../product_section1_in_mancomponet/minidrowp/minidrowp";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -31,11 +31,9 @@ async function getdata(categoryKey) {
   try {
     const res = await fetch(
       `http://localhost:1200/products?type=${categoryKey}`,
-      { next: { revalidate: 60 } },
+      { next: { tags: ["club"] }, cache: "no-store" },
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
@@ -129,7 +127,7 @@ async function Product({ searchParams }) {
           </h1>
           <p>{currentClub.description}</p>
         </div>
-        <MiniDrowp/>
+        <MiniDrowp />
         <div className={styles.products}>
           {data && data.length > 0 ? (
             data.map((item) => {
