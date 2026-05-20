@@ -1,139 +1,157 @@
 "use client";
 import { useState, useActionState } from "react";
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faRightLong } from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faRightLong, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import styles from "./CardPage.module.css";
 import Footer from "../footer/Footre";
 import DeleteCart, { clearCart } from "./Action";
 import Link from "next/link";
 
 const CartPage = ({ card }) => {
+  console.log(card);
+  
   const intinaldata = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(DeleteCart, intinaldata);
   const [, formActionclear, pendingclear] = useActionState(clearCart, intinaldata);
-
   const [ActionState, setActionState] = useState("");
 
   return (
     <>
-      <Container className={styles.cart_wrapper}>
-        {/* Loader */}
+      <main className={styles.cart_wrapper}>
+        {/* Loader الافتراضي */}
         {(pending || pendingclear) && (
           <div className={styles.overlayaction}>
             <div className={styles.halfCircleLoader}></div>
           </div>
         )}
 
-        <Row>
-          {/* الجزء الأيسر: قائمة المنتجات */}
+        <Container>
+          {/* عنوان السلة الرياضي الجريء */}
           <h2 className={styles.bag_title}>
-            YOUR BAG {""}
+            YOUR BAG 
             <span className={styles.item_count}>
-              ({card.length} Unreserved Item)
+              ( {card.length} {card.length === 1 ? "Item" : "Items"} )
             </span>
           </h2>
           
-          <Col lg={8} md={12}>
-            <div className={styles.products_main_container}>
-              {/* منطقة سكرول للمنتجات فقط */}
-              <div className={styles.products_scroll_area}>
-                {card && card.length > 0 ? (
-                  card.map((item) => (
-                    <div key={item.id} className={styles.product_row}>
-                      <form action={formAction} onClick={(e) => e.stopPropagation()}>
-                        <button
-                          className={styles.delete_btn}
-                          type="submit"
-                          disabled={pending}
-                          onMouseDown={() => setActionState("delete")}
-                        >
-                          <FontAwesomeIcon icon={faXmark} />
-                        </button>
-                        <input type="hidden" name="id" value={item.id || ""} />
-                        <input type="hidden" name="intent" value={ActionState} />
-                      </form>
-
-                      <div className={styles.product_img}>
-                        <img src={item.image} alt="product" />
-                      </div>
-                      <div className={styles.product_info}>
-                        <div className="d-flex justify-content-between align-items-start mr-0">
-                          <div>
-                            <h5 className={styles.p_name}>{item.name}</h5>
-                            <p className={styles.p_variant}>Category: {item.category}</p>
-                            <p className={styles.p_size}>Size: {item.size}</p>
-                            {item.quantity > 1 && <p className={styles.addedTime}>Qty: {item.quantity}</p>}
-                          </div>
-                          <div className="text-end">
-                            <span className={styles.new_price}>EGP {item.price}</span>
-                            {item.quantity > 1 && (
-                              <span className={styles.total_price}>
-                                Total: EGP {(parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity).toLocaleString()}
-                              </span>
-                            )}
-                          </div>
+          <Row className="gy-4">
+            <Col lg={8} md={12}>
+              <div className={styles.products_main_container}>
+                <div className={styles.products_scroll_area}>
+                  {card && card.length > 0 ? (
+                    card.map((item) => (
+                      <div key={item.id} className={styles.product_card}>
+                        <form action={formAction} onClick={(e) => e.stopPropagation()}>
+                          <button
+                            className={styles.delete_btn}
+                            type="submit"
+                            disabled={pending}
+                            aria-label="Remove item"
+                            onMouseDown={() => setActionState("delete")}
+                          >
+                            <FontAwesomeIcon icon={faXmark} />
+                          </button>
+                          <input type="hidden" name="id" value={item.id || ""} />
+                          <input type="hidden" name="intent" value={ActionState} />
+                        </form>
+                        <div className={styles.product_img_wrapper}>
+                          <Card.Img src={item.image} alt={item.name} loading="lazy" />
                         </div>
+                        <div className={styles.product_details_content}>
+                          <div className={styles.details_main_info}>
+                            <div>
+                              <h3 className={styles.p_name}>{item.name}</h3>
+                              <p className={styles.p_meta}>Category: <span>{item.category}</span></p>
+                              <p className={styles.p_meta}>Size: <span className={styles.badge_size}>{item.size}</span></p>
+                            </div>
+                            <div className={styles.price_box}>
+                              <span className={styles.unit_price}>EGP {Number(item.price.toString().replace(/[^\d.]/g, "")).toLocaleString()}</span>
+                              {item.quantity >= 1 && (
+                                <span className={styles.qty_badge}>Qty: {item.quantity}</span>
+                              )}
+                            </div>
+                          </div>
+                          {item.quantity > 1 && (
+                            <div className={styles.card_footer_total}>
+                              <span>Subtotal for this item:</span>
+                              <span className={styles.total_price_text}>
+                                EGP {(parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity).toLocaleString()}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+
                       </div>
+                    ))
+                  ) : (
+                    <div className={styles.empty_state}>
+                      <h3>YOUR CART IS EMPTY</h3>
+                      <p>Add items to your cart to see them here.</p>
+                      <Link href="/" className={styles.shop_now_link}>SHOP OUR COLLECTION</Link>
                     </div>
-                  ))
-                ) : (
-                  <div className={styles.empty_state}>
-                    <h3>YOUR CART IS EMPTY</h3>
-                    <p>Add items to your cart to see them here.</p>
+                  )}
+                </div>
+                {card.length >= 2 && (
+                  <div className={styles.sticky_clear_container}>
+                    <form action={formActionclear} onClick={(e) => e.stopPropagation()}>
+                      <input type="hidden" name="intent" value={ActionState} />
+                      <button
+                        className={styles.clear_all_button}
+                        type="submit"
+                        disabled={pendingclear}
+                        onMouseDown={() => setActionState("clear")}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} style={{ marginRight: '8px', fontSize: '14px' }} />
+                        Clear All Shopping Bag
+                      </button>
+                    </form>
                   </div>
                 )}
               </div>
+            </Col>
+            <Col lg={4} md={12}>
+              <div className={styles.summary_sticky_wrapper}>
+                <section className={styles.summary_card}>
+                  <h4 className={styles.summary_header}>ORDER SUMMARY</h4>
+                  
+                  <div className={styles.summary_row}>
+                    <span className={styles.row_label}>SUBTOTAL</span>
+                    <span className={styles.row_value}>EGP {card.reduce((acc, item) => acc + (parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity), 0).toLocaleString()}</span>
+                  </div>
+                  
+                  <div className={styles.summary_row}>
+                    <span className={styles.row_label}>DELIVERY</span>
+                    <span className={styles.row_value_free}>
+                      {card.length > 4 ? "EGP 400" : "FREE"}
+                    </span>
+                  </div>
+                  
+                  <div className={`${styles.summary_row} ${styles.total_row}`}>
+                    <span className={styles.total_label}>TOTAL INCL. VAT</span>
+                    <span className={styles.total_value}>EGP {card.reduce((acc, item) => acc + (parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity), 0).toLocaleString()}</span>
+                  </div>
 
-              {/* زرار Clear All ثابت في أسفل حاوية المنتجات */}
-              {card.length >= 2 && (
-                <div className={styles.sticky_clear_container}>
-                  <form action={formActionclear} onClick={(e) => e.stopPropagation()}>
-                    <input type="hidden" name="intent" value={ActionState} />
-                    <button
-                      className={styles.clear_but}
-                      type="submit"
-                      disabled={pendingclear}
-                      onMouseDown={() => setActionState("clear")}
-                    >
-                      Clear All Shopping Bag
-                    </button>
-                  </form>
-                </div>
-              )}
-            </div>
-          </Col>
+                  <Link href="/CardPage/ckecout/" className={styles.checkout_button}>
+                    PROCEED TO CHECKOUT <FontAwesomeIcon icon={faRightLong} className={styles.arrow_icon} />
+                  </Link>
 
-          {/* الجزء الأيمن: Summary */}
-          <Col lg={4} md={12}>
-            <div className={styles.summary_sticky_wrapper}>
-              <div className={styles.summary_card}>
-                <h4 className={styles.summary_header}>ORDER SUMMARY</h4>
-                <div className={styles.summary_row}>
-                  <span>SUBTOTAL</span>
-                  <span>EGP {card.reduce((acc, item) => acc + (parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity), 0).toLocaleString()}</span>
-                </div>
-                <div className={styles.summary_row}>
-                  <span>DELIVERY</span>
-                  {card.length > 4 ? <span>EGP 400</span> : <span>FREE</span>}
-                </div>
-                <div className={`${styles.summary_row} ${styles.total_row}`}>
-                  <span>TOTAL</span>
-                  <span>EGP {card.reduce((acc, item) => acc + (parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity), 0).toLocaleString()}</span>
-                </div>
-                <Link href="/CardPage/ckecout/" className={styles.checkout_button}>
-                  CHECKOUT <FontAwesomeIcon icon={faRightLong} />
-                </Link>
-                <div className={styles.payment_section}>
-                  <p>ACCEPTED PAYMENT METHODS</p>
-                  <span className={styles.payment_placeholder}>VISA / PAYPAL / COD</span>
-                </div>
+                  <div className={styles.payment_section}>
+                    <p className={styles.payment_title}>ACCEPTED PAYMENT METHODS</p>
+                    <div className={styles.payment_badges}>
+                      <span>VISA</span>
+                      <span>MASTERCARD</span>
+                      <span>PAYPAL</span>
+                      <span>CASH ON DELIVERY</span>
+                    </div>
+                  </div>
+                </section>
               </div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+            </Col>
+          </Row>
+        </Container>
+      </main>
       <Footer />
     </>
   );
