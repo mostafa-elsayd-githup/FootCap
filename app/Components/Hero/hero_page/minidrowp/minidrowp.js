@@ -161,7 +161,7 @@ export default function MiniDrowp() {
               <h1 className={styles.productName}>{selectedProduct.name}</h1>
               {selectedProduct.oldPrice ? (
                 <span>
-                  <span className={styles.price}>
+                  <span className={styles.price_red}>
                      {price}
                   </span>
                   <span className={styles.oldPrice}>

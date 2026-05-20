@@ -33,7 +33,7 @@ async function gitdata(categoryKey) {
   try {
     const res = await fetch(
       `http://localhost:1200/products?type=${categoryKey}`,
-      { next: { Tags: ["Running"] }, cache: "no-store" },
+      { next: { Tags: ["Running"] }},
     );
     if (!res.ok) {
       return undefined;
