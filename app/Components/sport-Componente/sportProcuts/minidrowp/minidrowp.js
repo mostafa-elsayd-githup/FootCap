@@ -250,15 +250,6 @@ export default function MiniDrowp() {
                   name="name"
                   value={selectedProduct.name || ""}
                 />
-
-                {/* {selectedProduct.sizes?.map((item, index) => (
-                  <input
-                    key={index}
-                    type="hidden"
-                    name="sizes"
-                    value={item || ""}
-                  />
-                ))} */}
                 <input
                   type="hidden"
                   name="dis"
@@ -281,11 +272,9 @@ export default function MiniDrowp() {
                   value={actionTypeState || ""}
                 />
                 <button
-                  className={styles.addToCartBtn}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
-                  onClick={() => {
-                    setActionTypeState("card");
-                  }}
+                  onMouseDown={() => setActionTypeState("card")}
                 >
                   ADD TO BAG
                   <span className={styles.arrowIcon}>
@@ -314,3 +303,8 @@ export default function MiniDrowp() {
     </div>
   );
 }
+
+// <div
+//   className={styles.close}
+//   onClick={() => setIsOpen(false)}
+// >{`>>`}</div>

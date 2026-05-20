@@ -280,16 +280,16 @@ export default function MiniDrowp() {
                   name="actiontype"
                   value={actionTypeState || ""}
                 />
-                  <button
-                className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
-                type="submit"
-                onMouseDown={() => setActionTypeState("card")}
-              >
-                ADD TO BAG
-                <span className={styles.arrowIcon}>
-                  <FontAwesomeIcon icon={faRightLong} />
-                </span>
-              </button>
+                <button
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
+                  type="submit"
+                  onMouseDown={() => setActionTypeState("card")}
+                >
+                  ADD TO BAG
+                  <span className={styles.arrowIcon}>
+                    <FontAwesomeIcon icon={faRightLong} />
+                  </span>
+                </button>
                 <button
                   className={styles.wishlistBtn}
                   type="submit"

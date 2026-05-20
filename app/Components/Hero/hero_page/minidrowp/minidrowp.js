@@ -16,7 +16,6 @@ export default function MiniDrowp() {
   const Router = useRouter();
   const { isOpen, setIsOpen, selectedProduct, isfevorite, setisfevorite } =
     useOpneing();
-
   const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
@@ -41,33 +40,33 @@ export default function MiniDrowp() {
       });
     }
   }, [state?.tokenstate, Router]);
-useEffect(() => {
-  if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
- 
-    const newFavoriteStatus = !state.wishliststate;
-    
-    setisfevorite(newFavoriteStatus);
-
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-left",
-      showConfirmButton: false,
-      timer: 2000,
-    });
-
-    Toast.fire({
-      icon: "success",
-      title: newFavoriteStatus ? "Added to Wishlist" : "Removed from Wishlist",
-    });
-  }
-}, [state?.wishliststate, setisfevorite]);
-
   useEffect(() => {
-    if (state?.cardState !== undefined && state?.cardState !== null) {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      const newFavoriteStatus = !state.wishliststate;
+
+      setisfevorite(newFavoriteStatus);
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-left",
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: newFavoriteStatus
+          ? "Added to Wishlist"
+          : "Removed from Wishlist",
+      });
+    }
+  }, [state?.wishliststate, setisfevorite]);
+
+  useEffect(() => {
+    if (state?.cardState !== undefined && state?.cardState !== null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
         showConfirmButton: false,
         timerProgressBar: true,
         timer: 2000,
@@ -77,12 +76,24 @@ useEffect(() => {
         icon: "success",
         title: isquantityUpdata ? "quintity +1" : "Added to Cart",
       });
-      setisfevorite(false)
+      setisfevorite(false);
       setTimeout(() => {
         setIsOpen(false);
       }, 500);
     }
   }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.price));
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}>
       {pending && (
@@ -90,7 +101,6 @@ useEffect(() => {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-
       {selectedProduct ? (
         <div key={selectedProduct.id} className={styles.container}>
           <div
@@ -152,14 +162,14 @@ useEffect(() => {
               {selectedProduct.oldPrice ? (
                 <span>
                   <span className={styles.price}>
-                    EGP {selectedProduct.price}
+                     {price}
                   </span>
                   <span className={styles.oldPrice}>
-                    EGP {selectedProduct.oldPrice}
+                     {oldprice}
                   </span>
                 </span>
               ) : (
-                <p className={styles.price}>EGP {selectedProduct.price}</p>
+                <p className={styles.price}>{price}</p>
               )}
               <div className={styles.colors_available}>
                 {selectedProduct.url?.length} colours available
@@ -250,15 +260,6 @@ useEffect(() => {
                   name="name"
                   value={selectedProduct.name || ""}
                 />
-
-                {/* {selectedProduct.sizes?.map((item, index) => (
-                  <input
-                    key={index}
-                    type="hidden"
-                    name="sizes"
-                    value={item || ""}
-                  />
-                ))} */}
                 <input
                   type="hidden"
                   name="dis"
@@ -281,11 +282,9 @@ useEffect(() => {
                   value={actionTypeState || ""}
                 />
                 <button
-                  className={styles.addToCartBtn}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
-                  onClick={() => {
-                    setActionTypeState("card");
-                  }}
+                  onMouseDown={() => setActionTypeState("card")}
                 >
                   ADD TO BAG
                   <span className={styles.arrowIcon}>
