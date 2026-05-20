@@ -116,13 +116,12 @@ async function Product({ searchParams }) {
             </span>
           </span>
 
-          {/* 2. عرض العنوان والوصف ديناميكياً */}
           <h1 className={styles.title}>
             {currentClub.title}
             <span
-              style={{ fontSize: "15px", color: "#7777", marginLeft: "10px" }}
+              style={{ fontSize: "15px", color: "var(--color-secondary)", marginLeft: "10px" }}
             >
-              [{data.length}]
+              ( {data.length} )
             </span>
           </h1>
           <p>{currentClub.description}</p>

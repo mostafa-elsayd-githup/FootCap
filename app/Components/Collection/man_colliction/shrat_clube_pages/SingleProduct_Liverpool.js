@@ -16,7 +16,8 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 const SingleProduct = ({ productItem, isfevorite }) => {
-  // console.log(productItem.url);
+  console.log(parseFloat(productItem.price));
+
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem.image);
   const initialState = { message: "", wishliststate: null };
@@ -64,6 +65,26 @@ const SingleProduct = ({ productItem, isfevorite }) => {
       });
     }
   }, [state?.wishliststate, setisfevorite]);
+
+
+  if (productItem.oldPrice) {
+    var discount =
+      ((parseInt(productItem.oldPrice) - parseInt(productItem.price)) /
+        parseInt(productItem.oldPrice)) *
+      100;
+  }
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(productItem.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(productItem.price));
   return (
     <Card
       className={styles.card}
@@ -100,13 +121,13 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           <button
             type="submit"
             disabled={pending}
-            onMouseDown={() => setActionTypeState("wishlist")} // بنحدد النوع بس
+            onMouseDown={() => setActionTypeState("wishlist")}
             style={{
               background: "none",
               border: "none",
               padding: 0,
               cursor: "pointer",
-              color: isfevorite ? "#ff4d4d" : "#000", // تغيير اللون لو هو مفضل
+              color: isfevorite ? "#ff4d4d" : "#000",
               opacity: pending ? 0.5 : 1,
               transition: "all 0.3s ease",
             }}
@@ -122,7 +143,9 @@ const SingleProduct = ({ productItem, isfevorite }) => {
             onMouseDown={() => {
               setActionTypeState("eye");
               if (!pending) {
-                Router.push(`/Components/Collection/man_colliction/product_section1_in_mancomponet/${productItem.id}`);
+                Router.push(
+                  `/Components/Collection/man_colliction/shrat_clube_pages/${productItem.id}`,
+                );
               }
             }}
             style={{
@@ -180,27 +203,26 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           />
         </form>
       </div>
-
-        {/* <Link href={`/Components/Hero/${productItem.id}`}> */}
-        {/* </Link> */}
       <div style={{ position: "relative" }}>
-          <Card.Img
-            name="image"
-            variant="top"
-            src={currentImg}
-            alt={productItem.description}
-            onMouseEnter={() => setCurrentImg(productItem.image_Hover)}
-            className={styles.image}
-          />
+        <Card.Img
+          name="image"
+          variant="top"
+          src={currentImg}
+          alt={productItem.description}
+          onMouseEnter={() => setCurrentImg(productItem.image_Hover)}
+          className={styles.image}
+        />
         {productItem.oldPrice && (
-          <span className={styles.dis}>{productItem.dis} %</span>
+          <span className={styles.dis}>{parseInt(discount)} %</span>
         )}
       </div>
       {productItem.url && productItem.url.length > 0 && (
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link href={`/Components/Collection/man_colliction/product_section1_in_mancomponet/${style.id}`}>
+              <Link
+                href={`/Components/Collection/man_colliction/shrat_clube_pages/${style.id}`}
+              >
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -211,31 +233,23 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           ))}
         </div>
       )}
-      <Card.Body>
-        {productItem.Inventory === 0 ? (
-          <span className={styles.little}>
-            <span className={styles.word}>OUT</span>
-          </span>
-        ) : productItem.Inventory <= 5 ? (
-          <span className={styles.little}>
-            <span className={styles.word}>LOW</span>
-          </span>
-        ) : null}
-        <Link href={`/Components/Collection/man_colliction/product_section1_in_mancomponet/${productItem.id}`}>
+      <Card.Body className={styles.card_body}>
+        <Link
+          href={`/Components/Collection/man_colliction/shrat_clube_pages/${productItem.id}`}
+        >
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
-        {/* السعر الأساسي */}
         <span
           className={`${styles.price} ${
             productItem.oldPrice ? styles.price_red : ""
           }`}
         >
-          EGP {productItem.price}
+          {price}
         </span>
 
         {productItem.oldPrice && (
           <>
-            <span className={styles.old_price}>EGP {productItem.oldPrice}</span>
+            <span className={styles.old_price}>{oldprice}</span>
             <input
               type="hidden"
               name="old_price"

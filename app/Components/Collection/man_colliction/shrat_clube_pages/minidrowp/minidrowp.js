@@ -249,15 +249,6 @@ useEffect(() => {
                   name="name"
                   value={selectedProduct.name || ""}
                 />
-
-                {/* {selectedProduct.sizes?.map((item, index) => (
-                  <input
-                    key={index}
-                    type="hidden"
-                    name="sizes"
-                    value={item || ""}
-                  />
-                ))} */}
                 <input
                   type="hidden"
                   name="dis"
@@ -313,3 +304,9 @@ useEffect(() => {
     </div>
   );
 }
+
+
+          // <div
+          //   className={styles.close}
+          //   onClick={() => setIsOpen(false)}
+          // >{`>>`}</div>
