@@ -6714,7 +6714,7 @@
       "name": "Adizero EVO SL Shoes",
       "category": " Women Running ",
       "type": "Running",
-      "price": "1199900",
+      "price": "1500",
       "sizes": [
         "M",
         "L",
@@ -6728,9 +6728,11 @@
       "rating": 3,
       "description": "Shoes with LightstrikePro cushioning for lightweight movements. ",
       "Inventory": 0,
-      "oldPrice": null,
+      "oldPrice": "2000",
       "quantity": 1,
-      "watchde": 33
+      "watchde": 33,
+      "stock": "100",
+      "video": null
     },
     {
       "id": "306",

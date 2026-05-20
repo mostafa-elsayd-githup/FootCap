@@ -11,7 +11,7 @@ function Hero() {
         <p className={styles.p}> Special picks for everyone on your list. </p>
 
         <Link
-          href="/Components/Hero/hero_page?type=hero"
+          href="/Components/Hero/hero_page?type=Running"
           className={styles.Button}
         >
           SHOP NOW

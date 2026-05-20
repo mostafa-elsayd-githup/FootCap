@@ -279,12 +279,12 @@
     grid-template-columns: repeat(3, 1fr);
   }
   .Container {
-    margin: 60px auto;
+    margin: 6rem auto;
   }
 }
 @media (max-width: 767px) {
   .Container {
-    margin: 40px auto;
+    margin: 6rem auto;
   }
   .text {
     text-align: center;

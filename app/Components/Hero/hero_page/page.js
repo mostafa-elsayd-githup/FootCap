@@ -82,7 +82,7 @@ async function Product({ searchParams }) {
           <h1 className={styles.title}>
             Adidaes Running Collection{" "}
             <span style={{ fontSize: "15px", color: "var(--color-primary)" }}>
-              [ {data.length} ]
+              ( {data.length} )
             </span>
           </h1>
         </div>
