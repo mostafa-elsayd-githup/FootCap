@@ -61,7 +61,7 @@ export default function AdminProducts({ products }) {
                   notation: "standard",
                   style: "currency",
                   currency: "EGP",
-                  minimumFractionDigits: 3,
+                  minimumFractionDigits: 0,
                 }).format(price);
                 return (
                   <tr key={product.id} className={styles.tableRow}>

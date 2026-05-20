@@ -9,11 +9,11 @@ import {
   faBoxes,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import styles from "./productStyle.module.css";
 import { Card } from "react-bootstrap";
 import EditProduct from "./serverFile";
 export default function EditProductPage({ product }) {
+  
   const [products, setProducts] = useState({
     id: product.id,
     type: product?.type || "",
@@ -72,7 +72,7 @@ export default function EditProductPage({ product }) {
 
       <div className={styles.header}>
         <div className={styles.headerTitle}>
-          <h1>Edit Store Product</h1>
+          <h1>Edit Store Product / {product.type}</h1>
           <p>
             Product ID:{" "}
             <span className={styles.idHighlight}>
@@ -275,6 +275,7 @@ export default function EditProductPage({ product }) {
                   name="oldPrice"
                   value={products?.oldPrice}
                   onChange={hendlenameChange}
+                  placeholder="000"
                 />
               </div>
 
@@ -286,7 +287,7 @@ export default function EditProductPage({ product }) {
                   name="stock"
                   value={products?.stock}
                   onChange={hendlenameChange}
-                  required
+                  placeholder="000"
                 />
               </div>
 
@@ -309,7 +310,12 @@ export default function EditProductPage({ product }) {
                   <option value="T-shirt">T-shirt</option>
                   <option value="Hoody">Hoody</option>
                   <option value="Short">Short</option>
-                  <option value="shoes">shoes</option>
+                  <option value="Liverpool">Liverpool</option>
+                  <option value="Arsenal">Arsenal</option>
+                  <option value="Bayern Munich">Bayern Munich</option>
+                  <option value="Man United">Man United</option>
+                  <option value="Real Madrid">Real Madrid</option>
+                  <option value="AlAhly">AlAhly</option>
                 </select>
               </div>
             </div>

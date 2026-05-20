@@ -10,17 +10,10 @@ import {
   CartesianGrid,
   AreaChart,
   Area,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChartLine,
-  faUsers,
-  faBoxOpen,
-  faBan,
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 export default function Dashboard({ total, allUsers, orders, finalData }) {
   const totalmoney = new Intl.NumberFormat("en", {
     notation: "compact",
@@ -28,82 +21,14 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
     currency: "EGP",
     
   }).format(total);
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const toggleProducts = () => {
-    setIsProductsOpen(!isProductsOpen);
-  };
+
+  const data = [
+    { name: "Shoes", value: 20, color: "#3b82f6" }, // أزرق مثلاً
+    { name: "Jerseys", value: 25, color: "#10b981" }, // أخضر
+    { name: "Jackets", value: 15, color: "#f59e0b" }, // برتقالي
+  ];
   return (
     <div className={styles.adminLayout}>
-      {/* Sidebar */}
-      {/* <aside className={styles.sidebar}>
-        <h2>ADMIN PANEL</h2>
-        <nav>
-          <Link
-            href="/Components/dashboard"
-            className={`${styles.navLink} ${styles.activeLink} `}
-          >
-            <FontAwesomeIcon icon={faChartLine} /> Dashboard
-          </Link>
-          <div
-            className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
-            onClick={toggleProducts}
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <span>
-              <FontAwesomeIcon
-                icon={faBoxOpen}
-                style={{ marginRight: "10px" }}
-              />
-              Products
-            </span>
-
-            <FontAwesomeIcon
-              icon={isProductsOpen ? faChevronUp : faChevronDown}
-              size="xs"
-            />
-          </div>
-          {isProductsOpen && (
-            <div className={styles.subMenu}>
-              <Link
-                href="/Components/dashboard/product/t-shirts"
-                className={styles.subNavLink}
-              >
-                T-shirts
-              </Link>
-              <Link
-                href="/Components/dashboard/product/shoes"
-                className={styles.subNavLink}
-              >
-                Shoes
-              </Link>
-              <Link
-                href="/Components/dashboard/product/accessories"
-                className={styles.subNavLink}
-              >
-                Accessories
-              </Link>
-            </div>
-          )}
-          <Link
-            href="/Components/dashboard/customer"
-            className={`${styles.navLink}`}
-          >
-            <FontAwesomeIcon icon={faUsers} /> Customers
-          </Link>
-          <Link
-            href="/Components/dashboard/blockLIst"
-            className={`${styles.bolckLink}`}
-          >
-            <FontAwesomeIcon icon={faBan} /> Block List
-          </Link>
-        </nav>
-      </aside> */}
-
       <main className={styles.content}>
         <div className={styles.titlepage}>
           <h1 className="fw-bold" style={{ color: "var(--color-primary)" }}>
@@ -189,22 +114,57 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
               </ResponsiveContainer>
             </div>
           </div>
-
-          <div className={styles.chartBox}>
-            <h5 className="mb-4" style={{ color: "var(--color-primary)" }}>
-              Top Categories
-            </h5>
-            <ul className="list-unstyled">
-              <li className="d-flex justify-content-between mb-3">
-                <span style={{ color: "var(--color-secondary)" }}>Shoes</span>
-                <span className="fw-bold">60%</span>
-              </li>
-              <li className="d-flex justify-content-between mb-3">
-                <span style={{ color: "var(--color-secondary)" }}>Jerseys</span>
-                <span className="fw-bold">25%</span>
-              </li>
-            </ul>
+       <div className={styles.glassCard}>
+      <h3 className={styles.cardTitle}>Top Categories</h3>
+      
+      <ResponsiveContainer width="100%" height="70%">
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="50%"
+            innerRadius={65}   
+            outerRadius={85}
+            paddingAngle={6}   
+            cornerRadius={8}   
+            dataKey="value"
+          >
+            {data.map((entry, index) => (
+              <Cell 
+                key={`cell-${index}`} 
+                fill={entry.color}
+                style={{
+                  filter: `drop-shadow(0px 0px 8px ${entry.color})`, 
+                  cursor: 'pointer'
+                }}
+              />
+            ))}
+          </Pie>
+          
+          <Tooltip 
+            contentStyle={{ 
+              backgroundColor: "rgba(30, 30, 30, 0.85)", 
+              backdropFilter: "blur(8px)",
+              borderRadius: "12px", 
+              border: "1px solid rgba(255, 255, 255, 0.1)", 
+              color: "#fff",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.4)"
+            }} 
+          />
+        </PieChart>
+      </ResponsiveContainer>
+      <div className={styles.legendContainer}>
+        {data.map((entry, index) => (
+          <div key={index} className={styles.legendItem}>
+            <span 
+              className={styles.legendDot} 
+              style={{ backgroundColor: entry.color, color: entry.color }}
+            />
+            {entry.name}
           </div>
+        ))}
+      </div>
+    </div>
         </div>
       </main>
     </div>

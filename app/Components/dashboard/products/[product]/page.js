@@ -1,15 +1,10 @@
 "use server";
 import NavAction from "../../../../Navbar/NavAction";
-import Footer from "../../../../footer/Footre";
 import EditProductPage from "./editProduct";
-// import NotFound from "./not-found";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
-
 async function getProduct(id) {
   try {
     const res = await fetch(`http://localhost:1200/products/${id}`, {
-      cache: "no-cache",
+      next:{tags:["edit"]},cache: "no-cache"
     });
 
     const data = await res.json();
