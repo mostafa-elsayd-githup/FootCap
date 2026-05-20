@@ -8,7 +8,6 @@ import handleOrder from "./ckeckoutServer";
 export default function CheckoutPage({ cartItems }) {
   const router = useRouter();
   const [pendingclient, setPending] = useState(false);
-  // const [actionTypeState, setActionTypeState] = useState("");
   const [FormDataClient, setFormDataClient] = useState({
     fullName: "",
     val: "",
@@ -74,7 +73,6 @@ export default function CheckoutPage({ cartItems }) {
       Swal.fire("Error", `${state?.message}`, "error");
     } else if (state?.success) {
       setTimeout(() => {
-        // setPending(false);
         Swal.fire({
           title: "Order Placed!",
           text: "Your order has been received successfully.",
@@ -85,8 +83,6 @@ export default function CheckoutPage({ cartItems }) {
         });
       }, 1000);
     }
-
-    // setPending(true);
   }, [
     state?.timeStamp,
     state?.inputState,
@@ -95,7 +91,7 @@ export default function CheckoutPage({ cartItems }) {
     router,
   ]);
 
-  return (
+return (
     <div className={styles.checkoutContainer}>
       {pendingclient && (
         <div className={styles.overlay}>
@@ -105,8 +101,8 @@ export default function CheckoutPage({ cartItems }) {
 
       <div className={styles.shippingSection}>
         <h2 className={styles.title}>Shipping Information</h2>
-        <form action={formAction}>
-          {/* onSubmit={handle} */}
+        <form action={formAction} className={styles.formGrid}>
+          
           <div className={styles.formGroup}>
             <label>Full Name</label>
             <input
@@ -121,6 +117,7 @@ export default function CheckoutPage({ cartItems }) {
               }
             />
           </div>
+
           <div className={styles.formGroup}>
             <label>Phone Number</label>
             <input
@@ -130,10 +127,11 @@ export default function CheckoutPage({ cartItems }) {
               maxLength={11}
               onChange={(e) => {
                 let val = e.target.value.replace(/\D/g, "");
-                setFormDataClient({ ...FormDataClient, phone: e.target.value });
+                setFormDataClient({ ...FormDataClient, phone: val });
               }}
             />
           </div>
+
           <div className={styles.formGroup}>
             <label>Detailed Address</label>
             <input
@@ -148,8 +146,9 @@ export default function CheckoutPage({ cartItems }) {
               }
             />
           </div>
+
           <div className={styles.formGroup}>
-            <label>CredCard</label>
+            <label>Credit Card</label>
             <input
               type="text"
               className={styles.inputField}
@@ -157,20 +156,20 @@ export default function CheckoutPage({ cartItems }) {
               maxLength={16}
               onChange={(e) => {
                 let val = e.target.value.replace(/\D/g, "");
-                let formattedVal = val.match(/.{1,4}/g)?.join(" ") || "";
                 setFormDataClient({
                   ...FormDataClient,
-                  card: e.target.value,
+                  card: val,
                 });
               }}
             />
           </div>
+
           <div className={styles.formGroup}>
             <label>City {`[${egyptGovernorates.length}]`}</label>
             <input
               list="egypt-cities"
               className={styles.inputField}
-              placeholder="Seleck city...."
+              placeholder="Select city...."
               onChange={(e) =>
                 setFormDataClient({ ...FormDataClient, city: e.target.value })
               }
@@ -181,35 +180,23 @@ export default function CheckoutPage({ cartItems }) {
               ))}
             </datalist>
           </div>
-          <button
-            type="submit"
-            className={styles.orderBtn}
-            // onMouseDown={() => {
-            //   setActionTypeState("submitaction");
-            // }}
-          >
+
+          <button type="submit" className={styles.orderBtn}>
             CONFIRM ORDER
           </button>
-          {/* use data */}
-          <input
-            type="hidden"
-            name="fullName"
-            value={FormDataClient.fullName}
-          />
+          <input type="hidden" name="fullName" value={FormDataClient.fullName} />
           <input type="hidden" name="address" value={FormDataClient.address} />
           <input type="hidden" name="phone" value={FormDataClient.phone} />
           <input type="hidden" name="city" value={FormDataClient.city} />
           <input type="hidden" name="card" value={FormDataClient.card} />
           <input type="hidden" name="totalprice" value={total} />
-          {/* products Data  */}
           {cartItems.map((item) => (
-            <div key={item.id}>
-              <input
-                type="hidden"
-                name="allProducts"
-                value={JSON.stringify(item)}
-              />
-            </div>
+            <input
+              key={item.id}
+              type="hidden"
+              name="allProducts"
+              value={JSON.stringify(item)}
+            />
           ))}
         </form>
       </div>
@@ -226,16 +213,16 @@ export default function CheckoutPage({ cartItems }) {
               />
               <div className={styles.productDetails}>
                 <h5>{item.name}</h5>
-                <p>Size: {item.size}</p>
-                <p>Qty: {item.quantity}</p>
-                <p className={{ fontWeight: "700" }}>EGP {item.price}</p>
-                {item.quantity > 1 ? (
-                  <p style={{ fontWeight: "700", color:"#ff5f5f" }}>
-                    EGP {(Number(item.price.replace(/,/g, "")) * item.quantity).toLocaleString()}
-                  </p>
-                ) : (
-                  ""
-                )}
+                <p>Size: {item.size} • Qty: {item.quantity}</p>
+                
+                <div className={styles.priceContainer}>
+                  <span className={styles.itemPrice}>EGP {item.price}</span>
+                  {item.quantity > 1 && (
+                    <span className={styles.itemTotalPrice}>
+                      Total: EGP {(Number(item.price.replace(/,/g, "")) * item.quantity).toLocaleString()}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -252,10 +239,11 @@ export default function CheckoutPage({ cartItems }) {
           </div>
           <div className={`${styles.totalRow} ${styles.grandTotal}`}>
             <span>Total</span>
-            <span>EGP {total.toLocaleString()}</span>
+            <span className={styles.totalAmount}>EGP {total.toLocaleString()}</span>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
