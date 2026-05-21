@@ -36,27 +36,26 @@ const LoginPage = () => {
                 className={styles.userIcon}
               />
             </div>
-            <h2 className="text-center mb-4 fw-bold">تسجيل الدخول</h2>
+            <h2 className="text-center mb-4 fw-bold">Sign In</h2>
             <p className="text-center text-muted mb-4">
-              ادخل بياناتك للوصول إلى حسابك الرياضي
+              Enter your details to access your athletic account
             </p>
 
-            {/* هنا نربط الفورم بالأكشن مباشرة */}
             <form
               action={formAction}
               onClick={(e) => e.stopPropagation()}
               noValidate
             >
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>البريد الإلكتروني</Form.Label>
+                <Form.Label style={{color:"#ffffff80"}}>Email Address</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faEnvelope} />
                   </InputGroup.Text>
                   <Form.Control
                     name="email"
-                    // type="email"
-                    placeholder="example@mail.com"
+                    type="email"
+                    placeholder="name@example.com"
                     required
                     className={styles.inputField}
                   />
@@ -64,15 +63,15 @@ const LoginPage = () => {
               </Form.Group>
 
               <Form.Group className="mb-4" controlId="formBasicPassword">
-                <Form.Label>كلمة المرور</Form.Label>
+                <Form.Label style={{color:"#ffffff80"}}>Password</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faLock} />
                   </InputGroup.Text>
                   <Form.Control
-                    name="password" // مهم جداً للـ Server Action
+                    name="password"
                     type="password"
-                    placeholder="******"
+                    placeholder="••••••••"
                     required
                     className={styles.inputField}
                   />
@@ -84,16 +83,16 @@ const LoginPage = () => {
                 type="submit"
                 className={styles.loginButton}
               >
-                تسجيل الدخول الآن
+                Sign In Now
               </Button>
             </form>
             {state?.message && (
               <p className="text-danger text-center mt-3">{state.message}</p>
             )}
             <div className="text-center mt-4">
-              <span className="text-muted">ليس لديك حساب؟ </span>
+              <span className="text-muted">Don&apos;t have an account? </span>
               <Link href="/register" className={styles.signUpLink}>
-                أنشئ حساباً جديداً
+                Create New Account
               </Link>
             </div>
           </Card.Body>
@@ -102,4 +101,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;

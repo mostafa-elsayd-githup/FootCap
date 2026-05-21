@@ -1,125 +1,157 @@
-/* app/register/register.module.css */
-
 .mainWrapper {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #3a3b3c 50%, #070707 100%);
+    background-size: 400% 400%; 
+    animation: premiumFlow 12s ease infinite; 
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@keyframes premiumFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position:  0% 50%; }
+}
+.loginCard {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+  transform: translateY(10px);
+  opacity: 0;
+  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.cardBody {
+  padding: 40px 30px !important;
+}
+.iconWrapper {
+  width: 64px;
+  height: 64px;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-/* staer-loader */
+
+.userIcon {
+  font-size: 24px;
+  color: #ffffff;
+}
+.inputGroupCustom {
+  background: 11111 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.inputGroupCustom:focus-within {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.06);
+}
+
+.iconBg {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  padding-left: 16px !important;
+  padding-right: 10px !important;
+}
+
+.customControl {
+  background: transparent !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  padding: 12px 12px 12px 0 !important;
+  box-shadow: none !important;
+}
+
+.customControl::placeholder {
+  color: #ffffff88 
+}
+.loginButton {
+  width: 100%;
+  background: #ffffff !important;
+  color: #0d0d11 !important;
+  border: none !important;
+  padding: 12px !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  letter-spacing: 0.5px;
+  margin-top: 10px;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
+.loginButton:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.15);
+}
+
+.loginButton:active {
+  transform: translateY(0);
+}
+.signUpLink {
+  color: #0070f3 !important;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.signUpLink:hover {
+  color: #3291ff !important;
+  text-decoration: underline !important;
+}
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--text-fetch);
+  background: rgba(13, 13, 17, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 10;
-  pointer-events: none;
+  align-items: center;
+  z-index: 9999;
 }
 
 .halfCircleLoader {
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   border: 3px solid transparent;
-  border-right-color: var(--bg-main);
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* end-loader */
-.loginCard {
-  width: 100%;
-  max-width: 450px;
-  border: none;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  background-color: #fff;
-}
-
-.cardBody {
-  padding: 2.5rem 2rem !important;
-}
-
-.iconWrapper {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.userIcon {
-  font-size: 3.5rem;
-  color: #212529; /* لون رياضي وقوي */
-}
-
-.inputGroupCustom {
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid #ced4da;
-}
-
-.iconBg {
-  background-color: #f8f9fa;
-  border: none;
-  color: #6c757d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 45px;
-}
-
-.inputField {
-  padding: 0.75rem;
-  border: none;
-}
-
-.inputField:focus {
-  box-shadow: none;
-  outline: none;
-}
-
-.loginButton {
-  width: 100%;
-  padding: 0.8rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border-radius: 10px;
-  background-color: #212529;
-  border: none;
-  margin-top: 1rem;
-  transition: all 0.3s ease;
-}
-
-.loginButton:hover {
-  background-color: #000;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.signUpLink {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.signUpLink:hover {
-  text-decoration: underline;
-}
-/* ✅ صح: كدة التنسيق هيطبق على أي label جوه الـ mainWrapper فقط */
-.mainWrapper label {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #495057;
+  to { transform: rotate(360deg); }
 }

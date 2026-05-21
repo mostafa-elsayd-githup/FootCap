@@ -12,35 +12,39 @@ import Link from "next/link";
 import { registerAction } from "./action";
 import { useActionState } from "react";
 
-
 const RegisterPage = () => {
   const [state, formAction, pending] = useActionState(registerAction, {
     message: "",
     state: null,
   });
+
   return (
     <div className={styles.mainWrapper}>
-          {/* loader */}
-          {pending && (
-            <div className={styles.overlay}>
-              <div className={styles.halfCircleLoader}></div>
-            </div>
-          )}
+
+      {pending && (
+        <div className={styles.overlay}>
+          <div className={styles.halfCircleLoader}></div>
+        </div>
+      )}
+
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
       >
         <Card className={styles.loginCard}>
           <Card.Body className={styles.cardBody}>
+  
             <div className={styles.iconWrapper}>
               <FontAwesomeIcon icon={faUserPlus} className={styles.userIcon} />
             </div>
-            <h2 className="text-center mb-4 fw-bold">إنشاء حساب جديد</h2>
+
+            <h2 className="text-center mb-2 fw-bold text-muted">Create Account</h2>
+            <p className="text-center text-muted small mb-4">Get started with your athletic account</p>
 
             <form action={formAction} onClick={(e) => e.stopPropagation()} noValidate>
+      
               <Form.Group className="mb-3">
-                {/* name */}
-                <Form.Label>الاسم بالكامل</Form.Label>
+                <Form.Label className="text-white-50 small fw-semibold">Full Name</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faUser} />
@@ -48,33 +52,32 @@ const RegisterPage = () => {
                   <Form.Control
                     name="name"
                     type="text"
-                    placeholder="اسمك الثلاثي"
+                    placeholder="John Doe"
                     required
+                    className={styles.customControl}
                   />
                 </InputGroup>
               </Form.Group>
-              {/* mail */}
               <Form.Group className="mb-3">
-                <Form.Label>البريد الإلكتروني</Form.Label>
+                <Form.Label className="text-white-50 small fw-semibold">Email Address</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faEnvelope} />
                   </InputGroup.Text>
-                  {state?.messageemail&&(
-                    <p>{state.messageemail}</p>
-                  )}
                   <Form.Control
                     name="email"
-                    // type="email"
-                    placeholder="example@mail.com"
+                    type="email"
+                    placeholder="name@example.com"
                     required
+                    className={styles.customControl}
                   />
                 </InputGroup>
+                {state?.messageemail && (
+                  <p className="text-danger small mt-1 JSON_error">{state.messageemail}</p>
+                )}
               </Form.Group>
-
-              {/* password*/}
               <Form.Group className="mb-4">
-                <Form.Label>كلمة المرور</Form.Label>
+                <Form.Label className="text-white-50 small fw-semibold">Password</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faLock} />
@@ -82,28 +85,29 @@ const RegisterPage = () => {
                   <Form.Control
                     name="password"
                     type="password"
-                    placeholder="أدخل كلمة مرور قوية"
+                    placeholder="••••••••"
                     required
+                    className={styles.customControl}
                   />
                 </InputGroup>
               </Form.Group>
-
               <Button
                 variant="dark"
                 type="submit"
                 className={styles.loginButton}
+                disabled={pending}
               >
-                اشترك الآن
+                {pending ? "Creating Account..." : "Sign Up Now"}
               </Button>
+
               {state?.message && (
-                <p className="text-danger text-center mt-3">{state.message}</p>
+                <p className="text-danger text-center small mt-3 fw-medium">{state.message}</p>
               )}
             </form>
-
             <div className="text-center mt-4">
-              <span className="text-muted">لديك حساب بالفعل؟ </span>
+              <span className="text-white-50 small">Already have an account? </span>
               <Link href="/login" className={styles.signUpLink}>
-                تسجيل الدخول
+                Sign In
               </Link>
             </div>
           </Card.Body>
