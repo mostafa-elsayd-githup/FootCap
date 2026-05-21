@@ -2,14 +2,14 @@
 import styles from "./Products.module.css";
 import { Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons"; // قلب فارغ (Regular)
-import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons"; // قلب ممتلئ (Solid)
-import { faBagShopping } from "@fortawesome/free-solid-svg-icons"; // شنطة تسوق (Solid)
-import { useActionState, useState, useEffect} from "react";
+import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons"; 
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons"; 
+import { useActionState, useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { handelAction } from "./wishliestAction";
 import Link from "next/link";
 import { useOpneing } from "../RTK/storcontext";
+
 function Products({ wishlist }) {
   const [typeButton, settypeButoon] = useState("");
   const intialstate = { massage: "", state: null };
@@ -19,9 +19,9 @@ function Products({ wishlist }) {
   );
 
   const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
+
   useEffect(() => {
     if (state?.wishliststate !== undefined && state?.wishliststate === true) {
-      console.log("minidrop_client", state.wishliststate);
       setisfevorite(state.wishliststate);
       const Toast = Swal.mixin({
         toast: true,
@@ -32,75 +32,53 @@ function Products({ wishlist }) {
 
       Toast.fire({
         icon: "success",
-        title: state.wishliststate && "Removed from Wishlist",
+        title: "Removed from Wishlist",
       });
     }
   }, [setisfevorite, state?.wishliststate]);
+
   return (
-    <div>
-      <div className={styles.wishlist_page}>
-        {/* loader */}
-        {pending && (
-          <div className={styles.overlay_loader}>
-            <div className={styles.halfCircleLoader}></div>
-          </div>
-        )}
-        <h2 className={styles.bag_title}>
-          wishlist
-          <span className={styles.item_count}>
-            ({wishlist?.length} Unreserved Item)
-          </span>
-        </h2>
+    <div className={styles.wishlist_page}>
+  
+      {pending && (
+        <div className={styles.overlay_loader}>
+          <div className={styles.halfCircleLoader}></div>
+        </div>
+      )}
+      <h2 className={styles.bag_title}>
+        Wishlist
+        <span className={styles.item_count}>
+          ({wishlist?.length || 0} Items)
+        </span>
+      </h2>
 
-        {wishlist.length > 0 ? (
-          <div className={styles.wishlist_grid}>
-            {wishlist.map((product) => (
-              <Card className={styles.card} key={product.id}>
-                <div className={styles.image_container}>
-                  <Card.Img
-                    name="image"
-                    className={styles.image}
-                    src={product.image}
-                    alt={product.name}
-                  />
-                  <form
-                    action={formAction}
-                    onClick={(e) => e.stopPropagation()}
-                    className={styles.overlay}
-                  >
+      {wishlist && wishlist.length > 0 ? (
+        <div className={styles.wishlist_grid}>
+          {wishlist.map((product) => (
+            <Card className={styles.card} key={product.id}>
+
+              <div className={styles.image_container}>
+                {product.Inventory === 0 ? (
+                  <span className={`${styles.stock_badge} ${styles.out_stock}`}>OUT OF STOCK</span>
+                ) : product.Inventory <= 5 ? (
+                  <span className={`${styles.stock_badge} ${styles.low_stock}`}>LOW STOCK</span>
+                ) : null}
+
+                <Card.Img
+                  className={styles.image}
+                  src={product.image}
+                  alt={product.name}
+                />
+                <div className={styles.action_overlay}>
+                  <form action={formAction} className="d-flex flex-column gap-2">
                     <input type="hidden" name="id" value={product.id || ""} />
-                    <input
-                      type="hidden"
-                      name="name"
-                      value={product.name || ""}
-                    />
-                    <input
-                      type="hidden"
-                      name="price"
-                      value={product.price || ""}
-                    />
-                    <input
-                      type="hidden"
-                      name="image"
-                      value={product.image || ""}
-                    />
-                    <input
-                      type="hidden"
-                      name="image_url"
-                      value={product.image_url || ""}
-                    />
-
-                    <input
-                      type="hidden"
-                      name="old_price"
-                      value={product.old_price || ""}
-                    />
-                    <input
-                      type="hidden"
-                      name="category"
-                      value={product.category || ""}
-                    />
-                    {product.sizes?.map((item, index) => (
+                    <input type="hidden" name="name" value={product.name || ""} />
+                    <input type="hidden" name="price" value={product.price || ""} />
+                    <input type="hidden" name="image" value={product.image || ""} />
+                    <input type="hidden" name="image_url" value={product.image_url || ""} />
+                    <input type="hidden" name="old_price" value={product.oldPrice || ""} />
+                    <input type="hidden" name="category" value={product.category || ""} />
+                    {product.size?.map((item, index) => (
                       <input
                         key={index}
                         type="hidden"
@@ -108,105 +86,69 @@ function Products({ wishlist }) {
                         value={item || ""}
                       />
                     ))}
-                    <input
-                      type="hidden"
-                      name="intent"
-                      value={typeButton || ""}
-                    />
-                    <button
-                      disabled={pending}
-                      name="intent"
-                      onClick={() => settypeButoon("wishlist")}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        padding: 0,
-                        cursor: "pointer",
-                        color: "#000",
-                        opacity: pending ? 0.1 : 1,
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        className={styles.Heart_icon}
-                        icon={fasHeart}
-                      />
-                    </button>
+                    <input type="hidden" name="intent" value={typeButton || ""} />
                     <button
                       type="submit"
                       disabled={pending}
-                      onMouseDown={() => {
+                      onClick={() => settypeButoon("wishlist")}
+                      className={`${styles.icon_btn} ${styles.heart_btn}`}
+                      title="Remove from wishlist"
+                    >
+                      <FontAwesomeIcon icon={fasHeart} />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={pending}
+                      onClick={() => {
                         setIsOpen(true);
                         setSelectedProduct(product);
                       }}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        padding: 0,
-                        cursor: "pointer",
-                        color: "#000",
-                        opacity: pending ? 0.1 : 1,
-                      }}
+                      className={`${styles.icon_btn} ${styles.cart_btn}`}
+                      title="Quick Add to Bag"
                     >
-                      <FontAwesomeIcon
-                        icon={faBagShopping}
-                        className={styles.Shopping_icon}
-                      />
+                      <FontAwesomeIcon icon={faBagShopping} />
                     </button>
                   </form>
                 </div>
-                <Card.Body className="p-3">
-                  {product.Inventory === 0 ? (
-                    <span className={styles.little}>
-                      <span className={styles.word}>OUT</span>
-                    </span>
-                  ) : product.Inventory <= 5 ? (
-                    <span className={styles.little}>
-                      <span className={styles.word}>LOW</span>
-                    </span>
-                  ) : null}
-                  <Link
-                    href={`/Components/what_is_hot_componante/terrex/${product.id}`}
-                  >
-                    <h5 className={styles.name}>{product.name}</h5>
-                  </Link>
-                  {/* price*/}
-                  <span
-                    className={`${styles.price} ${
-                      product.oldPrice ? styles.price_red : ""
-                    }`}
-                  >
+              </div>
+              <Card.Body className={styles.card_body}>
+                <Link href={`/Components/what_is_hot_componante/terrex/${product.id}`} className={styles.name_link}>
+                  <h5 className={styles.name}>{product.name}</h5>
+                </Link>
+                
+                <p className={styles.category}>{product.category}</p>
+
+                <div className={styles.price_container}>
+                  <span className={`${styles.price} ${product.oldPrice ? styles.price_red : ""}`}>
                     EGP {product.price}
                   </span>
                   {product.oldPrice && (
-                    <>
-                      <span className={styles.old_price}>
-                        EGP {product.oldPrice}
-                      </span>
-                      <input
-                        type="hidden"
-                        name="old_price"
-                        value={product.oldPrice}
-                      />
-                    </>
+                    <span className={styles.old_price}>
+                      EGP {product.oldPrice}
+                    </span>
                   )}
-                  <p className={styles.category}>{product.category}</p>
-                  <p className={styles.colors}>
-                    {product.url?.length ? `Colors: ${product.url.length}` : ""}
-                  </p>
-                  <p className={styles.made}>
-                    {product.made ? product.made : ""}
-                  </p>
-                </Card.Body>
-              </Card>
-            ))}
+                </div>
+
+                {product.url?.length > 0 && (
+                  <p className={styles.colors}>Colors: {product.url.length}</p>
+                )}
+                {product.made && <p className={styles.made}>{product.made}</p>}
+              </Card.Body>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className={styles.empty_state}>
+          <div className={styles.empty_icon_wrapper}>
+            <FontAwesomeIcon icon={fasHeart} className={styles.empty_heart} />
           </div>
-        ) : (
-          <div className={styles.empty_state}>
-            <h3>YOUR WISHLIST IS EMPTY</h3>
-            <p>Items added to your wishlist will be saved here.</p>
-          </div>
-        )}
-      </div>
+          <h3>YOUR WISHLIST IS EMPTY</h3>
+          <p>Items added to your wishlist will be saved here so you can buy them later.</p>
+          <Link href="/" className={styles.shop_now_btn}>
+            CONTINUE SHOPPING
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

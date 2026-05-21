@@ -72,7 +72,7 @@
 }
 
 .inputField::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color:var(--color-secondary);
 }
 
 .inputField:focus {

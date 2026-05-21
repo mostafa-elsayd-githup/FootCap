@@ -3202,7 +3202,7 @@
       "name": "Dropset 3 Training حذاء",
       "category": "Gym & Training (Man)",
       "type": "GEM",
-      "price": "949900",
+      "price": "2000",
       "gender": "men",
       "colors": 7,
       "sizes": [
@@ -3224,7 +3224,12 @@
         }
       ],
       "rating": 4.5,
-      "description": "تيشيرت تدريب خفيف ومريح مناسب للچيم"
+      "description": "Light and comfortable training t-shirt suitable for gym",
+      "oldPrice": "5000",
+      "stock": "150",
+      "image3": null,
+      "image4": null,
+      "video": null
     },
     {
       "id": "155",
@@ -6431,7 +6436,7 @@
       ],
       "image": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/024221c4fcaa43b49dfa173ca301eaac_9366/JN2075_21_model.jpg",
       "image_Hover": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/5dcc573c17ec4f57b5cc53c310b99565_9366/JN2075_23_hover_model.jpg",
-      "image3": "https://assets.adidas.com/videos/ar_1,w_720,c_fill,q_auto,f_auto/45ae7739f90940a39352f6a47eeccf8f_d98c/JN2075_product_video.mp4",
+      "video": "https://assets.adidas.com/videos/ar_1,w_720,c_fill,q_auto,f_auto/45ae7739f90940a39352f6a47eeccf8f_d98c/JN2075_product_video.mp4",
       "image4": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/32d75f9d97c54d2cb20b5a92008fab27_9366/JN2075_25_model.jpg",
       "url": [],
       "rating": 4.3,
@@ -8693,5 +8698,10 @@
   ],
   "products_child_section": [],
   "user_statistics": [],
-  "feedback": []
+  "feedback": [
+    {
+      "id": "1e36",
+      "comment": "kkkkkkkkkkkkkkkkkkkk"
+    }
+  ]
 }

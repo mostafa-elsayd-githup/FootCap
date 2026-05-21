@@ -1,116 +1,257 @@
-/* staer-loader */
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--text-fetch);
+  background-color: rgba(var(--bg-main-rgb, 0, 0, 0), 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10;
+  z-index: 100;
   pointer-events: none;
+  border-radius: 20px;
 }
 
 .halfCircleLoader {
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   border: 3px solid transparent;
-  border-right-color: var(--color-primary);
+  border-right-color: var(--color-primary, #ffffff);
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
   to {
     transform: rotate(360deg);
   }
 }
-/* end-loader */
 .profileWrapper {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-primary, #0a0a0a);
   min-height: 100vh;
-  margin-top: 50px;
+  margin-top: 60px;
+  padding-top: 20px;
+  color: var(--color-primary, #ffffff);
+  font-family: "AdihausDIN", Arial, sans-serif;
+}
+.sideCard {
+  background: var(--bg-main, #121214);
+  border: 1px solid rgba(var(--color-primary-rgb, 255, 255, 255), 0.06);
+  border-radius: 24px;
+  padding: 35px 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 100px;
 }
 
-.sideCard,
-.mainCard,
-.statCard {
-  border-radius: 15px;
-  box-shadow: 0 4px 15px #0000000d;
-  border: 1px solid var(--border-color);
-}
-.mainCard {
-  background: var(--bg-main);
-  color: var(--color-primary);
+.avatarContainer {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 20px auto;
 }
 
-.card_body {
-  background: var(--bg-main);
-  color: var(--color-primary);
-  text-align: center;
-  border: 1px solid var(--border-color);
-  border-radius: 15px;
-
-  .editbut {
-    background: var(--bg-main);
-    color: var(--color-primary);
-    width: 100%;
-    margin: 4px 0;
-  }
-}
 .avatarWrapper {
-  width: 100px;
-  height: 100px;
-  background-color: var(--bg-primary);
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--color-primary-rgb, 255, 255, 255), 0.04);
+  border: 1px solid var(--color-secondary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
+  transition: all 0.3s ease;
 }
 
 .avatarIcon {
-  font-size: 3rem;
+  font-size: 2.5rem;
+  color: var(--color-primary, #ffffff);
+}
+
+.onlineBadge {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 14px;
+  height: 14px;
+  background-color: #00cc66;
+  border: 3px solid var(--bg-main, #121214);
+  border-radius: 50%;
+}
+
+.userName {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.userRole {
+  font-size: 12px;
+  color: var(--color-secondary, #888888);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: 600;
+}
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.editbut {
+  background: var(--color-primary, #ffffff);
+  color: var(--bg-main, #000000) !important;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  width: 100%;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.editbut:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.logoutbut {
+  background: transparent;
+  color: #e41e3f !important;
+  border: 1px solid rgba(228, 30, 63, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.logoutbut:hover {
+  background: rgba(228, 30, 63, 0.08);
+  border-color: #e41e3f;
+}
+.statCard {
+  background: var(--bg-main, #121214);
+  border: 1px solid rgba(var(--color-primary-rgb, 255, 255, 255), 0.06);
+  border-radius: 20px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--color-primary-rgb, 255, 255, 255), 0.15);
 }
 
 .statIconBox {
-  width: 50px;
-  height: 50px;
-  background-color: var(--bg-primary);
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(var(--color-primary-rgb, 255, 255, 255), 0.04);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: var(--color-primary);
+  color: var(--color-primary, #ffffff);
 }
-.inputs {
-  padding: 0.75rem 1rem 0.75rem 1rem;
-  background: var(--bg-main);
-  color: var(--color-primary);
-  border: 1px solid var(--border-color);
-}
+
 .heartIcon {
-  color: var(--color-primary);
-  background-color: var(--bg-primary);
+  color: #ff3b30;
+  background-color: rgba(255, 59, 48, 0.05);
 }
 
-.statCard {
-  transition: transform 0.2s ease;
-  cursor: pointer;
+.statLabel {
+  font-size: 13px;
+  color: var(--color-secondary, #888888);
+  display: block;
+  margin-bottom: 2px;
 }
 
-.statCard:hover {
-  transform: translateY(-5px);
+.statValue {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: 0;
 }
-.Buttons {
+.mainCard {
+  background: var(--bg-main, #121214);
+  border: 1px solid rgba(var(--color-primary-rgb, 255, 255, 255), 0.06);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeaderCustom {
+  padding: 24px 30px;
+  border-bottom: 1px solid rgba(var(--color-primary-rgb, 255, 255, 255), 0.06);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  background: var(--bg-main);
-  color: var(--color-primary);
+}
+
+.infoList {
+  padding: 10px 30px;
+}
+
+.infoRow {
+  display: flex;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--color-secondary);
+  align-items: center;
+}
+
+.infoRow:last-child {
+  border-bottom: none;
+}
+
+.infoLabel {
+  width: 30%;
+  font-size: 14px;
+  color: var(--color-secondary, #888888);
+  font-weight: 500;
+}
+
+.infoValue {
+  width: 70%;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-primary, #ffffff);
+}
+@media (max-width: 768px) {
+  .sideCard {
+    position: relative;
+    top: 0;
+    padding: 25px 20px;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 16px 0;
+  }
+
+  .infoLabel,
+  .infoValue {
+    width: 100%;
+  }
+
+  .cardHeaderCustom {
+    padding: 20px;
+  }
+
+  .infoList {
+    padding: 0 20px;
+  }
 }

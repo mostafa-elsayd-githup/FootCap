@@ -11,28 +11,35 @@ function ProfilePage({ users }) {
     day: "numeric",
   });
   const [buttontype, setbuttontype] = useState("");
-  const initialstate = { messgae: "", state: null };
+  const initialstate = { message: "", state: null };
   const [state, formAction, pending] = useActionState(logoutfun, initialstate);
 
   return (
     <>
       <div className={styles.profileWrapper}>
-        {/* loader */}
         {pending && (
           <div className={styles.overlay}>
             <div className={styles.halfCircleLoader}></div>
           </div>
         )}
-         <div className="container py-5">
-           <div className="row justify-content-center">
-             <div className="col-md-4 mb-4">
-              <div className={`card ${styles.sideCard}`}>
-                <div className={`card-body text-center ${styles.card_body}`}>
+
+        <div className="container py-5">
+          <div className="row g-4 justify-content-center">
+            <div className="col-lg-4 col-md-5">
+              <div className={styles.sideCard}>
+                <div className={styles.card_body}>
                   <form action={formAction} onClick={(e) => e.preventDefault}>
-                    <div className={styles.avatarWrapper}>
-                      <i className={`fa-solid fa-user ${styles.avatarIcon}`}></i>
+                    <div className={styles.avatarContainer}>
+                      <div className={styles.avatarWrapper}>
+                        <i
+                          className={`fa-solid fa-user ${styles.avatarIcon}`}
+                        ></i>
+                      </div>
+                      <div className={styles.onlineBadge}></div>
                     </div>
-                    <h4 className="fw-bold mt-3">{users.name}</h4>
+
+                    <h3 className={styles.userName}>{users.name}</h3>
+                    <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
                     <input type="hidden" name="id" value={users.id} />
@@ -43,16 +50,18 @@ function ProfilePage({ users }) {
                       value={users.joinDate}
                     />
                     <input type="hidden" name="email" value={users.email} />
-                    <div className="d-grid gap-2">
+
+                    <div className={styles.actionButtons}>
                       <button
                         onMouseDown={() => setbuttontype("edit")}
-                        className={`btn btn-outline-dark btn-sm ${styles.editbut}`}
+                        className={styles.editbut}
                       >
                         <i className="fa-solid fa-pen-to-square me-2"></i> Edit
                         Profile
                       </button>
+
                       <button
-                        className="btn btn-danger btn-sm opacity-75"
+                        className={styles.logoutbut}
                         onMouseDown={() => setbuttontype("logout")}
                       >
                         <i className="fa-solid fa-right-from-bracket me-2"></i>{" "}
@@ -63,69 +72,59 @@ function ProfilePage({ users }) {
                 </div>
               </div>
             </div>
-
-             <div className="col-md-8">
-              <div className={`card ${styles.mainCard}`}>
-                 <div className="card-header py-3">
-                 <h5 className="mb-0 fw-bold">Account Information</h5>
-                </div>
-                <ul className="list-group list-group-flush">
-                  <li className={`list-group-item py-3 ${styles.inputs}`}>
-                     <div className="row">
-                       <div className="col-4 ">Full Name</div>
-                       <div className="col-8 fw-semibold">{users.name}</div>
-                    </div>
-                  </li>
-                  <li className={`list-group-item py-3 ${styles.inputs}`}>
-                     <div className="row">
-                       <div className="col-4 ">Email Address</div>
-                       <div className="col-8 fw-semibold">{users.email}</div>
-                    </div>
-                  </li>
-                  <li className={`list-group-item py-3 ${styles.inputs}`}>
-                     <div className="row">
-                       <div className="col-4 ">Joined</div>
-                       <div className="col-8 fw-semibold">{date}</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-
-               <div className="row mt-4">
-                 <div className="col-sm-6 mb-3">
-                  <div className={`card h-100 ${styles.statCard}`}>
-                    <div
-                      className={`card-body d-flex align-items-center ${styles.Buttons}`}
-                    >
+            <div className="col-lg-8 col-md-7">
+              <div className={styles.mainContentLayout}>
+                <div className="row g-3 mb-4">
+                  <div className="col-sm-6">
+                    <div className={styles.statCard}>
                       <div className={styles.statIconBox}>
-                        <i  className="fa-solid fa-bag-shopping"></i>
+                        <i className="fa-solid fa-bag-shopping"></i>
                       </div>
-                       <div className="ms-3">
-                        <h6  className="mb-0">Orders</h6>
-                        <span className="fw-bold h5">
-                          {users.order?.length}
-                        </span>
+                      <div className="ms-3">
+                        <span className={styles.statLabel}>Total Orders</span>
+                        <h4 className={styles.statValue}>
+                          {users.order?.length || 0}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-sm-6">
+                    <div className={styles.statCard}>
+                      <div
+                        className={`${styles.statIconBox} ${styles.heartIcon}`}
+                      >
+                        <i className="fa-solid fa-heart"></i>
+                      </div>
+                      <div className="ms-3">
+                        <span className={styles.statLabel}>Saved Items</span>
+                        <h4 className={styles.statValue}>
+                          {users.wishlist?.length || 0}
+                        </h4>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div className={styles.mainCard}>
+                  <div className={styles.cardHeaderCustom}>
+                    <h5 className="mb-0 fw-bold">Account Information</h5>
+                    <i className="fa-solid fa-shield-halved"></i>
+                  </div>
 
-                 <div className="col-sm-6 mb-3">
-                  <div className={`card h-100 ${styles.statCard}`}>
-                    <div
-                      className={`card-body d-flex align-items-center ${styles.Buttons}`}
-                    >
-                      <div className={`${styles.statIconBox} ${styles.heartIcon}`}>
-                        <i  className="fa-solid fa-heart"></i>
-                      </div>
-                       <div className="ms-3">
-                        <h6  className="mb-0 ">Wishlist</h6>
-                        <span className="fw-bold h5">
-                          {/* {User_statistics.wishlist?.length} */}
+                  <div className={styles.infoList}>
+                    <div className={styles.infoRow}>
+                      <div className={styles.infoLabel}>Full Name</div>
+                      <div className={styles.infoValue}>{users.name}</div>
+                    </div>
 
-                          {users.wishlist?.length}
-                        </span>
-                      </div>
+                    <div className={styles.infoRow}>
+                      <div className={styles.infoLabel}>Email Address</div>
+                      <div className={styles.infoValue}>{users.email}</div>
+                    </div>
+
+                    <div className={styles.infoRow}>
+                      <div className={styles.infoLabel}>Joined Since</div>
+                      <div className={styles.infoValue}>{date}</div>
                     </div>
                   </div>
                 </div>
