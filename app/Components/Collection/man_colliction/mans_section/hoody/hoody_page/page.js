@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
 import NotFoundComponent from "../NotFoundComponent";
 import NavAction from "../../../../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
+import MiniDrowp from "../../../shrat_clube_pages/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 async function getWishlist() {
@@ -78,7 +78,7 @@ async function Product({searchParams}) {
           <h1 className={styles.title}>
             Adidaes Running Collection{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
-              [ {data.length} ]
+              ( {data.length} )
             </span>
           </h1>
         </div>
