@@ -16,8 +16,6 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 const SingleProduct = ({ productItem, isfevorite }) => {
-  console.log(parseFloat(productItem.price));
-
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem.image);
   const initialState = { message: "", wishliststate: null };

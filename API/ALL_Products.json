@@ -3,7 +3,7 @@
     {
       "id": "1778512256812",
       "name": "مصطفى ",
-      "email": "mo@gamil.com",
+      "email": "mo@gmail.com",
       "password": "123456789",
       "role": "user",
       "createdAt": "2026-05-11T15:10:56.813Z",
@@ -1263,7 +1263,7 @@
         "L",
         "XL"
       ],
-      "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/1aed6030e5ed4243905b022b2c377d2f_9366/IT8513_000_plp_model.jpg",
+      "image":"https://assets.adidas.com/images/w_450,f_auto,q_auto/1aed6030e5ed4243905b022b2c377d2f_9366/IT8513_000_plp_model.jpg",
       "image_Hover": "https://assets.adidas.com/images/w_450,f_auto,q_auto/f60b0bbccc7340b9af1b896438efba5c_9366/IT8513_23_hover_model.jpg",
       "url": [],
       "rating": 4.5,
