@@ -22,6 +22,8 @@ import { useOpneing } from "../../../RTK/storcontext";
 import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 export default function Products({ fillWidth, product, isfevorite }) {
+  console.log(product.id);
+  
   const Router = useRouter();
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
@@ -43,7 +45,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
       });
@@ -58,7 +60,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
     if (state?.cardState !== undefined && state?.cardState !== null) {
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timerProgressBar: true,
         timer: 2000,
@@ -151,7 +153,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 <span className={styles.old_price}> {oldprice}</span>
               </span>
             ) : (
-              <p className={styles.price}>EGP {product.price}</p>
+              <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
               {product.url.length} colours available

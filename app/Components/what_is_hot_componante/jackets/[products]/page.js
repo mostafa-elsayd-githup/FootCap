@@ -54,7 +54,7 @@ export default async function ProductPage({ params }) {
   return (
     <div className={styles.wrapper}>
       <NavAction />
-      {isfevorites = !!wishlist.wishlist.some((wish) => wish.id === products.id)}
+      {isfevorites = !!wishlist?.wishlist.some((wish) => wish.id === products.id)}
       <Products
         fillWidth={fillWidths}
         product={products}

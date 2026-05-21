@@ -28,7 +28,7 @@ async function getWishlist() {
 async function getProduct(id) {
   try {
     const res = await fetch(
-      `http://localhost:1200/WHAT'S_HOT_terrex/${id}`,
+      `http://localhost:1200/products/${id}`,
       {
         cache: "no-cache",
       },
@@ -54,7 +54,7 @@ export default async function ProductPage({ params }) {
   return (
     <div className={styles.wrapper}>
       <NavAction />
-      {isfevorites = !!wishlist.wishlist.some((wish) => wish.id === products.id)}
+      {isfevorites = !!wishlist?.wishlist.some((wish) => wish.id === products.id)}
       <Products
         fillWidth={fillWidths}
         product={products}

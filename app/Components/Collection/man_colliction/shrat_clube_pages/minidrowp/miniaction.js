@@ -19,7 +19,6 @@ export default async function handelAction(prevstate, formData) {
   const price = formData.get("price");
   const old_price = formData.get("old_price");
   const category = formData.get("category");
-  // const sizes = formData.getAll("sizes");
   const size = formData.get("size");
   const product = {
     id,
@@ -53,10 +52,10 @@ console.log(product);
 
         if (index !== -1) {
           carts[index].quantity += 1;
-          // console.log("quantity", index);
+
         } else {
           carts.push({ ...product, id: cartitemId, quantity: 1 });
-          // console.log("push", index);
+     
         }
         await fetch(`http://localhost:1200/users/${decryption.id}`, {
           method: "PATCH",
@@ -106,7 +105,7 @@ console.log(product);
         if (exists === true) {
           return { wishliststate: true };
         } else {
-          return { wishliststate: true };
+          return { wishliststate: false };
         }
       }
     } catch {

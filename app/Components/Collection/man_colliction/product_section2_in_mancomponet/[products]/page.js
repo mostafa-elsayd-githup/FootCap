@@ -4,8 +4,8 @@ import Footer from "../../../../../footer/Footre";
 import Products from "./client_component";
 import styles from "./page.module.css";
 import NotFound from "./not-found";
-import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
+import { cookies } from "next/headers";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -24,15 +24,16 @@ async function getWishlist() {
     return [];
   }
 }
+
 async function getProduct(id) {
   try {
     const res = await fetch(
       `http://localhost:1200/products/${id}`,
       {
-        next: { revalidate: 60 }
+        cache: "no-cache",
       },
     );
-    if (!res.ok) return undefined;
+    if (!res.ok) return notd;
     const data = await res.json();
     return data;
   } catch {
@@ -41,18 +42,26 @@ async function getProduct(id) {
 }
 
 export default async function ProductPage({ params }) {
+  
   const resolvedParams = await params;
   const productId = resolvedParams.products;
+  console.log(productId);
+  
   const products = await getProduct(productId);
-  const wishlist = await getWishlist()
+  const wishlist = await getWishlist();
+  
   if (!products) NotFound();
   const fillWidths = (products.rating / 5) * 100;
- var isfevorites = null
+  let isfevorites = null;
   return (
     <div className={styles.wrapper}>
       <NavAction />
-      {isfevorites =!!wishlist.wishlist.some((wish)=> wish.id === products.id )}
-      <Products fillWidth={fillWidths} product={products} isfevorite={isfevorites} />
+      {isfevorites = !!wishlist?.wishlist.some((wish) => wish.id === products.id)}
+      <Products
+        fillWidth={fillWidths}
+        product={products}
+        isfevorite={isfevorites}
+      />
       <Footer />
     </div>
   );

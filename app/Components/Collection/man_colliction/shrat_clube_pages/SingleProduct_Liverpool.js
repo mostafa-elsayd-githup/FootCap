@@ -16,8 +16,6 @@ import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 const SingleProduct = ({ productItem, isfevorite }) => {
-  console.log(parseFloat(productItem.price));
-
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem.image);
   const initialState = { message: "", wishliststate: null };
@@ -51,7 +49,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-end",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
@@ -144,7 +142,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
               setActionTypeState("eye");
               if (!pending) {
                 Router.push(
-                  `/Components/Collection/man_colliction/shrat_clube_pages/${productItem.id}`,
+                  `/Components/Hero/${productItem.id}`,
                 );
               }
             }}
@@ -221,7 +219,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
               <Link
-                href={`/Components/Collection/man_colliction/shrat_clube_pages/${style.id}`}
+                href={`/Components/Hero/${style.id}`}
               >
                 <Card.Img
                   variant="top"
@@ -235,7 +233,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
       )}
       <Card.Body className={styles.card_body}>
         <Link
-          href={`/Components/Collection/man_colliction/shrat_clube_pages/${productItem.id}`}
+          href={`/Components/Hero/${productItem.id}`}
         >
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>

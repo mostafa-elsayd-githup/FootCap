@@ -224,7 +224,7 @@ export default function MiniDrowp() {
                   value={actionTypeState || ""}
                 />
                 <button
-                  className={`${styles.addToCartBtn} `}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
                   onMouseDown={() => setActionTypeState("card")}
                 >

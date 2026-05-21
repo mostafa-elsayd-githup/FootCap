@@ -9,6 +9,7 @@ import Footer from "../../../footer/Footre";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { Tag } from "lucide-react";
+import DiscoundComponent from "../../Collection/man_colliction/discound_componente/discounds";
 
 async function getWishlist() {
   const tokenstor = await cookies();
@@ -103,6 +104,7 @@ async function Product({ searchParams }) {
             })}
         </div>
       </div>
+        <DiscoundComponent/>
       <Footer />
     </>
   );

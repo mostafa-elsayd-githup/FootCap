@@ -20,7 +20,10 @@ import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
 import { useOpneing } from "../../../../../RTK/storcontext";
 import Swal from "sweetalert2";
+import { Card } from "react-bootstrap";
 export default function Products({ fillWidth, product, isfevorite }) {
+  console.log(product.id);
+  
   const Router = useRouter();
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
@@ -42,7 +45,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
       });
@@ -57,7 +60,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
     if (state?.cardState !== undefined && state?.cardState !== null) {
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timerProgressBar: true,
         timer: 2000,
@@ -71,6 +74,18 @@ export default function Products({ fillWidth, product, isfevorite }) {
       setisfevorite(false);
     }
   }, [setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(product.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(product.price));
   return (
     <>
       {/* loader */}
@@ -82,7 +97,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
       <div className={styles.container}>
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
-            <img
+            <Card.Img
               src={product.image}
               className={styles.mainImage}
               alt={product.name}
@@ -91,7 +106,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image_Hover ? (
-              <img
+              <Card.Img
                 src={product.image_Hover}
                 className={styles.mainImage}
                 alt={product.name}
@@ -101,7 +116,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image3 ? (
-              <img
+              <Card.Img
                 src={product.image3}
                 className={styles.mainImage}
                 alt={product.name}
@@ -119,7 +134,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image4 && (
-              <img
+              <Card.Img
                 src={product.image4}
                 className={styles.mainImage}
                 alt={product.name}
@@ -134,11 +149,11 @@ export default function Products({ fillWidth, product, isfevorite }) {
             <h1 className={styles.productName}>{product.name}</h1>
             {product.oldPrice ? (
               <span>
-                <span className={styles.price}>EGP {product.price}</span>
-                <span className={styles.oldPrice}>EGP {product.oldPrice}</span>
+                <span className={styles.price_red}>{price}</span>
+                <span className={styles.old_price}> {oldprice}</span>
               </span>
             ) : (
-              <p className={styles.price}>EGP {product.price}</p>
+              <p className={styles.price}>{price}</p>
             )}
             <div className={styles.colors_available}>
               {product.url.length} colours available
@@ -229,6 +244,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
               >
                 <FontAwesomeIcon
                   className={styles.icon}
+                  // استخدم الحالة اللي جاية من الـ Context عشان تفضل متزامنة
                   icon={isfevorite ? fasHeart : farHeart}
                 />
               </button>

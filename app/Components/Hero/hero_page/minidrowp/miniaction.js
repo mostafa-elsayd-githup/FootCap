@@ -19,7 +19,6 @@ export default async function handelAction(prevstate, formData) {
   const price = formData.get("price");
   const old_price = formData.get("old_price");
   const category = formData.get("category");
-  // const sizes = formData.getAll("sizes");
   const size = formData.get("size");
   const product = {
     id,

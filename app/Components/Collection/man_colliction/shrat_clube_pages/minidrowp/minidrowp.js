@@ -16,7 +16,6 @@ export default function MiniDrowp() {
   const Router = useRouter();
   const { isOpen, setIsOpen, selectedProduct, isfevorite, setisfevorite } =
     useOpneing();
-
   const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
@@ -41,26 +40,27 @@ export default function MiniDrowp() {
       });
     }
   }, [state?.tokenstate, Router]);
-useEffect(() => {
-  if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
- 
-    const newFavoriteStatus = !state.wishliststate;
-    
-    setisfevorite(newFavoriteStatus);
+  useEffect(() => {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      const newFavoriteStatus = !state.wishliststate;
 
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-right",
-      showConfirmButton: false,
-      timer: 2000,
-    });
+      setisfevorite(newFavoriteStatus);
 
-    Toast.fire({
-      icon: "success",
-      title: newFavoriteStatus ? "Added to Wishlist" : "Removed from Wishlist",
-    });
-  }
-}, [state?.wishliststate, setisfevorite]);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-left",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: newFavoriteStatus
+          ? "Added to Wishlist"
+          : "Removed from Wishlist",
+      });
+    }
+  }, [state?.wishliststate, setisfevorite]);
 
   useEffect(() => {
     if (state?.cardState !== undefined && state?.cardState !== null) {
@@ -82,6 +82,18 @@ useEffect(() => {
       }, 500);
     }
   }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.price));
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}>
       {pending && (
@@ -89,7 +101,6 @@ useEffect(() => {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-
       {selectedProduct ? (
         <div key={selectedProduct.id} className={styles.container}>
           <div
@@ -150,15 +161,15 @@ useEffect(() => {
               <h1 className={styles.productName}>{selectedProduct.name}</h1>
               {selectedProduct.oldPrice ? (
                 <span>
-                  <span className={styles.price}>
-                    EGP {selectedProduct.price}
+                  <span className={styles.price_red}>
+                     {price}
                   </span>
                   <span className={styles.oldPrice}>
-                    EGP {selectedProduct.oldPrice}
+                     {oldprice}
                   </span>
                 </span>
               ) : (
-                <p className={styles.price}>EGP {selectedProduct.price}</p>
+                <p className={styles.price}>{price}</p>
               )}
               <div className={styles.colors_available}>
                 {selectedProduct.url?.length} colours available
@@ -271,11 +282,9 @@ useEffect(() => {
                   value={actionTypeState || ""}
                 />
                 <button
-                  className={styles.addToCartBtn}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
-                  onClick={() => {
-                    setActionTypeState("card");
-                  }}
+                  onMouseDown={() => setActionTypeState("card")}
                 >
                   ADD TO BAG
                   <span className={styles.arrowIcon}>
@@ -304,9 +313,3 @@ useEffect(() => {
     </div>
   );
 }
-
-
-          // <div
-          //   className={styles.close}
-          //   onClick={() => setIsOpen(false)}
-          // >{`>>`}</div>

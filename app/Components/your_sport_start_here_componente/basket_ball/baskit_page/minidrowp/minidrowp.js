@@ -14,7 +14,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 export default function MiniDrowp() {
   const Router = useRouter();
-  const { isOpen, setIsOpen, selectedProduct, isfevorite, setisfevorite } =
+  const { isOpen, setIsOpen, selectedProduct, setisfevorite, isfevorite } =
     useOpneing();
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
@@ -158,7 +158,7 @@ export default function MiniDrowp() {
                   const ruselt = await CheckCookies();
                   if (ruselt.success) {
                     Router.push(
-                      `/Components/your_sport_start_here_componente/basket_ball/${selectedProduct.id}`,
+                      `/Components/your_sport_start_here_componente/football/${selectedProduct.id}`,
                     );
                   } else {
                     Swal.fire({
@@ -187,32 +187,44 @@ export default function MiniDrowp() {
                 action={formAction}
               >
                 {/*data for ActionFile*/}
-                <input type="hidden" name="id" value={selectedProduct.id} />
+                <input
+                  type="hidden"
+                  name="id"
+                  value={selectedProduct.id || ""}
+                />
                 <input
                   type="hidden"
                   name="image"
-                  value={selectedProduct.image}
+                  value={selectedProduct.image || ""}
                 />
-                <input type="hidden" name="dis" value={selectedProduct.dis} />
-                <input type="hidden" name="name" value={selectedProduct.name} />
+                <input
+                  type="hidden"
+                  name="dis"
+                  value={selectedProduct.dis || ""}
+                />
+                <input
+                  type="hidden"
+                  name="name"
+                  value={selectedProduct.name || ""}
+                />
                 <input
                   type="hidden"
                   name="price"
                   value={selectedProduct.price}
                 />
-                <input type="hidden" name="size" value={selectedSize} />
+                <input type="hidden" name="size" value={selectedSize || ""} />
                 <input
                   type="hidden"
                   name="category"
-                  value={selectedProduct.category}
+                  value={selectedProduct.category || ""}
                 />
                 <input
                   type="hidden"
                   name="actiontype"
-                  value={actionTypeState}
+                  value={actionTypeState || ""}
                 />
                 <button
-                  className={styles.addToCartBtn}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
                   onMouseDown={() => setActionTypeState("card")}
                 >

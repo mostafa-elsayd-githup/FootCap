@@ -79,7 +79,7 @@ async function Product({ searchParams }) {
           <h1 className={styles.title}>
             Gym and Training{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
-              [ {data.length} ]
+              ( {data.length} )
             </span>
           </h1>
         </div>

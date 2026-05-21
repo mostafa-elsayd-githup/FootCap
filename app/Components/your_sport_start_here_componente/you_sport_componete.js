@@ -29,7 +29,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/Components/your_sport_start_here_componente/running/running_page?type=running"
+                  href="/Components/your_sport_start_here_componente/running/running_page?type=Running"
                   className={styles.button}
                 >
                   Running

@@ -48,7 +48,7 @@ export default function MiniDrowp() {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-right",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
       });

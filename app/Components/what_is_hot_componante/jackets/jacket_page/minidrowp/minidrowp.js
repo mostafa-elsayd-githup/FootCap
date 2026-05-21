@@ -1,12 +1,12 @@
 "use client";
 import styles from "./minidrowp.module.css";
+import { Card } from "react-bootstrap";
 import { useOpneing } from "../../../../../RTK/storcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
-import handelAction, { CheckCookies } from "./miniaction";
+import handelAction, { checkCookes } from "./miniaction";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
@@ -16,8 +16,7 @@ export default function MiniDrowp() {
   const Router = useRouter();
   const { isOpen, setIsOpen, selectedProduct, isfevorite, setisfevorite } =
     useOpneing();
-    
-  const initialState = { massage: "", state: null };
+  const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
     initialState,
@@ -26,7 +25,7 @@ export default function MiniDrowp() {
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
   useEffect(() => {
-    if (state?.state === 401) {
+    if (state?.tokenstate === 401) {
       Swal.fire({
         title: "Login Required",
         text: "Please log in to continue. Redirecting...",
@@ -40,7 +39,61 @@ export default function MiniDrowp() {
         },
       });
     }
-  }, [state, Router]);
+  }, [state?.tokenstate, Router]);
+  useEffect(() => {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      const newFavoriteStatus = !state.wishliststate;
+
+      setisfevorite(newFavoriteStatus);
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: newFavoriteStatus
+          ? "Added to Wishlist"
+          : "Removed from Wishlist",
+      });
+    }
+  }, [state?.wishliststate, setisfevorite]);
+
+  useEffect(() => {
+    if (state?.cardState !== undefined && state?.cardState !== null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2000,
+      });
+      const isquantityUpdata = state.type === "quantity";
+      Toast.fire({
+        icon: "success",
+        title: isquantityUpdata ? "quintity +1" : "Added to Cart",
+      });
+      setisfevorite(false);
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 500);
+    }
+  }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(selectedProduct?.price));
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}>
       {pending && (
@@ -48,7 +101,6 @@ export default function MiniDrowp() {
           <div className={styles.halfCircleLoader}></div>
         </div>
       )}
-
       {selectedProduct ? (
         <div key={selectedProduct.id} className={styles.container}>
           <div
@@ -57,7 +109,7 @@ export default function MiniDrowp() {
           >{`>>`}</div>
           <div className={styles.imageGallery}>
             <div className={styles.imageContainer}>
-              <img
+              <Card.Img
                 src={selectedProduct.image}
                 className={styles.mainImage}
                 alt={selectedProduct.name}
@@ -66,7 +118,7 @@ export default function MiniDrowp() {
 
             <div className={styles.imageContainer}>
               {selectedProduct.image_Hover ? (
-                <img
+                <Card.Img
                   src={selectedProduct.image_Hover}
                   className={styles.mainImage}
                   alt={selectedProduct.name}
@@ -76,7 +128,7 @@ export default function MiniDrowp() {
 
             <div className={styles.imageContainer}>
               {selectedProduct.image3 ? (
-                <img
+                <Card.Img
                   src={selectedProduct.image3}
                   className={styles.mainImage}
                   alt={selectedProduct.name}
@@ -94,7 +146,7 @@ export default function MiniDrowp() {
 
             <div className={styles.imageContainer}>
               {selectedProduct.image4 && (
-                <img
+                <Card.Img
                   src={selectedProduct.image4}
                   className={styles.mainImage}
                   alt={selectedProduct.name}
@@ -109,32 +161,18 @@ export default function MiniDrowp() {
               <h1 className={styles.productName}>{selectedProduct.name}</h1>
               {selectedProduct.oldPrice ? (
                 <span>
-                  <span className={styles.price}>
-                    EGP {selectedProduct.price}
+                  <span className={styles.price_red}>
+                     {price}
                   </span>
                   <span className={styles.oldPrice}>
-                    EGP {selectedProduct.oldPrice}
+                     {oldprice}
                   </span>
                 </span>
               ) : (
-                <p className={styles.price}>EGP {selectedProduct.price}</p>
+                <p className={styles.price}>{price}</p>
               )}
               <div className={styles.colors_available}>
-                {selectedProduct.url.length} colours available
-              </div>
-              <div className={styles.smil_image}>
-                {selectedProduct.url.map((item) => {
-                  return (
-                    <span key={item.id}>
-                      <Image
-                        src={item.img_url}
-                        alt="Logo"
-                        width={70}
-                        height={70}
-                      />
-                    </span>
-                  );
-                })}
+                {selectedProduct.url?.length} colours available
               </div>
             </div>
 
@@ -145,7 +183,8 @@ export default function MiniDrowp() {
                 {selectedProduct.sizes.map((size) => (
                   <button
                     key={size}
-                    className={`${styles.sizeBox} ${selectedSize === size ? styles.activeSize : ""}`}
+                    className={`${styles.sizeBox} 
+                    ${selectedSize === size ? styles.activeSize : ""}`}
                     onClick={() => {
                       if (selectedSize === size) {
                         setselectedSize(null);
@@ -160,21 +199,25 @@ export default function MiniDrowp() {
                   </button>
                 ))}
               </div>
+              {state ? (
+                <span style={{ color: "red", fontSize: "1rem" }}>
+                  {state?.message}
+                </span>
+              ) : null}
             </div>
 
             {/* actions */}
             <div className={styles.actions}>
               {/* view product button */}
+
               <Link
                 className={styles.View_ProductBtn}
-                href={""}
+                href={``}
                 onClick={async (e) => {
-                  e.preventDefault;
-                  const ruselt = await CheckCookies();
-                  if (ruselt.success) {
-                    Router.push(
-                      `/Components/what_is_hot_componante/jackets/${selectedProduct.id}`,
-                    );
+                  e.preventDefault();
+                  const result = await checkCookes();
+                  if (result.success) {
+                    Router.push(`/Components/Hero/${selectedProduct.id}`);
                   } else {
                     Swal.fire({
                       title: "Login Required",
@@ -184,7 +227,7 @@ export default function MiniDrowp() {
                       timerProgressBar: true,
                       showConfirmButton: false,
                       willClose: () => {
-                        // <= callback function
+                        // <=callback function
                         Router.replace("/register");
                       },
                     });
@@ -214,13 +257,13 @@ export default function MiniDrowp() {
                 />
                 <input
                   type="hidden"
-                  name="dis"
-                  value={selectedProduct.dis || ""}
+                  name="name"
+                  value={selectedProduct.name || ""}
                 />
                 <input
                   type="hidden"
-                  name="name"
-                  value={selectedProduct.name || ""}
+                  name="dis"
+                  value={selectedProduct.dis || ""}
                 />
                 <input
                   type="hidden"
@@ -239,7 +282,7 @@ export default function MiniDrowp() {
                   value={actionTypeState || ""}
                 />
                 <button
-                  className={`${styles.addToCartBtn} `}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
                   onMouseDown={() => setActionTypeState("card")}
                 >
@@ -251,10 +294,9 @@ export default function MiniDrowp() {
                 <button
                   className={styles.wishlistBtn}
                   type="submit"
-                  onMouseDown={() => {
-                    setActionTypeState("wishlist");
-                    setisfevorite(!isfevorite);
-                  }}
+                  disabled={pending}
+                  onMouseDown={() => setActionTypeState("wishlist")} // نستخدم onMouseDown لضمان تغيير الـ state قبل الـ submit
+                  style={{ opacity: pending ? 0.5 : 1 }}
                 >
                   <FontAwesomeIcon
                     className={styles.icon}
@@ -263,9 +305,6 @@ export default function MiniDrowp() {
                 </button>
               </form>
             </div>
-            <span style={{ color: "red", fontSize: "1rem" }}>
-              {state?.message}
-            </span>
           </div>
         </div>
       ) : (

@@ -1,18 +1,18 @@
 "use client";
 import styles from "./minidrowp.module.css";
-import { useOpneing } from "../../../../../RTK/storcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
+import { useOpneing } from "../../../../../RTK/storcontext";
 import handelAction, { CheckCookies } from "./miniaction";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
-export default function MiniDrowp() {
+
+export default function MiniDrowp({}) {
   const Router = useRouter();
   const { isOpen, setIsOpen, selectedProduct, isfevorite, setisfevorite } =
     useOpneing();
@@ -158,7 +158,7 @@ export default function MiniDrowp() {
                   const ruselt = await CheckCookies();
                   if (ruselt.success) {
                     Router.push(
-                      `/Components/your_sport_start_here_componente/tennis/${selectedProduct.id}`,
+                      `/Components/your_sport_start_here_componente/running/${selectedProduct.id}`,
                     );
                   } else {
                     Swal.fire({
@@ -187,32 +187,44 @@ export default function MiniDrowp() {
                 action={formAction}
               >
                 {/*data for ActionFile*/}
-                <input type="hidden" name="id" value={selectedProduct.id} />
+                <input
+                  type="hidden"
+                  name="id"
+                  value={selectedProduct.id || ""}
+                />
                 <input
                   type="hidden"
                   name="image"
-                  value={selectedProduct.image}
+                  value={selectedProduct.image || ""}
                 />
-                <input type="hidden" name="dis" value={selectedProduct.dis} />
-                <input type="hidden" name="name" value={selectedProduct.name} />
+                <input
+                  type="hidden"
+                  name="dis"
+                  value={selectedProduct.dis || ""}
+                />
+                <input
+                  type="hidden"
+                  name="name"
+                  value={selectedProduct.name || ""}
+                />
                 <input
                   type="hidden"
                   name="price"
-                  value={selectedProduct.price}
+                  value={selectedProduct.price || ""}
                 />
-                <input type="hidden" name="size" value={selectedSize} />
+                <input type="hidden" name="size" value={selectedSize || ""} />
                 <input
                   type="hidden"
                   name="category"
-                  value={selectedProduct.category}
+                  value={selectedProduct.category || ""}
                 />
                 <input
                   type="hidden"
                   name="actiontype"
-                  value={actionTypeState}
+                  value={actionTypeState || ""}
                 />
                 <button
-                  className={`${styles.addToCartBtn} `} //${AddToCart === false ? styles.activeBut : ""}
+                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                   type="submit"
                   onMouseDown={() => setActionTypeState("card")}
                 >

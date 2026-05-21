@@ -49,7 +49,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-end",
+        position: "bottom-left",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,

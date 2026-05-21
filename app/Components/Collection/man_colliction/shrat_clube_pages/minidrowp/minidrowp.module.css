@@ -18,12 +18,12 @@
   border-left: 1px solid var(--border-color);
   flex-direction: column;
   width: 420px;
-  height: calc(100vh - 74px);
+  height: calc(100vh - 60px);
   padding: 24px 20px;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   position: fixed;
-  top: 74px;
+  top: 60px;
   right: 0;
   transform: translateX(100%);
   box-shadow: -10px 0 35px #00000014;
@@ -55,8 +55,7 @@
 }
 
 .close:hover {
-  color: var(--color-sale);
-  padding-right: 6px;
+  padding-left: 6px;
 }
 
 .overlayaction {
@@ -90,7 +89,7 @@
 }
 .imageGallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  grid-template-columns: repeat(2, minmax(80px, 1fr));
   gap: 8px;
   width: 100%;
   position: relative;
@@ -99,7 +98,7 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-/* حاوية الصورة الفردية */
+
 .imageContainer {
   width: 100%;
   aspect-ratio: 1 / 1.1;
@@ -158,9 +157,15 @@
   margin-right: 8px;
   display: inline-block;
 }
-
+.price_red {
+  color: var(--color-sale);
+  font-size: 1rem;
+  font-weight: 800;
+  margin-right: 8px;
+  display: inline-block;
+}
 .oldPrice {
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-secondary);
   text-decoration: line-through;
@@ -247,7 +252,10 @@
   cursor: pointer;
   transition: all 0.25s ease;
 }
-
+.activeBut {
+  cursor: no-drop !important;
+  opacity: 0.6;
+}
 .addToCartBtn:hover,
 .View_ProductBtn:hover {
   background-color: transparent;
@@ -284,8 +292,8 @@
 }
 
 .wishlistBtn:hover {
-  border-color: var(--color-sale);
-  color: var(--color-sale);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
   background-color: rgba(227, 43, 43, 0.04);
 }
 .ratingWrapper {
