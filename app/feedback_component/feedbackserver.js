@@ -1,7 +1,8 @@
 "use server";
 export default async function FeedbackAction(prevState, formData) {
   const intent = formData.get("feedbackation");
-  const isOpenminidrop = formData.get("isOpenminidrop");
+
+  
   const rating = Number(formData.get("ratimgNum"));
   const comment = formData.get("comment");
 

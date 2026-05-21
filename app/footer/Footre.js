@@ -9,96 +9,82 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
+
 function Footer() {
   return (
     <footer className={styles.footer_wrapper}>
       <Container>
-        {/* الجزء العلوي: Newsletter (مميز في أديداس) */}
-        <Row className="align-items-center py-4 border-bottom border-secondary mb-5">
-          <Col md={6}>
+        <Row className={`align-items-center ${styles.newsletter_row}`}>
+          <Col lg={6} md={12}>
             <h4 className={styles.newsletter_title}>
               BECOME A MEMBER & GET 15% OFF
             </h4>
           </Col>
-          <Col md={6}>
-            <InputGroup>
+          <Col lg={6} md={12} className="mt-3 mt-lg-0">
+            <InputGroup className={styles.input_group_custom}>
               <Form.Control
                 placeholder="Your Email Address"
                 className={styles.email_input}
               />
-              <Button variant="dark" className={styles.submit_btn}>
+              <Button className={styles.submit_btn}>
                 SIGN UP
               </Button>
             </InputGroup>
           </Col>
         </Row>
-
-        {/* الجزء الأوسط: القوائم */}
         <Row>
           <Col md={3} sm={6} className="mb-4">
             <h5 className={styles.column_title}>PRODUCTS</h5>
             <ul className={styles.footer_list}>
-              <li>Shoes</li>
-              <li>Clothing</li>
-              <li>Accessories</li>
-              <li>New Arrivals</li>
+              <li><Link href="/products/shoes">Shoes</Link></li>
+              <li><Link href="/products/clothing">Clothing</Link></li>
+              <li><Link href="/products/accessories">Accessories</Link></li>
+              <li><Link href="/products/new-arrivals">New Arrivals</Link></li>
             </ul>
           </Col>
+
           <Col md={3} sm={6} className="mb-4">
             <h5 className={styles.column_title}>SPORTS</h5>
             <ul className={styles.footer_list}>
-              <li>Running</li>
-              <li>Football</li>
-              <li>Training</li>
-              <li>Outdoor</li>
+              <li><Link href="/sports/running">Running</Link></li>
+              <li><Link href="/sports/football">Football</Link></li>
+              <li><Link href="/sports/training">Training</Link></li>
+              <li><Link href="/sports/outdoor">Outdoor</Link></li>
             </ul>
           </Col>
+
           <Col md={3} sm={6} className="mb-4">
             <h5 className={styles.column_title}>SUPPORT</h5>
             <ul className={styles.footer_list}>
-              <li>Help</li>
-              <li>Returns & Refunds</li>
-              <li>Size Guide</li>
-              <li>Contact Us</li>
+              <li><Link href="/support/help">Help</Link></li>
+              <li><Link href="/support/returns">Returns & Refunds</Link></li>
+              <li><Link href="/support/size-guide">Size Guide</Link></li>
+              <li><Link href="/support/contact">Contact Us</Link></li>
             </ul>
           </Col>
-          <Col md={3} sm={6} className={styles.SocialIcons}>
+
+          <Col md={3} sm={6} className="mb-4">
             <h5 className={styles.column_title}>FOLLOW US</h5>
             <div className={styles.social_icons}>
-              <Link href="">
-                <FontAwesomeIcon
-                  icon={faFacebookF}
-                  className={styles.social_icon}
-                />
+              <Link href="https://facebook.com" target="_blank" className={styles.social_icon_wrapper}>
+                <FontAwesomeIcon icon={faFacebookF} className={styles.social_icon} />
               </Link>
-              <Link href="">
-                <FontAwesomeIcon
-                  icon={faInstagram}
-                  className={styles.social_icon}
-                />
+              <Link href="https://instagram.com" target="_blank" className={styles.social_icon_wrapper}>
+                <FontAwesomeIcon icon={faInstagram} className={styles.social_icon} />
               </Link>
-              <Link href="">
-                <FontAwesomeIcon
-                  icon={faTwitter}
-                  className={styles.social_icon}
-                />
+              <Link href="https://twitter.com" target="_blank" className={styles.social_icon_wrapper}>
+                <FontAwesomeIcon icon={faTwitter} className={styles.social_icon} />
               </Link>
-              <Link href="">
-                <FontAwesomeIcon
-                  icon={faYoutube}
-                  className={styles.social_icon}
-                />
+              <Link href="https://youtube.com" target="_blank" className={styles.social_icon_wrapper}>
+                <FontAwesomeIcon icon={faYoutube} className={styles.social_icon} />
               </Link>
             </div>
           </Col>
         </Row>
-
-        {/* الجزء السفلي: الحقوق */}
-        <Row className="mt-5 py-3 border-top border-secondary text-center">
-          <Col>
+        <Row className={styles.copyright_row}>
+          <Col className="text-center">
             <p className={styles.copyright}>
-              © 2026 FOOTCAP. Data settings | Privacy Policy | Terms and
-              Conditions
+              © {new Date().getFullYear()} FOOTCAP. Data settings | Privacy Policy | Terms and Conditions
             </p>
           </Col>
         </Row>

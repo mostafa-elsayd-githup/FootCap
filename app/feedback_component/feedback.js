@@ -4,6 +4,8 @@ import styles from "./feedback.module.css";
 import { useOpneing } from "../RTK/storcontext";
 import FeedbackAction from "./feedbackserver";
 import Swal from "sweetalert2";
+import { Card } from "react-bootstrap";
+
 export default function Feedback() {
   const formRef = useRef(null);
   const [rating, setRating] = useState(null);
@@ -41,6 +43,7 @@ export default function Feedback() {
       }
     }, 0);
   };
+
   useEffect(() => {
     if (state?.feedbackState !== undefined && state?.feedbackState !== null) {
       const Toast = Swal.mixin({
@@ -59,12 +62,17 @@ export default function Feedback() {
         setIsOpenfeedback(false);
       }, 800);
     }
-  }, [state?.feedbackState, state?.timeStamp]);
+  }, [setIsOpenfeedback, state?.FeedbackMessage, state.feedbackState, state.timeStamp]);
+
   return (
     <div
       className={`${styles.overlay} ${isOpenfeedback ? styles.activeOverlay : ""}`}
+      onClick={() => setIsOpenfeedback(false)} // تغلق القائمة عند الضغط على الـ Backdrop الشفاف بالخارج
     >
-      <div className={styles.modalContainer}>
+      <div 
+        className={styles.modalContainer}
+        onClick={(e) => e.stopPropagation()} // منع إغلاق المودال عند الضغط بداخله
+      >
         <button
           type="button"
           className={styles.opneButton}
@@ -74,7 +82,7 @@ export default function Feedback() {
         </button>
 
         <div className={styles.logoArea}>
-          <img src={"/logo.svg"} alt="Logo" />
+          <Card.Img src={"/logo.svg"} alt="Logo" />
         </div>
 
         {pending ? (
@@ -85,7 +93,7 @@ export default function Feedback() {
           <form
             action={formAction}
             ref={formRef}
-            onClick={(e) => e.stopPropagation()}
+            style={{ display: "flex", flexDirection: "column", flex: 1 }}
           >
             <h2 className={styles.title}>Your Experience</h2>
             <h3 className={styles.text}>
@@ -95,8 +103,7 @@ export default function Feedback() {
 
             <div>
               <p className={styles.questionText}>
-                How likely are you to recommend <strong>our-site.com</strong> to
-                a friend? *
+                How likely are you to recommend <strong>our-site.com</strong> to a friend? *
               </p>
               <div className={styles.questionSection}>
                 <span>Very unlikely</span> <span>Very likely</span>
@@ -107,13 +114,17 @@ export default function Feedback() {
                   <div key={num} className={styles.ratingOption}>
                     <input
                       type="radio"
+                      id={`rating-${num}`}
                       name="rating"
                       value={num}
                       checked={rating === num}
                       className={styles.radioInput}
                       onChange={() => handleRatingSubmit(num)}
                     />
-                    <span className={styles.ratingLabel}>{num}</span>
+                 
+                    <label htmlFor={`rating-${num}`} className={styles.ratingLabel}>
+                      {num}
+                    </label>
                   </div>
                 ))}
               </div>
@@ -130,28 +141,26 @@ export default function Feedback() {
               name="isOpenminidrop"
               value={isOpenminidrop || ""}
             />
-
-            <div className={styles.feedbackSection}>
-              <p className={styles.questionText}>
-                {state?.message} <strong>FOOTCAP.com</strong>
-              </p>
-              {state.state === 201 ||
-              state.state === 202 ||
-              state.state === 203 ? (
+            {(state.state === 201 || state.state === 202 || state.state === 203) && (
+              <div className={styles.feedbackSection}>
+                <p className={styles.questionText}>
+                  {state?.message} <strong>FOOTCAP.com</strong>
+                </p>
                 <textarea
                   name="comment"
                   className={styles.textareaField}
                   placeholder="Tell it like it is..."
+                  required
                 />
-              ) : null}
-            </div>
+              </div>
+            )}
 
             <button
               className={styles.nextButton}
               type="submit"
               onClick={() => setfeedbackaction("feedback")}
             >
-              submit
+              Submit
             </button>
           </form>
         )}
