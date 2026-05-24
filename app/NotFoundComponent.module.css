@@ -1,0 +1,156 @@
+.notFoundWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #fafafa;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:global(.dark) .notFoundWrapper {
+  background-color: #09090b;
+}
+
+.glowBg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(0,0,0,0) 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+:global(.dark) .glowBg {
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.05) 0%, rgba(0,0,0,0) 70%);
+}
+
+.contentBox {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.errorCode {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, #18181b 30%, #71717a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.15;
+}
+
+:global(.dark) .errorCode {
+  background: linear-gradient(135deg, #fafafa 30%, #27272a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.1;
+}
+
+.floatingBall {
+  position: absolute;
+  font-size: 55px;
+  animation: floatBall 4s ease-in-out infinite;
+}
+
+.noDataTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(to right, #09090b, #444446);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+:global(.dark) .noDataTitle {
+  background: linear-gradient(to right, #ffffff, #a1a1aa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.noDataMsg {
+  color: #71717a;
+  max-width: 480px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+:global(.dark) .noDataMsg {
+  color: #a1a1aa;
+}
+
+.backBtn {
+  background-color: #18181b;
+  color: #fff;
+  padding: 14px 36px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.backBtn:hover {
+  background-color: #27272a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+:global(.dark) .backBtn {
+  background-color: #f4f4f5;
+  color: #09090b;
+}
+
+:global(.dark) .backBtn:hover {
+  background-color: #e4e4e7;
+}
+
+@keyframes floatBall {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(15deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .errorCode {
+    font-size: 6rem;
+  }
+  .noDataTitle {
+    font-size: 1.9rem;
+  }
+  .floatingBall {
+    font-size: 45px;
+  }
+}
