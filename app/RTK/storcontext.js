@@ -11,6 +11,7 @@ export const StoreProvider = ({ children }) => {
   const [viewProfile, setviewprofile] = useState(false);
 
   return (
+
     <storecontext.Provider
       value={{
         isOpen,

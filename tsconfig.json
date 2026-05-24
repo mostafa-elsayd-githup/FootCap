@@ -6,14 +6,15 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -30,7 +31,7 @@
     "**/*.mts",
     "**/*.ts",
     "**/*.tsx"
-, "app/Components/Collection/[productes-colliction]/page.js"  ],
+ ],
   "exclude": [
     "node_modules"
   ]

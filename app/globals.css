@@ -22,6 +22,11 @@
   --text-fetch: #00000077;
   --text-dis: #111827;
   --rating-color: #2aba71;
+
+  --discount-bg: #f9f9f9;                 
+  --discount-border: #e5e7eb;             
+  --discount-pattern: rgba(0, 0, 0, 0.02);
+  
 }
 
 .dark {
@@ -47,6 +52,12 @@
   --text-fetch: #ffffff65;
   --text-dis: #ffffff;
   --rating-color: #ffb400;
+
+
+--discount-bg: #141414;                 
+  --discount-border: #222222;             
+  --discount-pattern: rgba(255, 255, 255, 0.025);
+
 }
 * {
   box-sizing: border-box;
@@ -78,7 +89,6 @@ a {
   text-decoration: none;
 }
 
-/* السطر ده مهم عشان المتصفح يعرف يتعامل مع عناصر الـ UI الافتراضية */
 .dark html {
   color-scheme: dark;
 }

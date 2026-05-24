@@ -5,7 +5,7 @@ import "./globals.css";
 import { StoreProvider } from "./RTK/storcontext";
 import { ThemeProvider } from "next-themes";
 import Feedback from "./feedback_component/feedback";
-import { useState } from "react";
+import ReduxProvider from "./RTK/ReduxProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -46,10 +46,12 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <StoreProvider>
-            <Feedback />
-            {children}
-          </StoreProvider>
+          <ReduxProvider>
+            <StoreProvider>
+              <Feedback />
+              {children}
+            </StoreProvider>
+          </ReduxProvider>
         </ThemeProvider>
       </body>
     </html>

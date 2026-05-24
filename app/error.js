@@ -4,9 +4,6 @@ import style from "./error.module.css";
 import  Link  from "next/link";
 export default function Error({ error, reset }) {
   
-  useEffect(() => {
-    console.error("Error detected:", error);
-  }, []);
 
   return (
     <div className={style.error_wrapper}>
