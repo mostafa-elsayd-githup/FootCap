@@ -14,9 +14,14 @@ import handleAction from "./ActionFile";
 import { useOpneing } from "../../../RTK/storcontext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-
-const SingleProduct = ({ productItem, isfevorite }) => {
+import { useDispatch, useSelector } from "react-redux";
+import {
+  toggleWishlistOptimistic,
+  rollbackWishlist,
+} from "../../../RTK/wishlistslice";
+const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
+  const dispatch = useDispatch();
   const [currentImg, setCurrentImg] = useState(productItem.image);
   const initialState = { message: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
@@ -24,9 +29,22 @@ const SingleProduct = ({ productItem, isfevorite }) => {
     initialState,
   );
   const [actionTypeState, setActionTypeState] = useState("");
-  const { setIsOpen, setSelectedProduct, setisfevorite, setselectedSize } =
-    useOpneing();
+  const { setIsOpen, setSelectedProduct, setisfevorite ,IsOpen } = useOpneing();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const isfevorite = wishlistItems.some((item) => item.id === productItem.id);
+  const handleWishlistSubmit = async () => {
+    dispatch(toggleWishlistOptimistic(productItem));
 
+    if (state && state.status === 500) {
+      dispatch(rollbackWishlist(productItem));
+
+      Swal.fire({
+        title: "Error",
+        text: result.message,
+        icon: "error",
+      });
+    }
+  };
   useEffect(() => {
     if (state?.state === 401) {
       Swal.fire({
@@ -42,14 +60,12 @@ const SingleProduct = ({ productItem, isfevorite }) => {
         },
       });
     }
-  });
-  useEffect(() => {
     if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
       setisfevorite(state.wishliststate);
 
       const Toast = Swal.mixin({
         toast: true,
-        position: "bottom-end",
+        position: "bottom-right",
         showConfirmButton: false,
         timer: 2000,
         timerProgressBar: true,
@@ -62,8 +78,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           : "Removed from Wishlist",
       });
     }
-  }, [state?.wishliststate, setisfevorite]);
-
+  }, [state.wishliststate, setisfevorite, state?.state, Router]);
 
   if (productItem.oldPrice) {
     var discount =
@@ -96,9 +111,10 @@ const SingleProduct = ({ productItem, isfevorite }) => {
       )}
       <div className={styles.icons}>
         <button
+        type="button"
           onClick={() => {
             setIsOpen(true);
-            setSelectedProduct(productItem);
+            setSelectedProduct(productItem)
           }}
           style={{
             background: "none",
@@ -112,14 +128,15 @@ const SingleProduct = ({ productItem, isfevorite }) => {
           <FontAwesomeIcon icon={faBagShopping} className={styles.icon} />
         </button>
         <form
-          onClick={(e) => e.stopPropagation()}
+          onSubmit={handleWishlistSubmit}
           action={formAction}
           className={styles.action_icon}
         >
           <button
             type="submit"
             disabled={pending}
-            onMouseDown={() => setActionTypeState("wishlist")}
+
+            onClick={() => setActionTypeState("wishlist")}
             style={{
               background: "none",
               border: "none",
@@ -138,12 +155,11 @@ const SingleProduct = ({ productItem, isfevorite }) => {
 
           <button
             disabled={pending}
-            onMouseDown={() => {
+            type="button"
+            onClick={() => {
               setActionTypeState("eye");
               if (!pending) {
-                Router.push(
-                  `/Components/sport-Componente/${productItem.id}`,
-                );
+                Router.push(`/Components/Hero/${productItem.id}`);
               }
             }}
             style={{
@@ -158,6 +174,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
             <FontAwesomeIcon icon={faEye} className={styles.icon} />
           </button>
           {/*data for ActionFile*/}
+          <>
           <input type="hidden" name="id" value={productItem.id || ""} />
           <input type="hidden" name="image" value={productItem?.image || ""} />
           <input
@@ -199,6 +216,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
             name="actiontype"
             value={actionTypeState || ""}
           />
+          </>
         </form>
       </div>
       <div style={{ position: "relative" }}>
@@ -218,9 +236,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link
-                href={`/Components/sport-Componente/${style.id}`}
-              >
+              <Link href={`/Components/Hero/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -232,9 +248,7 @@ const SingleProduct = ({ productItem, isfevorite }) => {
         </div>
       )}
       <Card.Body className={styles.card_body}>
-        <Link
-          href={`/Components/sport-Componente/${productItem.id}`}
-        >
+        <Link href={`/Components/Hero/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         <span

@@ -9,22 +9,7 @@
       "createdAt": "2026-05-11T15:10:56.813Z",
       "wishlist": [],
       "cart": [],
-      "order": [
-        {
-          "id": "1779307772333",
-          "fullName": "مصطفى السيد ",
-          "phone": "01101260255",
-          "address": "القاهره",
-          "city": "المنوفيه",
-          "card": "3333333333333333",
-          "createdAt": "2026-05-20T20:09:32.333Z",
-          "products": [
-            "{\"id\":\"305-L\",\"image\":\"https://assets.adidas.com/images/w_1880,f_auto,q_auto/8e7f62bc40ca4b95ac637924ee89485c_9366/KI6928_01_00_standard.jpg\",\"name\":\"Adizero EVO SL Shoes\",\"price\":\"2000\",\"old_price\":null,\"category\":\" Women Running \",\"size\":\"L\",\"quantity\":2}",
-            "{\"id\":\"306-M\",\"image\":\"https://assets.adidas.com/images/w_1880,f_auto,q_auto/564268d5ae9547be82dcae8027bdf9fe_9366/KH9862_HM1.jpg\",\"name\":\"Adizero EVO SL Shoes\",\"price\":\"11999\",\"old_price\":null,\"category\":\" Women Running \",\"size\":\"M\",\"quantity\":1}"
-          ],
-          "totalprice": "16049"
-        }
-      ]
+      "order": []
     },
     {
       "id": "1778512420426",
@@ -1263,7 +1248,7 @@
         "L",
         "XL"
       ],
-      "image":"https://assets.adidas.com/images/w_450,f_auto,q_auto/1aed6030e5ed4243905b022b2c377d2f_9366/IT8513_000_plp_model.jpg",
+      "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/1aed6030e5ed4243905b022b2c377d2f_9366/IT8513_000_plp_model.jpg",
       "image_Hover": "https://assets.adidas.com/images/w_450,f_auto,q_auto/f60b0bbccc7340b9af1b896438efba5c_9366/IT8513_23_hover_model.jpg",
       "url": [],
       "rating": 4.5,
@@ -3414,7 +3399,11 @@
       "gender": "unisex",
       "colors": 3,
       "sizes": [
-        "One Size"
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
       ],
       "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/2e3745c61d2a46a7934da4123cf91636_9366/JX0692_000_plp_model.jpg",
       "image_Hover": "https://assets.adidas.com/images/w_450,f_auto,q_auto/3f40eec17cd84b40b5475ee6a36756fc_9366/JX0692_23_hover_model.jpg",

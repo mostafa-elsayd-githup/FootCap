@@ -1,5 +1,5 @@
 "use server";
-import NotFoundComponent from "../../Hero/NotFoundComponent";
+import NotFoundComponent from "../../../NotFoundComponent";
 import Link from "next/link";
 import styles from "./sportproducts.module.css";
 import SingleProduct from "./SingleProduct";
