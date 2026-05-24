@@ -17,7 +17,7 @@
   display: flex;
   align-items: baseline;
   gap: 15px;
-  border-bottom: 1px solid var(--color-secondary);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 1.5rem;
 }
 
@@ -187,10 +187,11 @@
 .empty_state {
   text-align: center;
   padding: 80px 20px;
-  border: 1px dashed rgba(var(--color-primary-rgb, 255, 255, 255), 0.15);
-  background-color: rgba(var(--color-primary-rgb, 255, 255, 255), 0.01);
+  border: 1px dashed var(--border-color);
+  background-color: var(--border-color);
   max-width: 800px;
   margin: 40px auto;
+  border-radius: 20px;
 }
 
 .empty_icon_wrapper {

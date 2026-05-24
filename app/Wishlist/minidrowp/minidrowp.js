@@ -25,6 +25,7 @@ export default function MiniDrowp() {
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
+  const [lastTimestamp, setLastTimestamp] = useState(null);
   useEffect(() => {
     if (state?.state === 401) {
       Swal.fire({
@@ -61,7 +62,7 @@ export default function MiniDrowp() {
     }
   }, [setisfevorite, state?.wishliststate]);
   useEffect(() => {
-    if (state?.cardState !== undefined && state?.cardState !== null) {
+    if (state?.cardState !== undefined && state?.cardState !== null && state?.timeStamp > lastTimestamp) {
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -79,7 +80,7 @@ export default function MiniDrowp() {
         setIsOpen(false);
       }, 500);
     }
-  }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type, lastTimestamp]);
   // if (selectedSize) {
   //   setTimeout(() => {
   //     setIsOpen(false);
@@ -279,6 +280,7 @@ export default function MiniDrowp() {
                   type="submit"
                   onClick={() => {
                     setActionTypeState("card");
+                    setLastTimestamp(Date.now());
                   }}
                 >
                   ADD TO BAG

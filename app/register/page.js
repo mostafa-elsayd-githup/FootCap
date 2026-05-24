@@ -52,7 +52,7 @@ const RegisterPage = () => {
                   <Form.Control
                     name="name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="John Doe (letters only)"
                     required
                     className={styles.customControl}
                   />

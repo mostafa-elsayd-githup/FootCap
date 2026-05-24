@@ -3,9 +3,10 @@ import { redirect } from "next/navigation";
 
 export async function registerAction(prevstate, formData) {
   const name = formData.get("name");
-  const email = formData.get("email") || "";
+  const email = formData.get("email");
   const password = formData.get("password");
-un
+  console.log(password);
+
   const newUser = {
     id: Date.now().toString(),
     name,
@@ -18,20 +19,17 @@ un
     order: [],
   };
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //  <=Regex (chick email include a @ and two or three chr.. (.com or .org or .io ))
-
-  if (!name) return { message: "من فضلك أدخل الاسم" };
-  if (!email || email.length < 8) {
-    return {
-      message: "من فضلك أدخل بريدًا إلكترونيًا صحيحًا و لا يقل عن 8 أحرف.",
-    };
+  const nameRegex = /^[a-zA-Z\s\u0600-\u06FF]+$/;
+  if (!name || !nameRegex.test(name.trim())) {
+    return { message: "Please, enter a valid name" };
   }
-  if (!emailRegex.test(email)) {
-    return {
-      message: "البريد الإلكتروني غير صحيحة",
-    };
+  if (!email || email.length < 8 || !emailRegex.test(email)) {
+    return { message: "Please enter a valid email address" };
   }
-  if (!password && password.length < 8) {
-    return { message: "ادخل كلمه مرور قويه" };
+  if (!password || password.length < 8) {
+    return {
+      message: "Please, Enter a strong password (minimum 8 characters)",
+    };
   }
   try {
     const response = await fetch(`http://localhost:1200/users?email=${email}`);
@@ -40,7 +38,7 @@ un
       if (users.length > 0) {
         return {
           message:
-            "يوجد حساب مرتبط بهذا البريد الإلكتروني. حاول تسجيل الدخول أو استخدم بريدًا آخر.",
+            "An account is associated with this email address. Please try logging in or use a different email address",
         };
       }
     }
@@ -50,7 +48,7 @@ un
       headers: { "content-type": "application/json" },
     });
   } catch (error) {
-    return { message: "عذراً، حدث خطأ فني" };
+    return { message: "Sorry, a technical error occurred." };
   }
   redirect("/login");
 }

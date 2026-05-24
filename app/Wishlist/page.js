@@ -5,6 +5,7 @@ import Products from "./wiahlist";
 import MiniDrowp from "../Components/Hero/hero_page/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import DiscoundComponent from "../Components/Collection/man_colliction/discound_componente/discounds";
 const getData = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -23,6 +24,7 @@ async function page() {
       <NavAction />
       <MiniDrowp/>
       <Products wishlist={wishlist} />
+      <DiscoundComponent/>
       <Footer />
     </>
   );
