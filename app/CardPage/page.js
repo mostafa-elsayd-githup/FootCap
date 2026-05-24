@@ -3,6 +3,8 @@ import CartPage from "./child";
 import NavAction from "../Navbar/NavAction";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import DiscoundComponent from "../Components/Collection/man_colliction/discound_componente/discounds";
+import Footer from "../footer/Footre";
 
 export async function getdata() {
   const cookieStore = await cookies();
@@ -21,6 +23,8 @@ const page = async () => {
     <>
       <NavAction />
       <CartPage card={data} />;
+      <DiscoundComponent />
+      <Footer />
     </>
   );
 };

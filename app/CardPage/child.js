@@ -9,7 +9,6 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./CardPage.module.css";
-import Footer from "../footer/Footre";
 import DeleteCart, { clearCart } from "./Action";
 import Link from "next/link";
 
@@ -240,7 +239,7 @@ const CartPage = ({ card }) => {
           </Row>
         </Container>
       </main>
-      <Footer />
+
     </>
   );
 };
