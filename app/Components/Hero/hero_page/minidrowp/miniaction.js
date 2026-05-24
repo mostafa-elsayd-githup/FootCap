@@ -1,5 +1,5 @@
 "use server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 export default async function handelAction(prevstate, formData) {
@@ -11,7 +11,7 @@ export default async function handelAction(prevstate, formData) {
   if (!token) {
     return { tokenstate: 401 };
   }
-  //
+
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
   const image = formData.get("image");
@@ -20,6 +20,7 @@ export default async function handelAction(prevstate, formData) {
   const old_price = formData.get("old_price");
   const category = formData.get("category");
   const size = formData.get("size");
+
   const product = {
     id,
     image,
@@ -30,7 +31,6 @@ export default async function handelAction(prevstate, formData) {
     size,
     quantity: 1,
   };
-console.log(product);
 
   if (actionType === "card") {
     const cartitemId = `${product.id}-${size}`;
@@ -52,17 +52,15 @@ console.log(product);
 
         if (index !== -1) {
           carts[index].quantity += 1;
-
         } else {
           carts.push({ ...product, id: cartitemId, quantity: 1 });
-     
         }
         await fetch(`http://localhost:1200/users/${decryption.id}`, {
           method: "PATCH",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ cart: carts, wishlist }),
         });
-        revalidateTag("navbar");
+        // revalidateTag("navbar");
         if (index !== -1) {
           return {
             cardState: true,
@@ -88,25 +86,19 @@ console.log(product);
         let wishlist = user.wishlist || [];
 
         const exists = wishlist.some((item) => item.id === product.id);
-        // console.log("minidrop_action", exists);
+
         if (exists) {
-          // console.log("exists 2", exists);
           wishlist = wishlist.filter((item) => item.id !== product.id);
         } else {
           wishlist.push(product);
-          // console.log("exists 3", exists);
         }
         await fetch(`http://localhost:1200/users/${decryption.id}`, {
+          cache: "no-store",
           method: "PATCH",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ wishlist }),
         });
-        revalidateTag("navbar");
-        if (exists === true) {
-          return { wishliststate: true };
-        } else {
-          return { wishliststate: false };
-        }
+          return { wishliststate: !exists, timeStamp: Date.now()};
       }
     } catch {
       return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
