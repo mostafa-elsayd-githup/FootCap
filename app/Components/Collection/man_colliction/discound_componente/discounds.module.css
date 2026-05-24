@@ -1,17 +1,27 @@
 .discounde_section {
   position: relative;
-  background-color: var(--bg-dis);
-  background-image: linear-gradient(135deg, rgba(255,255,255,0.03) 25%, transparent 25%), 
-                    linear-gradient(225deg, rgba(255,255,255,0.03) 25%, transparent 25%);
-  background-size: 30px 30px;
-  height: 220px; 
+  background-color: var(--discount-bg);
+  background-image: 
+    linear-gradient(135deg, var(--discount-pattern) 25%, transparent 25%), 
+    linear-gradient(225deg, var(--discount-pattern) 25%, transparent 25%),
+    linear-gradient(45deg, var(--discount-pattern) 25%, transparent 25%),
+    linear-gradient(315deg, var(--discount-pattern) 25%, transparent 25%);
+  background-size: 24px 24px;
+  
+  height: 200px; 
   margin: 80px 0;
   display: flex;
   align-items: center;
-  border-radius: 16px; 
+  border-radius: 20px; 
   overflow: hidden;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  /* border: 1px solid var(--discount-border); */
+  
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.04);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.discounde_section:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.08);
 }
 
 .container {
@@ -21,55 +31,67 @@
   margin: 0 auto;
   justify-content: space-between; 
   align-items: center;
-  padding: 0 40px;
+  padding: 0 50px; 
   gap: 40px;
+  z-index: 2;
 }
+
 .h1 {
   font-family: "AdihausDIN", Helvetica, Arial, sans-serif;
   color: var(--color-primary);
   font-weight: 900; 
   font-style: italic; 
-  font-size: 36px;
+  font-size: 38px; 
   text-transform: uppercase;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.8px;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
 }
+
 .Button {
-  color: var(--color-main);
   position: relative;
   font-weight: 700;
   font-size: 14px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   background-color: var(--color-primary);
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 16px 32px;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 30px; 
+  padding: 16px 36px;
   width: auto; 
   min-width: 220px;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.Button:hover {
-  background-color: transparent;
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-  transform: translateY(-3px); 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-.Button :global(.svg-inline--fa), 
-.Button svg {
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.Button:hover :global(.svg-inline--fa),
+.Button a {
+  color: var(--color-main) !important;
+  text-decoration: none;
+  transition: color 0.35s ease;
+}
+
+.Button svg {
+  color: var(--color-main);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s ease;
+}
+
+.Button:hover {
+  background-color: transparent;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+}
+
+.Button:hover a {
+  color: var(--color-primary) !important;
+}
+
 .Button:hover svg {
+  color: var(--color-primary);
   transform: translateX(6px); 
 }
 
@@ -80,39 +102,41 @@
   .discounde_section {
     height: 180px;
     margin: 60px 0;
+    border-radius: 16px;
   }
   .h1 {
-    font-size: 28px;
+    font-size: 30px;
   }
   .container {
-    padding: 0 30px;
+    padding: 0 35px;
     gap: 30px;
   }
 }
+
 @media (max-width: 768px) {
   .discounde_section {
     height: auto; 
-    padding: 40px 20px;
+    padding: 45px 24px;
     margin: 50px 0;
-    border-radius: 12px;
+    border-radius: 16px;
   }
   
   .container {
     flex-direction: column; 
     justify-content: center;
     text-align: center;
-    gap: 24px;
+    gap: 28px;
     padding: 0;
   }
   
   .h1 {
-    font-size: 26px;
-    letter-spacing: 0;
+    font-size: 28px;
+    letter-spacing: -0.3px;
   }
   
   .Button {
     width: 100%; 
-    max-width: 280px;
-    padding: 14px 24px;
+    max-width: 300px;
+    padding: 14px 28px;
   }
 }

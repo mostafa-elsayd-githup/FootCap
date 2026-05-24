@@ -25,6 +25,7 @@ export default function MiniDrowp() {
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
+  const [lastTimestamp, setLastTimestamp] = useState(null);
   useEffect(() => {
     if (state?.tokenstate === 401) {
       Swal.fire({
@@ -63,7 +64,7 @@ useEffect(() => {
 }, [state?.wishliststate, setisfevorite]);
 
   useEffect(() => {
-    if (state?.cardState !== undefined && state?.cardState !== null) {
+    if (state?.cardState !== undefined && state?.cardState !== null && state?.timeStamp > lastTimestamp) {
 
       const Toast = Swal.mixin({
         toast: true,
@@ -82,7 +83,7 @@ useEffect(() => {
         setIsOpen(false);
       }, 500);
     }
-  }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type]);
+  }, [setIsOpen, setisfevorite, state?.cardState, state.timeStamp, state.type, lastTimestamp]);
   return (
     <div className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}>
       {pending && (
@@ -285,6 +286,7 @@ useEffect(() => {
                   type="submit"
                   onClick={() => {
                     setActionTypeState("card");
+                    setLastTimestamp(Date.now());
                   }}
                 >
                   ADD TO BAG

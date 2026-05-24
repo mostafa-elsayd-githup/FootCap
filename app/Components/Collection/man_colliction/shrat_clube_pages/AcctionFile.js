@@ -1,5 +1,5 @@
 "use server";
-import { revalidateTag } from "next/cache";
+
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 export default async function handleAction(prevstate, formData) {
@@ -42,12 +42,11 @@ export default async function handleAction(prevstate, formData) {
     try {
       const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
       const user = await res.json();
-
       if (user) {
         let wishlist = user.wishlist || [];
 
         const exists = wishlist.some((item) => item.id === product.id);
-        // console.log("singel_Component_action", exists);
+
 
         if (exists) {
           wishlist = wishlist.filter((item) => item.id !== product.id);
@@ -61,9 +60,7 @@ export default async function handleAction(prevstate, formData) {
           body: JSON.stringify({ wishlist }),
         });
 
-        revalidateTag("navbar");
-        return {wishliststate: !exists} 
-      
+        return { wishliststate: !exists, timeStamp: Date.now() };
       }
     } catch {
       return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };

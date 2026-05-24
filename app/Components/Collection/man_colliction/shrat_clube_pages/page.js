@@ -4,7 +4,7 @@ import SingleProduct from "./SingleProduct_Liverpool";
 import styles from "./page.module.css";
 import Footer from "../../../../footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
-import NotFoundComponent from "../../../Hero/NotFoundComponent";
+import NotFoundComponent from "../../../../NotFoundComponent";
 import NavAction from "../../../../Navbar/NavAction";
 import MiniDrowp from "../shrat_clube_pages/minidrowp/minidrowp";
 import { cookies } from "next/headers";
@@ -90,7 +90,6 @@ async function Product({ searchParams }) {
     },
   ];
 
-  //  المحتوى المطابق للنادى
   const currentClub = clubContent.find((club) => club.type === categoryKey) || {
     title: "All Products",
     description: "Browse our collection",
@@ -130,7 +129,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data && data.length > 0 ? (
             data.map((item) => {
-              const isfvevorite = wishlist.wishlist?.some(
+              const isfvevorite = wishlist?.wishlist.some(
                 (wishlist) => wishlist.id === item.id,
               );
               return (

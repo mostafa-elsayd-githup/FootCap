@@ -4,7 +4,7 @@ import SingleProduct from "./singleProduct_for_Ceation1";
 import styles from "./products.module.css";
 import Footer from "../../../../footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
-import NotFoundComponent from "../../../Hero/NotFoundComponent";
+import NotFoundComponent from "../../../../NotFoundComponent";
 import NavAction from "../../../../Navbar/NavAction";
 import MiniDrowp from "../shrat_clube_pages/minidrowp/minidrowp";
 import { cookies } from "next/headers";
@@ -78,7 +78,7 @@ async function Product({ searchParams }) {
           <h1 className={styles.title}>
             Men&apos;s Jerseys{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
-              [{data.length}]
+              ( {data.length} )
             </span>
           </h1>
         </div>
