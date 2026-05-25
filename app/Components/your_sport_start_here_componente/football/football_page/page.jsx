@@ -2,12 +2,11 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
-import NotFoundComponent from "../NotFoundComponent";
-import NavAction from "../../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
-import Footer from "../../../../footer/Footre";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
+import Footer from "@/app/footer/Footre";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -22,42 +21,31 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch (error) {
+    return error;
   }
 }
-
 async function gitdata(categoryKey) {
   try {
     const res = await fetch(
       `http://localhost:1200/products?type=${categoryKey}`,
-      { next: { tags: ["FootBall"] }, cache: "no-store" },
+      { next: { tags: ["backitball"] }, cache: "no-store" },
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch (error) {
+    throw error;
   }
 }
 
-async function Product({searchParams}) {
+async function Product({ searchParams }) {
   const queryParams = await searchParams;
   const categoryKey = queryParams.type;
   const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   return (
     <>
       <NavAction />
@@ -78,7 +66,7 @@ async function Product({searchParams}) {
             </span>
           </span>
           <h1 className={styles.title}>
-            Football Gear{" "}
+            Adidaes BasketBall Collection{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
               ( {data.length} )
             </span>
@@ -86,7 +74,7 @@ async function Product({searchParams}) {
         </div>
         <MiniDrowp />
         <div className={styles.products}>
-           {data &&
+          {data &&
             data.map((item) => {
               const isfvevorite = wishlist?.wishlist.some(
                 (wishlist) => wishlist.id === item.id,

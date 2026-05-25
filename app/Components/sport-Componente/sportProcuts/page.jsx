@@ -1,11 +1,10 @@
 "use server";
-import NotFoundComponent from "../../../NotFoundComponent";
 import Link from "next/link";
 import styles from "./sportproducts.module.css";
 import SingleProduct from "./SingleProduct";
-import NavAction from "../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
-import Footer from "../../../footer/Footre";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
+import Footer from "@/app/footer/Footre";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
 async function getWishlist() {
@@ -22,8 +21,8 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch (error) {
+    return error;
   }
 }
 
@@ -46,16 +45,7 @@ async function Product({ searchParams }) {
   const categoryKey = queryParams.type;
 
   const data = await getdata(categoryKey);
-  const wishlistdata = await getWishlist();
-
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
+  const wishlistdata = await getWishlist()
 
   return (
     <>

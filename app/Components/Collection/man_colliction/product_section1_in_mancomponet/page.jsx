@@ -2,11 +2,10 @@
 import Link from "next/link";
 import SingleProduct from "./singleProduct_for_Ceation1";
 import styles from "./products.module.css";
-import Footer from "../../../../footer/Footre";
+import Footer from "@/app/footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
-import NotFoundComponent from "../../../../NotFoundComponent";
-import NavAction from "../../../../Navbar/NavAction";
-import MiniDrowp from "../shrat_clube_pages/minidrowp/minidrowp";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 async function getWishlist() {
@@ -23,8 +22,8 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch (error) {
+    return error;
   }
 }
 async function getData(categoryKey) {
@@ -37,8 +36,8 @@ async function getData(categoryKey) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -48,14 +47,6 @@ async function Product({ searchParams }) {
   const data = await getData(categoryKey);
   const wishlistdata = await getWishlist();
 
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   return (
     <>
       <NavAction />

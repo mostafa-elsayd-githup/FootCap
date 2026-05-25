@@ -2,9 +2,9 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
-import NotFoundComponent from "../../../NotFoundComponent";
+import NotFoundComponent from "../../../not-found";
 import NavAction from "../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
+import MiniDrowp from "../../minidrowp/minidrowp";
 import Footer from "../../../footer/Footre";
 import DiscoundComponent from "../../Collection/man_colliction/discound_componente/discounds";
 import { cookies } from "next/headers";

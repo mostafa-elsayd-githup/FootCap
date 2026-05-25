@@ -2,9 +2,8 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./shose_page/singelproduct";
-import NotFoundComponent from "./NotFoundComponent";
-import NavAction from "../../../../../Navbar/NavAction";
-import MiniDrowp from "../../shrat_clube_pages/minidrowp/minidrowp";
+import NavAction from "@/app//Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 async function getWishlist() {
@@ -21,8 +20,8 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch (error) {
+    return error;
   }
 }
 
@@ -39,8 +38,8 @@ async function gitdata({ categoryKey }) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch (error) {
+    throw error;
   }
 }
 
@@ -50,15 +49,6 @@ async function Product({ searchParams }) {
 
   const data = await gitdata({ categoryKey });
   const wishlist = await getWishlist();
-
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   return (
     <>
       <NavAction />
@@ -89,7 +79,7 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfvevorite = !!wishlist.wishlist.some(
+              const isfvevorite = !!wishlist?.wishlist.some(
                 (wishlist) => wishlist.id === item.id,
               );
               return (

@@ -2,11 +2,10 @@
 import Link from "next/link";
 import SingleProduct from "./SingleProduct_Liverpool";
 import styles from "./page.module.css";
-import Footer from "../../../../footer/Footre";
+import Footer from "@/app/footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
-import NotFoundComponent from "../../../../NotFoundComponent";
-import NavAction from "../../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 async function getWishlist() {
@@ -37,8 +36,8 @@ async function getdata(categoryKey) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch (error){
+    throw error ;
   }
 }
 
@@ -47,14 +46,6 @@ async function Product({ searchParams }) {
   const categoryKey = query.club;
   const data = await getdata(categoryKey);
   const wishlist = await getWishlist();
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   const clubContent = [
     {
       type: "alahly",

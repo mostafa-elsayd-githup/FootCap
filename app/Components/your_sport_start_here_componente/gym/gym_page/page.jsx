@@ -1,13 +1,12 @@
+"use server";
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "./singelproduct";
-import { Container } from "react-bootstrap";
-import NotFoundComponent from "../NotFoundComponent";
-import NavAction from "../../../../Navbar/NavAction";
-import MiniDrowp from "./minidrowp/minidrowp";
-import Footer from "../../../../footer/Footre";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
+import Footer from "@/app/footer/Footre";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -22,41 +21,31 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch (error) {
+    return error;
   }
 }
 async function gitdata(categoryKey) {
   try {
-    const res = await fetch(`http://localhost:1200/products?type=${categoryKey}`, {
-      next: { tags: ["Gym"] },
-      cache: "no-store",
-    });
- if (res.ok) {
+    const res = await fetch(
+      `http://localhost:1200/products?type=${categoryKey}`,
+      { next: { tags: ["backitball"] }, cache: "no-store" },
+    );
+    if (res.ok) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch (error) {
+    throw error;
   }
 }
 
-async function Product({searchParams}) {
+async function Product({ searchParams }) {
   const queryParams = await searchParams;
   const categoryKey = queryParams.type;
-  console.log(categoryKey);
-  
   const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   return (
     <>
       <NavAction />
@@ -77,26 +66,11 @@ async function Product({searchParams}) {
             </span>
           </span>
           <h1 className={styles.title}>
-            Gym & Training Collection{" "}
+            Adidaes BasketBall Collection{" "}
             <span style={{ fontSize: "15px", color: "#7777" }}>
-              [ {data.length} ]
+              ( {data.length} )
             </span>
           </h1>
-          <p className={styles.prag}>
-            Welcome to all the gym gear you&apos;ll ever need. Discover premium
-            training kit for men, women and children in the best-selling adidas
-            range. Our fitness designs are made for performance and comfort with
-            pieces ranging from high-end designer collaborations to activewear
-            staples. Browse to discover head-to-toe gym gear for every workout
-            from cardio to resistance, HIIT to strength and everything in
-            between. Our gym and training range is infused with multiple
-            technologies to keep you training outdoors in all weathers and
-            challenging yourself at the gym. Choose designs that are breathable,
-            sweat-wicking, lightweight to keep you comfortable, in cuts that
-            deliver distraction-free comfort via clothing with great support,
-            coverage and freedom of movement. With looks this good, nothing need
-            keep you from your next session. <button></button>
-          </p>
         </div>
         <MiniDrowp />
         <div className={styles.products}>

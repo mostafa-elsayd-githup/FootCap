@@ -53,7 +53,7 @@ const SingleProduct = ({ productItem }) => {
   const handleeyeSubmit = async () => {
     setActionTypeState("eye");
     if (!pending) {
-      Router.push(`/Components/Hero/${productItem.id}`);
+      Router.push(`/Components/Collection/man_colliction/product_section1_in_mancomponet/${productItem.id}`);
     }
   };
   useEffect(() => {
@@ -246,7 +246,7 @@ const SingleProduct = ({ productItem }) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link href={`/Components/Hero/${style.id}`}>
+              <Link href={`/Components/Collection/man_colliction/product_section1_in_mancomponet/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -258,7 +258,7 @@ const SingleProduct = ({ productItem }) => {
         </div>
       )}
       <Card.Body className={styles.card_body}>
-        <Link href={`/Components/Hero/${productItem.id}`}>
+        <Link href={`/Components/Collection/man_colliction/product_section1_in_mancomponet/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         <span
