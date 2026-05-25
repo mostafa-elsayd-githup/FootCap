@@ -9,7 +9,7 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-  margin-top: 62px;
+margin-top: 60px;
 }
 .container_info {
   color: white;
@@ -69,7 +69,7 @@
     background-image: url("/backgroud-hero_section_for_mupile.svg");
     width: 100%;
     height: 34rem;
-    margin-top: 74px;
+    margin-top: 60px;
   }
   .Button {
     width: 175px;
@@ -84,5 +84,10 @@
   }
 
 }
-@media (min-width: 769px) {
+@media (min-width: 769px )and (max-width:19) {
+    .hero {
+    width: 100%;
+    height: 34rem;
+    margin-top: 60px;
+  }
 }

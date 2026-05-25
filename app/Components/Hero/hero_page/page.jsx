@@ -2,11 +2,10 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import SingleProduct from "@/app/Components/Hero/hero_page/singelproduct";
-import NotFoundComponent from "../../../not-found";
-import NavAction from "../../../Navbar/NavAction";
-import MiniDrowp from "../../minidrowp/minidrowp";
-import Footer from "../../../footer/Footre";
-import DiscoundComponent from "../../Collection/man_colliction/discound_componente/discounds";
+import NavAction from "@/app/Navbar/NavAction";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
+import Footer from "@/app/footer/Footre";
+import DiscoundComponent from "@/app/Components/Collection/man_colliction/discound_componente/discounds";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
@@ -24,8 +23,8 @@ async function getWishlist() {
     });
     const userWishlist = await res.json();
     return userWishlist;
-  } catch {
-    return [];
+  } catch(error) {
+    return error;
   }
 }
 
@@ -35,14 +34,12 @@ async function gitdata(categoryKey) {
       `http://localhost:1200/products?type=${categoryKey}`,
       { next: { Tags: ["Running"] }},
     );
-    if (!res.ok) {
-      return undefined;
-    } else if (res.ok) {
+     if (res.ok) {
       const data = await res.json();
       return data;
     }
-  } catch {
-    throw new Error("");
+  } catch(error) {
+    throw error;
   }
 }
 
@@ -52,14 +49,6 @@ async function Product({ searchParams }) {
   const data = await gitdata(categoryKey);
   const wishlist = await getWishlist();
 
-  if (!data || data.length === 0) {
-    return (
-      <>
-        <NavAction />
-        <NotFoundComponent />
-      </>
-    );
-  }
   return (
     <>
       <NavAction />

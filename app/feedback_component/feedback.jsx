@@ -1,7 +1,7 @@
 "use client";
 import React, { useActionState, useState, useRef, useEffect } from "react";
 import styles from "./feedback.module.css";
-import { useOpneing } from "../RTK/storcontext";
+import { useOpneing } from "../../RTK/storcontext";
 import FeedbackAction from "./feedbackserver";
 import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";

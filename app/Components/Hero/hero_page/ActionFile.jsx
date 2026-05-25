@@ -10,6 +10,8 @@ export default async function handleAction(prevstate, formData) {
   }
   const decryption = jwt.verify(token, process.env.JWT_SECRET);
   const actionType = formData.get("actiontype");
+  console.log(actionType);
+  
   const id = formData.get("id");
   const image = formData.get("image");
   const image_Hover = formData.get("image_Hover");

@@ -11,14 +11,14 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import handleAction from "./AcctionFile";
-import { useOpneing } from "@/app/RTK/storcontext";
+import { useOpneing } from "@/RTK/storcontext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleWishlistOptimistic,
   rollbackWishlist,
-} from "@/app/RTK/wishlistslice";
+} from "@/RTK/wishlistslice";
 const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const SingleProduct = ({ productItem }) => {
   const handleeyeSubmit = async () => {
     setActionTypeState("eye");
     if (!pending) {
-      Router.push(`/Components/${productItem.id}`);
+      Router.push(`/product/${productItem.id}`);
     }
   };
   useEffect(() => {
@@ -246,7 +246,7 @@ const SingleProduct = ({ productItem }) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link href={`/Components/${style.id}`}>
+              <Link href={`/product/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -258,7 +258,7 @@ const SingleProduct = ({ productItem }) => {
         </div>
       )}
       <Card.Body className={styles.card_body}>
-        <Link href={`/Components/${productItem.id}`}>
+        <Link href={`/product/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         <span

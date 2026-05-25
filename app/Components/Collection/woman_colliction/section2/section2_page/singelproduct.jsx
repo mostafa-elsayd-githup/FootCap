@@ -11,7 +11,7 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import handleAction from "./ActionFile";
-import { useOpneing } from "../../../../../RTK/storcontext";
+import { useOpneing } from "../../../../../../RTK/storcontext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 

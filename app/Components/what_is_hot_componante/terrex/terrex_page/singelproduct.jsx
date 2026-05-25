@@ -11,14 +11,14 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import handleAction from "./ActionFile";
-import { useOpneing } from "../../../../RTK/storcontext";
+import { useOpneing } from "../../../../../RTK/storcontext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleWishlistOptimistic,
   rollbackWishlist,
-} from "../../../../RTK/wishlistslice";
+} from "../../../../../RTK/wishlistslice";
 const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
   const dispatch = useDispatch();

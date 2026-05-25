@@ -6,8 +6,8 @@ import style from "./navbar.module.css";
 import ThemeToggle from "../button/button";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { setInitialCart } from "../RTK/cardslice";
-import { setInitialWishlist } from "../RTK/wishlistslice";
+import { setInitialCart } from "../../RTK/cardslice";
+import { setInitialWishlist } from "../../RTK/wishlistslice";
 function NavBar({ productCount }) {
   const dispatch = useDispatch()
   const pathname = usePathname();

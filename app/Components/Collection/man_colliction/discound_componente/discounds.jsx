@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 function DiscoundComponent() {
 
   return (
-    <>
+
       <section className={styles.discounde_section} data-aos="fade-up">
         <Container className={styles.container}>
           <div>
@@ -23,7 +23,6 @@ function DiscoundComponent() {
           </span>
         </Container>
       </section>
-    </>
   );
 }
 export default DiscoundComponent;

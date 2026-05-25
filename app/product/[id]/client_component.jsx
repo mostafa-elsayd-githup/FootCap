@@ -15,14 +15,14 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./page.module.css";
 import { useActionState, useEffect } from "react";
-import handelAction from "./ActionFile";
+import handelAction from "@/server/dynamicfile";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
 import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleWishlistOptimistic } from "../../RTK/wishlistslice";
-import { addToCartOptimistic } from "../../RTK/cardslice";
+import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
+import { addToCartOptimistic } from "@/RTK/cardslice";
 export default function Products({ fillWidth, product }) {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -105,13 +105,13 @@ export default function Products({ fillWidth, product }) {
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product.oldPrice));
+  }).format(parseInt(product?.oldPrice));
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product.price));
+  }).format(parseInt(product?.price));
   return (
     <>
       {/* loader */}
@@ -182,10 +182,10 @@ export default function Products({ fillWidth, product }) {
               <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
-              {product.url.length} colours available
+              {product?.url?.length} colours available
             </div>
             <div className={styles.smil_image}>
-              {product.url.map((item) => {
+              {product?.url.map((item) => {
                 return (
                   <span key={item.id}>
                     <Image
@@ -221,11 +221,11 @@ export default function Products({ fillWidth, product }) {
                   {size}
                 </button>
               ))}
-            </div>
-
-            <span style={{ color: "red", fontSize: "1rem" }}>
+            <span className={"text-(--color-sale) w-bold w-36  content-center"}>
               {state?.sizemessage}
             </span>
+            </div>
+
           </div>
 
           {/* actions */}

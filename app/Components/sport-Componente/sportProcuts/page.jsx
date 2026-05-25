@@ -7,6 +7,7 @@ import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
 import Footer from "@/app/footer/Footre";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
+import DiscoundComponent from "../../Collection/man_colliction/discound_componente/discounds";
 async function getWishlist() {
   const tokenstor = await cookies();
   const token = tokenstor.get("token")?.value;
@@ -90,6 +91,7 @@ async function Product({ searchParams }) {
             })}
         </div>
       </div>
+      <DiscoundComponent/>
       <Footer />
     </>
   );

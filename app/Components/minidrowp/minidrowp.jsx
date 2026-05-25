@@ -1,7 +1,7 @@
 "use client";
 import styles from "./minidrowp.module.css";
 import { Card } from "react-bootstrap";
-import { useOpneing } from "../../RTK/storcontext";
+import { useOpneing } from "../../../RTK/storcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
@@ -13,8 +13,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCartOptimistic } from "../../RTK/cardslice";
-import { toggleWishlistOptimistic } from "../../RTK/wishlistslice";
+import { addToCartOptimistic } from "../../../RTK/cardslice";
+import { toggleWishlistOptimistic } from "../../../RTK/wishlistslice";
 export default function MiniDrowp() {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -30,12 +30,10 @@ export default function MiniDrowp() {
   const [AddToCart, setAddToCart] = useState(false);
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  // console.log(wishlistItems);
 
   const isfevorite = wishlistItems.some(
     (item) => item.id === selectedProduct?.id,
   );
-  console.log(isfevorite);
 
   const handleaddedtocard = () => {
     setActionTypeState("card");
@@ -62,7 +60,7 @@ export default function MiniDrowp() {
         title: "Login Required",
         text: "Please log in to continue. Redirecting...",
         icon: "error",
-        timer: 2500,
+        timer: 1000,
         timerProgressBar: true,
         showConfirmButton: false,
         willClose: () => {
@@ -85,7 +83,7 @@ export default function MiniDrowp() {
         toast: true,
         position: "bottom-left",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 1000,
       });
       console.log(state.wishliststate);
 
@@ -265,7 +263,7 @@ export default function MiniDrowp() {
                   </button>
                 ))}
               {state ? (
-                <span className="text-[var(--color-sale)] font-black w-36">
+                <span className="text-(--color-sale) w-36 content-center">
                   {state?.message}
                 </span> 
               ) : null}

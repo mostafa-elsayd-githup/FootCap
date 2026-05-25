@@ -7,7 +7,8 @@ export const handelAction = async (prevstate, formData) => {
   const token = cookieStore.get("token")?.value;
   const decryption = jwt.verify(token, process.env.JWT_SECRET);
 
-  const buttonType = formData.get("intent");
+  const buttonType = formData.get("buttontype");
+  console.log(buttonType);
   const id = formData.get("id");
   const image = formData.get("image");
   const image_url = formData.get("image_url");
@@ -30,50 +31,56 @@ export const handelAction = async (prevstate, formData) => {
   };
 
   if (buttonType === "cart") {
-    const cartitemId = `${product.id}-${sizes}`;
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-    const userdata = await res.json();
+    try {
+      const cartitemId = `${product.id}-${sizes}`;
+      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
+      const userdata = await res.json();
 
-    let cart = userdata.cart || [];
+      let cart = userdata.cart || [];
 
-    let wishlist = userdata.wishlist || [];
-    const exists = wishlist.some((item) => item.id === product.id);
-    if (exists) {
-      cart.push({ ...product, id: cartitemId });
-      wishlist = wishlist.filter((item) => item.id !== product.id);
-    }
-    await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ cart: cart, wishlist: wishlist }),
-    });
-    revalidateTag("navbar");
-    if (exists === true) {
-    }
-  } else if (buttonType === "wishlist") {
-    
- try {
+      let wishlist = userdata.wishlist || [];
+      const exists = wishlist.some((item) => item.id === product.id);
+      if (exists) {
+        cart.push({ ...product, id: cartitemId });
+        wishlist = wishlist.filter((item) => item.id !== product.id);
+      }
+      await fetch(`http://localhost:1200/users/${decryption.id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ cart: cart, wishlist: wishlist }),
+      });
+      revalidateTag("navbar");
+      if (exists === true) {
+      }
+    } catch {}
+  }
+  if (buttonType === "wishlist") {
+    try {
       const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
       const user = await res.json();
+
       if (user) {
         let wishlist = user.wishlist || [];
         const exists = wishlist.some((item) => item.id === product.id);
-        
+
         if (exists) {
           wishlist = wishlist.filter((item) => item.id !== product.id);
-        } else {
-          return;
         }
+
         await fetch(`http://localhost:1200/users/${decryption.id}`, {
+          cache: "no-store",
           method: "PATCH",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ wishlist }),
         });
+
         revalidateTag("navbar");
-        return {wishliststate: exists} 
+
+        // لو كان موجود واتمسح يبقى الـ wishliststate الجديدة هتبقى false
+        return { wishliststate: !exists, status: 200, timeStamp: Date.now() };
       }
-    }catch{
-      
+    } catch (error) {
+      return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
     }
   }
 };

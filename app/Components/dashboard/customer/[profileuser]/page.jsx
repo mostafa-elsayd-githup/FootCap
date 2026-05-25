@@ -1,7 +1,7 @@
 // "use server";
 import AdminUserProfile from "./clienrtprofile";
 import NavAction from "../../../../Navbar/NavAction";
-import { useOpneing } from "../../../../RTK/storcontext";
+import { useOpneing } from "../../../../../RTK/storcontext";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 

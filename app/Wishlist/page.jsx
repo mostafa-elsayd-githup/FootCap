@@ -1,11 +1,11 @@
 "use server";
-import NavAction from "../Navbar/NavAction";
+import NavAction from "@/app/Navbar/NavAction";
 import Footer from "../footer/Footre";
 import Products from "./wiahlist";
-import MiniDrowp from "../Components/Hero/hero_page/minidrowp/minidrowp";
+import MiniDrowp from "@/app/Components/minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import DiscoundComponent from "../Components/Collection/man_colliction/discound_componente/discounds";
+import DiscoundComponent from "@/app/Components/Collection/man_colliction/discound_componente/discounds";
 const getData = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -17,7 +17,7 @@ const getData = async () => {
   return userwishlist.wishlist;
 };
 async function page() {
-  const wishlist = (await getData()) || [];
+  const wishlist = await getData() || [];
 
   return (
     <>

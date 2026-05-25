@@ -282,19 +282,15 @@
   text-transform: uppercase; 
 }
 
-.in_stock { color: #2aba71; }
-.dark .in_stock { color: #4ade80; }
-.low_stock { color: #f59e0b; }
-.dark .low_stock { color: #fbbf24; }
-.out_of_stock { color: var(--color-sale); opacity: 0.95; }
-.trustSection {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border-color); 
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+:global(.dark) .in_stock { color: #4ade80; }
+
+:global(.dark) .low_stock { color: #fbbf24; }
+
+:global(.dark) .out_of_stock { color: var(--color-sale); opacity: 0.95; }
+
+:global(.dark) .trustIcon { filter: invert(1) grayscale(1); }
+
+:global(.dark) .overlay { background-color: rgba(0, 0, 0, 0.7); }
 
 .trustItem {
   display: flex;

@@ -1,7 +1,7 @@
 "use client";
 import styles from "./minidrowp.module.css";
 import { Card } from "react-bootstrap";
-import { useOpneing } from "../../../../../../RTK/storcontext";
+import { useOpneing } from "../../../../../../../RTK/storcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
