@@ -11,14 +11,14 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import handleAction from "./ActionFile";
-import { useOpneing } from "../../../RTK/storcontext";
+import { useOpneing } from "@/app/RTK/storcontext";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleWishlistOptimistic,
   rollbackWishlist,
-} from "../../../RTK/wishlistslice";
+} from "@/app/RTK/wishlistslice";
 const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -159,7 +159,7 @@ const SingleProduct = ({ productItem }) => {
             onClick={() => {
               setActionTypeState("eye");
               if (!pending) {
-                Router.push(`/Components/Hero/${productItem.id}`);
+                Router.push(`/Components/${productItem.id}`);
               }
             }}
             style={{
@@ -173,7 +173,6 @@ const SingleProduct = ({ productItem }) => {
           >
             <FontAwesomeIcon icon={faEye} className={styles.icon} />
           </button>
-          {/*data for ActionFile*/}
           <>
           <input type="hidden" name="id" value={productItem.id || ""} />
           <input type="hidden" name="image" value={productItem?.image || ""} />
@@ -236,7 +235,7 @@ const SingleProduct = ({ productItem }) => {
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
-              <Link href={`/Components/Hero/${style.id}`}>
+              <Link href={`/Components/${style.id}`}>
                 <Card.Img
                   variant="top"
                   src={style.img_url}
@@ -248,7 +247,7 @@ const SingleProduct = ({ productItem }) => {
         </div>
       )}
       <Card.Body className={styles.card_body}>
-        <Link href={`/Components/Hero/${productItem.id}`}>
+        <Link href={`/Components/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
         </Link>
         <span

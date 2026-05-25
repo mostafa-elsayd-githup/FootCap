@@ -1,7 +1,7 @@
 "use server";
 import Link from "next/link";
 import styles from "./page.module.css";
-import SingleProduct from "./singelproduct";
+import SingleProduct from "@/app/Components/Hero/hero_page/singelproduct";
 import NotFoundComponent from "../../../not-found";
 import NavAction from "../../../Navbar/NavAction";
 import MiniDrowp from "../../minidrowp/minidrowp";

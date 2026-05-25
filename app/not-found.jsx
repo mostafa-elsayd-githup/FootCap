@@ -4,6 +4,7 @@ import styles from "./NotFound.module.css";
 import { usePathname } from "next/navigation";
 export default function NotFound() {
   const pathname = usePathname();
+
   return (
     <div className={styles.notFoundWrapper}>
       <div className={styles.glowBg}></div>

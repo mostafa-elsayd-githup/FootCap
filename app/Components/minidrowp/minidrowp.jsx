@@ -280,7 +280,7 @@ export default function MiniDrowp() {
                   e.preventDefault();
                   const result = await checkCookes();
                   if (result.success) {
-                    Router.push(`/Components/Hero/${selectedProduct.id}`);
+                    Router.push(`/Components/${selectedProduct.id}`);
                   } else {
                     Swal.fire({
                       title: "Login Required",
