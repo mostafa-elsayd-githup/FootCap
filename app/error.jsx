@@ -1,10 +1,7 @@
 "use client";
-import { useEffect } from "react";
 import style from "./error.module.css"; 
 import  Link  from "next/link";
 export default function Error({ error, reset }) {
-  
-
   return (
     <div className={style.error_wrapper}>
     
@@ -15,7 +12,7 @@ export default function Error({ error, reset }) {
       <h1 className={style.title}> Connection error Check your internet connection</h1>
       
       <p className={style.description}>
-       There appears to be a temporary server outage or an internet connection interruption.
+     {error.message}
       </p> 
 
       <div className={style.button_group}>
