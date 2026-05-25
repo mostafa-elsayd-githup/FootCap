@@ -6,7 +6,7 @@ import Footer from "../../../../footer/Footre";
 import DiscoundComponent from "../discound_componente/discounds";
 import NotFoundComponent from "../../../../NotFoundComponent";
 import NavAction from "../../../../Navbar/NavAction";
-import MiniDrowp from "../shrat_clube_pages/minidrowp/minidrowp";
+import MiniDrowp from "./minidrowp/minidrowp";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 async function getWishlist() {

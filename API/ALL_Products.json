@@ -8,7 +8,38 @@
       "role": "user",
       "createdAt": "2026-05-11T15:10:56.813Z",
       "wishlist": [],
-      "cart": [],
+      "cart": [
+        {
+          "id": "308-M",
+          "image": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/41e0d84c29f74deabd9abc05e7989ead_9366/JY9744_21_model.jpg",
+          "name": "ADI365 Climacool+ Engineered T-Shirt",
+          "price": "499900",
+          "old_price": null,
+          "category": "Men Running",
+          "sizes": "M",
+          "quantity": 3
+        },
+        {
+          "id": "155-40",
+          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/b411f0c845ab4c72942018e7920f57ea_9366/IF0953_HM1.jpg",
+          "name": "Amplimove Training حذاء ",
+          "price": "549900",
+          "old_price": null,
+          "category": "Gym & Training (Man)",
+          "sizes": "40",
+          "quantity": 2
+        },
+        {
+          "id": "154-S",
+          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/3ce6dc386217438ead9ee247baa978e2_9366/IG3861_HM1.jpg",
+          "name": "Dropset 3 Training حذاء",
+          "price": "2000",
+          "old_price": null,
+          "category": "Gym & Training (Man)",
+          "sizes": "S",
+          "quantity": 2
+        }
+      ],
       "order": []
     },
     {

@@ -18,31 +18,37 @@ import { useActionState, useEffect } from "react";
 import handelAction from "./ActionFile";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
-import { useOpneing } from "../../../../RTK/storcontext";
 import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
-export default function Products({ fillWidth, product, isfevorite }) {
-  console.log(product.id);
-  
+import { useSelector, useDispatch } from "react-redux";
+import { toggleWishlistOptimistic } from "../../../RTK/wishlistslice";
+import { addToCartOptimistic } from "../../../RTK/cardslice";
+export default function Products({ fillWidth, product }) {
   const Router = useRouter();
+  const dispatch = useDispatch();
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
     initialState,
   );
-  const { setisfevorite } = useOpneing();
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
+  const wishlist = useSelector((state) => state.wishlist.items);
+  const isfevorite = wishlist.some((item) => item.id === product.id);
+  const handlewishlist = () => {
+    setActionTypeState("wishlist");
+    dispatch(toggleWishlistOptimistic(product));
+  };
+  const handleaddedtocard = () => {
+    setActionTypeState("card");
+    dispatch(addToCartOptimistic(product));
+  };
   useEffect(() => {
     if (state?.state === 401) {
       redirect("/register");
     }
-  }, [state, Router]);
-  useEffect(() => {
     if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-      setisfevorite(state.wishliststate);
-
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -55,8 +61,6 @@ export default function Products({ fillWidth, product, isfevorite }) {
         title: state.wishlistmessage,
       });
     }
-  }, [state?.wishliststate, state?.wishlistmessage, setisfevorite]);
-  useEffect(() => {
     if (state?.cardState !== undefined && state?.cardState !== null) {
       const Toast = Swal.mixin({
         toast: true,
@@ -70,10 +74,32 @@ export default function Products({ fillWidth, product, isfevorite }) {
         icon: "success",
         title: isquantityUpdata ? "quintity +1" : "Added to Cart",
       });
-      console.log("yes");
-      setisfevorite(false);
     }
-  }, [setisfevorite, state?.cardState, state.timeStamp, state.type]);
+    if (state?.status === 500) {
+      if (actionTypeState === "wishlist") {
+        dispatch(rollbackWishlist(selectedProduct));
+      } else if (actionTypeState === "card") {
+        dispatch(removeFromCartOptimistic(selectedProduct.id));
+      }
+
+      Swal.fire({
+        title: "Error",
+        text: state.message || "Something went wrong",
+        icon: "error",
+      });
+    }
+  }, [
+    state,
+    Router,
+    state?.wishliststate,
+    state.wishlistmessage,
+    state?.cardState,
+    state.timeStamp,
+    state.type,
+    actionTypeState,
+    dispatch,
+  ]);
+
   const oldprice = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
@@ -153,7 +179,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 <span className={styles.old_price}> {oldprice}</span>
               </span>
             ) : (
-              <p className={styles.price}>EGP {product.price}</p>
+              <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
               {product.url.length} colours available
@@ -229,7 +255,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
               <button
                 className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                 type="submit"
-                onMouseDown={() => setActionTypeState("card")}
+                onMouseDown={handleaddedtocard}
               >
                 ADD TO BAG
                 <span className={styles.arrowIcon}>
@@ -240,7 +266,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 className={styles.wishlistBtn}
                 type="submit"
                 disabled={pending}
-                onMouseDown={() => setActionTypeState("wishlist")}
+                onMouseDown={handlewishlist}
               >
                 <FontAwesomeIcon
                   className={styles.icon}

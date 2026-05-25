@@ -18,26 +18,100 @@ import { useActionState, useEffect } from "react";
 import handelAction from "./ActionFile";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
-import { useOpneing } from "../../../../RTK/storcontext";
-
-export default function Products({ fillWidth, product, isfevorite }) {
+import Swal from "sweetalert2";
+import { Card } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleWishlistOptimistic } from "../../../RTK/wishlistslice";
+import { addToCartOptimistic } from "../../../RTK/cardslice";
+export default function Products({ fillWidth, product }) {
   const Router = useRouter();
-  const initialState = { massage: "", stat: null };
+  const dispatch = useDispatch();
+  const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
     initialState,
   );
-    const {  setisfevorite } = useOpneing();
-   
-  
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
+  const wishlist = useSelector((state) => state.wishlist.items);
+  const isfevorite = wishlist.some((item) => item.id === product.id);
+  const handlewishlist = () => {
+    setActionTypeState("wishlist");
+    dispatch(toggleWishlistOptimistic(product));
+  };
+  const handleaddedtocard = () => {
+    setActionTypeState("card");
+    dispatch(addToCartOptimistic(product));
+  };
   useEffect(() => {
     if (state?.state === 401) {
       redirect("/register");
     }
-  }, [state, Router]);
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: state.wishlistmessage,
+      });
+    }
+    if (state?.cardState !== undefined && state?.cardState !== null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2000,
+      });
+      const isquantityUpdata = state.type === "quantity";
+      Toast.fire({
+        icon: "success",
+        title: isquantityUpdata ? "quintity +1" : "Added to Cart",
+      });
+    }
+    if (state?.status === 500) {
+      if (actionTypeState === "wishlist") {
+        dispatch(rollbackWishlist(selectedProduct));
+      } else if (actionTypeState === "card") {
+        dispatch(removeFromCartOptimistic(selectedProduct.id));
+      }
+
+      Swal.fire({
+        title: "Error",
+        text: state.message || "Something went wrong",
+        icon: "error",
+      });
+    }
+  }, [
+    state,
+    Router,
+    state?.wishliststate,
+    state.wishlistmessage,
+    state?.cardState,
+    state.timeStamp,
+    state.type,
+    actionTypeState,
+    dispatch,
+  ]);
+
+  const oldprice = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(product.oldPrice));
+  const price = Intl.NumberFormat("en", {
+    notation: "standard",
+    style: "currency",
+    currency: "EGP",
+    minimumFractionDigits: 0,
+  }).format(parseInt(product.price));
   return (
     <>
       {/* loader */}
@@ -49,7 +123,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
       <div className={styles.container}>
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
-            <img
+            <Card.Img
               src={product.image}
               className={styles.mainImage}
               alt={product.name}
@@ -58,7 +132,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image_Hover ? (
-              <img
+              <Card.Img
                 src={product.image_Hover}
                 className={styles.mainImage}
                 alt={product.name}
@@ -68,7 +142,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image3 ? (
-              <img
+              <Card.Img
                 src={product.image3}
                 className={styles.mainImage}
                 alt={product.name}
@@ -86,7 +160,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
 
           <div className={styles.imageContainer}>
             {product.image4 && (
-              <img
+              <Card.Img
                 src={product.image4}
                 className={styles.mainImage}
                 alt={product.name}
@@ -101,11 +175,11 @@ export default function Products({ fillWidth, product, isfevorite }) {
             <h1 className={styles.productName}>{product.name}</h1>
             {product.oldPrice ? (
               <span>
-                <span className={styles.price}>EGP {product.price}</span>
-                <span className={styles.oldPrice}>EGP {product.oldPrice}</span>
+                <span className={styles.price_red}>{price}</span>
+                <span className={styles.old_price}> {oldprice}</span>
               </span>
             ) : (
-              <p className={styles.price}>EGP {product.price}</p>
+              <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
               {product.url.length} colours available
@@ -136,7 +210,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
                   className={`${styles.sizeBox} ${selectedSize === size ? styles.activeSize : ""}`}
                   onClick={() => {
                     if (selectedSize === size) {
-                      setselectedSize("");
+                      setselectedSize(null);
                       setAddToCart(false);
                     } else {
                       setselectedSize(size);
@@ -148,6 +222,10 @@ export default function Products({ fillWidth, product, isfevorite }) {
                 </button>
               ))}
             </div>
+
+            <span style={{ color: "red", fontSize: "1rem" }}>
+              {state?.sizemessage}
+            </span>
           </div>
 
           {/* actions */}
@@ -177,7 +255,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
               <button
                 className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                 type="submit"
-                onMouseDown={() => setActionTypeState("card")}
+                onMouseDown={handleaddedtocard}
               >
                 ADD TO BAG
                 <span className={styles.arrowIcon}>
@@ -187,21 +265,17 @@ export default function Products({ fillWidth, product, isfevorite }) {
               <button
                 className={styles.wishlistBtn}
                 type="submit"
-                onMouseDown={() => {
-                  setActionTypeState("wishlist")
-                setisfevorite(!isfevorite)
-                }}
+                disabled={pending}
+                onMouseDown={handlewishlist}
               >
                 <FontAwesomeIcon
                   className={styles.icon}
+                  // استخدم الحالة اللي جاية من الـ Context عشان تفضل متزامنة
                   icon={isfevorite ? fasHeart : farHeart}
                 />
               </button>
             </form>
           </div>
-          <span style={{ color: "red", fontSize: "1rem" }}>
-            {state?.message}
-          </span>
 
           <div className={styles.ratingWrapper}>
             <div className={styles.starsContainer}>
@@ -216,6 +290,7 @@ export default function Products({ fillWidth, product, isfevorite }) {
             </div>
 
             <span className={styles.ratingText}>
+              [ {product.rating} ]
               <span className={styles.reviewsCount}>
                 ({product.watchde || 0} reviews)
               </span>

@@ -43,6 +43,8 @@ export default async function handelAction(prevstate, formData) {
       const cartdata = await checkuser.json();
       if (cartdata) {
         let carts = cartdata.cart || [];
+        console.log(carts);
+        
         let wishlist = cartdata.wishlist || [];
 
         const index = carts.findIndex((item) => item.id === cartitemId);
@@ -57,7 +59,6 @@ export default async function handelAction(prevstate, formData) {
           headers: { "content-type": "application/json" },
           body: JSON.stringify({ cart: carts, wishlist }),
         });
-        revalidateTag("navbar");
         if (index !== -1) {
           return {
             cardState: true,
