@@ -8,68 +8,7 @@
       "role": "user",
       "createdAt": "2026-05-11T15:10:56.813Z",
       "wishlist": [],
-      "cart": [
-        {
-          "id": "308-M",
-          "image": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/41e0d84c29f74deabd9abc05e7989ead_9366/JY9744_21_model.jpg",
-          "name": "ADI365 Climacool+ Engineered T-Shirt",
-          "price": "499900",
-          "old_price": null,
-          "category": "Men Running",
-          "sizes": "M",
-          "quantity": 3
-        },
-        {
-          "id": "155-40",
-          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/b411f0c845ab4c72942018e7920f57ea_9366/IF0953_HM1.jpg",
-          "name": "Amplimove Training حذاء ",
-          "price": "549900",
-          "old_price": null,
-          "category": "Gym & Training (Man)",
-          "sizes": "40",
-          "quantity": 2
-        },
-        {
-          "id": "154-S",
-          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/3ce6dc386217438ead9ee247baa978e2_9366/IG3861_HM1.jpg",
-          "name": "Dropset 3 Training حذاء",
-          "price": "2000",
-          "old_price": null,
-          "category": "Gym & Training (Man)",
-          "sizes": "S",
-          "quantity": 2
-        },
-        {
-          "id": "290-M",
-          "image": "https://assets.adidas.com/images/w_1880,f_auto,q_auto/024221c4fcaa43b49dfa173ca301eaac_9366/JN2075_21_model.jpg",
-          "name": "Germany 26 Away Shorts",
-          "price": "339900 ",
-          "old_price": null,
-          "category": "Men Football",
-          "sizes": "M",
-          "quantity": 2
-        },
-        {
-          "id": "228-L",
-          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/394347ce00344a569403b5270edaa390_9366/JW5475_000_plp_model.jpg",
-          "name": "جاكيت رياضية Liverpool FC UBP Doubleknit",
-          "price": " 799900",
-          "old_price": null,
-          "category": "الرجال كرة القدم  (Men)",
-          "sizes": "L",
-          "quantity": 2
-        },
-        {
-          "id": "228-XL",
-          "image": "https://assets.adidas.com/images/w_450,f_auto,q_auto/394347ce00344a569403b5270edaa390_9366/JW5475_000_plp_model.jpg",
-          "name": "جاكيت رياضية Liverpool FC UBP Doubleknit",
-          "price": " 799900",
-          "old_price": null,
-          "category": "الرجال كرة القدم  (Men)",
-          "sizes": "XL",
-          "quantity": 2
-        }
-      ],
+      "cart": [],
       "order": []
     },
     {
@@ -5681,7 +5620,7 @@
       "id": "249",
       "name": "adidas by Stella McCartney Taekwondo Shoes",
       "category": "adidas by Stella McCartney",
-      "type": "shoes",
+      "type": "womanshoes",
       "price": "1099900 ",
       "made": "New",
       "sizes": [
@@ -8752,6 +8691,14 @@
     {
       "id": "1e36",
       "comment": "kkkkkkkkkkkkkkkkkkkk"
+    },
+    {
+      "id": "af9f",
+      "comment": "aaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "cd51",
+      "comment": "mostafa"
     }
   ]
 }

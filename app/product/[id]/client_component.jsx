@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./page.module.css";
 import { useActionState, useEffect } from "react";
-import handelAction from "@/server/dynamicfile";
+import handelAction from "@/server/dynamicfile_server";
 import { useState } from "react";
 import { useRouter, redirect } from "next/navigation";
 import Swal from "sweetalert2";
@@ -340,7 +340,6 @@ export default function Products({ fillWidth, product }) {
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </>
   );

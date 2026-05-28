@@ -1,6 +1,6 @@
 "use server";
-import NavAction from "../../Navbar/NavAction";
-import Footer from "../../footer/Footre";
+import NavAction from "@/Components/Navbar/NavAction";
+import Footer from "@/Components/footer/Footre";
 import styles from "./page.module.css";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";

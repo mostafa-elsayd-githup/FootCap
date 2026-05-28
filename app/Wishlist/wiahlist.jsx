@@ -6,7 +6,7 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { useActionState, useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { handelAction } from "./wishliestAction";
+import { handelAction } from "../../server/wishliest_server";
 import Link from "next/link";
 import { useOpneing } from "../../RTK/storcontext";
 import { useSelector, useDispatch } from "react-redux";
