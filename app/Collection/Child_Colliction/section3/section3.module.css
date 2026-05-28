@@ -1,0 +1,52 @@
+.clubs {
+  display: flex;
+}
+.clubs_swiper {
+  width: 100%;
+  height: auto;
+}
+
+.club_item {
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product_card {
+  text-align: center;
+  width: 460px;
+  border: none;
+}
+.title_clube {
+  font-size: 15px;
+  font-weight: normal;
+}
+.Button {
+  position: relative;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  color: black;
+}
+.Button::after {
+  content: "";
+  background: #000;
+  width: calc(100% - 22px);
+  height: 1px;
+  position: absolute;
+  bottom: 5px;
+  left: 11px;
+}
+.Button:hover {
+  background-color: transparent;
+  color: #000;
+}
+@media (max-width: 768px) {
+}
+@media (min-width: 769px) {
+  .Container_shart {
+    position: relative;
+  }
+}
+/* @media (min-width: 769px) and (max-width: 1233px) {} */

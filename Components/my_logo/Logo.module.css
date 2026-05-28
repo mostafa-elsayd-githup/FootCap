@@ -1,0 +1,66 @@
+.logoContainer {
+  letter-spacing: -1.5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  align-items: center;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-size: 2.2rem;
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+.moText {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-primary);
+
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.storeText {
+  font-weight: 300;
+  text-transform: lowercase;
+  color: var(--color-primary);
+  transition: color 0.3s ease;
+}
+
+.logoContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #ffffff3b 30%,
+    #ffffff69 50%,
+    #ffffff57 70%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: shimmerAnimation 5s infinite ease-in-out;
+}
+
+@keyframes shimmerAnimation {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}

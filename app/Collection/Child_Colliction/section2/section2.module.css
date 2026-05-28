@@ -1,0 +1,80 @@
+.container {
+  margin-top: 80px;
+}
+.contante {
+    margin-top:30px;
+  display: flex;
+    gap: 20px;
+    margin: 10px;
+}
+.title {
+  margin: 0 20px;
+  font-size: 26px;
+  line-height: 30px;
+  letter-spacing: 1.14px;
+  color: #111;
+  font-family: "AdihausDIN", sans-serif;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.kids1 {
+  background-image: url(/image_section2_kids.svg);
+}
+.kids2 {
+  background-image: url(/image2_section2_kids.svg);
+}
+.kids3 {
+  background-image: url(/image_3_section2_kids.svg);
+}
+
+.kids1,
+.kids2,
+.kids3 {
+  border: none;
+  position: relative;
+  background-position: inherit;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 300px;
+  padding: 20px;
+  display: flex;
+}
+.Button {
+  color: #000;
+  background-color: #fff;
+  border: 1px #000;
+  border-radius: 0;
+  justify-content: space-around;
+  align-items: center;
+  width: 150px;
+  font-size: 15px;
+  transition: all 0.3s;
+  display: flex;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.Button:hover {
+  color: #000;
+  background-color: #eeeeee7a;
+}
+
+@media (max-width: 768px) {
+  .contante {
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 10px;
+  }
+}
+@media (min-width: 769px) and (max-width: 1233px) {
+  .contante {
+    gap: 15px;
+    margin: 0 10px;
+    margin-bottom: 30px;
+  }
+}

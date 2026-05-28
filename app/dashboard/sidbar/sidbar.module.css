@@ -1,0 +1,198 @@
+.sidebar {
+  width: 280px; 
+  height: calc(100vh - 74px); 
+  background-color: var(--bg-card); 
+  border-right: 1px solid var(--border-color); 
+  padding: 2.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 74px;
+  position: relative;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 90;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 10px;
+}
+.sidebar h2 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 2.2rem;
+  padding-left: 12px;
+  color: var(--color-primary);
+  letter-spacing: 3px;
+  opacity: 0.7; 
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 14px;
+  text-decoration: none !important;
+  color: var(--color-secondary);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+}
+
+.navLink span {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.iconMargin {
+  margin-right: 12px;
+  width: 18px;
+  text-align: center;
+  opacity: 0.8;
+  transition: transform 0.25s ease;
+}
+
+.navLink:hover,
+.activeLink {
+  background-color: var(--bg-primary);
+  color: var(--color-primary) !important;
+}
+
+.navLink:hover .iconMargin {
+  transform: scale(1.08); 
+}
+
+.bolckLink {
+  padding: 12px 16px;
+  border-radius: 14px;
+  color: var(--color-sale) !important; 
+  text-decoration: none !important;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 2rem; 
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: rgba(227, 43, 43, 0.04); 
+  border: 1px solid rgba(227, 43, 43, 0.1);
+}
+
+.bolckLink:hover {
+  background-color: var(--color-sale);
+  color: var(--color-main) !important;
+  box-shadow: 0 8px 20px rgba(227, 43, 43, 0.15);
+  transform: translateY(-1px);
+}
+
+
+.subMenu {
+  background-color: var(--bg-primary); 
+  border-radius: 14px;
+  margin: 2px 0 8px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 4px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease, 
+              padding 0.3s ease;
+  padding: 0 8px;
+}
+
+.subMenu.open {
+  max-height: 380px; 
+  opacity: 1;
+  padding: 10px 8px;
+  overflow-y: auto; 
+}
+.subNavLink {
+  padding: 8px 10px;
+  color: var(--color-secondary);
+  text-decoration: none !important;
+  font-size: 0.85rem;
+  font-weight: 400;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.subNavLink:hover {
+  color: var(--color-primary);
+  background-color: rgba(120, 120, 120, 0.08);
+  padding-left: 14px; 
+}
+
+.chevron {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--color-secondary);
+}
+
+.activeLink .chevron {
+  transform: rotate(180deg); 
+  color: var(--color-primary);
+}
+
+.nestedMenuWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nestedTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  color: var(--color-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+.nestedTrigger:hover {
+  background-color: rgba(120, 120, 120, 0.05);
+}
+
+.nestedSubMenu {
+  background-color: rgba(0, 0, 0, 0.03); 
+  margin-left: 10px;
+  border-left: 1px dashed var(--border-color);
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+}
+
+.nestedSubMenu.nestedOpen {
+  max-height: 200px;
+  opacity: 1;
+  padding: 4px 0;
+}
+
+.nestedActive {
+  color: var(--color-primary);
+  font-weight: 600;
+}
