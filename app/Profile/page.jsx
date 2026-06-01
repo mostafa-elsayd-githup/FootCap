@@ -1,29 +1,35 @@
 "use server";
-import { cookies } from "next/headers";
-import NavAction from "../Navbar/NavAction";
+import NavAction from "@/Components/Navbar/NavAction";
 import ProfilePage from "./profilepage";
-import jwt from "jsonwebtoken";
-
+import { createClientForServer } from "@/utils/supabase";
 
 export async function GetAll_UserData() {
-  const cookiestore = await cookies();
-  const token = cookiestore.get("token")?.value;
+  const supabaseServer = await createClientForServer();
+
+  const { data: { user }, error: Error } = await supabaseServer.auth.getUser();
   
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-  const getuserdata = await fetch(
-    `http://localhost:1200/users/${decryption.id}`,
-    {
-      cache: "no-store",
-    },
-  );
-  if (getuserdata.ok) {
-    const userData = await getuserdata.json();
-    return userData;
+  if (Error || !user) {
+    console.log("Auth Error or No User found in Server:", Error?.message);
+    return null;
   }
+
+  const { data: profileData, error: profileError } = await supabaseServer
+    .from("profiles")
+    .select("wishlist, cart, full_name, email, created_at")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError) {
+    console.error("Error fetching profile from Supabase:", profileError.message);
+    return null;
+  }
+
+  return profileData; 
 }
 
 export default async function products() {
   const user = await GetAll_UserData();
+  console.log("User data on Server:", user); 
 
   return (
     <>

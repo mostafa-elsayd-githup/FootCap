@@ -1,18 +1,17 @@
 "use server";
 
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { createClientForServer } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 export default async function handleAction(prevstate, formData) {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
+  const supabaseServer = await createClientForServer();
+  const { data: {user}, error: authError } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
     return { state: 401, message: "Please login to continue" };
   }
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
+
   const actionType = formData.get("actiontype");
-  console.log(actionType);
-  
-  const id = formData.get("id");
+
+  const id = formData.get("id");  
   const image = formData.get("image");
   const image_Hover = formData.get("image_Hover");
   const image_url = formData.getAll("image_url");
@@ -42,28 +41,36 @@ export default async function handleAction(prevstate, formData) {
 
   if (actionType === "wishlist") {
     try {
-      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-      const user = await res.json();
-      if (user) {
-        let wishlist = user.wishlist || [];
-
-        const exists = wishlist.some((item) => item.id === product.id);
-
-
-        if (exists) {
-          wishlist = wishlist.filter((item) => item.id !== product.id);
-        } else {
-          wishlist.push(product);
-        }
-        await fetch(`http://localhost:1200/users/${decryption.id}`, {
-          cache: "no-store",
-          method: "PATCH",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ wishlist }),
-        });
-
-        return { wishliststate: !exists, timeStamp: Date.now() };
+      const supabaseServer = await createClientForServer();
+      const { data: profile, error: fetchError } = await supabaseServer
+      .from("profiles")
+      .select("wishlist")
+      .eq("id", user.id)
+      .single();
+      if (fetchError) {
+        console.error("Error fetching wishlist:", fetchError.message);
+        return { error: "Failed to fetch wishlist" };
       }
+      let currentWishlist = profile?.wishlist || [];
+      const exists = currentWishlist.some((item) => item.id === product.id);
+      if (exists) {
+        currentWishlist = currentWishlist.filter((item) => item.id !== product.id);
+      } else {
+        currentWishlist.push(product);
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ wishlist: currentWishlist }) 
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+      revalidatePath("/", "layout");
+      return { wishliststate: !exists, timeStamp: Date.now() };
     } catch {
       return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
     }

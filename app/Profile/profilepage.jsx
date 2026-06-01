@@ -1,11 +1,11 @@
 "use client";
 import styles from "./profile.module.css";
 import { useState } from "react";
-import logoutfun from "./actionFile";
+import logoutfun from "../../server/profile_server";
 import { useActionState } from "react";
 
 function ProfilePage({ users }) {
-  const date = new Date(users?.createdAt).toLocaleDateString("eg-EG", {
+  const date = new Date(users?.created_at).toLocaleDateString("eg-EG", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -38,7 +38,7 @@ function ProfilePage({ users }) {
                       <div className={styles.onlineBadge}></div>
                     </div>
 
-                    <h3 className={styles.userName}>{users.name}</h3>
+                    <h3 className={styles.userName}>{users.full_name}</h3>
                     <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
@@ -114,7 +114,7 @@ function ProfilePage({ users }) {
                   <div className={styles.infoList}>
                     <div className={styles.infoRow}>
                       <div className={styles.infoLabel}>Full Name</div>
-                      <div className={styles.infoValue}>{users.name}</div>
+                      <div className={styles.infoValue}>{users.full_name}</div>
                     </div>
 
                     <div className={styles.infoRow}>

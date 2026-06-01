@@ -1,22 +1,43 @@
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse } from 'next/server'
 
-export function middleware(request) {
-  // الحصول على المسار اللي المستخدم بيحاول يوصل له حالاً
-const { pathname, searchParams } = request.nextUrl;
+export async function middleware(request) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
 
-// 1. نتأكد الأول إننا في الصفحة الصح
-  if (pathname.includes("shrat_clube_pages")) {
-    
-    // 2. نجيب قيمة الـ club من الرابط
-    const club = searchParams.get('club');
-
-    if (club === "Man United") {
-      console.log("المستخدم يشجع الشياطين الحمر 🔴 (Man United)");
-    } 
-    else if (club === "Liverpool") {
-      console.log("المستخدم يشجع الريدز 🔴 (Liverpool)");
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value, options))
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          )
+        },
+      },
     }
-  }
-  // إخبار Next.js بأن يسمح للمستخدم بالوصول للصفحة
-  return NextResponse.next();
+  )
+
+  await supabase.auth.getUser()
+
+  return response
+}
+
+export const config = {
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 }
