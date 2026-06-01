@@ -14,16 +14,14 @@ const wishlistSlice = createSlice({
       const product = action.payload;
 
           
-      const exists = state.items.some((item) => item.id === product.id);
+      const exists = state.items.some((item) =>  Number(item.id) === Number(product.id));
       
       if (exists) {
-        state.items = state.items.filter((item) => item.id !== product.id);
+        state.items = state.items.filter((item) => Number(item.id) !== Number(product.id));
       } else {
         state.items.push(product);
       }
     },
-
-
     rollbackWishlist: (state, action) => {
       const product = action.payload;
       const exists = state.items.some((item) => item.id === product.id);

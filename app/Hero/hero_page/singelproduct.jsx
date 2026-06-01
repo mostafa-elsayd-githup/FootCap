@@ -19,7 +19,7 @@ import {
   toggleWishlistOptimistic,
   rollbackWishlist,
 } from "@/RTK/wishlistslice";
-const Singleroduct = ({ productItem }) => {
+const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
   const dispatch = useDispatch();
   const [currentImg, setCurrentImg] = useState(productItem.image);
@@ -30,12 +30,10 @@ const Singleroduct = ({ productItem }) => {
   );
   const [actionTypeState, setActionTypeState] = useState("");
   const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
-  const wishlistItems = useSelector((state) => state.wishlist.items);
-  const isfevorite = wishlistItems.some((item) => item.id === productItem.id);
-  const handlecardSubmit = async () => {
-    setSelectedProduct(productItem);
-    setIsOpen(true);
-  };
+  let wishlistItems = useSelector((state) => state.wishlist.items);
+  console.log(wishlistItems);
+
+  const isfevorite = wishlistItems.some((item) => Number(item.id) === productItem.id);
   const handleWishlistSubmit = async () => {
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(productItem));
@@ -45,15 +43,9 @@ const Singleroduct = ({ productItem }) => {
 
       Swal.fire({
         title: "Error",
-        text: result.message,
+        text: state.message,
         icon: "error",
       });
-    }
-  };
-  const handleeyeSubmit = async () => {
-    setActionTypeState("eye");
-    if (!pending) {
-      Router.push(`/product/${productItem.id}`);
     }
   };
   useEffect(() => {
@@ -71,10 +63,7 @@ const Singleroduct = ({ productItem }) => {
         },
       });
     }
-    if (
-      state?.wishliststate !== undefined &&
-      state?.wishliststate !== null 
-    ) {
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
       setisfevorite(state.wishliststate);
 
       const Toast = Swal.mixin({
@@ -92,7 +81,7 @@ const Singleroduct = ({ productItem }) => {
           : "Removed from Wishlist",
       });
     }
-  }, [state.wishliststate, setisfevorite, state?.state, Router, state?.timeStamp]);
+  }, [state.wishliststate, setisfevorite, state?.state, Router]);
 
   if (productItem.oldPrice) {
     var discount =
@@ -126,7 +115,10 @@ const Singleroduct = ({ productItem }) => {
       <div className={styles.icons}>
         <button
           type="button"
-          onClick={handlecardSubmit}
+          onClick={() => {
+            setIsOpen(true);
+            setSelectedProduct(productItem);
+          }}
           style={{
             background: "none",
             border: "none",
@@ -162,7 +154,12 @@ const Singleroduct = ({ productItem }) => {
           <button
             disabled={pending}
             type="button"
-            onClick={handleeyeSubmit}
+            onClick={() => {
+              setActionTypeState("eye");
+              if (!pending) {
+                Router.push(`/product/${productItem.id}`);
+              }
+            }}
             style={{
               background: "none",
               border: "none",
@@ -174,7 +171,6 @@ const Singleroduct = ({ productItem }) => {
           >
             <FontAwesomeIcon icon={faEye} className={styles.icon} />
           </button>
-
           <>
             <input type="hidden" name="id" value={productItem.id || ""} />
             <input
@@ -238,11 +234,11 @@ const Singleroduct = ({ productItem }) => {
           onMouseEnter={() => setCurrentImg(productItem.image_Hover)}
           className={styles.image}
         />
-        {productItem.oldPrice && (
+        {productItem.oldPrice ? (
           <span className={styles.dis}>{parseInt(discount)} %</span>
-        )}
+        ):null}
       </div>
-      {productItem.url && productItem.url.length > 0 && (
+      {productItem.url && productItem.url.length > 0 ? (
         <div className={styles.small_products}>
           {productItem.url.map((style) => (
             <div key={style.id} className={styles.small_img}>
@@ -256,7 +252,7 @@ const Singleroduct = ({ productItem }) => {
             </div>
           ))}
         </div>
-      )}
+      ):null}
       <Card.Body className={styles.card_body}>
         <Link href={`/product/${productItem.id}`}>
           <h5 className={styles.name}>{productItem.name}</h5>
@@ -269,7 +265,7 @@ const Singleroduct = ({ productItem }) => {
           {price}
         </span>
 
-        {productItem.oldPrice && (
+        {productItem.oldPrice ?(
           <>
             <span className={styles.old_price}>{oldprice}</span>
             <input
@@ -278,7 +274,7 @@ const Singleroduct = ({ productItem }) => {
               value={productItem.oldPrice || ""}
             />
           </>
-        )}
+        ):null}
         <p className={styles.category}>{productItem.category}</p>
         <p className={styles.colors}>
           {productItem.url.length ? `Colors: ${productItem.url.length}` : ""}
@@ -291,4 +287,4 @@ const Singleroduct = ({ productItem }) => {
   );
 };
 
-export default Singleroduct;
+export default SingleProduct;
