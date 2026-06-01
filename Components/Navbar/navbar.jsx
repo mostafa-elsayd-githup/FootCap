@@ -8,22 +8,21 @@ import { useEffect } from "react";
 import { setInitialCart } from "../../RTK/cardslice";
 import { setInitialWishlist } from "../../RTK/wishlistslice";
 import MostoreLogo from "../my_logo/logo";
-function NavBar({ productCount }) {
-  const dispatch = useDispatch()
+function NavBar({ userdata }) {
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
-  useEffect(()=>{
-if (productCount?.wishlist) {
-      dispatch(setInitialWishlist(productCount.wishlist));
+  useEffect(() => {
+    if (userdata?.wishlist) {
+      dispatch(setInitialWishlist(userdata.wishlist));
     }
-    if (productCount?.cart) {
-      dispatch(setInitialCart(productCount.cart));
-    } else if (productCount?.card) {
-     
-      dispatch(setInitialCart(productCount.card));
+    if (userdata?.cart) {
+      dispatch(setInitialCart(userdata.cart));
+    } else if (userdata?.card) {
+      dispatch(setInitialCart(userdata.card));
     }
-  },[dispatch, productCount])
+  }, [dispatch, userdata.card, userdata.cart, userdata?.wishlist]);
   const isActive = (path) => (pathname === path ? style.bottom_tab_active : "");
 
   return (
@@ -31,29 +30,20 @@ if (productCount?.wishlist) {
       <nav className={`fixed-top ${style.navbar_container}`}>
         <div className="container-fluid px-4 px-md-5 d-flex align-items-center justify-content-between">
           <Link href="/" className="d-flex align-items-center">
-            <MostoreLogo/>
+            <MostoreLogo />
           </Link>
 
           <div className={`${style.nav_links} ${style.desktop_only}`}>
             <Link href="/" className={style.link}>
               HOME
             </Link>
-            <Link
-              href="/Collection/man_colliction"
-              className={style.link}
-            >
+            <Link href="/Collection/man_colliction" className={style.link}>
               MEN
             </Link>
-            <Link
-              href="/Collection/woman_colliction"
-              className={style.link}
-            >
+            <Link href="/Collection/woman_colliction" className={style.link}>
               WOMEN
             </Link>
-            <Link
-              href="/Collection/Child_Colliction"
-              className={style.link}
-            >
+            <Link href="/Collection/Child_Colliction" className={style.link}>
               KIDS
             </Link>
             <Link href="/dashboard" className={style.link}>
@@ -77,18 +67,16 @@ if (productCount?.wishlist) {
             <div className={`${style.icon_group} ${style.desktop_only}`}>
               <Link href="/Wishlist" className={style.icon_link}>
                 <i className="fa-regular fa-heart"></i>
-                {wishlist?.length > 0 && (
+                {wishlist?.length > 0 ? (
                   <span className={style.badge}>{wishlist.length}</span>
-                )}
+                ) : null}
               </Link>
 
               <Link href="/CardPage" className={style.icon_link}>
                 <i className="fa-solid fa-bag-shopping"></i>
-                {card?.length > 0 && (
-                  <span className={style.badge}>
-                    {card.length}
-                  </span>
-                )}
+                {card?.length > 0 ? (
+                  <span className={style.badge}>{card.length}</span>
+                ) : null}
               </Link>
 
               <Link href="/Profile" className={style.icon_link}>
@@ -123,9 +111,9 @@ if (productCount?.wishlist) {
         >
           <div className={style.icon_wrapper_mobile}>
             <i className="fa-regular fa-heart"></i>
-            {wishlist?.length > 0 && (
+            {wishlist?.length > 0 ? (
               <span className={style.badge}>{wishlist.length}</span>
-            )}
+            ) : null}
           </div>
           <span>Wishlist</span>
         </Link>
@@ -136,9 +124,9 @@ if (productCount?.wishlist) {
         >
           <div className={style.icon_wrapper_mobile}>
             <i className="fa-solid fa-bag-shopping"></i>
-            {card?.length > 0 && (
+            {card?.length > 0 ? (
               <span className={style.badge}>{card.length}</span>
-            )}
+            ) : null}
           </div>
           <span>Cart</span>
         </Link>

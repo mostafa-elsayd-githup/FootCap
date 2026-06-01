@@ -7,9 +7,9 @@ import SportComponete from "@/app/your_sport_start_here_componente/you_sport_com
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import HotCOMPONANTE from "@/app/what_is_hot_componante/what_is_hot";
 import NavAction from "@/Components/Navbar/NavAction";
+import { supabase } from "@/utils/supabase";
 // import "aos/dist/aos.css";
-export default function Home() {
-
+export default async function Home() {
   return (
     <>
       <NavAction />

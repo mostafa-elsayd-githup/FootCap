@@ -8,45 +8,66 @@ import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { createClientForServer } from "@/utils/supabase";
 
 async function getWishlist() {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   try {
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      cache: "no-store",
-      next: { tags: ["navbar"] },
-    });
-    const userWishlist = await res.json();
-    return userWishlist;
-  } catch(error) {
+    const supabaseServer = await createClientForServer();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseServer.auth.getUser();
+    if (authError || !user) {
+      return { wishlist: [] };
+    }
+    const { data: profileUser, profileError } = await supabaseServer
+      .from("profiles")
+      .select("wishlist")
+      .eq("id", user.id)
+      .single();
+    if (profileError) {
+      console.error(
+        "Error fetching wishlist from Supabase:",
+        profileError.message,
+      );
+      return { wishlist: [] };
+    }
+    return profileUser;
+    // const tokenstor = await cookies();
+    // const token = tokenstor.get("token")?.value;
+    // if (!token) {
+    // return { state: 401, message: "Please login to continue" };
+    // }
+    // const decryption = jwt.verify(token, process.env.JWT_SECRET);
+    // const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
+    //   cache: "no-store",
+    //   next: { tags: ["navbar"] },
+    // });
+    // const userWishlist = await res.json();
+    // return userWishlist;
+  } catch (error) {
     return error;
   }
 }
 
-async function gitdata(categoryKey) {
+async function getProductsByType(categoryKey) {
   try {
-    const res = await fetch(
-      `http://localhost:1200/products?type=${categoryKey}`,
-      { next: { Tags: ["Running"] }},
-    );
-     if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch(error) {
+    const createClient = await createClientForServer();
+    const { data, error } = await createClient
+      .from("products")
+      .select("*")
+      .eq("type", categoryKey);
+
+    return data;
+  } catch (error) {
     throw error;
   }
 }
-
 async function Product({ searchParams }) {
   const queryParams = await searchParams;
   const categoryKey = queryParams.type;
-  const data = await gitdata(categoryKey);
+  const data = await getProductsByType(categoryKey);
+
   const wishlist = await getWishlist();
 
   return (
@@ -79,20 +100,17 @@ async function Product({ searchParams }) {
         <div className={styles.products}>
           {data &&
             data.map((item) => {
-              const isfevorite = wishlist.wishlist?.some(
-                (wish) => wish.id === item.id,
-              );
               return (
                 <SingleProduct
                   key={item.id}
                   productItem={item}
-                  isfevorite={isfevorite}
+                  serverWishlist={wishlist?.wishlist || []}
                 />
               );
             })}
         </div>
       </div>
-        <DiscoundComponent/>
+      <DiscoundComponent />
       <Footer />
     </>
   );
