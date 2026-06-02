@@ -6,6 +6,7 @@ import { StoreProvider } from "../RTK/storcontext";
 import { ThemeProvider } from "next-themes";
 import Feedback from "@/Components/feedback_component/feedback";
 import ReduxProvider from "../RTK/ReduxProvider";
+import NavBar from "@/Components/Navbar/navbar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
