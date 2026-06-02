@@ -24,6 +24,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
 import { addToCartOptimistic } from "@/RTK/cardslice";
 export default function Products({ fillWidth, product }) {
+  console.log(product[0]);
+  
+  
   const Router = useRouter();
   const dispatch = useDispatch();
   const initialState = { massage: "", state: null };
@@ -35,7 +38,9 @@ export default function Products({ fillWidth, product }) {
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
   const wishlist = useSelector((state) => state.wishlist.items);
-  const isfevorite = wishlist.some((item) => item.id === product.id);
+  
+  const isfevorite = wishlist.some((item) => Number(item.id) === Number(product[0].id));
+  console.log(isfevorite);
   const handlewishlist = () => {
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(product));
@@ -105,13 +110,13 @@ export default function Products({ fillWidth, product }) {
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product?.oldPrice));
+  }).format(parseInt(product[0]?.oldPrice));
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product?.price));
+  }).format(parseInt(product[0]?.price));
   return (
     <>
       {/* loader */}
@@ -124,32 +129,32 @@ export default function Products({ fillWidth, product }) {
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
             <Card.Img
-              src={product.image}
+              src={product[0].image}
               className={styles.mainImage}
-              alt={product.name}
+              alt={product[0].name}
             />
           </div>
 
           <div className={styles.imageContainer}>
-            {product.image_Hover ? (
+            {product[0].image_Hover ? (
               <Card.Img
-                src={product.image_Hover}
+                src={product[0].image_Hover}
                 className={styles.mainImage}
-                alt={product.name}
+                alt={product[0].name}
               />
             ) : null}
           </div>
 
           <div className={styles.imageContainer}>
-            {product.image3 ? (
+            {product[0].image3 ? (
               <Card.Img
-                src={product.image3}
+                src={product[0].image3}
                 className={styles.mainImage}
-                alt={product.name}
+                alt={product[0].name}
               />
-            ) : product.video ? (
+            ) : product[0].video ? (
               <video
-                src={product.video}
+                src={product[0].video}
                 className={styles.mainImage}
                 autoPlay
                 muted
@@ -159,11 +164,11 @@ export default function Products({ fillWidth, product }) {
           </div>
 
           <div className={styles.imageContainer}>
-            {product.image4 && (
+            {product[0].image4 && (
               <Card.Img
-                src={product.image4}
+                src={product[0].image4}
                 className={styles.mainImage}
-                alt={product.name}
+                alt={product[0].name}
               />
             )}
           </div>
@@ -173,7 +178,7 @@ export default function Products({ fillWidth, product }) {
         <div className={styles.infoSection}>
           <div className={styles.headerInfo}>
             <h1 className={styles.productName}>{product.name}</h1>
-            {product.oldPrice ? (
+            {product[0].oldPrice ? (
               <span>
                 <span className={styles.price_red}>{price}</span>
                 <span className={styles.old_price}> {oldprice}</span>
@@ -182,10 +187,10 @@ export default function Products({ fillWidth, product }) {
               <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
-              {product?.url?.length} colours available
+              {product[0]?.url?.length} colours available
             </div>
             <div className={styles.smil_image}>
-              {product?.url.map((item) => {
+              {product[0]?.url.map((item) => {
                 return (
                   <span key={item.id}>
                     <Image
@@ -204,7 +209,7 @@ export default function Products({ fillWidth, product }) {
           <div className={styles.sizeSection}>
             <h3 className={styles.sectionTitle}>Select Size</h3>
             <div className={styles.sizeGrid}>
-              {product.sizes.map((size) => (
+              {product[0]?.sizes.map((size) => (
                 <button
                   key={size}
                   className={`${styles.sizeBox} ${selectedSize === size ? styles.activeSize : ""}`}
@@ -236,16 +241,16 @@ export default function Products({ fillWidth, product }) {
               action={formAction}
             >
               {/*data for ActionFile*/}
-              <input type="hidden" name="id" value={product.id || ""} />
-              <input type="hidden" name="image" value={product.image || ""} />
-              <input type="hidden" name="dis" value={product.dis || ""} />
-              <input type="hidden" name="name" value={product.name || ""} />
-              <input type="hidden" name="price" value={product.price || ""} />
+              <input type="hidden" name="id" value={product[0].id || ""} />
+              <input type="hidden" name="image" value={product[0].image || ""} />
+              <input type="hidden" name="dis" value={product[0].dis || ""} />
+              <input type="hidden" name="name" value={product[0].name || ""} />
+              <input type="hidden" name="price" value={product[0].price || ""} />
               <input type="hidden" name="size" value={selectedSize || ""} />
               <input
                 type="hidden"
                 name="category"
-                value={product.category || ""}
+                value={product[0].category || ""}
               />
               <input
                 type="hidden"
@@ -270,7 +275,6 @@ export default function Products({ fillWidth, product }) {
               >
                 <FontAwesomeIcon
                   className={styles.icon}
-                  // استخدم الحالة اللي جاية من الـ Context عشان تفضل متزامنة
                   icon={isfevorite ? fasHeart : farHeart}
                 />
               </button>
@@ -290,15 +294,15 @@ export default function Products({ fillWidth, product }) {
             </div>
 
             <span className={styles.ratingText}>
-              [ {product.rating} ]
+              [ {product[0].rating} ]
               <span className={styles.reviewsCount}>
-                ({product.watchde || 0} reviews)
+                ({product[0].watchde || 0} reviews)
               </span>
             </span>
           </div>
           {/* description */}
           <div className={styles.description}>
-            <h3 className={styles.sectionTitle}>{product.description}</h3>
+            <h3 className={styles.sectionTitle}>{product[0].description}</h3>
           </div>
           <div className={styles.trustSection}>
             <div className={styles.trustItem}>
