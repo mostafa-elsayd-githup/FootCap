@@ -31,7 +31,6 @@ const SingleProduct = ({ productItem }) => {
   const [actionTypeState, setActionTypeState] = useState("");
   const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
   let wishlistItems = useSelector((state) => state.wishlist.items);
-  console.log(wishlistItems);
 
   const isfevorite = wishlistItems.some((item) => Number(item.id) === productItem.id);
   const handleWishlistSubmit = async () => {
@@ -255,7 +254,7 @@ const SingleProduct = ({ productItem }) => {
       ):null}
       <Card.Body className={styles.card_body}>
         <Link href={`/product/${productItem.id}`}>
-          <h5 className={styles.name}>{productItem.name}</h5>
+          <h5 className={styles.name}>{productItem.title}</h5>
         </Link>
         <span
           className={`${styles.price} ${
