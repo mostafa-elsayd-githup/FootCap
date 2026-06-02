@@ -10,7 +10,6 @@ export default async function handleAction(prevstate, formData) {
   }
 
   const actionType = formData.get("actiontype");
-
   const id = formData.get("id");  
   const image = formData.get("image");
   const image_Hover = formData.get("image_Hover");
