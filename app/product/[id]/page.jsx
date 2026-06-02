@@ -4,38 +4,70 @@ import Footer from "@/Components/footer/Footre";
 import styles from "./page.module.css";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation"; 
+import { notFound } from "next/navigation";
 import ClientComponent from "./client_component";
+import { createClientForServer } from "@/utils/supabase";
 
-async function getWishlist() {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  try {
-    const decryption = jwt.verify(token, process.env.JWT_SECRET);
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      cache: "no-store",
-      next: { tags: ["navbar"] },
-    });
-    return await res.json();
-  } catch (error) {
-    return null;
-  }
-}
+// async function getWishlist() {
+//   // const tokenstor = await cookies();
+//   // const token = tokenstor.get("token")?.value;
+//   // if (!token) {
+//   //   return { state: 401, message: "Please login to continue" };
+//   // }
+//   try {
+//     const supabaseServer = await createClientForServer();
+//     const {
+//       data: { user },
+//       error: authError,
+//     } = await supabaseServer.auth.getUser();
+//     if (authError || !user) {
+//       return null;
+//     }
+    
+//     const { data: profileData, error: profileError } = await supabaseServer
+//       .from("profiles")
+//       .select("wishlist")
+//       .eq("id", user.id)
+//       .single();
+//     if (profileError) {
+//       console.error(
+//         "Error fetching profile from Supabase:",
+//         profileError.message,
+//       );
+//       return null;
+//     }
+
+//     return profileData;
+
+//     // const decryption = jwt.verify(token, process.env.JWT_SECRET);
+//     // const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
+//     //   cache: "no-store",
+//     //   next: { tags: ["navbar"] },
+//     // });
+//     // return await res.json();
+//   } catch (error) {
+//     return error;
+//   }
+// }
 
 async function getProduct(id) {
   try {
-    const res = await fetch(`http://localhost:1200/products/${id}`, {
-      cache: "no-cache",
-    });
-    if (!res.ok) {
-      return null;
-    }
+    // const res = await fetch(`http://localhost:1200/products/${id}`, {
+    //   cache: "no-cache",
+    // });
+    // if (!res.ok) {
+    //   return null;
+    // }
+    const supabaseServer = await createClientForServer();
+    const { data, error } = await supabaseServer
+      .from("products")
+      .select("*")
+      .eq("id", id);
 
-    const data = await res.json();
     return data;
+
+    // const data = await res.json();
+    // return data;
   } catch (error) {
     return null;
   }
@@ -43,18 +75,19 @@ async function getProduct(id) {
 
 export default async function ProductPage({ params }) {
   const resolvedParams = await params;
-  const productId = resolvedParams.id; 
+  const productId = resolvedParams.id;
 
   const products = await getProduct(productId);
-  const wishlist = await getWishlist();
+  
+  // const wishlist = await getWishlist();
+
+  
   if (!products) {
     notFound();
   }
 
-  const fillWidths = (products.rating / 5) * 100;
-  const isfevorites = !!wishlist?.wishlist?.some(
-    (wish) => wish.id === products.id,
-  );
+  const fillWidths = (products[0].rating / 5) * 100;
+
 
   return (
     <div className={styles.wrapper}>
@@ -62,7 +95,6 @@ export default async function ProductPage({ params }) {
       <ClientComponent
         fillWidth={fillWidths}
         product={products}
-        isfevorite={isfevorites}
       />
       <Footer />
     </div>
