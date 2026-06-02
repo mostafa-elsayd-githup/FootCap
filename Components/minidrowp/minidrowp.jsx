@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
-import handelAction, { checkCookes } from "./miniaction";
+import handelAction from "./miniaction";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function MiniDrowp() {
   const dispatch = useDispatch();
 
   const { isOpen, setIsOpen, selectedProduct, setisfevorite } = useOpneing();
+ 
   const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
@@ -32,7 +33,7 @@ export default function MiniDrowp() {
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const isfevorite = wishlistItems.some(
-    (item) => item.id === selectedProduct?.id,
+    (item) => Number(item.id) === Number(selectedProduct?.id),
   );
 
   const handleaddedtocard = () => {
@@ -48,6 +49,24 @@ export default function MiniDrowp() {
     setActionTypeState("wishlist");
     setLastTimestamp(Date.now());
     dispatch(toggleWishlistOptimistic(selectedProduct));
+  };
+  const handleViewProductButton = async () => {
+    if (state?.tokenstate === 401) {
+      Swal.fire({
+        title: "Login Required",
+        text: "Please log in to continue. Redirecting...",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        willClose: () => {
+          // <=callback function
+          Router.replace("/register");
+        },
+      });
+    } else {
+      redirect(`/product/${selectedProduct.id}`)    
+    }
   };
 
   useEffect(() => {
@@ -93,7 +112,7 @@ export default function MiniDrowp() {
           ? "Added to Wishlist "
           : "Removed from Wishlist",
       });
-        setTimeout(() => {
+      setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
@@ -226,7 +245,7 @@ export default function MiniDrowp() {
           {/* product info*/}
           <div className={styles.infoSection}>
             <div className={styles.headerInfo}>
-              <h1 className={styles.productName}>{selectedProduct.name}</h1>
+              <h1 className={styles.productName}>{selectedProduct.title}</h1>
               {selectedProduct.oldPrice ? (
                 <span>
                   <span className={styles.price_red}>{price}</span>
@@ -262,38 +281,19 @@ export default function MiniDrowp() {
                     {size}
                   </button>
                 ))}
-              {state ? (
-                <span className="text-(--color-sale) w-36 content-center">
-                  {state?.message}
-                </span> 
-              ) : null}
+                {state ? (
+                  <span className="text-(--color-sale) w-36 content-center">
+                    {state?.message}
+                  </span>
+                ) : null}
               </div>
             </div>
-            {/* actions */}
+
             <div className={styles.actions}>
               <Link
                 className={styles.View_ProductBtn}
                 href={``}
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const result = await checkCookes();
-                  if (result.success) {
-                    Router.push(`/Components/${selectedProduct.id}`);
-                  } else {
-                    Swal.fire({
-                      title: "Login Required",
-                      text: "Please log in to continue. Redirecting...",
-                      icon: "error",
-                      timer: 3000,
-                      timerProgressBar: true,
-                      showConfirmButton: false,
-                      willClose: () => {
-                        // <=callback function
-                        Router.replace("/register");
-                      },
-                    });
-                  }
-                }}
+                onClick={handleViewProductButton}
               >
                 View Product
                 <span className={styles.arrowIcon}>
@@ -301,8 +301,8 @@ export default function MiniDrowp() {
                 </span>
               </Link>
               <form className={styles.icons} action={formAction}>
-                {/*data for ActionFile*/}
                 <>
+                  {/*data for ActionFile*/}
                   <input
                     type="hidden"
                     name="id"
