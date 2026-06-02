@@ -1,16 +1,15 @@
 "use server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
+import { createClientForServer } from "@/utils/supabase";
 export default async function handelAction(prevstate, formData) {
-  // chicking for if have token or no
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-
-  if (!token) {
-    return { tokenstate: 401 };
+ const supabaseServer = await createClientForServer();
+  const { data: {user}, error: authError } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
+    return { state: 401, message: "Please login to continue" };
   }
+
 
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
@@ -79,37 +78,39 @@ export default async function handelAction(prevstate, formData) {
       return { message: "Please Check internet Connect ", status: 500 };
     }
   } else if (actionType === "wishlist") {
-    try {
-      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-      const user = await res.json();
-      if (user) {
-        let wishlist = user.wishlist || [];
-
-        const exists = wishlist.some((item) => item.id === product.id);
-
-        if (exists) {
-          wishlist = wishlist.filter((item) => item.id !== product.id);
-        } else {
-          wishlist.push(product);
-        }
-        await fetch(`http://localhost:1200/users/${decryption.id}`, {
-          cache: "no-store",
-          method: "PATCH",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ wishlist }),
-        });
-          return { wishliststate: !exists, timeStamp: Date.now()};
+ try {
+      const supabaseServer = await createClientForServer();
+      const { data: profile, error: fetchError } = await supabaseServer
+      .from("profiles")
+      .select("wishlist")
+      .eq("id", user.id)
+      .single();
+      if (fetchError) {
+        console.error("Error fetching wishlist:", fetchError.message);
+        return { error: "Failed to fetch wishlist" };
       }
+      let currentWishlist = profile?.wishlist || [];
+      const exists = currentWishlist.some((item) => item.id === product.id);
+      if (exists) {
+        currentWishlist = currentWishlist.filter((item) => item.id !== product.id);
+      } else {
+        currentWishlist.push(product);
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ wishlist: currentWishlist }) 
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+      revalidatePath("/", "layout");
+      return { wishliststate: !exists, timeStamp: Date.now() };
     } catch {
-      return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
+      return { message: "Sorry, the connection to the server failed.", status: 500 };
     }
   }
-}
-export async function checkCookes() {
-  const cookiesstore = await cookies();
-  const token = cookiesstore.get("token");
-  if (!token) {
-    return { success: false, message: "login and try agien" };
-  }
-  return { success: true };
 }
