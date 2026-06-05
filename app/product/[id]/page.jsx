@@ -2,8 +2,6 @@
 import NavAction from "@/Components/Navbar/NavAction";
 import Footer from "@/Components/footer/Footre";
 import styles from "./page.module.css";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import ClientComponent from "./client_component";
 import { createClientForServer } from "@/utils/supabase";
@@ -52,12 +50,7 @@ import { createClientForServer } from "@/utils/supabase";
 
 async function getProduct(id) {
   try {
-    // const res = await fetch(`http://localhost:1200/products/${id}`, {
-    //   cache: "no-cache",
-    // });
-    // if (!res.ok) {
-    //   return null;
-    // }
+  
     const supabaseServer = await createClientForServer();
     const { data, error } = await supabaseServer
       .from("products")
@@ -65,9 +58,6 @@ async function getProduct(id) {
       .eq("id", id);
 
     return data;
-
-    // const data = await res.json();
-    // return data;
   } catch (error) {
     return null;
   }
@@ -78,10 +68,6 @@ export default async function ProductPage({ params }) {
   const productId = resolvedParams.id;
 
   const products = await getProduct(productId);
-  
-  // const wishlist = await getWishlist();
-
-  
   if (!products) {
     notFound();
   }
@@ -94,7 +80,7 @@ export default async function ProductPage({ params }) {
       <NavAction />
       <ClientComponent
         fillWidth={fillWidths}
-        product={products}
+        product={products[0]}
       />
       <Footer />
     </div>
