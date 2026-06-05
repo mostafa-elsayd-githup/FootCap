@@ -17,16 +17,16 @@ import styles from "./page.module.css";
 import { useActionState, useEffect } from "react";
 import handelAction from "@/server/dynamicfile_server";
 import { useState } from "react";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
+import {
+  toggleWishlistOptimistic,
+  rollbackWishlist,
+} from "@/RTK/wishlistslice";
 import { addToCartOptimistic } from "@/RTK/cardslice";
 export default function Products({ fillWidth, product }) {
-  console.log(product[0]);
-  
-  
   const Router = useRouter();
   const dispatch = useDispatch();
   const initialState = { massage: "", state: null };
@@ -38,71 +38,69 @@ export default function Products({ fillWidth, product }) {
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
   const wishlist = useSelector((state) => state.wishlist.items);
-  
-  const isfevorite = wishlist.some((item) => Number(item.id) === Number(product[0].id));
-  console.log(isfevorite);
-  const handlewishlist = () => {
+  const isfevorite = wishlist.some(
+    (item) => Number(item.id) === Number(product.id),
+  );
+
+  const handleWishlistSubmit = async () => {
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(product));
   };
-  const handleaddedtocard = () => {
+  const handleaddedtocard = async () => {
     setActionTypeState("card");
     dispatch(addToCartOptimistic(product));
   };
   useEffect(() => {
     if (state?.state === 401) {
-      redirect("/register");
-    }
-    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
-      Toast.fire({
-        icon: "success",
-        title: state.wishlistmessage,
-      });
-    }
-    if (state?.cardState !== undefined && state?.cardState !== null) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
+      Swal.fire({
+        title: "Login Required",
+        text: "Please log in to continue. Redirecting...",
+        icon: "error",
+        timer: 3000,
         timerProgressBar: true,
-        timer: 2000,
-      });
-      const isquantityUpdata = state.type === "quantity";
-      Toast.fire({
-        icon: "success",
-        title: isquantityUpdata ? "quintity +1" : "Added to Cart",
+        showConfirmButton: false,
+        willClose: () => {
+          // <=callback function
+          Router.replace("/register");
+        },
       });
     }
+
     if (state?.status === 500) {
-      if (actionTypeState === "wishlist") {
-        dispatch(rollbackWishlist(selectedProduct));
-      } else if (actionTypeState === "card") {
-        dispatch(removeFromCartOptimistic(selectedProduct.id));
-      }
+      dispatch(rollbackWishlist(product));
 
       Swal.fire({
         title: "Error",
-        text: state.message || "Something went wrong",
+        text: state.message,
         icon: "error",
       });
     }
+    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
+
+
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: state.wishliststate
+          ? "Added to Wishlist"
+          : "Removed from Wishlist",
+      });
+    }
   }, [
-    state,
+    state.wishliststate,
+    state?.state,
     Router,
-    state?.wishliststate,
-    state.wishlistmessage,
-    state?.cardState,
-    state.timeStamp,
-    state.type,
-    actionTypeState,
+    state?.status,
+    state.message,
     dispatch,
+    product,
   ]);
 
   const oldprice = Intl.NumberFormat("en", {
@@ -110,13 +108,14 @@ export default function Products({ fillWidth, product }) {
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product[0]?.oldPrice));
+  }).format(parseInt(product?.oldPrice));
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product[0]?.price));
+  }).format(parseInt(product?.price));
+
   return (
     <>
       {/* loader */}
@@ -129,32 +128,32 @@ export default function Products({ fillWidth, product }) {
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
             <Card.Img
-              src={product[0].image}
+              src={product.image}
               className={styles.mainImage}
-              alt={product[0].name}
+              alt={product.name}
             />
           </div>
 
           <div className={styles.imageContainer}>
-            {product[0].image_Hover ? (
+            {product.image_Hover ? (
               <Card.Img
-                src={product[0].image_Hover}
+                src={product.image_Hover}
                 className={styles.mainImage}
-                alt={product[0].name}
+                alt={product.name}
               />
             ) : null}
           </div>
 
           <div className={styles.imageContainer}>
-            {product[0].image3 ? (
+            {product.image3 ? (
               <Card.Img
-                src={product[0].image3}
+                src={product.image3}
                 className={styles.mainImage}
-                alt={product[0].name}
+                alt={product.name}
               />
-            ) : product[0].video ? (
+            ) : product.video ? (
               <video
-                src={product[0].video}
+                src={product.video}
                 className={styles.mainImage}
                 autoPlay
                 muted
@@ -164,11 +163,11 @@ export default function Products({ fillWidth, product }) {
           </div>
 
           <div className={styles.imageContainer}>
-            {product[0].image4 && (
+            {product.image4 && (
               <Card.Img
-                src={product[0].image4}
+                src={product.image4}
                 className={styles.mainImage}
-                alt={product[0].name}
+                alt={product.name}
               />
             )}
           </div>
@@ -177,8 +176,8 @@ export default function Products({ fillWidth, product }) {
         {/* product*/}
         <div className={styles.infoSection}>
           <div className={styles.headerInfo}>
-            <h1 className={styles.productName}>{product.name}</h1>
-            {product[0].oldPrice ? (
+            <h1 className={styles.productName}>{product.title}</h1>
+            {product.oldPrice ? (
               <span>
                 <span className={styles.price_red}>{price}</span>
                 <span className={styles.old_price}> {oldprice}</span>
@@ -187,10 +186,10 @@ export default function Products({ fillWidth, product }) {
               <p className={styles.price}> {price}</p>
             )}
             <div className={styles.colors_available}>
-              {product[0]?.url?.length} colours available
+              {product?.url?.length} colours available
             </div>
             <div className={styles.smil_image}>
-              {product[0]?.url.map((item) => {
+              {product?.url.map((item) => {
                 return (
                   <span key={item.id}>
                     <Image
@@ -209,7 +208,7 @@ export default function Products({ fillWidth, product }) {
           <div className={styles.sizeSection}>
             <h3 className={styles.sectionTitle}>Select Size</h3>
             <div className={styles.sizeGrid}>
-              {product[0]?.sizes.map((size) => (
+              {product?.sizes.map((size) => (
                 <button
                   key={size}
                   className={`${styles.sizeBox} ${selectedSize === size ? styles.activeSize : ""}`}
@@ -226,11 +225,12 @@ export default function Products({ fillWidth, product }) {
                   {size}
                 </button>
               ))}
-            <span className={"text-(--color-sale) w-bold w-36  content-center"}>
-              {state?.sizemessage}
-            </span>
+              <span
+                className={"text-(--color-sale) w-bold w-36  content-center"}
+              >
+                {state?.sizemessage}
+              </span>
             </div>
-
           </div>
 
           {/* actions */}
@@ -241,16 +241,16 @@ export default function Products({ fillWidth, product }) {
               action={formAction}
             >
               {/*data for ActionFile*/}
-              <input type="hidden" name="id" value={product[0].id || ""} />
-              <input type="hidden" name="image" value={product[0].image || ""} />
-              <input type="hidden" name="dis" value={product[0].dis || ""} />
-              <input type="hidden" name="name" value={product[0].name || ""} />
-              <input type="hidden" name="price" value={product[0].price || ""} />
+              <input type="hidden" name="id" value={product.id || ""} />
+              <input type="hidden" name="image" value={product.image || ""} />
+              <input type="hidden" name="dis" value={product.dis || ""} />
+              <input type="hidden" name="name" value={product.name || ""} />
+              <input type="hidden" name="price" value={product.price || ""} />
               <input type="hidden" name="size" value={selectedSize || ""} />
               <input
                 type="hidden"
                 name="category"
-                value={product[0].category || ""}
+                value={product.category || ""}
               />
               <input
                 type="hidden"
@@ -260,7 +260,7 @@ export default function Products({ fillWidth, product }) {
               <button
                 className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                 type="submit"
-                onMouseDown={handleaddedtocard}
+                onClick={handleaddedtocard}
               >
                 ADD TO BAG
                 <span className={styles.arrowIcon}>
@@ -271,7 +271,7 @@ export default function Products({ fillWidth, product }) {
                 className={styles.wishlistBtn}
                 type="submit"
                 disabled={pending}
-                onMouseDown={handlewishlist}
+                onClick={handleWishlistSubmit}
               >
                 <FontAwesomeIcon
                   className={styles.icon}
@@ -294,15 +294,15 @@ export default function Products({ fillWidth, product }) {
             </div>
 
             <span className={styles.ratingText}>
-              [ {product[0].rating} ]
+              [ {product.rating} ]
               <span className={styles.reviewsCount}>
-                ({product[0].watchde || 0} reviews)
+                ({product.watchde || 0} reviews)
               </span>
             </span>
           </div>
           {/* description */}
           <div className={styles.description}>
-            <h3 className={styles.sectionTitle}>{product[0].description}</h3>
+            <h3 className={styles.sectionTitle}>{product.description}</h3>
           </div>
           <div className={styles.trustSection}>
             <div className={styles.trustItem}>

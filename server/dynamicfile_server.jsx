@@ -1,16 +1,7 @@
 "use server";
-
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { createClientForServer } from "@/utils/supabase";
 
 export default async function handelAction(prevstate, formData) {
-  const tokenStore = await cookies();
-  const token = tokenStore.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-
-  if (!token) {
-    return { state: 401, message: "please Login To continue" };
-  }
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
   const image = formData.get("image");
@@ -30,6 +21,14 @@ export default async function handelAction(prevstate, formData) {
     sizes,
     quantity: 1,
   };
+  let supabaseServer = await createClientForServer();
+  let {
+    data: { user },
+    error: authError,
+  } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
+    return { state: 401, message: "Please login to continue" };
+  }
   if (actionType === "card") {
     const cartitemId = `${product.id}-${sizes}`;
     if (!sizes || sizes.trim() === "") {
@@ -42,8 +41,7 @@ export default async function handelAction(prevstate, formData) {
       const cartdata = await checkuser.json();
       if (cartdata) {
         let carts = cartdata.cart || [];
-        console.log(carts);
-        
+
         let wishlist = cartdata.wishlist || [];
 
         const index = carts.findIndex((item) => item.id === cartitemId);
@@ -75,46 +73,48 @@ export default async function handelAction(prevstate, formData) {
     } catch {
       return { message: "Please Check internet Connect ", status: 500 };
     }
-  }
-  else if (actionType === "wishlist") {
+  } else if (actionType === "wishlist") {
     try {
-      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-      const user = await res.json();
-
-      if (!user) {
-        return { state: 404, message: "User not found" };
+      // console.log("step 1");
+      const { data: profile, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("wishlist")
+        .eq("id", user.id)
+        .single();
+      if (fetchError) {
+        return { error: "Failed to fetch wishlist" };
       }
-
-      let wishlist = user.wishlist || [];
-
-      const exists = wishlist.some((item) => item.id === product.id);
-
-      let newWishlistState;
-
+      let currentWishlist = profile?.wishlist || [];
+      const exists = currentWishlist.some((item) => item.id === product.id);
+      // console.log("step 2");
       if (exists) {
-        wishlist = wishlist.filter((item) => item.id !== product.id);
-        newWishlistState = false;
+        currentWishlist = currentWishlist.filter(
+          (item) => item.id !== product.id,
+        );
       } else {
-        wishlist.push(product);
-        newWishlistState = true;
+        currentWishlist.push(product);
       }
-
-      await fetch(`http://localhost:1200/users/${decryption.id}`, {
-        method: "PATCH",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ wishlist }),
-      });
-
+      // console.log("step 3");
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ wishlist: currentWishlist })
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }  
+ 
+      
+      return { wishliststate: !exists, timeStamp: Date.now() };
+      revalidatePath("/", "layout");
+    } catch {
       return {
-        wishliststate: newWishlistState,
-        wishlistmessage: newWishlistState
-          ? "Added to Wishlist"
-          : "Removed from Wishlist",
-        state: 200,
+        message: "Sorry, the connection to the server failed.",
+        status: 500,
       };
-    } catch (error) {
-      console.error("Wishlist Error:", error);
-      return { message: "Connection failed with server", status: 500 };
     }
   }
 }
