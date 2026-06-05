@@ -37,7 +37,7 @@ const SingleProduct = ({ productItem }) => {
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(productItem));
 
-    if (state && state.status === 500) {
+    if ( state?.status === 500) {
       dispatch(rollbackWishlist(productItem));
 
       Swal.fire({
