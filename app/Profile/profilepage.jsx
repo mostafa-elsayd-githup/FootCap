@@ -38,7 +38,7 @@ function ProfilePage({ users }) {
                       <div className={styles.onlineBadge}></div>
                     </div>
 
-                    <h3 className={styles.userName}>{users.full_name}</h3>
+                    <h3 className={styles.userName}>{users.title}</h3>
                     <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
