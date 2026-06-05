@@ -1,5 +1,6 @@
 "use server";
 import { createClientForServer } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 
 export default async function handelAction(prevstate, formData) {
   const actionType = formData.get("actiontype");
@@ -105,11 +106,10 @@ export default async function handelAction(prevstate, formData) {
           updateError.message,
         );
         return { error: "Failed to update wishlist" };
-      }  
- 
-      
+      }
+
+      revalidatePath("/");
       return { wishliststate: !exists, timeStamp: Date.now() };
-      revalidatePath("/", "layout");
     } catch {
       return {
         message: "Sorry, the connection to the server failed.",
