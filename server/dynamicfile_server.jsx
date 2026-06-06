@@ -35,38 +35,51 @@ export default async function handelAction(prevstate, formData) {
     if (!sizes || sizes.trim() === "") {
       return { sizemessage: "Select size first" };
     }
+    console.log(cartitemId);
+    
     try {
-      const checkuser = await fetch(
-        `http://localhost:1200/users/${decryption.id}`,
-      );
-      const cartdata = await checkuser.json();
-      if (cartdata) {
-        let carts = cartdata.cart || [];
-
-        let wishlist = cartdata.wishlist || [];
-
+      console.log("step 1 ");
+      const { data: profile, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("cart")
+        .eq("id", user.id)
+        .single();
+        
+      if (fetchError) {
+        return { error: "Failed to fetch wishlist" };
+      }
+      console.log("step 2 ");
+      if (profile) {
+        let carts = profile.cart || [];
         const index = carts.findIndex((item) => item.id === cartitemId);
-        wishlist = wishlist.filter((item) => item.id !== product.id);
         if (index !== -1) {
           carts[index].quantity += 1;
         } else {
           carts.push({ ...product, id: cartitemId, quantity: 1 });
         }
-        await fetch(`http://localhost:1200/users/${decryption.id}`, {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ cart: carts, wishlist }),
-        });
+        console.log("step 3 ");
+        const { error: updateError } = await supabaseServer
+          .from("profiles")
+          .update({ cart: carts })
+          .eq("id", user.id);
+        if (updateError) {
+          console.error(
+            "Error updating wishlist in Supabase:",
+            updateError.message,
+          );
+          return { error: "Failed to update wishlist" };
+        }
+        console.log("step 4 ");
         if (index !== -1) {
           return {
             cardState: true,
-            type: "quantity",
+            // type: "quantity",
             timeStamp: Date.now(),
           };
         } else if (index === -1) {
           return {
             cardState: false,
-            type: "add",
+            // type: "add",
             timeStamp: Date.now(),
           };
         }
