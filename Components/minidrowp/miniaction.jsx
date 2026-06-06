@@ -1,16 +1,7 @@
 "use server";
-import { revalidatePath, revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { revalidatePath } from "next/cache";
 import { createClientForServer } from "@/utils/supabase";
 export default async function handelAction(prevstate, formData) {
- const supabaseServer = await createClientForServer();
-  const { data: {user}, error: authError } = await supabaseServer.auth.getUser();
-  if (authError || !user) {
-    return { state: 401, message: "Please login to continue" };
-  }
-
-
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
   const image = formData.get("image");
@@ -31,35 +22,47 @@ export default async function handelAction(prevstate, formData) {
     quantity: 1,
   };
 
+  let supabaseServer = await createClientForServer();
+  let {
+    data: { user },
+    error: authError,
+  } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
+    return { state: 401, message: "Please login to continue" };
+  }
   if (actionType === "card") {
     const cartitemId = `${product.id}-${size}`;
     if (!size || !size.trim() === "") {
       return { state: true, message: "Select size first" };
     }
     try {
-      const checkuser = await fetch(
-        `http://localhost:1200/users/${decryption.id}`,
-      );
-      const cartdata = await checkuser.json();
-
-      if (cartdata) {
-        let carts = cartdata.cart || [];
-        let wishlist = cartdata.wishlist || [];
-
+      const { data: profile, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("cart")
+        .eq("id", user.id)
+        .single();
+      if (fetchError) {
+        return { error: "Failed to fetch wishlist" };
+      }
+      if (profile) {
+        let carts = profile.cart || [];
         const index = carts.findIndex((item) => item.id === cartitemId);
-        wishlist = wishlist.filter((item) => item.id !== product.id);
-
         if (index !== -1) {
           carts[index].quantity += 1;
         } else {
           carts.push({ ...product, id: cartitemId, quantity: 1 });
         }
-        await fetch(`http://localhost:1200/users/${decryption.id}`, {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ cart: carts, wishlist }),
-        });
-        // revalidateTag("navbar");
+        const { error: updateError } = await supabaseServer
+          .from("profiles")
+          .update({ cart: carts })
+          .eq("id", user.id);
+        if (updateError) {
+          console.error(
+            "Error updating wishlist in Supabase:",
+            updateError.message,
+          );
+          return { error: "Failed to update wishlist" };
+        }
         if (index !== -1) {
           return {
             cardState: true,
@@ -78,13 +81,13 @@ export default async function handelAction(prevstate, formData) {
       return { message: "Please Check internet Connect ", status: 500 };
     }
   } else if (actionType === "wishlist") {
- try {
+    try {
       const supabaseServer = await createClientForServer();
       const { data: profile, error: fetchError } = await supabaseServer
-      .from("profiles")
-      .select("wishlist")
-      .eq("id", user.id)
-      .single();
+        .from("profiles")
+        .select("wishlist")
+        .eq("id", user.id)
+        .single();
       if (fetchError) {
         console.error("Error fetching wishlist:", fetchError.message);
         return { error: "Failed to fetch wishlist" };
@@ -92,13 +95,15 @@ export default async function handelAction(prevstate, formData) {
       let currentWishlist = profile?.wishlist || [];
       const exists = currentWishlist.some((item) => item.id === product.id);
       if (exists) {
-        currentWishlist = currentWishlist.filter((item) => item.id !== product.id);
+        currentWishlist = currentWishlist.filter(
+          (item) => item.id !== product.id,
+        );
       } else {
         currentWishlist.push(product);
       }
       const { error: updateError } = await supabaseServer
         .from("profiles")
-        .update({ wishlist: currentWishlist }) 
+        .update({ wishlist: currentWishlist })
         .eq("id", user.id);
       if (updateError) {
         console.error(
@@ -110,7 +115,10 @@ export default async function handelAction(prevstate, formData) {
       revalidatePath("/", "layout");
       return { wishliststate: !exists, timeStamp: Date.now() };
     } catch {
-      return { message: "Sorry, the connection to the server failed.", status: 500 };
+      return {
+        message: "Sorry, the connection to the server failed.",
+        status: 500,
+      };
     }
   }
 }

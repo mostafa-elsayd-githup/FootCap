@@ -13,14 +13,14 @@ import { redirect, useRouter } from "next/navigation";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCartOptimistic } from "@/RTK/cardslice";
+import { addToCartOptimistic, removeFromCartOptimistic } from "@/RTK/cardslice";
 import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
 export default function MiniDrowp() {
   const Router = useRouter();
   const dispatch = useDispatch();
 
   const { isOpen, setIsOpen, selectedProduct, setisfevorite } = useOpneing();
- 
+
   const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
@@ -36,7 +36,7 @@ export default function MiniDrowp() {
     (item) => Number(item.id) === Number(selectedProduct?.id),
   );
 
-  const handleaddedtocard = () => {
+  const handleaddedtocard = async() => {
     setActionTypeState("card");
     setLastTimestamp(Date.now());
     const productWithCartId = {
@@ -45,7 +45,7 @@ export default function MiniDrowp() {
     };
     dispatch(addToCartOptimistic(productWithCartId));
   };
-  const handlewishlist = () => {
+  const handlewishlist = async () => {
     setActionTypeState("wishlist");
     setLastTimestamp(Date.now());
     dispatch(toggleWishlistOptimistic(selectedProduct));
@@ -65,7 +65,7 @@ export default function MiniDrowp() {
         },
       });
     } else {
-      redirect(`/product/${selectedProduct.id}`)    
+      redirect(`/product/${selectedProduct.id}`);
     }
   };
 
@@ -104,8 +104,6 @@ export default function MiniDrowp() {
         showConfirmButton: false,
         timer: 1000,
       });
-      console.log(state.wishliststate);
-
       Toast.fire({
         icon: "success",
         title: state.wishliststate
@@ -241,8 +239,6 @@ export default function MiniDrowp() {
               )}
             </div>
           </div>
-
-          {/* product info*/}
           <div className={styles.infoSection}>
             <div className={styles.headerInfo}>
               <h1 className={styles.productName}>{selectedProduct.title}</h1>
@@ -258,8 +254,6 @@ export default function MiniDrowp() {
                 {selectedProduct.url?.length} colours available
               </div>
             </div>
-
-            {/* sizes*/}
             <div className={styles.sizeSection}>
               <h3 className={styles.sectionTitle}>Select Size</h3>
               <div className={styles.sizeGrid}>
@@ -316,7 +310,7 @@ export default function MiniDrowp() {
                   <input
                     type="hidden"
                     name="name"
-                    value={selectedProduct.name || ""}
+                    value={selectedProduct.title || ""}
                   />
                   <input
                     type="hidden"
