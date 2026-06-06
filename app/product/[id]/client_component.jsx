@@ -29,6 +29,7 @@ import { addToCartOptimistic } from "@/RTK/cardslice";
 export default function Products({ fillWidth, product }) {
   const Router = useRouter();
   const dispatch = useDispatch();
+  const [lastTimestamp, setLastTimestamp] = useState(null);
   const initialState = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
@@ -48,7 +49,12 @@ export default function Products({ fillWidth, product }) {
   };
   const handleaddedtocard = async () => {
     setActionTypeState("card");
-    dispatch(addToCartOptimistic(product));
+    setLastTimestamp(Date.now());
+    const productWithCartId = {
+      ...product,
+      id: `${product.id}-${selectedSize}`,
+    };
+    dispatch(addToCartOptimistic(productWithCartId));
   };
   useEffect(() => {
     if (state?.state === 401) {
@@ -76,8 +82,6 @@ export default function Products({ fillWidth, product }) {
       });
     }
     if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-
-
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -93,6 +97,32 @@ export default function Products({ fillWidth, product }) {
           : "Removed from Wishlist",
       });
     }
+    if (
+      actionTypeState === "card" &&
+      state?.cardState !== undefined &&
+      state?.cardState !== null &&
+      state?.timeStamp > lastTimestamp
+    ) {
+      setActionTypeState("");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-left",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 2000,
+      });
+      const isquantityUpdata = state.type === "quantity";
+
+      Toast.fire({
+        icon: "success",
+        title: state.cardState ? "quantity +1" : "Added to Cart",
+      });
+
+      setTimeout(() => {
+        setselectedSize("");
+        setAddToCart(false);
+      }, 200);
+    }
   }, [
     state.wishliststate,
     state?.state,
@@ -101,6 +131,11 @@ export default function Products({ fillWidth, product }) {
     state.message,
     dispatch,
     product,
+    state?.cardState,
+    state?.timeStamp,
+    state.type,
+    actionTypeState,
+    lastTimestamp,
   ]);
 
   const oldprice = Intl.NumberFormat("en", {
@@ -173,7 +208,6 @@ export default function Products({ fillWidth, product }) {
           </div>
         </div>
 
-        {/* product*/}
         <div className={styles.infoSection}>
           <div className={styles.headerInfo}>
             <h1 className={styles.productName}>{product.title}</h1>
@@ -203,8 +237,6 @@ export default function Products({ fillWidth, product }) {
               })}
             </div>
           </div>
-
-          {/* sizes*/}
           <div className={styles.sizeSection}>
             <h3 className={styles.sectionTitle}>Select Size</h3>
             <div className={styles.sizeGrid}>
@@ -233,30 +265,30 @@ export default function Products({ fillWidth, product }) {
             </div>
           </div>
 
-          {/* actions */}
           <div className={styles.actions}>
             <form
               className={styles.icons}
               onClick={(e) => e.stopPropagation()}
               action={formAction}
             >
-              {/*data for ActionFile*/}
-              <input type="hidden" name="id" value={product.id || ""} />
-              <input type="hidden" name="image" value={product.image || ""} />
-              <input type="hidden" name="dis" value={product.dis || ""} />
-              <input type="hidden" name="name" value={product.name || ""} />
-              <input type="hidden" name="price" value={product.price || ""} />
-              <input type="hidden" name="size" value={selectedSize || ""} />
-              <input
-                type="hidden"
-                name="category"
-                value={product.category || ""}
-              />
-              <input
-                type="hidden"
-                name="actiontype"
-                value={actionTypeState || ""}
-              />
+              <>
+                <input type="hidden" name="id" value={product.id || ""} />
+                <input type="hidden" name="image" value={product.image || ""} />
+                <input type="hidden" name="dis" value={product.dis || ""} />
+                <input type="hidden" name="name" value={product.title || ""} />
+                <input type="hidden" name="price" value={product.price || ""} />
+                <input type="hidden" name="size" value={selectedSize || ""} />
+                <input
+                  type="hidden"
+                  name="category"
+                  value={product.category || ""}
+                />
+                <input
+                  type="hidden"
+                  name="actiontype"
+                  value={actionTypeState || ""}
+                />
+              </>
               <button
                 className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
                 type="submit"
