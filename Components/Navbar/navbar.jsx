@@ -13,6 +13,8 @@ function NavBar({ userdata }) {
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
+  console.log(card);
+  
   useEffect(() => {
     if (userdata?.wishlist) {
       dispatch(setInitialWishlist(userdata.wishlist));

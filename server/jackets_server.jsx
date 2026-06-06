@@ -3,12 +3,6 @@ import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 export default async function handleAction(prevstate, formData) {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
   const image = formData.get("image");
@@ -37,18 +31,19 @@ export default async function handleAction(prevstate, formData) {
     category,
     sizes,
   };
-
   if (actionType === "wishlist") {
     try {
+      const tokenstor = await cookies();
+      const token = tokenstor.get("token")?.value;
+      if (!token) {
+        return { state: 401, message: "Please login to continue" };
+      }
+      const decryption = jwt.verify(token, process.env.JWT_SECRET);
       const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
       const user = await res.json();
-
       if (user) {
         let wishlist = user.wishlist || [];
-
         const exists = wishlist.some((item) => item.id === product.id);
-   
-
         if (exists) {
           wishlist = wishlist.filter((item) => item.id !== product.id);
         } else {
@@ -60,11 +55,13 @@ export default async function handleAction(prevstate, formData) {
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({ wishlist }),
         });
-        return {wishliststate: !exists} 
-      
+        return { wishliststate: !exists };
       }
     } catch {
-      return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
+      return {
+        message: "Sorry, the connection to the server failed.",
+        status: 500,
+      };
     }
   } else if (actionType === "eye") {
     const res = await fetch(

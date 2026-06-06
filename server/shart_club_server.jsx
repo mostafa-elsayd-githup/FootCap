@@ -3,11 +3,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 export default async function handleAction(prevstate, formData) {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
   const decryption = jwt.verify(token, process.env.JWT_SECRET);
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
@@ -40,13 +35,17 @@ export default async function handleAction(prevstate, formData) {
 
   if (actionType === "wishlist") {
     try {
+      const tokenstor = await cookies();
+      const token = tokenstor.get("token")?.value;
+      if (!token) {
+        return { state: 401, message: "Please login to continue" };
+      }
       const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
       const user = await res.json();
       if (user) {
         let wishlist = user.wishlist || [];
 
         const exists = wishlist.some((item) => item.id === product.id);
-
 
         if (exists) {
           wishlist = wishlist.filter((item) => item.id !== product.id);
@@ -63,7 +62,7 @@ export default async function handleAction(prevstate, formData) {
         return { wishliststate: !exists, timeStamp: Date.now() };
       }
     } catch {
-      return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
+      return { message: "Sorry, the connection to the server failed.", status: 500 };
     }
   } else if (actionType === "eye") {
     const res = await fetch(
