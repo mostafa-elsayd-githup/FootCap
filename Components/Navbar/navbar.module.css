@@ -107,13 +107,13 @@
 }
 
 .badge {
-  color: var(--color-main) !important;
-  background-color: var(--color-primary) !important;
+  color: #000;
+  background-color: #eee;
   border-radius: 50%;
   min-width: 16px;
   height: 16px;
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,8 +121,7 @@
   top: -8px;
   right: -10px; 
   padding: 0 4px;
-  border: 1.5px solid #16161a; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 5px #0000004d;
 }
 .bottom_nav {
   position: fixed;

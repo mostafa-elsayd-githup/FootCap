@@ -13,7 +13,6 @@ function NavBar({ userdata }) {
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
-  console.log(card);
   
   useEffect(() => {
     if (userdata?.wishlist) {
@@ -24,7 +23,7 @@ function NavBar({ userdata }) {
     } else if (userdata?.card) {
       dispatch(setInitialCart(userdata.card));
     }
-  }, [dispatch, userdata.card, userdata.cart, userdata?.wishlist]);
+  }, [dispatch, userdata?.card, userdata?.cart, userdata?.wishlist]);
   const isActive = (path) => (pathname === path ? style.bottom_tab_active : "");
 
   return (
