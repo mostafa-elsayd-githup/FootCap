@@ -36,7 +36,7 @@ export default function MiniDrowp() {
     (item) => Number(item.id) === Number(selectedProduct?.id),
   );
 
-  const handleaddedtocard = async() => {
+  const handleaddedtocard = async () => {
     setActionTypeState("card");
     setLastTimestamp(Date.now());
     const productWithCartId = {
@@ -187,176 +187,181 @@ export default function MiniDrowp() {
         </div>
       )}
       {selectedProduct && (
-        <div key={selectedProduct.id} className={styles.container}>
-          <div
-            className={styles.close}
-            onClick={() => setIsOpen(false)}
-          >{`>>`}</div>
-          <div className={styles.imageGallery}>
-            <div className={styles.imageContainer}>
-              <Card.Img
-                src={selectedProduct.image}
-                className={styles.mainImage}
-                alt={selectedProduct.name}
-              />
-            </div>
-
-            <div className={styles.imageContainer}>
-              {selectedProduct.image_Hover ? (
+        <div
+          className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
+          onClick={() => setIsOpen(false)}
+        >
+          <div key={selectedProduct.id} className={styles.container}>
+            <div className={styles.imageGallery}>
+              <div className={styles.imageContainer}>
                 <Card.Img
-                  src={selectedProduct.image_Hover}
+                  src={selectedProduct.image}
                   className={styles.mainImage}
                   alt={selectedProduct.name}
                 />
-              ) : null}
-            </div>
-
-            <div className={styles.imageContainer}>
-              {selectedProduct.image3 ? (
-                <Card.Img
-                  src={selectedProduct.image3}
-                  className={styles.mainImage}
-                  alt={selectedProduct.name}
-                />
-              ) : selectedProduct.video ? (
-                <video
-                  src={selectedProduct.video}
-                  className={styles.mainImage}
-                  autoPlay
-                  muted
-                  loop
-                />
-              ) : null}
-            </div>
-
-            <div className={styles.imageContainer}>
-              {selectedProduct.image4 && (
-                <Card.Img
-                  src={selectedProduct.image4}
-                  className={styles.mainImage}
-                  alt={selectedProduct.name}
-                />
-              )}
-            </div>
-          </div>
-          <div className={styles.infoSection}>
-            <div className={styles.headerInfo}>
-              <h1 className={styles.productName}>{selectedProduct.title}</h1>
-              {selectedProduct.oldPrice ? (
-                <span>
-                  <span className={styles.price_red}>{price}</span>
-                  <span className={styles.oldPrice}>{oldprice}</span>
-                </span>
-              ) : (
-                <p className={styles.price}>{price}</p>
-              )}
-              <div className={styles.colors_available}>
-                {selectedProduct.url?.length} colours available
               </div>
-            </div>
-            <div className={styles.sizeSection}>
-              <h3 className={styles.sectionTitle}>Select Size</h3>
-              <div className={styles.sizeGrid}>
-                {selectedProduct.sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={`${styles.sizeBox} 
-                    ${selectedSize === size ? styles.activeSize : ""}`}
-                    onClick={() => {
-                      if (selectedSize === size) {
-                        setselectedSize(null);
-                        setAddToCart(false);
-                      } else {
-                        setselectedSize(size);
-                        setAddToCart(true);
-                      }
-                    }}
-                  >
-                    {size}
-                  </button>
-                ))}
-                {state ? (
-                  <span className="text-(--color-sale) w-36 content-center">
-                    {state?.message}
-                  </span>
+
+              <div className={styles.imageContainer}>
+                {selectedProduct.image_Hover ? (
+                  <Card.Img
+                    src={selectedProduct.image_Hover}
+                    className={styles.mainImage}
+                    alt={selectedProduct.name}
+                  />
                 ) : null}
               </div>
-            </div>
 
-            <div className={styles.actions}>
-              <Link
-                className={styles.View_ProductBtn}
-                href={``}
-                onClick={handleViewProductButton}
-              >
-                View Product
-                <span className={styles.arrowIcon}>
-                  <FontAwesomeIcon icon={faRightLong} />
-                </span>
-              </Link>
-              <form className={styles.icons} action={formAction}>
-                <>
-                  {/*data for ActionFile*/}
-                  <input
-                    type="hidden"
-                    name="id"
-                    value={selectedProduct.id || ""}
+              <div className={styles.imageContainer}>
+                {selectedProduct.image3 ? (
+                  <Card.Img
+                    src={selectedProduct.image3}
+                    className={styles.mainImage}
+                    alt={selectedProduct.name}
                   />
-                  <input
-                    type="hidden"
-                    name="image"
-                    value={selectedProduct.image || ""}
+                ) : selectedProduct.video ? (
+                  <video
+                    src={selectedProduct.video}
+                    className={styles.mainImage}
+                    autoPlay
+                    muted
+                    loop
                   />
-                  <input
-                    type="hidden"
-                    name="name"
-                    value={selectedProduct.title || ""}
+                ) : null}
+              </div>
+
+              <div className={styles.imageContainer}>
+                {selectedProduct.image4 && (
+                  <Card.Img
+                    src={selectedProduct.image4}
+                    className={styles.mainImage}
+                    alt={selectedProduct.name}
                   />
-                  <input
-                    type="hidden"
-                    name="dis"
-                    value={selectedProduct.dis || ""}
-                  />
-                  <input
-                    type="hidden"
-                    name="price"
-                    value={selectedProduct.price || ""}
-                  />
-                  <input type="hidden" name="size" value={selectedSize || ""} />
-                  <input
-                    type="hidden"
-                    name="category"
-                    value={selectedProduct.category || ""}
-                  />
-                  <input
-                    type="hidden"
-                    name="actiontype"
-                    value={actionTypeState || ""}
-                  />
-                </>
-                <button
-                  className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
-                  type="submit"
-                  onClick={handleaddedtocard}
+                )}
+              </div>
+            </div>
+            <div className={styles.infoSection}>
+              <div className={styles.headerInfo}>
+                <h1 className={styles.productName}>{selectedProduct.title}</h1>
+                {selectedProduct.oldPrice ? (
+                  <span>
+                    <span className={styles.price_red}>{price}</span>
+                    <span className={styles.oldPrice}>{oldprice}</span>
+                  </span>
+                ) : (
+                  <p className={styles.price}>{price}</p>
+                )}
+                <div className={styles.colors_available}>
+                  {selectedProduct.url?.length} colours available
+                </div>
+              </div>
+              <div className={styles.sizeSection}>
+                <h3 className={styles.sectionTitle}>Select Size</h3>
+                <div className={styles.sizeGrid}>
+                  {selectedProduct.sizes.map((size) => (
+                    <button
+                      key={size}
+                      className={`${styles.sizeBox} 
+                    ${selectedSize === size ? styles.activeSize : ""}`}
+                      onClick={() => {
+                        if (selectedSize === size) {
+                          setselectedSize(null);
+                          setAddToCart(false);
+                        } else {
+                          setselectedSize(size);
+                          setAddToCart(true);
+                        }
+                      }}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                  {state ? (
+                    <span className="text-(--color-sale) w-36 content-center">
+                      {state?.message}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+
+              <div className={styles.actions}>
+                <Link
+                  className={styles.View_ProductBtn}
+                  href={``}
+                  onClick={handleViewProductButton}
                 >
-                  ADD TO BAG
+                  View Product
                   <span className={styles.arrowIcon}>
                     <FontAwesomeIcon icon={faRightLong} />
                   </span>
-                </button>
-                <button
-                  className={styles.wishlistBtn}
-                  type="submit"
-                  disabled={pending}
-                  onClick={handlewishlist}
-                  style={{ opacity: pending ? 0.5 : 1 }}
-                >
-                  <FontAwesomeIcon
-                    className={styles.icon}
-                    icon={isfevorite ? fasHeart : farHeart}
-                  />
-                </button>
-              </form>
+                </Link>
+                <form className={styles.icons} action={formAction}>
+                  <>
+                    {/*data for ActionFile*/}
+                    <input
+                      type="hidden"
+                      name="id"
+                      value={selectedProduct.id || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="image"
+                      value={selectedProduct.image || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="name"
+                      value={selectedProduct.title || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="dis"
+                      value={selectedProduct.dis || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="price"
+                      value={selectedProduct.price || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="size"
+                      value={selectedSize || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="category"
+                      value={selectedProduct.category || ""}
+                    />
+                    <input
+                      type="hidden"
+                      name="actiontype"
+                      value={actionTypeState || ""}
+                    />
+                  </>
+                  <button
+                    className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
+                    type="submit"
+                    onClick={handleaddedtocard}
+                  >
+                    ADD TO BAG
+                    <span className={styles.arrowIcon}>
+                      <FontAwesomeIcon icon={faRightLong} />
+                    </span>
+                  </button>
+                  <button
+                    className={styles.wishlistBtn}
+                    type="submit"
+                    disabled={pending}
+                    onClick={handlewishlist}
+                    style={{ opacity: pending ? 0.5 : 1 }}
+                  >
+                    <FontAwesomeIcon
+                      className={styles.icon}
+                      icon={isfevorite ? fasHeart : farHeart}
+                    />
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
