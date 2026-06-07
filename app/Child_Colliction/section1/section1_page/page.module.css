@@ -1,0 +1,197 @@
+.Container {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.text {
+  margin-bottom: 50px;
+  padding: 0 20px;
+  width: 855px;
+  color: black;
+}
+.title {
+  margin-top: 15px;
+}
+.card {
+  position: relative;
+  width: 100%;
+  background-color: white;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.card:hover {
+  /* تأثير البرواز الأسود */
+  border: 1px solid #00000061;
+  /* رفعة الكارت لفوق (اختياري لو عاوز مطابقة 100%) */
+  transform: translateY(-10px);
+  z-index: 20; /* عشان البرواز يظهر فوق الكروت اللي جنبه */
+}
+.icons {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  z-index: 10;
+  pointer-events: none;
+}
+.icons > * {
+  font-size: 18px;
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  justify-items: center;
+  margin: 0 1rem;
+}
+
+.span {
+  display: inline-block;
+}
+.span:hover {
+  text-decoration: underline;
+}
+.image {
+  cursor: pointer;
+}
+.small_products {
+  margin-top: 3px;;
+  display: flex;
+  height: 2.3rem;
+  gap: 5px;
+  /* إخفاء مبدئي */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+.card:hover .small_products {
+  opacity: 1;
+  visibility: visible;
+}
+.small_img {
+  width: 50px;
+  display: none;
+}
+
+.card:hover .small_img {
+  display: block;
+}
+
+.name {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: normal;
+  color: #777;
+}
+.name:hover {
+  text-decoration: underline;
+}
+
+.dis {
+  text-align: center;
+  background-color: #fff;
+  border-radius: 5%;
+  width: 45px;
+  font-size: 14px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0 4px 0 0;
+}
+.price {
+  font-size: 14px;
+  font-weight: bold;
+}
+.price_red {
+  color: #e32b2b;
+}
+.category {
+  font-size: 13px;
+  font-weight: normal;
+  color: #777;
+}
+.colors {
+  font-size: 13px;
+  font-weight: normal;
+  color: #777;
+}
+.made {
+  position: absolute;
+  font-size: 17px;
+  font-weight: bold;
+  bottom: 0;
+}
+
+
+
+/* staer-loader */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff99; /* طبقة شفافة */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none; /* عشان ما يمنعش الـ hover لو ظهر */
+}
+
+.halfCircleLoader {
+  width: 55px;
+  height: 55px;
+  border: 3px solid transparent;
+  border-right-color: #000; /* اللون الأبيض اللي في الصورة */
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+/* end-loader */
+.old_price {
+  font-size: 14px;
+  margin-left: 10px;
+  color: #777;
+  text-decoration: line-through;
+}
+
+@media (max-width: 767px) {
+  .text {
+    padding: 0 20px;
+    width: 400px;
+    color: black;
+  }
+  .products {
+    grid-template-columns: repeat(1, 1fr);
+    margin: 0 1rem;
+  }
+}
+@media (min-width: 768px) and (max-width: 1233px) {
+  .text {
+    padding: 0 20px;
+    width: 700px;
+    color: black;
+  }
+  .Container {
+    align-items: center;
+  }
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 1rem;
+  }
+}

@@ -1,0 +1,55 @@
+.clubs {
+  display: flex;
+  margin: 0 10px;
+}
+.continer {
+  margin: 0 10px;
+}
+.clubs_swiper {
+  width: 100%;
+  height: auto;
+}
+
+.club_item {
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.product_card {
+  text-align: center;
+  width: 460px;
+  border: none;
+}
+.title_clube {
+  font-size: 15px;
+  font-weight: normal;
+}
+.Button {
+  position: relative;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  background: transparent;
+  color: black;
+}
+.Button::after {
+  content: "";
+  background: #000;
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+}
+@media (max-width: 768px) {
+  .product_card {
+  text-align: center;
+  width: 400px;
+  border: none;
+}
+}
+@media (min-width: 769px) {
+
+}
+/* @media (min-width: 769px) and (max-width: 1233px) {} */

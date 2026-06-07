@@ -1,0 +1,82 @@
+.Container {
+  position: relative;
+  background-image: url("/Gemini_Generated_Image_a0x8gaa0x8gaa0x8.svg");
+  background-position: center;
+  height: 42vw;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: 50px;
+  background-size: cover;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+.container_info {
+  color: white;
+  margin-left: 60px;
+}
+.title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+}
+.Button {
+  background-color: white;
+  color: black;
+
+  display: inline-flex;
+  justify-content: center;
+  line-height: 50px;
+
+  margin: 10px auto;
+  position: relative;
+
+  width: 200px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-family: "AdihausDIN", sans-serif;
+  border: none;
+}
+.Button:hover {
+  background-color: #ffffffea;
+}
+.Button::before {
+  content: "";
+  border: 1px solid #eee;
+  width: 100%;
+  height: 46px;
+
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  z-index: -1;
+}
+@media (max-width: 768px) {
+  .Container {
+    position: relative;
+    background-image: url("/Gemini_Generated_Image_4tmmaw4tmmaw4tmm.svg");
+      width: 100%;
+    height: 34rem;
+    margin-top: 74px;
+  }
+  .Button {
+    width: 175px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .container_info {
+    position: relative;
+    margin-left: 20px;
+  }
+}
