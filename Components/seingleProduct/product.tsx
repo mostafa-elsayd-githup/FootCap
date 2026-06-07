@@ -216,12 +216,12 @@ const SingleProduct = ({ productItem }) => {
           className={styles.image}
         />
         {productItem?.oldPrice ? (
-          <span className={styles.dis}>{(discount)} %</span>
+          <span className={styles.dis}>{parseInt(discount)} %</span>
         ) : null}
       </div>
       {productItem.url && productItem.url.length > 0 ? (
         <div className={styles.small_products}>
-          {productItem.url.map((style) => (
+          {productItem?.url.map((style:any) => (
             <div key={style.id} className={styles.small_img}>
               <Link href={`/product/${style.id}`}>
                 <Card.Img

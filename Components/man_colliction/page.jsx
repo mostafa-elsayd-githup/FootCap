@@ -2,7 +2,7 @@ import styles from "./man_colliction.module.css";
 import Link from "next/link";
 import "aos/dist/aos.css";
 import Clube from "./shrat_clube";
-import Mans_section from "../../app/mans_section/mans_section";
+import Mans_section from "../../app/mans section/mans_section";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import NavAction from "@/Components/Navbar/NavAction";

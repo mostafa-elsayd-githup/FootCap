@@ -10,7 +10,7 @@ const ProductListClient = ({ initialProducts }) => {
   return (
     <div className={styles.Container}>
       <div className={styles.text}>
-        <span className="font-bold ">
+        <span className="font-bold text-4xl ">
           {pagename}
         </span>
         <h1 className={styles.title}>
