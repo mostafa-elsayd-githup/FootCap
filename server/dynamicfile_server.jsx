@@ -73,13 +73,11 @@ export default async function handelAction(prevstate, formData) {
         if (index !== -1) {
           return {
             cardState: true,
-            // type: "quantity",
             timeStamp: Date.now(),
           };
         } else if (index === -1) {
           return {
             cardState: false,
-            // type: "add",
             timeStamp: Date.now(),
           };
         }
@@ -89,7 +87,6 @@ export default async function handelAction(prevstate, formData) {
     }
   } else if (actionType === "wishlist") {
     try {
-      // console.log("step 1");
       const { data: profile, error: fetchError } = await supabaseServer
         .from("profiles")
         .select("wishlist")
@@ -100,7 +97,6 @@ export default async function handelAction(prevstate, formData) {
       }
       let currentWishlist = profile?.wishlist || [];
       const exists = currentWishlist.some((item) => item.id === product.id);
-      // console.log("step 2");
       if (exists) {
         currentWishlist = currentWishlist.filter(
           (item) => item.id !== product.id,
@@ -108,7 +104,6 @@ export default async function handelAction(prevstate, formData) {
       } else {
         currentWishlist.push(product);
       }
-      // console.log("step 3");
       const { error: updateError } = await supabaseServer
         .from("profiles")
         .update({ wishlist: currentWishlist })

@@ -14,7 +14,7 @@ import {
   faTruck,
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./page.module.css";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useMemo } from "react";
 import handelAction from "@/server/dynamicfile_server";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -144,6 +144,7 @@ export default function Products({ fillWidth, product }) {
     currency: "EGP",
     minimumFractionDigits: 0,
   }).format(parseInt(product?.oldPrice));
+
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
