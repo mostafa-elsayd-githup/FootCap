@@ -178,7 +178,7 @@ const SingleProduct = ({ productItem }) => {
               value={productItem?.image4 || ""}
             />
             <input type="hidden" name="dis" value={productItem.dis || ""} />
-            <input type="hidden" name="name" value={productItem.name || ""} />
+            <input type="hidden" name="name" value={productItem.title || ""} />
             <input type="hidden" name="price" value={productItem.price || ""} />
             <input
               type="hidden"
