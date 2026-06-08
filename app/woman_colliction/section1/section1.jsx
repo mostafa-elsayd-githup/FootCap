@@ -17,7 +17,7 @@ function Section1() {
       <div className={styles.container_info}>
         <h1 className={styles.title}>Versatile Shoes.</h1>
         <p className={styles.p}> All-day comfort and support for everyday runs.</p>
-          <Link className={styles.Button} href="/Collection/woman_colliction/section1/section1_page?type=woman">
+          <Link className={styles.Button} href="/woman_colliction/section1/section1_page?type=woman">
             SHOP NOW
           </Link>
   

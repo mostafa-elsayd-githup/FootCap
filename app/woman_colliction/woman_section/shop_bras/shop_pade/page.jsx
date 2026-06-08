@@ -1,88 +1,37 @@
-import Link from "next/link";
-import styles from "./page.module.css";
-import SingleProduct from "./singelproduct";
+"use server"
 import NavAction from "@/Components/Navbar/NavAction";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import Footer from "@/Components/footer/Footre";
+import DiscoundComponent from "@/Components/discound_componente/discounds";
+import { createClientForServer } from "@/utils/supabase"; 
+import ProductListClient from "./singelproduct";
 
-async function getWishlist() {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
+async function getProductsByType(categoryKey) {
   try {
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      cache: "no-store",
-      next: { tags: ["navbar"] },
-    });
-    const userWishlist = await res.json();
-    return userWishlist;
-  } catch(error) {
-    return error;
+    const createClient = await createClientForServer();
+    const { data, error } = await createClient
+      .from("products")
+      .select("*")
+      .eq("type", categoryKey);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
   }
 }
 
-async function gitdata() {
-  try {
-    const res = await fetch(`http://localhost:1200/your_sport_start_hear`, {
-      next: { revalidate: 60 },
-    });
-    if (res.ok) {
-      const data = await res.json();
-      return data;
-    }
-  } catch(error) {
-    throw error;
-  }
-}
+async function Product({ searchParams }) {
+  const queryParams = await searchParams;
+  const categoryKey = queryParams.type;
+  const data = await getProductsByType(categoryKey);
 
-async function Product() {
-  const data = await gitdata();
-  const wishlist = await getWishlist();
   return (
     <>
       <NavAction />
-      <div className={styles.Container}>
-        <div className={styles.text}>
-          <span className={styles.spans}>
-            <Link
-              className={styles.span}
-              href="/Components/sport-Componente/sportProcuts/sport_from_gemProducts?club=tshirt"
-            >
-              Sport /
-            </Link>
-            <span>
-              {"   "}
-              <Link className={styles.span} href="">
-                Gym & Training
-              </Link>
-            </span>
-          </span>
-          <h1 className={styles.title}>
-            Adidaes Running Collection{" "}
-            <span style={{ fontSize: "15px", color: "#7777" }}>
-              [ {data.length} ]
-            </span>
-          </h1>
-        </div>
-        <div className={styles.products}>
-          {data &&
-            data.map((item) => {
-              const isfvevorite = wishlist.wishlist.some(
-                (wishlist) => wishlist.id === item.id,
-              );
-              return (
-                <SingleProduct
-                  key={item.id}
-                  productItem={item}
-                  isfevorite={isfvevorite}
-                />
-              );
-            })}
-        </div>
-      </div>
+      <ProductListClient initialProducts={data}  />
+      <DiscoundComponent />
+      <Footer />
     </>
   );
 }

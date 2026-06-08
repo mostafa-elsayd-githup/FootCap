@@ -2,7 +2,7 @@
 
 export default function Loader() {
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-zinc-50 dark:bg-zinc-950 transition-colors absolute duration-300">
       <div className="relative flex flex-col items-center justify-center">
         <div className="absolute bg-zinc-500/5 dark:bg-zinc-500/5 blur-3xl rounded-full w-32 h-32 animate-pulse"></div>
         <div className="relative">

@@ -10,7 +10,7 @@ function MenCollection() {
         <Card className={styles.man_card}>
           <Link
             className={styles.Button}
-            href="/Collection/man_colliction/"
+            href="/man_colliction/"
           >
             Mens
           </Link>
@@ -19,7 +19,7 @@ function MenCollection() {
         <Card className={styles.woman_card}>
           <Link
             className={styles.Button}
-            href="/Collection/woman_colliction"
+            href="/woman_colliction"
           >
             Womens
           </Link>
@@ -28,7 +28,7 @@ function MenCollection() {
         <Card className={styles.child_card}>
           <Link
             className={styles.Button}
-            href="/Collection/Child_Colliction"
+            href="/Child_Colliction"
           >
             Childrens
           </Link>

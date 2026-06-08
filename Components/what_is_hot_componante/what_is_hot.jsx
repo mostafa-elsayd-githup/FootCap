@@ -33,7 +33,7 @@ export default function WhatIsHot() {
                   <p className={styles.prag}>Cold out? Grab these first.</p>
                 </div>
                 <Link
-                  href="/Components/what_is_hot_componante/jackets/jacket_page?type=Jacket"
+                  href="/jackets/jacket-page?type=Jacket"
                   className={styles.button}
                 >
                   Shop Now
@@ -51,7 +51,7 @@ export default function WhatIsHot() {
                   <p className={styles.prag}>Made to do more.</p>
                 </div>
                 <Link
-                  href="/Components/what_is_hot_componante/terrex/terrex_page?type=terrex"
+                  href="/terrex/terrex-page?type=terrex"
                   className={styles.button}
                 >
                   Shop Now
@@ -69,7 +69,7 @@ export default function WhatIsHot() {
                   <p className={styles.prag}>Home is where fun lives.</p>
                 </div>
                 <Link
-                  href="/Components/what_is_hot_componante/simpsone/simpsone_page?type=simpsons"
+                  href="/simpsone/simpsone-page?type=simpsons"
                   className={styles.button}
                 >
                   Shop Now

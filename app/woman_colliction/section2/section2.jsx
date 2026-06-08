@@ -12,7 +12,7 @@ function Section2() {
 
           <Link
             className={styles.Button}
-            href="/Collection/woman_colliction/section2/section2_page?type=woman2"
+            href="/woman_colliction/section2/section2_page?type=woman2"
           >
             SHOP NOW
           </Link>
