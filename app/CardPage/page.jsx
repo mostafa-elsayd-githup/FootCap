@@ -1,10 +1,10 @@
 "use server";
 import CartPage from "./child";
-import NavAction from "../Navbar/NavAction";
+import NavAction from "@/Components/Navbar/NavAction";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import DiscoundComponent from "../Components/Collection/man_colliction/discound_componente/discounds";
-import Footer from "../Components/footer/Footre";
+import Footer from "@/Components/footer/Footre";
+import DiscoundComponent from "@/Components/discound_componente/discounds";
 
 export async function getdata() {
   const cookieStore = await cookies();

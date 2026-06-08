@@ -11,8 +11,6 @@ import Link from "next/link";
 import { useOpneing } from "../../RTK/storcontext";
 import { useSelector, useDispatch } from "react-redux";
 function Products({ wishlist }) {
-  console.log(wishlist);
-
   const dispatch = useDispatch();
   const [typeButton, settypeButton] = useState("");
   const intialstate = { massage: "", state: null };
@@ -22,7 +20,6 @@ function Products({ wishlist }) {
   );
   const { setIsOpen, setSelectedProduct } = useOpneing();
   const wishlistarray = useSelector((state) => state.wishlist.items);
-  console.log(wishlistarray);
 
   useEffect(() => {
     if (state?.wishliststate !== undefined && state?.wishliststate === null) {
@@ -56,8 +53,17 @@ function Products({ wishlist }) {
       {wishlistarray.length > 0 ? (
         <div className={styles.wishlist_grid}>
           {wishlistarray.map((product) => {
-            console.log(product);
-            
+            const price = Intl.NumberFormat("en", {
+              notation: "standard",
+              style: "currency",
+              currency: "EGP",
+              minimumFractionDigits: 0,
+            }).format(parseInt(product.price));
+            const oldprice = Intl.NumberFormat("en",{
+              notation:"standard",
+              style:"currency",
+              currency:"EGP"
+            }).format(product.oldPrice)
             return (
               <Card className={styles.card} key={product.id}>
                 <div className={styles.image_container}>
@@ -153,7 +159,7 @@ function Products({ wishlist }) {
                 </div>
                 <Card.Body className={styles.card_body}>
                   <Link
-                    href={`/Components/what_is_hot_componante/terrex/${product.id}`}
+                    href={`/product/${product.id}`}
                     className={styles.name_link}
                   >
                     <h5 className={styles.name}>{product.name}</h5>
@@ -165,11 +171,11 @@ function Products({ wishlist }) {
                     <span
                       className={`${styles.price} ${product.oldPrice ? styles.price_red : ""}`}
                     >
-                      EGP {product.price}
+                      {price}
                     </span>
                     {product.oldPrice && (
                       <span className={styles.old_price}>
-                        EGP {product.oldPrice}
+                         {oldprice}
                       </span>
                     )}
                   </div>
