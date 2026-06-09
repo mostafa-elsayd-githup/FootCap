@@ -61,8 +61,8 @@ export const handelAction = async (prevstate, formData) => {
         );
         return { error: "Failed to update wishlist" };
       }
-      revalidatePath("/");
-      return { wishliststate: !exists, status: 200, timeStamp: Date.now() };
+      revalidatePath("/Wishlist");
+      return { status: 200, timeStamp: Date.now() };
     } catch (error) {
       return { message: "Please Check internet Connect ", status: 500 };
     }

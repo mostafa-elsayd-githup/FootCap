@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 
 const DeleteCart = async (prevstate, formData) => {
   const actionTypeState = formData.get("intent");
+  console.log(actionTypeState);
+
   const id = formData.get("id");
   const supabaseServer = await createClientForServer();
   const {
@@ -27,38 +29,45 @@ const DeleteCart = async (prevstate, formData) => {
     if (exiest) {
       cart = cart.filter((item) => item.id !== id);
     }
-    const { error: UserError } = await supabaseServer
+    const { error: UpdataError } = await supabaseServer
       .from("profiles")
       .update({ cart: cart })
       .eq("id", user.id);
 
-    if (UserError) {
+    if (UpdataError) {
       console.error(
         "Error updating wishlist in Supabase:",
-        updateError.message,
+        UpdataError.message,
       );
       return { error: "Failed to update wishlist" };
     }
-    revalidatePath("/");
-    return { cardstate: exiest, status: 200, time: Date.now() };
+    revalidatePath("/CardPage");
+    return { cardstate: 200, time: Date.now() };
+  } else if (actionTypeState === "clear") {
+    const { data: profile, errorprofile } = await supabaseServer
+      .from("profiles")
+      .select("cart")
+      .eq("id", user.id)
+      .single();
+    if (errorprofile) {
+      console.error("Error fetching wishlist:", errorprofile.message);
+      return { error: "Failed to fetch wishlist" };
+    }    
+    const cartArray = (profile.cart = []);
+
+    const { error: UpdataError } = await supabaseServer
+      .from("profiles")
+      .update({ cart: cartArray })
+      .eq("id", user.id);
+    if (UpdataError) {
+      console.error(
+        "Error updating wishlist in Supabase:",
+        UpdataError.message,
+      );
+      return { error: "Failed to update wishlist" };
+    }
+    revalidatePath("/CardPage");
+    return { Clearcardstate: 200, time: Date.now() };
   }
 };
 export default DeleteCart;
-export const clearCart = async (prevstate, formData) => {
-  const cookieStors = await cookies();
-  const token = cookieStors.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-  const actionTypeState = formData.get("intent");
-  if (actionTypeState === "clear") {
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-    const userdata = await res.json();
-    let cart = userdata.cart || [];
-    cart = [];
-    await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ cart }),
-    });
-    revalidateTag("navbar");
-  }
-};
