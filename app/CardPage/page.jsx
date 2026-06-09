@@ -1,5 +1,5 @@
 "use server";
-import CartPage from "./child";
+import CartPage from "./client";
 import NavAction from "@/Components/Navbar/NavAction";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";

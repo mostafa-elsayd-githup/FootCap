@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: all;
-  z-index: 1200;
+  z-index: 1000;
 }
 
 .halfCircleLoader {

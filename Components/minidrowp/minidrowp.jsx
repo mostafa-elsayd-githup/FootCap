@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartOptimistic, removeFromCartOptimistic } from "@/RTK/cardslice";
 import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
+import Loader from "@/Components//loaderFecthing/loader";
 export default function MiniDrowp() {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -177,11 +178,7 @@ export default function MiniDrowp() {
   }).format(parseInt(selectedProduct?.price));
   return (
     <>
-      {pending && (
-        <div className={styles.overlayaction}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader/>}
       {selectedProduct && (
         <div
           className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}

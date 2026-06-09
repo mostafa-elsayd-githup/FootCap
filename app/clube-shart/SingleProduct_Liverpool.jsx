@@ -1,16 +1,16 @@
 "use client";
 import styles from "@/Components/seingleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
-import SingleProduct from "@/Components/seingleProduct/product";
+import SingleProduct from "@/Components/seingleProduct/singleProduct";
 import { usePathname } from "next/navigation";
 
 const ProductListClient = ({ initialProducts, type }) => {
-  const pagename = usePathname();
+  const pageTitle = usePathname();
 
   return (
     <div className={styles.Container}>
       <div className={styles.text}>
-        <span className="font-bold ">{`${pagename} / ${type}`}</span>
+        <span className="font-bold ">{`${pageTitle} / ${type}`}</span>
         <h1 className={styles.title}>
           Adidas Running Collection{" "}
           <span style={{ fontSize: "15px", color: "var(--color-primary)" }}>

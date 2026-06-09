@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useOpneing } from "@/RTK/storcontext";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Loader from "@/Components/loaderFecthing/loader";
 function Products({ wishlist }) {
   const Router = useRouter();
 
@@ -37,7 +38,7 @@ function Products({ wishlist }) {
         },
       });
     }
-    if (state?.wishliststate !== undefined && state?.wishliststate === null) {
+    if (state?.status === 200) {
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
@@ -50,14 +51,10 @@ function Products({ wishlist }) {
         title: "Removed from Wishlist",
       });
     }
-  }, [Router, state.state, state?.wishliststate]);
+  }, [Router, state.state, state]);
   return (
     <div className={styles.wishlist_page}>
-      {pending && (
-        <div className={styles.overlay_loader}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader />}
       <h2 className={styles.bag_title}>
         Wishlist
         <span className={styles.item_count}>

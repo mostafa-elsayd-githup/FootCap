@@ -5,13 +5,13 @@ import SingleProduct from "@/Components/seingleProduct/produc";
 import { usePathname } from "next/navigation";
 
 const ProductListClient = ({ initialProducts }) => {
-  const pagename = usePathname();
+  const pageTitle = usePathname();
 
   return (
     <div className={styles.Container}>
       <div className={styles.text}>
         <span className="font-bold ">
-          {pagename}
+          {pageTitle}
         </span>
         <h1 className={styles.title}>
           Adidas Running Collection{" "}

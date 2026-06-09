@@ -4,9 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { StoreProvider } from "../RTK/storcontext";
 import { ThemeProvider } from "next-themes";
-import Feedback from "@/Components/feedback_component/feedback";
+
 import ReduxProvider from "../RTK/ReduxProvider";
-import NavBar from "@/Components/Navbar/navbar";
+import { usePathname } from "next/navigation";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 // };
 
 export default function RootLayout({ children }) {
+  const pathName = usePathname();
   return (
     <html lang="en" suppressHydrationWarning>
       <link
@@ -49,7 +50,6 @@ export default function RootLayout({ children }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ReduxProvider>
             <StoreProvider>
-              <Feedback />
               {children}
             </StoreProvider>
           </ReduxProvider>
