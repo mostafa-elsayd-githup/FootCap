@@ -1,24 +1,37 @@
 "use server";
 import CartPage from "./child";
 import NavAction from "@/Components/Navbar/NavAction";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
+import { createClientForServer } from "@/utils/supabase";
 
 export async function getdata() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-  const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+  try {
+    const createServer = await createClientForServer();
+    const { data: {user}, error: userError } = await createServer.auth.getUser();
+    if (!user || userError) {
+      return { state: 401, message: "Please first Create profile" };
+    }
+    const { data: profileData, error: dataError } = await createServer
+      .from("profiles")
+      .select("cart")
+      .eq("id", user.id)
+      .single();
+    if (dataError) {
+      console.error(
+        "Error fetching profile from Supabase:",
+        dataError.message,
+      );
+      return null;
+    }
+
+    return profileData.cart;
+  } catch (error) {
+    throw error;
   }
-  const data = await res.json();
-  return data.cart;
 }
 const page = async () => {
-  const data = await getdata();
+  const data = await getdata();  
   return (
     <>
       <NavAction />
