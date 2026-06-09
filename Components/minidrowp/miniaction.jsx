@@ -66,13 +66,11 @@ export default async function handelAction(prevstate, formData) {
         if (index !== -1) {
           return {
             cardState: true,
-            type: "quantity",
             timeStamp: Date.now(),
           };
         } else if (index === -1) {
           return {
             cardState: false,
-            type: "add",
             timeStamp: Date.now(),
           };
         }

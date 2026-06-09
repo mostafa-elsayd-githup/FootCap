@@ -1,14 +1,8 @@
 "use server";
-import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { revalidatePath } from "next/cache";
+import { createClientForServer } from "@/utils/supabase";
 export const handelAction = async (prevstate, formData) => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-
   const buttonType = formData.get("buttontype");
-  console.log(buttonType);
   const id = formData.get("id");
   const image = formData.get("image");
   const image_url = formData.get("image_url");
@@ -29,58 +23,48 @@ export const handelAction = async (prevstate, formData) => {
     sizes,
     quantity: 1,
   };
-
-  if (buttonType === "cart") {
-    try {
-      const cartitemId = `${product.id}-${sizes}`;
-      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-      const userdata = await res.json();
-
-      let cart = userdata.cart || [];
-
-      let wishlist = userdata.wishlist || [];
-      const exists = wishlist.some((item) => item.id === product.id);
-      if (exists) {
-        cart.push({ ...product, id: cartitemId });
-        wishlist = wishlist.filter((item) => item.id !== product.id);
-      }
-      await fetch(`http://localhost:1200/users/${decryption.id}`, {
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ cart: cart, wishlist: wishlist }),
-      });
-      revalidateTag("navbar");
-      if (exists === true) {
-      }
-    } catch {}
+  const supabaseServer = await createClientForServer();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabaseServer.auth.getUser();
+  if (!user || authError) {
+    return { state: 401, message: "Please login to continue" };
   }
   if (buttonType === "wishlist") {
     try {
-      const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-      const user = await res.json();
-
-      if (user) {
-        let wishlist = user.wishlist || [];
-        const exists = wishlist.some((item) => item.id === product.id);
-
-        if (exists) {
-          wishlist = wishlist.filter((item) => item.id !== product.id);
-        }
-
-        await fetch(`http://localhost:1200/users/${decryption.id}`, {
-          cache: "no-store",
-          method: "PATCH",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ wishlist }),
-        });
-
-        revalidateTag("navbar");
-
-        // لو كان موجود واتمسح يبقى الـ wishliststate الجديدة هتبقى false
-        return { wishliststate: !exists, status: 200, timeStamp: Date.now() };
+      const supabaseServer = await createClientForServer();
+      const { data: userWishlits, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("wishlist")
+        .eq("id", user.id)
+        .single();
+      if (fetchError) {
+        console.error("Error fetching wishlist:", fetchError.message);
+        return { error: "Failed to fetch wishlist" };
       }
+      let currentWishlist = userWishlits?.wishlist || [];
+      const exists = currentWishlist.some((item) => item.id === product.id);
+      if (exists) {
+        currentWishlist = currentWishlist.filter(
+          (item) => item.id !== product.id,
+        );
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ wishlist: currentWishlist })
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+      revalidatePath("/");
+      return { wishliststate: !exists, status: 200, timeStamp: Date.now() };
     } catch (error) {
-      return { message: "عذراً، فشل الاتصال بالسيرفر", status: 500 };
+      return { message: "Please Check internet Connect ", status: 500 };
     }
   }
 };

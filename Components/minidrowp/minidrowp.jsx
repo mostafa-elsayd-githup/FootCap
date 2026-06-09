@@ -18,7 +18,6 @@ import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
 export default function MiniDrowp() {
   const Router = useRouter();
   const dispatch = useDispatch();
-
   const { isOpen, setIsOpen, selectedProduct, setisfevorite } = useOpneing();
 
   const initialState = { massage: "", wishliststate: null };
@@ -95,7 +94,6 @@ export default function MiniDrowp() {
       state?.wishliststate !== null &&
       state?.timeStamp > lastTimestamp
     ) {
-      console.log(state.wishliststate);
       setActionTypeState("");
 
       const Toast = Swal.mixin({
@@ -114,7 +112,7 @@ export default function MiniDrowp() {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
-      }, 200);
+      }, state.wishliststate);
     }
     if (
       actionTypeState === "card" &&
@@ -130,18 +128,16 @@ export default function MiniDrowp() {
         timerProgressBar: true,
         timer: 2000,
       });
-      const isquantityUpdata = state.type === "quantity";
-
       Toast.fire({
         icon: "success",
-        title: isquantityUpdata ? "quantity +1" : "Added to Cart",
+        title: state.cardState ? "quantity +1" : "Added to Cart",
       });
 
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
-      }, 200);
+      }, state.wishliststate);
     }
 
     if (state?.status === 500) {
@@ -180,7 +176,7 @@ export default function MiniDrowp() {
     minimumFractionDigits: 0,
   }).format(parseInt(selectedProduct?.price));
   return (
-    <div className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}>
+    <>
       {pending && (
         <div className={styles.overlayaction}>
           <div className={styles.halfCircleLoader}></div>
@@ -189,9 +185,9 @@ export default function MiniDrowp() {
       {selectedProduct && (
         <div
           className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
-          onClick={() => setIsOpen(false)}
+           onClick={() => setIsOpen(false)}
         >
-          <div key={selectedProduct.id} className={styles.container}>
+          <div key={selectedProduct.id} className={styles.container} onClick={(e) => e.stopPropagation()}>
             <div className={styles.imageGallery}>
               <div className={styles.imageContainer}>
                 <Card.Img
@@ -363,9 +359,10 @@ export default function MiniDrowp() {
                 </form>
               </div>
             </div>
+
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

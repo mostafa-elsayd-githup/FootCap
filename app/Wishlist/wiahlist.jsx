@@ -6,12 +6,14 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { useActionState, useState, useEffect } from "react";
 import Swal from "sweetalert2";
-import { handelAction } from "../../server/wishliest_server";
+import { handelAction } from "@/server/wishliest_server";
 import Link from "next/link";
-import { useOpneing } from "../../RTK/storcontext";
-import { useSelector, useDispatch } from "react-redux";
+import { useOpneing } from "@/RTK/storcontext";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 function Products({ wishlist }) {
-  const dispatch = useDispatch();
+  const Router = useRouter();
+
   const [typeButton, settypeButton] = useState("");
   const intialstate = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
@@ -20,8 +22,21 @@ function Products({ wishlist }) {
   );
   const { setIsOpen, setSelectedProduct } = useOpneing();
   const wishlistarray = useSelector((state) => state.wishlist.items);
-
   useEffect(() => {
+    if (state.state === 401) {
+      Swal.fire({
+        title: "Login Required",
+        text: "Please log in to continue. Redirecting...",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        willClose: () => {
+          // <=callback function
+          Router.replace("/register");
+        },
+      });
+    }
     if (state?.wishliststate !== undefined && state?.wishliststate === null) {
       const Toast = Swal.mixin({
         toast: true,
@@ -35,7 +50,7 @@ function Products({ wishlist }) {
         title: "Removed from Wishlist",
       });
     }
-  }, [state?.wishliststate]);
+  }, [Router, state.state, state?.wishliststate]);
   return (
     <div className={styles.wishlist_page}>
       {pending && (
@@ -46,7 +61,8 @@ function Products({ wishlist }) {
       <h2 className={styles.bag_title}>
         Wishlist
         <span className={styles.item_count}>
-          ({wishlist?.length || 0} Items)
+          ( {wishlistarray?.length}{" "}
+          {wishlistarray.length === 1 ? "ITEM" : "ITEMS"} )
         </span>
       </h2>
 
@@ -59,19 +75,27 @@ function Products({ wishlist }) {
               currency: "EGP",
               minimumFractionDigits: 0,
             }).format(parseInt(product.price));
-            const oldprice = Intl.NumberFormat("en",{
-              notation:"standard",
-              style:"currency",
-              currency:"EGP"
-            }).format(product.oldPrice)
+            const oldprice = Intl.NumberFormat("en", {
+              notation: "standard",
+              style: "currency",
+              currency: "EGP",
+            }).format(product.oldPrice);
             return (
               <Card className={styles.card} key={product.id}>
                 <div className={styles.image_container}>
-                  {/* {product.Inventory === 0 ? (
-                  <span className={`${styles.stock_badge} ${styles.out_stock}`}>OUT OF STOCK</span>
-                ) : product.Inventory <= 5 ? (
-                  <span className={`${styles.stock_badge} ${styles.low_stock}`}>LOW STOCK</span>
-                ) : null} */}
+                  {product?.Inventory === 0 ? (
+                    <span
+                      className={`${styles.stock_badge} ${styles.out_stock}`}
+                    >
+                      OUT OF STOCK
+                    </span>
+                  ) : product?.Inventory <= 5 ? (
+                    <span
+                      className={`${styles.stock_badge} ${styles.low_stock}`}
+                    >
+                      LOW STOCK
+                    </span>
+                  ) : null}
 
                   <Card.Img
                     className={styles.image}
@@ -174,9 +198,7 @@ function Products({ wishlist }) {
                       {price}
                     </span>
                     {product.oldPrice && (
-                      <span className={styles.old_price}>
-                         {oldprice}
-                      </span>
+                      <span className={styles.old_price}>{oldprice}</span>
                     )}
                   </div>
 
