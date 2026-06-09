@@ -30,8 +30,9 @@ const SingleProduct = ({ productItem }) => {
   );
   const [actionTypeState, setActionTypeState] = useState("");
   const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
-  let wishlistItems = useSelector((state) => state.wishlist.items);
-  const isfevorite = wishlistItems.some(
+  const wishlistarray = useSelector((state) => state.wishlist.items);
+
+  const isfevorite = wishlistarray.some(
     (item: { id: number }) => Number(item.id) === productItem.id,
   );
   const handleWishlistSubmit = async () => {

@@ -10,12 +10,15 @@
   --bg-dis: rgba(255, 255, 255, 0.75);
 
   --border_card: #e2dadaa9;
-  --border-dis: rgba(0, 0, 0, 0.06);
+  --border-dis: #0000000f;
   --border-color: #ebedee;
 
-  --color-primary: #000000;
+  --color-primary: #121212;
   --color-main: #ffffff;
-  --color-sale: #e32b2b;
+  --color-sale: #c62828;
+  /* c62828  احمر */
+   /*757575 رمادى  */
+   /* 1a1a1a اسود */
   --color-secondary: #767677;
   --color-feedback: #767677c2;
 

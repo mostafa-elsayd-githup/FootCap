@@ -6,16 +6,11 @@
 .overlayaction {
   position: fixed;
   inset: 0;
-  background: rgba(
-    0,
-    0,
-    0,
-    0.55
-  ); 
+  background: #0000008c;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   z-index: 2000;
-  display: flex; 
+  display: flex;
   justify-content: center;
   align-items: center;
   visibility: hidden;
@@ -32,12 +27,10 @@
 .halfCircleLoader {
   width: 50px;
   height: 50px;
-  border: 4px solid var(--border-color); 
-  border-top-color: var(
-    --color-primary
-  ); 
+  border: 4px solid var(--border-color);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
-  animation: spin 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite; 
+  animation: spin 1s cubic-bezier(0.5, 0.1, 0.4, 0.9) infinite;
 }
 @keyframes spin {
   0% {
@@ -313,19 +306,18 @@
 
 .total_label {
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .total_value {
-  font-weight: 900;
-  font-size: 1.4rem;
+  font-weight: 800;
+  font-size: 1.2rem;
   color: var(--color-primary);
 }
 .checkout_button {
   background: var(--color-primary);
   width: 100%;
   color: var(--color-main);
-  letter-spacing: 1.5px;
   border: 1px solid transparent;
   border-radius: 8px;
   padding: 18px;
@@ -334,7 +326,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 1rem;
   text-decoration: none;
   text-transform: uppercase;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
