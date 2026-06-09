@@ -1,5 +1,5 @@
 "use client";
-import { useState, useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,8 +8,9 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./CardPage.module.css";
-import DeleteCart, { clearCart } from "../../server/cardpage_server";
+import DeleteCart, { clearCart } from "@/server/cardpage_server";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 const CartPage = ({ card }) => {
   const intinaldata = { massage: "", state: null };
@@ -19,6 +20,36 @@ const CartPage = ({ card }) => {
     intinaldata,
   );
   const [ActionState, setActionState] = useState("");
+  const cart = useSelector((state) => state.card.items);
+  useEffect(() => {
+    if (state.state === 401) {
+      Swal.fire({
+        title: "Login Required",
+        text: "Please log in to continue. Redirecting...",
+        icon: "error",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        willClose: () => {
+          // <=callback function
+          Router.replace("/register");
+        },
+      });
+    }
+    if (state?.cardstate !== undefined && state?.cardstate === null) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      Toast.fire({
+        icon: "success",
+        title: "Removed from cart",
+      });
+    }
+  }, [state?.cardstate, state.state, state.wishliststate]);
   return (
     <>
       <main className={styles.cart_wrapper}>
@@ -33,7 +64,7 @@ const CartPage = ({ card }) => {
           <h2 className={styles.bag_title}>
             YOUR BAG
             <span className={styles.item_count}>
-              ( {card.length} {card.length === 1 ? "Item" : "Items"} )
+              ( {cart.length} {cart.length === 1 ? "Item" : "Items"} )
             </span>
           </h2>
 
@@ -52,7 +83,6 @@ const CartPage = ({ card }) => {
 
                       return (
                         <div key={item.id} className={styles.product_card}>
-                          {console.log(item)}
                           <form
                             action={formAction}
                             onClick={(e) => e.stopPropagation()}
@@ -172,7 +202,7 @@ const CartPage = ({ card }) => {
                     <span className={styles.row_value}>
                       EGP{" "}
                       {card
-                        .reduce(
+                        ?.reduce(
                           (acc, item) =>
                             acc +
                             parseFloat(
@@ -238,7 +268,6 @@ const CartPage = ({ card }) => {
           </Row>
         </Container>
       </main>
-
     </>
   );
 };
