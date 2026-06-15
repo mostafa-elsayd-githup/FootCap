@@ -18,7 +18,7 @@ export default function AdminCustomers({ users }) {
   const [isClient, setIsClient] = useState(false);
   const [message, setmessage] = useState(false);
   const [block, setblock] = useState(false);
-  const initialstate = { users: [], foundState: null, message: "", time:null };
+  const initialstate = { users: [], foundState: null, message: "", time: null };
   const [state, formAction, pending] = useActionState(
     HandleAtion,
     initialstate,
@@ -28,7 +28,7 @@ export default function AdminCustomers({ users }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
-  console.log(state);
+  console.log("client", state);
 
   const displayUsers = state.users.length > 0 ? state.users : users;
   useEffect(() => {
@@ -108,13 +108,6 @@ export default function AdminCustomers({ users }) {
                   className={styles.searchIcon}
                 />
               </div>
-              <button
-                className={styles.All_user_button}
-                onClick={() => window.location.reload}
-              >
-                {/* <i className="fa-solid fa-arrow-rotate-left "></i> */}
-                All User
-              </button>
             </div>
           </div>
           <div>
@@ -129,84 +122,79 @@ export default function AdminCustomers({ users }) {
                 </tr>
               </thead>
               <tbody>
-                {displayUsers &&
-                  displayUsers.map((user) => {
-                    const price = user.orders?.reduce((acc, item) => {
-                      return acc + (parseFloat(item.totalprice) || 0);
-                    }, 0);
-                    const total = isClient
-                      ? new Intl.NumberFormat("en", {
-                          notation: "compact",
-                          style: "currency",
-                          currency: "EGP",
-                        }).format(price)
-                      : "";
-                    return (
-                      <tr key={user.id} className={styles.tableRow}>
-                        <td
-                          style={{
-                            display: "flex",
-                            gap: "10px",
-                            alignItems: "center",
-                          }}
+                {displayUsers?.map((user) => {
+                  const price = user.orders?.reduce((acc, item) => {
+                    return acc + (parseFloat(item.totalprice) || 0);
+                  }, 0);
+                  const total = isClient
+                    ? new Intl.NumberFormat("en", {
+                        notation: "compact",
+                        style: "currency",
+                        currency: "EGP",
+                      }).format(price)
+                    : "";
+                  return (
+                    <tr key={user.id} className={styles.tableRow}>
+                      <td
+                        style={{
+                          display: "flex",
+                          gap: "10px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div className={styles.avatar}>
+                          {user.full_name[0].toUpperCase()}
+                        </div>
+                        <div className="font-bold">{user.full_name}</div>
+                      </td>
+                      <td>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            user.status === "Active"
+                              ? "bg-green-500/10 text-green-500"
+                              : "bg-red-500/10 text-red-500"
+                          }`}
                         >
-                          <div className={styles.avatar}>
-                            {user.full_name[0].toUpperCase()}
-                          </div>
-                          <div className="font-bold">{user.full_name}</div>
-                        </td>
-                        <td>
-                          <span
-                            className={`px-3 py-1 rounded-full text-xs font-bold ${
-                              user.status === "Active"
-                                ? "bg-green-500/10 text-green-500"
-                                : "bg-red-500/10 text-red-500"
-                            }`}
+                          active
+                        </span>
+                      </td>
+                      <td className="font-semibold text-left">
+                        {user.orders?.length}
+                      </td>
+
+                      <td className="font-black text-blue-500">{total}</td>
+
+                      <td>
+                        <div className={styles.actionContainer}>
+                          <Link
+                            href={`/Components/dashboard/customer/${user.id}`}
+                            className={`${styles.actionBtn} ${styles.viewBtn}`}
+                            title="View Profile"
                           >
-                            active
-                          </span>
-                        </td>
-                        <td className="font-semibold text-left">
-                          {user.orders?.length}
-                        </td>
+                            <FontAwesomeIcon icon={faEye} />
+                          </Link>
+                          <button
+                            className={`${styles.actionBtn} ${styles.emailBtn}`}
+                            title="Send Email"
+                            onClick={() => setmessage(true)}
+                          >
+                            <FontAwesomeIcon icon={faEnvelope} />
+                          </button>
+                          <input type="hidden" name="message" value={message} />
 
-                        <td className="font-black text-blue-500">{total}</td>
-
-                        <td>
-                          <div className={styles.actionContainer}>
-                            <Link
-                              href={`/Components/dashboard/customer/${user.id}`}
-                              className={`${styles.actionBtn} ${styles.viewBtn}`}
-                              title="View Profile"
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </Link>
-                            <button
-                              className={`${styles.actionBtn} ${styles.emailBtn}`}
-                              title="Send Email"
-                              onClick={() => setmessage(true)}
-                            >
-                              <FontAwesomeIcon icon={faEnvelope} />
-                            </button>
-                            <input
-                              type="hidden"
-                              name="message"
-                              value={message}
-                            />
-
-                            <button
-                              className={`${styles.actionBtn} ${styles.blockBtn}`}
-                              title="Block User"
-                              onClick={() => setblock(user.id)}
-                            >
-                              <FontAwesomeIcon icon={faUserSlash} />
-                            </button>
-                            <input type="hidden" name="block" value={block} />
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          <button
+                            className={`${styles.actionBtn} ${styles.blockBtn}`}
+                            title="Block User"
+                            onClick={() => setblock(user.id)}
+                          >
+                            <FontAwesomeIcon icon={faUserSlash} />
+                          </button>
+                          <input type="hidden" name="block" value={block} />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
