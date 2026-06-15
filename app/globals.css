@@ -1,67 +1,61 @@
 @import "tailwindcss";
 :root {
-  --bg-main: #ffffff;
-  --bg-primary: #f5f5f5;
+  --bg-main: #fcfcfb;
+  --bg-primary: #f5f5f3;
   --bg-card: #ffffff;
-  --bg-dis: #fcfaf2;
-  --bg-navbar: #ffffff67;
-  --bg-searchinput: #f5f5f5f5;
+  --bg-navbar: #fcfcfbbf;
+  --bg-searchinput: #f0f0ed;
   --bg-little: #ffffff;
-  --bg-dis: rgba(255, 255, 255, 0.75);
+  --bg-dis: #f5f5f3cc;
 
-  --border_card: #e2dadaa9;
-  --border-dis: #0000000f;
-  --border-color: #ebedee;
+  --border_card: #0000000d;
+  --border-dis: #00000008;
+  --border-color: #e5e5e0;
 
-  --color-primary: #121212;
-  --color-main: #ffffff;
-  --color-sale: #c62828;
-  /* c62828  احمر */
-   /*757575 رمادى  */
-   /* 1a1a1a اسود */
-  --color-secondary: #767677;
-  --color-feedback: #767677c2;
+  --color-primary: #1c1c1a;
+  --color-main: #fcfcfb;
+  --color-sale: #d32f2f;
+  --color-secondary: #6e6e6a;
+  --color-feedback: #6e6e6a;
 
-  --text-fetch: #00000077;
-  --text-dis: #111827;
-  --rating-color: #2aba71;
+  --text-fetch: #1c1c1a80;
+  --text-dis: #1c1c1a;
+  --rating-color: #2e7d32;
 
-  --discount-bg: #f9f9f9;                 
-  --discount-border: #e5e7eb;             
-  --discount-pattern: rgba(0, 0, 0, 0.02);
-  
+  --discount-bg: #f7f7f4;
+  --discount-border: #e0e0da;
+  --discount-pattern: #00000004;
 }
-
 .dark {
-  --bg-main: #121212;
-  --bg-primary: #1a1a1a;
-   --bg-card: #1e1e1e;
-  --bg-dis: #1c1b17;
-  --bg-navbar: #00000067;
-  --bg-searchinput: #ffffff1a;
-  --bg-little: #1a1b19da;
-  --bg-dis: rgba(26, 27, 25, 0.7);
+  --bg-main: #0e0f11;
+  --bg-primary: #15171a;
+  --bg-card: #1a1c1f;
+  --bg-navbar: #0e0f11bf;
+  --bg-searchinput: #ffffff0f;
+  --bg-little: #15171a;
+  --bg-dis: #15171acc;
 
- --border_card: #ffffff27;
- --border-dis: rgba(255, 255, 255, 0.08);
- --border-color: #333333;
+  --border_card: #ffffff14;
+  --border-dis: #ffffff0a;
+  --border-color: #24272c;
 
-  --color-primary: #ebebeb;
-  --color-main: #000000;
-  --color-secondary: #a0a0a1;
-  --color-feedback: #eee;
-  --color-sale: #ff5f5f;
+  --color-primary: #f3f4f6;
+  --color-main: #0e0f11;
+  --color-secondary: #9ca3af;
+  --color-feedback: #e5e7eb;
+  --color-sale: #ff6b6b;
 
-  --text-fetch: #ffffff65;
-  --text-dis: #ffffff;
-  --rating-color: #ffb400;
+  --text-fetch: #ffffff66;
+  --text-dis: #f3f4f6;
+  --rating-color: #f59e0b;
 
-
---discount-bg: #141414;                 
-  --discount-border: #222222;             
-  --discount-pattern: rgba(255, 255, 255, 0.025);
-
+  --discount-bg: #111315;
+  --discount-border: #1f2226;
+  --discount-pattern: #ffffff04;
 }
+/* c62828  احمر */
+/*757575 رمادى  */
+/* 1a1a1a اسود */
 * {
   box-sizing: border-box;
   padding: 0;
