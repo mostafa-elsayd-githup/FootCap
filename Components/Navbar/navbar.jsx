@@ -13,7 +13,7 @@ function NavBar({ userdata }) {
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
-  
+
   useEffect(() => {
     if (userdata?.wishlist) {
       dispatch(setInitialWishlist(userdata.wishlist));
@@ -68,6 +68,7 @@ function NavBar({ userdata }) {
             <div className={`${style.icon_group} ${style.desktop_only}`}>
               <Link href="/Wishlist" className={style.icon_link}>
                 <i className="fa-regular fa-heart"></i>
+
                 {wishlist?.length > 0 ? (
                   <span className={style.badge}>{wishlist.length}</span>
                 ) : null}
