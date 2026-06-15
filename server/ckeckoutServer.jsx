@@ -1,16 +1,9 @@
 "use server";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import { revalidateTag } from "next/cache";
+
+import { revalidatePath } from "next/cache";
+import { createClientForServer } from "@/utils/supabase";
 
 export default async function handleOrder(prevstate, formData) {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-
   const fullName = formData.get("fullName");
   const address = formData.get("address");
   const phone = formData.get("phone");
@@ -62,31 +55,44 @@ export default async function handleOrder(prevstate, formData) {
     products: allProducts,
     totalprice: totalprice,
   };
-
+  const supabaseServer = await createClientForServer();
+  const {
+    data: { user },
+    error: autheError,
+  } = await supabaseServer.auth.getUser();
+  if (!user || autheError) {
+    return [];
+  }
   try {
-    const res = await fetch(`http://localhost:1200/users/${decryption.id}`, {
-      cache: "no-store",
-    });
-    const userData = await res.json();
-
-    const updatedOrders = [...(userData.order || []), order];
-
-    const patchRes = await fetch(
-      `http://localhost:1200/users/${decryption.id}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          order: updatedOrders,
-          cart: [],
-        }),
-      },
-    );
-
-    if (patchRes.ok) {
-      revalidateTag("navbar");
-      return { success: true, message: "success", timeStamp: Date.now() };
+    const { data: profile, error: profileError } = await supabaseServer
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id);
+    if (profileError || !profile || profile.length === 0) {
+      console.error("Error fetching wishlist:", profileError.message);
+      return { error: "Failed to fetch wishlist" };
     }
+
+    let updatedOrders = profile[0].orders || [];
+
+    updatedOrders.push(order);
+
+    const { error: UpdataError } = await supabaseServer
+      .from("profiles")
+      .update({
+        orders: updatedOrders,
+        cart: [],
+      })
+      .eq("id", user.id);
+    if (UpdataError) {
+      console.error(
+        "Error updating wishlist in Supabase:",
+        UpdataError.message,
+      );
+      return { error: "Failed to update wishlist" };
+    }
+    revalidatePath("/CardPage");
+    return { success: true, message: "success", timeStamp: Date.now() };
   } catch {
     console.error("Fetch Error:", error);
     return { inputState: 500, message: "Server Error" };

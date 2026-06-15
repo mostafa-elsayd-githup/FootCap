@@ -2,11 +2,11 @@
 import { revalidatePath } from "next/cache";
 import { createClientForServer } from "@/utils/supabase";
 export const handelAction = async (prevstate, formData) => {
-  const buttonType = formData.get("buttontype");
+  const buttonType = formData.get("buttontype");  
   const id = formData.get("id");
   const image = formData.get("image");
   const image_url = formData.get("image_url");
-  const name = formData.get("name");
+  const title = formData.get("name");
   const price = formData.get("price");
   const old_price = formData.get("old_price");
   const category = formData.get("category");
@@ -14,7 +14,7 @@ export const handelAction = async (prevstate, formData) => {
 
   const product = {
     id,
-    name,
+    title,
     image,
     image_url,
     price,
