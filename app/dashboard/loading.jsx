@@ -5,17 +5,6 @@ export default function Loading() {
 
   return (
     <div className={styles.adminLayoutSkeleton}>
-      <aside className={styles.sidebarSkeleton}>
-        <div className={`${styles.skeleton} ${styles.logoSkeleton}`}></div>
-        <div className={styles.navLinks}>
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={`${styles.skeleton} ${styles.linkSkeleton}`}
-            ></div>
-          ))}
-        </div>
-      </aside>
 
       <main className={styles.contentSkeleton}>
         <div className={styles.headerSkeleton}>
