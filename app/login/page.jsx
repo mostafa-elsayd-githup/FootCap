@@ -10,19 +10,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./login.module.css";
 import Link from "next/link";
-import { loginAction } from "./login_server";
+import { loginAction } from "@/server/login_server";
 import { useActionState } from "react";
+import Loader from "@/Components/loaderFecthing/loader";
 
 const LoginPage = () => {
   const [state, formAction, pending] = useActionState(loginAction, { message: "" , state:null});
   return (
     <div className={styles.mainWrapper}>
       {/* loader */}
-      {pending && (
-        <div className={styles.overlay}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader/>}
 
       <Container
         className="d-flex align-items-center justify-content-center"
