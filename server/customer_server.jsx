@@ -17,13 +17,12 @@ export default async function HandleAtion(prevend, formData) {
       if (profilesError) {
         return [];
       }
-      console.log(profiles);
 
       const filteruser = profiles.filter((user) => {
-        user.full_name?.includes(search) 
-          // user.email?.toLowerCase().includes(search.toLowerCase());
+        return user.full_name?.includes(search) || user.email?.includes(search);
       });
-      
+      console.log("server", filteruser);
+
       if (filteruser.length === 0) {
         return {
           users: [],
@@ -40,30 +39,30 @@ export default async function HandleAtion(prevend, formData) {
         time: Date.now(),
       };
     } else if (block) {
-      if (block && !inputdialog) {
-        return { blockState: true, timeStamp: Date.now() };
-      }
-      if (inputdialog === "yes") {
-        const user = await fetch(`http://localhost:1200/users/${block}`);
-        if (user.ok) {
-          let userdata = await user.json();
-          await fetch(`http://localhost:1200/blocked`, {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(userdata),
-          });
-          const deleteUser = await fetch(`http://localhost:1200/users`);
-          if (deleteUser.ok) {
-            await fetch(`http://localhost:1200/users/${block}`, {
-              cache: "no-cache",
-              method: "DELETE",
-            });
-            revalidateTag("cuctomerPage");
-            revalidateTag("usersBlock");
-            return { blockState: false };
-          }
-        }
-      }
+      // if (block && !inputdialog) {
+      //   return { blockState: true, timeStamp: Date.now() };
+      // }
+      // if (inputdialog === "yes") {
+      //   const user = await fetch(`http://localhost:1200/users/${block}`);
+      //   if (user.ok) {
+      //     let userdata = await user.json();
+      //     await fetch(`http://localhost:1200/blocked`, {
+      //       method: "POST",
+      //       headers: { "Content-type": "application/json" },
+      //       body: JSON.stringify(userdata),
+      //     });
+      //     const deleteUser = await fetch(`http://localhost:1200/users`);
+      //     if (deleteUser.ok) {
+      //       await fetch(`http://localhost:1200/users/${block}`, {
+      //         cache: "no-cache",
+      //         method: "DELETE",
+      //       });
+      //       revalidateTag("cuctomerPage");
+      //       revalidateTag("usersBlock");
+      //       return { blockState: false };
+      //     }
+      //   }
+      // }
     }
   } catch (error) {
     console.error(error);
