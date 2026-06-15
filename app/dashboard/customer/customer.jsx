@@ -10,13 +10,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import HandleAtion from "../../../../server/customer_server";
+import HandleAtion from "@/server/customer_server";
+import Loader from "@/Components/loaderFecthing/loader";
+import Swal from "sweetalert2";
 export default function AdminCustomers({ users }) {
   const [UnblockMessage, setUnblocMessage] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [message, setmessage] = useState(false);
   const [block, setblock] = useState(false);
-  const initialstate = { state: null, message: "" };
+  const initialstate = { users: [], foundState: null, message: "", time:null };
   const [state, formAction, pending] = useActionState(
     HandleAtion,
     initialstate,
@@ -26,16 +28,28 @@ export default function AdminCustomers({ users }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
+  console.log(state);
 
-  const displayUsers = state && state.length > 0 ? state : users;
+  const displayUsers = state.users.length > 0 ? state.users : users;
+  useEffect(() => {
+    if (state.foundState === 401) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-right",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+      Toast.fire({
+        icon: "error",
+        title: state.message,
+      });
+    }
+  }, [state.foundState, state.message, state.time]);
   return (
     <div className={styles.adminLayout}>
       {/* loader */}
-      {pending && (
-        <div className={styles.overlay}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader />}
       <div className={styles.content}>
         <form action={formAction}>
           {state?.blockState && (
@@ -117,7 +131,7 @@ export default function AdminCustomers({ users }) {
               <tbody>
                 {displayUsers &&
                   displayUsers.map((user) => {
-                    const price = user.order?.reduce((acc, item) => {
+                    const price = user.orders?.reduce((acc, item) => {
                       return acc + (parseFloat(item.totalprice) || 0);
                     }, 0);
                     const total = isClient
@@ -127,9 +141,8 @@ export default function AdminCustomers({ users }) {
                           currency: "EGP",
                         }).format(price)
                       : "";
-
                     return (
-                      <tr key={user.createdAt} className={styles.tableRow}>
+                      <tr key={user.id} className={styles.tableRow}>
                         <td
                           style={{
                             display: "flex",
@@ -137,8 +150,10 @@ export default function AdminCustomers({ users }) {
                             alignItems: "center",
                           }}
                         >
-                          <div className={styles.avatar}>{user.name[0]}</div>
-                          <div className="font-bold">{user.name}</div>
+                          <div className={styles.avatar}>
+                            {user.full_name[0].toUpperCase()}
+                          </div>
+                          <div className="font-bold">{user.full_name}</div>
                         </td>
                         <td>
                           <span
@@ -152,7 +167,7 @@ export default function AdminCustomers({ users }) {
                           </span>
                         </td>
                         <td className="font-semibold text-left">
-                          {user.order?.length}
+                          {user.orders?.length}
                         </td>
 
                         <td className="font-black text-blue-500">{total}</td>

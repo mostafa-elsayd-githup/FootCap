@@ -1,17 +1,21 @@
 "use server";
+import { createClientForServer } from "@/utils/supabase";
 import AdminCustomers from "./customer";
-import NavAction from "../../../Navbar/NavAction";
+import NavAction from "@/Components/Navbar/NavAction";
 
 async function getusers() {
   try {
-    const res = await fetch(`http://localhost:1200/users`, {
-      next: { tap: ["cuctomerPage"] },
-      cache: "no-store",
-    });
-    if (res.ok) {
-      return await res.json();
+    const supabaseServer = await createClientForServer();
+    const { data: users, error: profileError } = await supabaseServer
+      .from("profiles")
+      .select("*");
+    if (profileError) {
+      return [];
     }
-  } catch {}
+    return users;
+  } catch (error) {
+    throw error;
+  }
 }
 async function CusotomerServer() {
   const data = await getusers();
