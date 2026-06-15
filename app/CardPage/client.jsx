@@ -8,12 +8,13 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./CardPage.module.css";
-import DeleteCart, { clearCart } from "@/server/cardpage_server";
+import DeleteCart from "@/server/cardpage_server";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import Loader from "@/Components/loaderFecthing/loader"
 const CartPage = ({ card }) => {
+  
   const intinaldata = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(DeleteCart, intinaldata);
   const [ActionState, setActionState] = useState("");
@@ -64,8 +65,8 @@ const CartPage = ({ card }) => {
             <Col lg={8} md={12}>
               <div className={styles.products_main_container}>
                 <div className={styles.products_scroll_area}>
-                  {card && card.length > 0 ? (
-                    card.map((item) => {
+                  {cart && card.length > 0 ? (
+                    cart.map((item) => {
                       const price = Intl.NumberFormat("en", {
                         notation: "standard",
                         style: "currency",
@@ -106,7 +107,7 @@ const CartPage = ({ card }) => {
                           <div className={styles.product_details_content}>
                             <div className={styles.details_main_info}>
                               <div>
-                                <h3 className={styles.p_name}>{item.name}</h3>
+                                <h3 className={styles.p_name}>{item.title}</h3>
                                 <p className={styles.p_meta}>
                                   Category: <span>{item.category}</span>
                                 </p>
@@ -227,7 +228,7 @@ const CartPage = ({ card }) => {
                   </div>
 
                   <Link
-                    href="/CardPage/ckecout/"
+                    href="/ckecout/"
                     className={styles.checkout_button}
                   >
                     PROCEED TO CHECKOUT{" "}

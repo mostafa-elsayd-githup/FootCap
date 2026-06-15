@@ -204,6 +204,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 2rem;
 }
 .searchInput {
   width: 100%;
@@ -287,6 +288,7 @@
 .tableRow td {
   padding: 15px;
   color: var(--color-primary);
+  text-align: center;
 }
 
 .avatar {

@@ -26,6 +26,7 @@ export async function getdata() {
     }
 
     return profileData.cart;
+    
   } catch (error) {
     throw error;
   }
