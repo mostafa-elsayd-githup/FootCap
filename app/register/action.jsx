@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { createClientForServer } from "@/utils/supabase";
+import { supabase, supabaseAdmin} from "@/utils/supabase"
 
 export async function registerAction(prevstate, formData) {
   const name = formData.get("name");
@@ -22,26 +22,43 @@ export async function registerAction(prevstate, formData) {
     };
   }
 
-try {
-    const supabaseServer = await createClientForServer();
-  const { data: authData, error: authError } = await supabaseServer.auth.signUp({
-    email: email,
-    password: password,
-    options: {
-      data: {
-        full_name: name,
-      },
-    },
-  });
+  try {
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
 
-  if (authError) {
-    return { message: authError.message };
+    if (authError) {
+      return { message: authError.message };
+    }
+
+    if (authData?.user) {
+      const { error: profileError } = await supabaseAdmin
+        .from("profiles")
+        .upsert(
+          [
+            {
+              id: authData.user.id,
+              full_name: name,
+              email: email,
+              role: "user",
+              wishlist: [],
+              cart: [],
+              orders: [],
+            },
+          ],
+          { onConflict: "id" },
+        );
+
+      if (profileError) {
+        console.error("Profile creation error:", profileError.message);
+        return { message: "Account created but profile setup failed." };
+      }
+    }
+  } catch (error) {
+    console.error("Catch error:", error);
+    return { message: "Sorry, a technical error occurred." };
   }
 
-  
-} catch (error) {
-  return { message: "Sorry, a technical error occurred." };
-}
-
-redirect("/login");
+  redirect("/login");
 }
