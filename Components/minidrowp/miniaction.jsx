@@ -5,7 +5,7 @@ export default async function handelAction(prevstate, formData) {
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
   const image = formData.get("image");
-  const name = formData.get("name");
+  const title = formData.get("name");
   const price = formData.get("price");
   const old_price = formData.get("old_price");
   const category = formData.get("category");
@@ -14,7 +14,7 @@ export default async function handelAction(prevstate, formData) {
   const product = {
     id,
     image,
-    name,
+    title,
     price,
     old_price,
     category,

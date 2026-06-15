@@ -9,12 +9,13 @@ import Swal from "sweetalert2";
 import { handelAction } from "@/server/wishliest_server";
 import Link from "next/link";
 import { useOpneing } from "@/RTK/storcontext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import Loader from "@/Components/loaderFecthing/loader";
+import { rollbackWishlist } from "@/RTK/wishlistslice";
 function Products({ wishlist }) {
   const Router = useRouter();
-
+  const dispatch = useDispatch();
   const [typeButton, settypeButton] = useState("");
   const intialstate = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(
@@ -157,7 +158,7 @@ function Products({ wishlist }) {
                       <button
                         type="submit"
                         disabled={pending}
-                        onClick={() => settypeButton("wishlist")}
+                        onClick={settypeButton("wishlist")}
                         className={`${styles.icon_btn} ${styles.heart_btn}`}
                         title="Remove from wishlist"
                       >

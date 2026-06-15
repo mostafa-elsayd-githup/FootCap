@@ -4,10 +4,10 @@ import styles from "./ckeckout.module.css";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { Card } from "react-bootstrap";
-import handleOrder from "../../server/ckeckoutServer";
+import handleOrder from "@/server/ckeckoutServer";
+import Loader from "@/Components/loaderFecthing/loader";
 export default function CheckoutPage({ cartItems }) {
   const router = useRouter();
-  const [pendingclient, setPending] = useState(false);
   const [FormDataClient, setFormDataClient] = useState({
     fullName: "",
     val: "",
@@ -30,7 +30,7 @@ export default function CheckoutPage({ cartItems }) {
     ) || 0;
 
   const shipping = 50;
-  
+
   const total = subtotal + shipping;
   const egyptGovernorates = [
     "Cairo",
@@ -62,6 +62,7 @@ export default function CheckoutPage({ cartItems }) {
     "Sohag",
   ];
   useEffect(() => {
+    console.log(state);
     // Validate
     if (state?.inputState === 100) {
       Swal.fire("Error", `${state?.message}`, "error");
@@ -78,31 +79,29 @@ export default function CheckoutPage({ cartItems }) {
           text: "Your order has been received successfully.",
           icon: "success",
           confirmButtonColor: "#000",
-        }).then(() => {
-          router.push("/");
-        });
-      }, 1000);
+        })
+// .then(() => {
+//           router.push("/");
+//         });
+        
+      }, state.success);
     }
   }, [
-    state?.timeStamp,
+    state.timeStamp,
     state?.inputState,
     state?.success,
     state?.message,
     router,
+    state,
   ]);
 
-return (
+  return (
     <div className={styles.checkoutContainer}>
-      {pendingclient && (
-        <div className={styles.overlay}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader />}
 
       <div className={styles.shippingSection}>
         <h2 className={styles.title}>Shipping Information</h2>
         <form action={formAction} className={styles.formGrid}>
-          
           <div className={styles.formGroup}>
             <label>Full Name</label>
             <input
@@ -165,7 +164,7 @@ return (
           </div>
 
           <div className={styles.formGroup}>
-            <label>City {`[${egyptGovernorates.length}]`}</label>
+            <label>City {`( ${egyptGovernorates.length} )`}</label>
             <input
               list="egypt-cities"
               className={styles.inputField}
@@ -184,7 +183,11 @@ return (
           <button type="submit" className={styles.orderBtn}>
             CONFIRM ORDER
           </button>
-          <input type="hidden" name="fullName" value={FormDataClient.fullName} />
+          <input
+            type="hidden"
+            name="fullName"
+            value={FormDataClient.fullName}
+          />
           <input type="hidden" name="address" value={FormDataClient.address} />
           <input type="hidden" name="phone" value={FormDataClient.phone} />
           <input type="hidden" name="city" value={FormDataClient.city} />
@@ -212,14 +215,19 @@ return (
                 className={styles.productImg}
               />
               <div className={styles.productDetails}>
-                <h5>{item.name}</h5>
-                <p>Size: {item.size} • Qty: {item.quantity}</p>
-                
+                <h5>{item.title}</h5>
+                <p>
+                  Size: {item.size} • Qty: {item.quantity}
+                </p>
+
                 <div className={styles.priceContainer}>
                   <span className={styles.itemPrice}>EGP {item.price}</span>
                   {item.quantity > 1 && (
                     <span className={styles.itemTotalPrice}>
-                      Total: EGP {(Number(item.price.replace(/,/g, "")) * item.quantity).toLocaleString()}
+                      Total: EGP{" "}
+                      {(
+                        Number(item.price.replace(/,/g, "")) * item.quantity
+                      ).toLocaleString()}
                     </span>
                   )}
                 </div>
@@ -239,11 +247,12 @@ return (
           </div>
           <div className={`${styles.totalRow} ${styles.grandTotal}`}>
             <span>Total</span>
-            <span className={styles.totalAmount}>EGP {total.toLocaleString()}</span>
+            <span className={styles.totalAmount}>
+              EGP {total.toLocaleString()}
+            </span>
           </div>
         </div>
       </div>
     </div>
   );
 }
-

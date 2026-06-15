@@ -1,19 +1,30 @@
 "use server";
 import CheckoutPage from "./ckeckoutclien";
-import NavAction from "../../Navbar/NavAction";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import NavAction from "@/Components/Navbar/NavAction";
+import { createClientForServer } from "@/utils/supabase";
 
 export async function getdata() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const decryption = jwt.verify(token, process.env.JWT_SECRET);
-  const res = await fetch(`http://localhost:1200/users/${decryption.id}`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+  const supabaseServer = await createClientForServer();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabaseServer.auth.getUser();
+  if (!user || userError) {
+    return [];
   }
-  const data = await res.json();
-  return data.cart;
+  const { data: profile, profileError } = await supabaseServer
+    .from("profiles")
+    .select("cart")
+    .eq("id", user.id)
+    .single();
+  if (profileError) {
+    console.error(
+      "Error fetching profile from Supabase:",
+      profileError.message,
+    );
+    return null;
+  }
+  return profile.cart;
 }
 const page = async () => {
   const data = await getdata();

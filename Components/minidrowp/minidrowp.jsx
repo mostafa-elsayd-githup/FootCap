@@ -19,19 +19,19 @@ import Loader from "@/Components//loaderFecthing/loader";
 export default function MiniDrowp() {
   const Router = useRouter();
   const dispatch = useDispatch();
-  const { isOpen, setIsOpen, selectedProduct, setisfevorite } = useOpneing();
-
+  const { isOpen, setIsOpen, selectedProduct, setisfevorite } = useOpneing();  
   const initialState = { massage: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
     initialState,
   );
+  console.log(selectedProduct);
+  
   const [actionTypeState, setActionTypeState] = useState("");
   const [selectedSize, setselectedSize] = useState("");
   const [AddToCart, setAddToCart] = useState(false);
   const [lastTimestamp, setLastTimestamp] = useState(null);
   const wishlistItems = useSelector((state) => state.wishlist.items);
-
   const isfevorite = wishlistItems.some(
     (item) => Number(item.id) === Number(selectedProduct?.id),
   );
@@ -184,6 +184,8 @@ export default function MiniDrowp() {
           className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
            onClick={() => setIsOpen(false)}
         >
+          {console.log(selectedProduct)
+          }
           <div key={selectedProduct.id} className={styles.container} onClick={(e) => e.stopPropagation()}>
             <div className={styles.imageGallery}>
               <div className={styles.imageContainer}>
@@ -234,7 +236,7 @@ export default function MiniDrowp() {
             </div>
             <div className={styles.infoSection}>
               <div className={styles.headerInfo}>
-                <h1 className={styles.productName}>{selectedProduct.title}</h1>
+                <h1 className={styles.productName}>{selectedProduct.name}</h1>
                 {selectedProduct.oldPrice ? (
                   <span>
                     <span className={styles.price_red}>{price}</span>
@@ -303,7 +305,7 @@ export default function MiniDrowp() {
                     <input
                       type="hidden"
                       name="name"
-                      value={selectedProduct.title || ""}
+                      value={selectedProduct.name || ""}
                     />
                     <input
                       type="hidden"
