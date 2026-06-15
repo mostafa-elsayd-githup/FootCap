@@ -1,6 +1,4 @@
 "use client";
-import React from "react";
-import { useState } from "react";
 import styles from "./dashboard.module.css";
 import {
   XAxis,
@@ -15,6 +13,8 @@ import {
   Cell,
 } from "recharts";
 export default function Dashboard({ total, allUsers, orders, finalData }) {
+
+  
   const totalmoney = new Intl.NumberFormat("en", {
     notation: "compact",
     style: "currency",
@@ -23,9 +23,9 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
   }).format(total);
 
   const data = [
-    { name: "Shoes", value: 20, color: "#3b82f6" }, // أزرق مثلاً
-    { name: "Jerseys", value: 25, color: "#10b981" }, // أخضر
-    { name: "Jackets", value: 15, color: "#f59e0b" }, // برتقالي
+    { name: "Shoes", value: 20, color: "#3b82f6" },
+    { name: "Jerseys", value: 25, color: "#10b981" }, 
+    { name: "Jackets", value: 15, color: "#f59e0b" }, 
   ];
   return (
     <div className={styles.adminLayout}>
@@ -54,12 +54,12 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           <div className={styles.card}>
             <span className={styles.cardTitle}>Active Users</span>
             <span className={styles.cardValue}>
-              {allUsers.length.toLocaleString()}
+              {allUsers?.length.toLocaleString()}
             </span>
           </div>
           <div className={styles.card}>
             <span className={styles.cardTitle}>Orders</span>
-            <span className={styles.cardValue}>{orders.toLocaleString()}</span>
+            <span className={styles.cardValue}>{orders?.toLocaleString()}</span>
           </div>
         </div>
 

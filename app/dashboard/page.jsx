@@ -1,44 +1,42 @@
 "use server";
 import Dashboard from "./dashboard";
 import NavAction from "@/Components/Navbar/NavAction";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import { createClientForServer } from "@/utils/supabase";
 
 async function getWishlist() {
-  const tokenstor = await cookies();
-  const token = tokenstor.get("token")?.value;
-  if (!token) {
-    return { state: 401, message: "Please login to continue" };
-  }
-  // const decryption = jwt.verify(token, process.env.JWT_SECRET);
   try {
-    const res = await fetch(`http://localhost:1200/users`, {
-      cache: "no-store",
-      next: { tags: ["navbar"] },
-    });
-
-    let usersData = await res.json();
-    const totalOrdersCount = usersData.reduce((acc, user) => {
-      if (user.order && Array.isArray(user.order)) {
-        return acc + user.order.length;
+    const supabaseServer = await createClientForServer();
+    const { data: profile, profileError } = await supabaseServer
+      .from("profiles")
+      .select("*");
+    if (profileError) {
+      return [];
+    }
+    const totalOrdersCount = profile.reduce((acc, user) => {
+      if (user.orders && Array.isArray(user.orders)) {
+        return acc + user.orders.length;
       }
       return acc;
     }, 0);
 
-    const totalRevenue = usersData.reduce((acc, user) => {
-      if (user.order && Array.isArray(user.order)) {
-        const userSum = user.order.reduce((sum, ord) => {
+    const totalRevenue = profile.reduce((acc, user) => {
+      if (user.orders && Array.isArray(user.orders)) {
+        const userSum = user.orders.reduce((sum, ord) => {
           return sum + (parseFloat(ord.totalprice) || 0);
         }, 0);
         return acc + userSum;
       }
+     
       return acc;
+
     }, 0);
+    
     const salesByDay = {};
 
-    usersData.forEach((user) => {
-      if (user.order && Array.isArray(user.order)) {
-        user.order.forEach((ord) => {
+    profile.forEach((user) => {
+      if (user.orders && Array.isArray(user.orders)) {
+        
+        user.orders.forEach((ord) => {
           const day = new Date(ord.createdAt).toLocaleDateString("en-us", {
             weekday: "short",
           });
@@ -60,7 +58,7 @@ async function getWishlist() {
       sales: salesByDay[day] || 0,
     }));
     return {
-      users: usersData,
+      users: profile,
       totalRevenue: totalRevenue,
       orders: totalOrdersCount,
       finalData: finalData,
@@ -72,16 +70,15 @@ async function getWishlist() {
 
 async function Product() {
   const { users, totalRevenue, orders, finalData } = await getWishlist();
-
   return (
     <>
       <NavAction />
-        <Dashboard
-          total={totalRevenue}
-          allUsers={users}
-          orders={orders}
-          finalData={finalData}
-          />
+      <Dashboard
+        total={totalRevenue}
+        allUsers={users}
+        orders={orders}
+        finalData={finalData}
+      />
     </>
   );
 }
