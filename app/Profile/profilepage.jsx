@@ -1,10 +1,12 @@
 "use client";
 import styles from "./profile.module.css";
 import { useState } from "react";
-import logoutfun from "../../server/profile_server";
+import logoutfun from "@/server/profile_server";
 import { useActionState } from "react";
 
 function ProfilePage({ users }) {
+
+  
   const date = new Date(users?.created_at).toLocaleDateString("eg-EG", {
     year: "numeric",
     month: "long",
