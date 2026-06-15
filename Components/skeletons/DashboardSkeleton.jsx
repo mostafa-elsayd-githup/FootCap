@@ -6,7 +6,7 @@ export default function DashboardSkeleton() {
 
   return (
     <div className={styles.dashboard_layout}>
-      {/* كروت الإحصائيات العلوية */}
+
       <div className={styles.stats_grid}>
         {dummyStats.map((_, index) => (
           <div key={index} className={styles.stat_card}>
@@ -17,7 +17,6 @@ export default function DashboardSkeleton() {
         ))}
       </div>
 
-      {/* مكان الرسم البياني (The Chart Container) */}
       <div className={styles.chart_placeholder}>
         <div className={styles.shimmer_item} style={{ width: "180px", height: "24px", marginBottom: "30px" }} />
         <div className={styles.shimmer_item} style={{ width: "100%", height: "240px" }} />
