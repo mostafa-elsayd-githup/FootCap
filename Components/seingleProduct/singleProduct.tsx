@@ -75,13 +75,13 @@ const SingleProduct = ({ productItem }) => {
         timer: 2000,
         timerProgressBar: true,
       });
-
       Toast.fire({
         icon: "success",
         title: state.wishliststate
           ? "Added to Wishlist"
           : "Removed from Wishlist",
       });
+      
     }
   }, [state.wishliststate, setisfevorite, state?.state, Router]);
 
