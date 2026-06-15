@@ -3,13 +3,9 @@ import styles from "@/Components/seingleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
 import SingleProduct from "@/Components/seingleProduct/singleProduct";
 import { usePathname } from "next/navigation";
-import { useActionState } from "react";
-import handleAction from "@/server/hero_server";
-import Loader from "@/Components/loaderFecthing/loader";
 
 const ProductListClient = ({ initialProducts }) => {
   const pageTitle = usePathname();
-  const initialstate = { state: null, message: "" };
   return (
     <div className={styles.Container}>
       <div className={styles.text}>
