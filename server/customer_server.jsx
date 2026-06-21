@@ -13,27 +13,21 @@ export default async function HandleAtion(prevend, formData) {
       const supabaseServer = await createClientForServer();
       const { data: profiles, error: profilesError } = await supabaseServer
         .from("profiles")
-        .select("*");
+        .select("*")
+        .or(`full_name.ilike.%${search}%,email.ilike.%${search}%`);
       if (profilesError) {
         return [];
       }
-
-      const filteruser = profiles.filter((user) => {
-        return user.full_name?.includes(search) || user.email?.includes(search);
-      });
-      console.log("server", filteruser);
-
-      if (filteruser.length === 0) {
+      if (profiles.length === 0) {
         return {
           users: [],
           foundState: 401,
-          message: "Not Found User",
+          message: "User Not Found ",
           time: Date.now(),
         };
       }
-
       return {
-        users: filteruser,
+        users: profiles,
         foundState: 200,
         message: "",
         time: Date.now(),
