@@ -37,6 +37,9 @@
 }
 /* end-loader */
 /* start dialod */
+.dialogbackgroundNone {
+  display: none;
+}
 .dialogbackground {
   position: fixed;
   top: 0;
@@ -51,6 +54,7 @@
   z-index: 10000;
   animation: fadeIn 0.3s ease;
 }
+
 .modalCard {
   background-color: var(--bg-card);
   border: 2px solid var(--border_card);

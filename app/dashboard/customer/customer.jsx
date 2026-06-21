@@ -18,68 +18,93 @@ export default function AdminCustomers({ users }) {
   const [isClient, setIsClient] = useState(false);
   const [message, setmessage] = useState(false);
   const [block, setblock] = useState(false);
+  const [isopen, setisopen] = useState("");
   const initialstate = { users: [], foundState: null, message: "", time: null };
   const [state, formAction, pending] = useActionState(
     HandleAtion,
     initialstate,
   );
-
+  // const x = 401;
+  // if (x === 401) {
+  //   const Toast = Swal.mixin({
+  //     toast: true,
+  //     position: "bottom-right",
+  //     showConfirmButton: false,
+  //     timer: 1000000,
+  //     timerProgressBar: true,
+  //     color: "var(--color-primary)",
+  //     background: "var(--bg-card)",
+  //   });
+  //   Toast.fire({
+  //     icon: "warning",
+  //     title: "state.message",
+  //   });
+  // }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
-  console.log("client", state);
-
-  const displayUsers = state.users.length > 0 ? state.users : users;
+  const displayUsers = state.users?.length > 0 ? state.users : users;
   useEffect(() => {
     if (state.foundState === 401) {
       const Toast = Swal.mixin({
         toast: true,
         position: "bottom-right",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 4000,
         timerProgressBar: true,
+        color: "var(--color-primary)",
+        background: "var(--bg-card)",
       });
       Toast.fire({
-        icon: "error",
+        icon: "warning",
         title: state.message,
       });
     }
   }, [state.foundState, state.message, state.time]);
+  const handleblock = async (e) => {
+    setblock(e);
+  };
   return (
     <div className={styles.adminLayout}>
       {/* loader */}
       {pending && <Loader />}
       <div className={styles.content}>
         <form action={formAction}>
-          {state?.blockState && (
-            <div className={styles.dialogbackground}>
-              <div className={styles.modalCard}>
-                <summary className={styles.modalSummary}>
-                  Are You Sure To Lift The Ban?
-                </summary>
-                <div className={styles.btnGroup}>
-                  <button
-                    onClick={() => setUnblocMessage("yes")}
-                    className={styles.confirmBtn}
-                  >
-                    Yes, Unblock
-                  </button>
-                  <button
-                    onClick={() => setUnblocMessage("no")}
-                    className={styles.cancelBtn}
-                  >
-                    No, Cancel
-                  </button>
-                  <input
-                    type="hidden"
-                    name="inputdialog"
-                    value={UnblockMessage}
-                  />
-                </div>
+          <div
+            className={
+              isopen ? styles.dialogbackground : styles.dialogbackgroundNone
+            }
+            onClick={() => setisopen(false)}
+          >
+            <div className={styles.modalCard}>
+              <summary className={styles.modalSummary}>
+                Are You Sure To Lift The Ban?
+              </summary>
+              <div className={styles.btnGroup}>
+                <button
+                  type="submit"
+                  onClick={() => handleblock}
+                  className={styles.confirmBtn}
+                >
+                  block
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setisopen(false)}
+                  className={styles.cancelBtn}
+                >
+                  Cancel
+                </button>
+                <input
+                  type="hidden"
+                  name="inputdialog"
+                  value={UnblockMessage}
+                />
               </div>
             </div>
-          )}
+          </div>
+
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 ">
             <div>
               <h1
@@ -102,6 +127,7 @@ export default function AdminCustomers({ users }) {
                   onSubmit={(e) => {
                     e.target.value;
                   }}
+                  required
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
@@ -175,7 +201,7 @@ export default function AdminCustomers({ users }) {
                           </Link>
                           <button
                             className={`${styles.actionBtn} ${styles.emailBtn}`}
-                            title="Send Email"
+                            type="button"
                             onClick={() => setmessage(true)}
                           >
                             <FontAwesomeIcon icon={faEnvelope} />
@@ -184,8 +210,10 @@ export default function AdminCustomers({ users }) {
 
                           <button
                             className={`${styles.actionBtn} ${styles.blockBtn}`}
-                            title="Block User"
-                            onClick={() => setblock(user.id)}
+                            type="button"
+                            onClick={() => {
+                              setisopen(true);
+                            }}
                           >
                             <FontAwesomeIcon icon={faUserSlash} />
                           </button>
