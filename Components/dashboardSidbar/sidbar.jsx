@@ -90,7 +90,7 @@ export default function Sidebar() {
           </span>
         </Link>
 
-        <Link href="/Components/dashboard/blockLIst" className={styles.bolckLink}>
+        <Link href="/dashboard/blockList" className={styles.bolckLink}>
           <FontAwesomeIcon icon={faBan} />
           Block List
         </Link>
