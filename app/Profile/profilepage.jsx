@@ -3,6 +3,7 @@ import styles from "./profile.module.css";
 import { useState } from "react";
 import logoutfun from "@/server/profile_server";
 import { useActionState } from "react";
+import Loader from "@/Components/loaderFecthing/loader";
 
 function ProfilePage({ users }) {
 
@@ -19,11 +20,7 @@ function ProfilePage({ users }) {
   return (
     <>
       <div className={styles.profileWrapper}>
-        {pending && (
-          <div className={styles.overlay}>
-            <div className={styles.halfCircleLoader}></div>
-          </div>
-        )}
+        {pending && <Loader/>}
 
         <div className="container py-5">
           <div className="row g-4 justify-content-center">
@@ -40,7 +37,7 @@ function ProfilePage({ users }) {
                       <div className={styles.onlineBadge}></div>
                     </div>
 
-                    <h3 className={styles.userName}>{users.title}</h3>
+                    <h3 className={styles.userName}>{users.full_name}</h3>
                     <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
