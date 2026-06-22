@@ -7,7 +7,6 @@ export async function GetAll_UserData() {
   const supabaseServer = await createClientForServer();
 
   const { data: { user }, error: Error } = await supabaseServer.auth.getUser();
-  
   if (Error || !user) {
     console.log("Auth Error or No User found in Server:", Error?.message);
     return null;
@@ -29,7 +28,6 @@ export async function GetAll_UserData() {
 
 export default async function products() {
   const user = await GetAll_UserData();
-  console.log("User data on Server:", user); 
 
   return (
     <>
