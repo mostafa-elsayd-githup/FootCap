@@ -6,40 +6,11 @@
   font-family: sans-serif;
   margin-top: 75px;
 }
-/* staer-loader */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh !important;
-  background-color: var(--text-fetch);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100000;
-  pointer-events: all;
-}
 
-.halfCircleLoader {
-  width: 55px;
-  height: 55px;
-  border: 3px solid transparent;
-  border-right-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-/* end-loader */
 /* start dialod */
+.dialogbackgroundNone {
+  display: none;
+}
 .dialogbackground {
   position: fixed;
   top: 0;
@@ -54,6 +25,7 @@
   z-index: 10000;
   animation: fadeIn 0.3s ease;
 }
+
 .modalCard {
   background-color: var(--bg-card);
   border: 2px solid var(--border_card);

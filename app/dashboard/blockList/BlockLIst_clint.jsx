@@ -1,60 +1,89 @@
 "use client";
-import React, { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import styles from "./block.module.css";
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBan,
   faUserSlash,
   faTrashArrowUp,
 } from "@fortawesome/free-solid-svg-icons";
-import UnblockUsers from "../../../../server/blockList_server";
+import UnblockUsers from "@/server/blockList_server";
+import Loader from "@/Components/loaderFecthing/loader";
 export default function BlockListClient({ blockedUsers }) {
   const users = blockedUsers;
-  const [Unblock, setUnblockBut] = useState("");
-  const [UnblockMessage, setUnblocMessage] = useState("");
+  const [isopen, setisopen] = useState("");
+  const [block, setblock] = useState(false);
+
   const initialsate = { state: null, message: "" };
   const [state, formAction, pending] = useActionState(
     UnblockUsers,
     initialsate,
   );
+  const handleblock = async (e) => setblock(e);
+  useEffect(() => {
+    if (!state) return;
 
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-right",
+      showConfirmButton: false,
+      timer: 4000,
+      timerProgressBar: true,
+      color: "var(--color-primary)",
+      background: "var(--bg-card)",
+    });
+
+    if (state.foundState === 401) {
+      Toast.fire({ icon: "warning", title: state.message });
+    } else if (state.deletingsuccess === true) {
+      Toast.fire({ icon: "success", title: state.message });
+    } else if (state.deletingsuccess === false) {
+      Toast.fire({
+        icon: "error",
+        title: state.message || "Something went wrong",
+      });
+    }
+  }, [
+    state,
+    state.deletingsuccess,
+    state.foundState,
+    state.message,
+    state.time,
+  ]);
   return (
     <div className={styles.adminContainer}>
-      {pending && (
-        <div className={styles.overlay}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
+      {pending && <Loader />}
       <main className={styles.mainContent}>
-        <form onClick={(e) => e.stopPropagation()} action={formAction}>
-          {state?.blockState && (
-            <div className={styles.dialogbackground}>
-              <div className={styles.modalCard}>
-                <summary className={styles.modalSummary}>
-                  Are You Sure To Lift The Ban?
-                </summary>
-                <div className={styles.btnGroup}>
-                  <button
-                    onClick={() => setUnblocMessage("yes")}
-                    className={styles.confirmBtn}
-                  >
-                    Yes, Unblock
-                  </button>
-                  <button
-                    onClick={() => setUnblocMessage("no")}
-                    className={styles.cancelBtn}
-                  >
-                    No, Cancel
-                  </button>
-                  <input
-                    type="hidden"
-                    name="inputdialog"
-                    value={UnblockMessage}
-                  />
-                </div>
+        <form action={formAction}>
+          <div
+            className={
+              isopen ? styles.dialogbackground : styles.dialogbackgroundNone
+            }
+            onClick={() => setisopen(false)}
+          >
+            <div className={styles.modalCard}>
+              <summary className={styles.modalSummary}>
+                Are You Sure To Lift The Ban?
+              </summary>
+              <div className={styles.btnGroup}>
+                <button
+                  type="submit"
+                  onClick={() => handleblock(true)}
+                  className={styles.confirmBtn}
+                >
+                  Unblock
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setisopen(false)}
+                  className={styles.cancelBtn}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
-          )}
+          </div>
           <div className={styles.headerArea}>
             <div className={styles.titleArea}>
               <h1>Block List</h1>
@@ -103,12 +132,14 @@ export default function BlockListClient({ blockedUsers }) {
                     </div>
                     <button
                       className={styles.unblockBtn}
-                      onClick={() => setUnblockBut(item.id)}
+                      type="button"
+                      onClick={() => setisopen(true)}
                     >
                       <FontAwesomeIcon icon={faTrashArrowUp} />
                       Unblock
                     </button>
-                    <input type="hidden" name="BlockBut" value={Unblock} />
+                    <input type="hidden" name="unblock" value={block} />
+                    <input type="hidden" name="user" value={item.id} />
                   </div>
                 </div>
               ))
