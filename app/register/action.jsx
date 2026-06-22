@@ -1,6 +1,6 @@
 "use server";
 import { redirect } from "next/navigation";
-import { supabase, supabaseAdmin} from "@/utils/supabase"
+import { createClientForServer } from "@/utils/supabase";
 
 export async function registerAction(prevstate, formData) {
   const name = formData.get("name");
@@ -23,6 +23,8 @@ export async function registerAction(prevstate, formData) {
   }
 
   try {
+    const supabase = await createClientForServer();
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -33,7 +35,7 @@ export async function registerAction(prevstate, formData) {
     }
 
     if (authData?.user) {
-      const { error: profileError } = await supabaseAdmin
+      const { error: profileError } = await supabase
         .from("profiles")
         .upsert(
           [
@@ -47,7 +49,7 @@ export async function registerAction(prevstate, formData) {
               orders: [],
             },
           ],
-          { onConflict: "id" },
+          { onConflict: "id" }
         );
 
       if (profileError) {
