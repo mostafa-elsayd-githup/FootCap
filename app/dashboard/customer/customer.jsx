@@ -14,7 +14,6 @@ import HandleAtion from "@/server/customer_server";
 import Loader from "@/Components/loaderFecthing/loader";
 import Swal from "sweetalert2";
 export default function AdminCustomers({ users }) {
-  const [UnblockMessage, setUnblocMessage] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [message, setmessage] = useState(false);
   const [block, setblock] = useState(false);
@@ -24,47 +23,43 @@ export default function AdminCustomers({ users }) {
     HandleAtion,
     initialstate,
   );
-  // const x = 401;
-  // if (x === 401) {
-  //   const Toast = Swal.mixin({
-  //     toast: true,
-  //     position: "bottom-right",
-  //     showConfirmButton: false,
-  //     timer: 1000000,
-  //     timerProgressBar: true,
-  //     color: "var(--color-primary)",
-  //     background: "var(--bg-card)",
-  //   });
-  //   Toast.fire({
-  //     icon: "warning",
-  //     title: "state.message",
-  //   });
-  // }
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
   const displayUsers = state.users?.length > 0 ? state.users : users;
+
   useEffect(() => {
+    if (!state) return;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "bottom-right",
+      showConfirmButton: false,
+      timer: 4000,
+      timerProgressBar: true,
+      color: "var(--color-primary)",
+      background: "var(--bg-card)",
+    });
+
     if (state.foundState === 401) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 4000,
-        timerProgressBar: true,
-        color: "var(--color-primary)",
-        background: "var(--bg-card)",
-      });
+      Toast.fire({ icon: "warning", title: state.message });
+    } else if (state.deletingsuccess === true) {
+      Toast.fire({ icon: "success", title: state.message });
+    } else if (state.deletingsuccess === false) {
       Toast.fire({
-        icon: "warning",
-        title: state.message,
+        icon: "error",
+        title: state.message || "Something went wrong",
       });
     }
-  }, [state.foundState, state.message, state.time]);
-  const handleblock = async (e) => {
-    setblock(e);
-  };
+  }, [
+    state,
+    state.deletingsuccess,
+    state.foundState,
+    state.message,
+    state.time,
+  ]);
+  const handleblock = async (e) => setblock(e);
   return (
     <div className={styles.adminLayout}>
       {/* loader */}
@@ -84,7 +79,7 @@ export default function AdminCustomers({ users }) {
               <div className={styles.btnGroup}>
                 <button
                   type="submit"
-                  onClick={() => handleblock}
+                  onClick={() => handleblock(true)}
                   className={styles.confirmBtn}
                 >
                   block
@@ -96,11 +91,6 @@ export default function AdminCustomers({ users }) {
                 >
                   Cancel
                 </button>
-                <input
-                  type="hidden"
-                  name="inputdialog"
-                  value={UnblockMessage}
-                />
               </div>
             </div>
           </div>
@@ -127,7 +117,6 @@ export default function AdminCustomers({ users }) {
                   onSubmit={(e) => {
                     e.target.value;
                   }}
-                  required
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
@@ -218,6 +207,7 @@ export default function AdminCustomers({ users }) {
                             <FontAwesomeIcon icon={faUserSlash} />
                           </button>
                           <input type="hidden" name="block" value={block} />
+                          <input type="hidden" name="user" value={user.id} />
                         </div>
                       </td>
                     </tr>

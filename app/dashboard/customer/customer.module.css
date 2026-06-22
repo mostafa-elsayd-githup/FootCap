@@ -306,6 +306,7 @@
   font-weight: bold;
   color: var(--color-primary);
   border: 1px solid var(--border-color);
+  padding: 1rem;
 }
 
 .actionContainer {
