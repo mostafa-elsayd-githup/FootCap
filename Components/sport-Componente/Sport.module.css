@@ -54,11 +54,9 @@
   border: 1px solid #eee;
   width: 100%;
   height: 46px;
-
   position: absolute;
   bottom: -4px;
   right: -4px;
-  z-index: -1;
 }
 @media (max-width: 768px) {
   .Container {
