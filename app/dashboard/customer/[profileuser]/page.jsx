@@ -1,30 +1,35 @@
-// "use server";
+"use server";
+import { createClientForServer } from "@/utils/supabase";
 import AdminUserProfile from "./clienrtprofile";
-import NavAction from "../../../../Navbar/NavAction";
-import { useOpneing } from "../../../../../RTK/storcontext";
-import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import NavAction from "@/Components/Navbar/NavAction";
 
 async function getusers(user) {
-  
   try {
-    const res = await fetch(`http://localhost:1200/users/${user}`, {
-      cache: "no-store",
-    });
-    if (res.ok) {
-      return await res.json();
+    const supabaseServer = await createClientForServer();
+    const { data: getuser, error: UserError } = await supabaseServer
+      .from("profiles")
+      .select("*")
+      .eq("id", user);
+    if (!getuser || UserError) {
+      return {
+        deletingsuccess: false,
+        message: "Failed to get user",
+      };
     }
-  } catch {}
+    return getuser[0];
+  } catch (error) {
+    throw error;
+  }
 }
-async function CusotomerServer({params}) {
-  const user_id = await params
-  
-  const user = user_id.profileuser
-  const data = await getusers(user);  
+async function CusotomerServer({ params }) {
+  const user_id = await params;
+
+  const user = user_id.profileuser;
+  const data = await getusers(user);
   return (
     <>
       <NavAction />
-      <AdminUserProfile user={data}/>
+      <AdminUserProfile user={data} />
     </>
   );
 }
