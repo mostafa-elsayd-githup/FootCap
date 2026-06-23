@@ -122,11 +122,11 @@ const CartPage = ({ card }) => {
                                 <span className={styles.unit_price}>
                                   {price}
                                 </span>
-                                {item.quantity >= 1 && (
+                                {item.quantity > 1 ?(
                                   <span className={styles.qty_badge}>
                                     Qty: {item.quantity}
                                   </span>
-                                )}
+                                ):null}
                               </div>
                             </div>
                             {item.quantity > 1 && (
