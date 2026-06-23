@@ -79,11 +79,9 @@ export default function CheckoutPage({ cartItems }) {
           text: "Your order has been received successfully.",
           icon: "success",
           confirmButtonColor: "#000",
-        })
-// .then(() => {
-//           router.push("/");
-//         });
-        
+        }).then(() => {
+          router.push("/");
+        });
       }, state.success);
     }
   }, [
