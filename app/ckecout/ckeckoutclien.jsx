@@ -62,8 +62,6 @@ export default function CheckoutPage({ cartItems }) {
     "Sohag",
   ];
   useEffect(() => {
-    console.log(state);
-    // Validate
     if (state?.inputState === 100) {
       Swal.fire("Error", `${state?.message}`, "error");
     } else if (
