@@ -47,7 +47,7 @@ function NavBar({ userdata }) {
             <Link href="/Collection/Child_Colliction" className={style.link}>
               KIDS
             </Link>
-            <Link href="/dashboard" className={style.link}>
+            <Link href="/Admin/dashboard" className={style.link}>
               ADMIN
             </Link>
           </div>
