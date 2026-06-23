@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import styles from "./profile.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const AdminUserProfile = ({ user }) => {
-  const totalprice = user.order.reduce((acc, item) => {
+
+  const totalprice = user.orders?.reduce((acc, item) => {
     return acc + parseFloat(item.totalprice);
   }, 0);
 
@@ -22,7 +22,7 @@ const AdminUserProfile = ({ user }) => {
     maximumFractionDigits: 3,
   }).format(totalprice);
 
-  const time = new Date(user.createdAt);
+  const time = new Date(user.created_at);
   const year = time.getFullYear();
   const mounth = time.getMonth();
   const day = time.getDay();
@@ -31,15 +31,11 @@ const AdminUserProfile = ({ user }) => {
     <div className={styles.profileContainer}>
       <header className={styles.header}>
         <div className={styles.userInfo}>
-          <div className={styles.avatar}>{user.name[0].toUpperCase()}</div>
+          <div className={styles.avatar}>{user.full_name[0].toUpperCase()}</div>
           <div>
-            <h1 className={styles.userName}>{user.name}</h1>
+            <h1 className={styles.userName}>{user.full_name}</h1>
             <span className={styles.badge}>Actiove</span>
           </div>
-        </div>
-        <div className={styles.quickActions}>
-          <button className={styles.btnPrimary}>Edit User</button>
-          <button className={styles.btnDanger}>Suspend</button>
         </div>
       </header>
 
@@ -55,7 +51,7 @@ const AdminUserProfile = ({ user }) => {
           <FontAwesomeIcon icon={faShoppingCart} className={styles.icon} />
           <div>
             <p className={styles.statLabel}>Orders count</p>
-            <p className={styles.statValue}>{user.order.length} Orders</p>
+            <p className={styles.statValue}>{user.orders.length} Orders</p>
           </div>
         </div>
       </div>
@@ -88,7 +84,7 @@ const AdminUserProfile = ({ user }) => {
               </tr>
             </thead>
             <tbody>
-              {user.order.map((ord, index) => {
+              {user.orders.map((ord, index) => {                
                 const ordertime = new Date(ord.createdAt);
                 const orderyear = ordertime.getFullYear();
                 const ordermounth = ordertime.getMonth();
@@ -113,13 +109,15 @@ const AdminUserProfile = ({ user }) => {
                   <tr key={ord.id}>
                     <td>{++index}</td>
                     <td>
-                      {`${ordermounth}/${orderday}/${orderyear}`} :{" "}
+                      {`${ordermounth}/${orderday}/${orderyear}`}
                       <span
                         style={{
                           color: "var(--color-feedback)",
                           fontSize: "0.8rem",
+                          display:"flex",
+                          justifyContent:"center"
                         }}
-                      >{`(${orderhours % 12}:${orderminuts} ${x})`}</span>
+                      >{`${orderhours % 12}:${orderminuts} ${x}`}</span>
                     </td>
                     <td className={styles.amount}>{total} </td>
                   </tr>
