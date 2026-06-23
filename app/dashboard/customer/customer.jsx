@@ -182,7 +182,7 @@ export default function AdminCustomers({ users }) {
                       <td>
                         <div className={styles.actionContainer}>
                           <Link
-                            href={`/Components/dashboard/customer/${user.id}`}
+                            href={`/dashboard/customer/${user.id}`}
                             className={`${styles.actionBtn} ${styles.viewBtn}`}
                             title="View Profile"
                           >
