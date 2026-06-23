@@ -75,7 +75,7 @@ export default function Sidebar() {
           {product.map((sec) => (
             <Link
               key={sec.id}
-              href={`/Components/dashboard/products/?section=${sec.id}`}
+              href={`/Admin/products/?section=${sec.id}`}
               className={styles.subNavLink}
             >
               {sec.label}
