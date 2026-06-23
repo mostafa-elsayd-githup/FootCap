@@ -10,7 +10,7 @@ import NavAction from "@/Components/Navbar/NavAction";
 function Man_Colliction() {
   return (
     <>
-      <NavAction /> {/* <= server componet dont add "use client" */}
+      <NavAction /> 
 
       <section className={styles.head} data-aos="fade-up">
         <div className={styles.container_info}>
