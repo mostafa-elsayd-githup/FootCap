@@ -26,6 +26,5 @@ export default async function EditProduct(prevstate, formdata) {
     return {
       success: false,
       message: "An unexpected error occurred. Please refresh the page.",
-    };
-  }
+    }; }
 }

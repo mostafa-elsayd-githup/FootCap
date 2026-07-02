@@ -12,7 +12,7 @@ function Mans_section() {
       <div className={styles.Containers}>
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Shoes}`}></div>
-          <Link className={styles.Button} href="/ shoes/?type=shoes">
+          <Link className={styles.Button} href="/shoes">
             <span>Shoes</span>
             <FontAwesomeIcon icon={faArrowRight} className={styles.anmation} />
           </Link>
@@ -20,7 +20,7 @@ function Mans_section() {
 
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.T_shirt}`}></div>
-          <Link className={styles.Button} href="/ t-shirt/?type=tshirt">
+          <Link className={styles.Button} href="/t-shirt">
             <span>T-shirt</span>
             <FontAwesomeIcon icon={faArrowRight} className={styles.anmation} />
           </Link>
@@ -28,7 +28,7 @@ function Mans_section() {
 
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Hoody}`}></div>
-          <Link className={styles.Button} href="/ hoody/type=hoogies">
+          <Link className={styles.Button} href="/hoody">
             <span>Hoody</span>
             <FontAwesomeIcon icon={faArrowRight} className={styles.anmation} />
           </Link>
@@ -36,7 +36,7 @@ function Mans_section() {
 
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Shorts}`}></div>
-          <Link className={styles.Button} href="/short/?type=short">
+          <Link className={styles.Button} href="/short">
             <span>Shorts</span>
             <FontAwesomeIcon icon={faArrowRight} className={styles.anmation} />
           </Link>
