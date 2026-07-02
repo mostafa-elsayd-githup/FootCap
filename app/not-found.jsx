@@ -2,33 +2,41 @@
 import Link from "next/link";
 import styles from "./NotFound.module.css";
 import { usePathname } from "next/navigation";
+
 export default function NotFound() {
   const pathname = usePathname();
 
   return (
     <div className={styles.notFoundWrapper}>
-      <div className={styles.glowBg}></div>
+      {/* دوائر خلفية ناعمة لعمل تأثير الـ Glow */}
+      <div className={styles.blurCircle1}></div>
+      <div className={styles.blurCircle2}></div>
 
       <div className={styles.contentBox}>
-        <div className={styles.iconContainer}>
-          <span className={styles.errorCode}>404</span>
-          <div className={styles.floatingBall}>⚽</div>
+        <div className={styles.heroSection}>
+          <h1 className={styles.errorCode}>404</h1>
+          <div className={styles.divider}></div>
+          <h2 className={styles.noDataTitle}>OUT OF BOUNDS</h2>
         </div>
 
-        <h1 className={styles.noDataTitle}>Out of Bounds!</h1>
-
         <p className={styles.noDataMsg}>
-          <span className="font-mono text-red-500 bg-red-500/10 px-1.5 py-0.5 rounded">
+          The requested route {" "}
+          <span className={styles.pathBadge}>
             {pathname}
           </span>{" "}
-          does not exist .
+          is unavailable or has been moved off the pitch.
         </p>
 
-        {/* Action Button */}
         <div className={styles.btnGroup}>
           <Link href="/" className={styles.backBtn}>
-            Back to Main Pitch
+            RETURN TO HOME
           </Link>
+          <button 
+            onClick={() => window.history.back()} 
+            className={styles.secondaryBtn}
+          >
+            GO BACK
+          </button>
         </div>
       </div>
     </div>
