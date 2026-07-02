@@ -1,8 +1,7 @@
-"use server"
 export const dynamic = "force-dynamic";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
-import { createClientForServer } from "@/utils/supabase"; 
+import { createClientForServer } from "@/utils/supabase";
 import ProductListClient from "./singelproduct";
 
 async function getProductsByType(categoryKey) {
@@ -28,7 +27,7 @@ async function Product({ searchParams }) {
 
   return (
     <>
-      <ProductListClient initialProducts={data}  />
+      <ProductListClient initialProducts={data} />
       <DiscoundComponent />
       <Footer />
     </>

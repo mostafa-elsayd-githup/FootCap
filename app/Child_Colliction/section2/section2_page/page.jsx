@@ -1,4 +1,4 @@
-"use server"
+
 export const dynamic = "force-dynamic";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
