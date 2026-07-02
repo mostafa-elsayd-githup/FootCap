@@ -11,8 +11,8 @@ function Hero() {
         <p className={styles.p}> Special picks for everyone on your list. </p>
 
         <Link
-          href="/Hero?type=Running"
-          className={styles.Button}
+          href="/Hero"
+          className={styles.button}
         >
           SHOP NOW
         </Link>

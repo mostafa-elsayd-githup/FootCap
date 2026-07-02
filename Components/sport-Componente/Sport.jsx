@@ -12,7 +12,7 @@ function Sport() {
         </p>
 
         <Link
-          href="/sportProcuts/?type=GEM"
+          href="/sportProcuts"
           className={styles.Button}
         >
           SHOP NOW

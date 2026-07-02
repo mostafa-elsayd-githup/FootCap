@@ -29,7 +29,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/running/running_page/?type=Running"
+                  href="/running/running_page"
                   className={styles.button}
                 >
                   Running
@@ -42,7 +42,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/football/football/?type=Football"
+                  href="/football/football"
                   className={styles.button}
                 >
                   FootBall
@@ -55,7 +55,7 @@ function SportComponete() {
             </div>
               <div>
                 <Link
-                  href="/gym/gym_page?type=gym"
+                  href="/gym/gym_page"
                   className={styles.button}
                 >
                   Gym
@@ -68,7 +68,7 @@ function SportComponete() {
             </div>
               <div>
                 <Link
-                  href="/tennis/tennis_page?type=tennis"
+                  href="/tennis"
                   className={styles.button}
                 >
                   Tennis
@@ -81,7 +81,7 @@ function SportComponete() {
             </Card>
               <div>
                 <Link
-                  href="/basket_ball/baskit_page?type=Basketball"
+                  href="/basket_ball/baskit_page"
                   className={styles.button}
                 >
                   Basket ball
