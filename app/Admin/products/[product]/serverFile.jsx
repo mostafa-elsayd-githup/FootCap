@@ -1,21 +1,31 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { createClientForServer } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 
 export default async function EditProduct(prevstate, formdata) {
-  const product = formdata.get("product");
-  const NewProduct = JSON.parse(product);
-
+  const product = JSON.parse(formdata.get("product"));
   try {
-    const res = await fetch(`http://localhost:1200/products/${NewProduct.id}`);
-    if (res.ok) {
-      await fetch(`http://localhost:1200/products/${NewProduct.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(NewProduct),
-      });
-    revalidateTag("edit");
-    revalidateTag("Running");
+    const supabaseServer = await createClientForServer();
+    const { id, ...dataToUpdata } = product;
+    const { error: productError } = await supabaseServer
+      .from("products")
+      .update(dataToUpdata)
+      .eq("id", id);
+    if (productError) {
+      console.error("Supabase Update Error:", productError);
+      return {
+        success: false,
+        message: "Failed to update product. Please try again later.",
+      };
     }
-  } catch {}
+    revalidatePath("/");
+    return { success: true, message: "Product updated successfully!" };
+  } catch (error) {
+    console.error("Unexpected Error:", error);
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please refresh the page.",
+    };
+  }
 }
