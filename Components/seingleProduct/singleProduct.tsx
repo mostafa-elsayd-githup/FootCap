@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useEffect, useState } from "react";
+import { useState } from "react";
 import { Card } from "react-bootstrap";
 import styles from "./page.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,84 +7,13 @@ import {
   faHeart as farHeart,
   faEye,
 } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
-import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import handleAction from "@/server/hero_server";
-import { useOpneing } from "@/RTK/storcontext";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  toggleWishlistOptimistic,
-  rollbackWishlist,
-} from "@/RTK/wishlistslice";
-import Loader from "@/Components/loaderFecthing/loader";
+import ShoppingButton from "./buttonShopping";
+import WishlistButton from "./WishlistButton";
 const SingleProduct = ({ productItem }) => {
   const Router = useRouter();
-  const dispatch = useDispatch();
   const [currentImg, setCurrentImg] = useState(productItem.image);
-  const initialState = { message: "", wishliststate: null };
-  const [state, formAction, pending] = useActionState(
-    handleAction,
-    initialState,
-  );
-  const [actionTypeState, setActionTypeState] = useState("");
-  const { setIsOpen, setSelectedProduct, setisfevorite } = useOpneing();
-  const wishlistarray = useSelector((state) => state.wishlist.items);
-
-  const isfevorite = wishlistarray.some(
-    (item: { id: number }) => Number(item.id) === productItem.id,
-  );
-  const handleWishlistSubmit = async () => {
-    setActionTypeState("wishlist");
-    dispatch(toggleWishlistOptimistic(productItem));
-
-    if (state?.status === 500) {
-      dispatch(rollbackWishlist(productItem));
-
-      Swal.fire({
-        title: "Error",
-        text: state.message,
-        icon: "error",
-      });
-    }
-  };
-  useEffect(() => {
-    if (state?.state === 401) {
-      Swal.fire({
-        title: "Login Required",
-        text: "Please log in to continue. Redirecting...",
-        icon: "error",
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-        willClose: () => {
-          // <=callback function
-          Router.replace("/register");
-        },
-      });
-    }
-    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-      setisfevorite(state.wishliststate);
-
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-      });
-      Toast.fire({
-        icon: "success",
-        title: state.wishliststate
-          ? "Added to Wishlist"
-          : "Removed from Wishlist",
-      });
-      
-    }
-  }, [state.wishliststate, setisfevorite, state?.state, Router]);
-
   if (productItem?.oldPrice) {
     var discount =
       ((parseInt(productItem.oldPrice) - parseInt(productItem.price)) /
@@ -106,112 +35,21 @@ const SingleProduct = ({ productItem }) => {
 
   return (
     <>
-      {pending && <Loader />}
       <Card
         className={styles.card}
         onMouseLeave={() => setCurrentImg(productItem.image)}
       >
-        {/* loader */}
         <div className={styles.icons}>
-          <button
-            type="button"
-            onClick={() => {
-              setIsOpen(true);
-              setSelectedProduct(productItem);
-            }}
-          >
-            <FontAwesomeIcon icon={faBagShopping} className={styles.icon} />
-          </button>
-          <form action={formAction} className={styles.action_icon}>
+          <ShoppingButton product={productItem} />
+          <div className={styles.action_icon}>
+            <WishlistButton favoriteProduct={productItem} />
             <button
-              type="submit"
-              disabled={pending}
-              onClick={handleWishlistSubmit}
-            >
-              <FontAwesomeIcon
-                className={styles.icon}
-                icon={isfevorite ? fasHeart : farHeart}
-              />
-            </button>
-
-            <button
-              disabled={pending}
               type="button"
-              onClick={() => {
-                setActionTypeState("eye");
-                if (!pending) {
-                  Router.push(`/product/${productItem.id}`);
-                }
-              }}
+              onClick={() => Router.push(`/product/${productItem.id}`)}
             >
               <FontAwesomeIcon icon={faEye} className={styles.icon} />
             </button>
-            <>
-              <input type="hidden" name="id" value={productItem.id || ""} />
-              <input
-                type="hidden"
-                name="image"
-                value={productItem?.image || ""}
-              />
-              <input
-                type="hidden"
-                name="image_Hover"
-                value={productItem?.image_Hover || ""}
-              />
-              {productItem?.url.map((item, index) => (
-                <input
-                  key={index}
-                  type="hidden"
-                  name="image_url"
-                  value={item || ""}
-                />
-              ))}
-              <input
-                type="hidden"
-                name="video"
-                value={productItem.image3 || productItem.video || ""}
-              />
-              <input
-                type="hidden"
-                name="image4"
-                value={productItem?.image4 || ""}
-              />
-              <input type="hidden" name="dis" value={productItem.dis || ""} />
-              <input
-                type="hidden"
-                name="name"
-                value={productItem.title || ""}
-              />
-              <input
-                type="hidden"
-                name="price"
-                value={productItem.price || ""}
-              />
-              <input
-                type="hidden"
-                name="old_price"
-                value={productItem.oldPrice || ""}
-              />
-              {productItem.sizes?.map((item, index) => (
-                <input
-                  key={index}
-                  type="hidden"
-                  name="sizes"
-                  value={item || ""}
-                />
-              ))}
-              <input
-                type="hidden"
-                name="category"
-                value={productItem.category || ""}
-              />
-              <input
-                type="hidden"
-                name="actiontype"
-                value={actionTypeState || ""}
-              />
-            </>
-          </form>
+          </div>
         </div>
         <div style={{ position: "relative" }}>
           <Card.Img
@@ -223,13 +61,13 @@ const SingleProduct = ({ productItem }) => {
             className={styles.image}
           />
           {productItem?.oldPrice ? (
-            <span className={styles.dis}>{parseInt(discount)} %</span>
+            <span className={styles.dis}>{parseInt(String(discount))} %</span>
           ) : null}
         </div>
         {productItem.url && productItem.url.length > 0 ? (
           <div className={styles.small_products}>
-            {productItem?.url.map((style: any) => (
-              <div key={style.id} className={styles.small_img}>
+            {productItem?.url.map((style: any, index: number) => (
+              <div key={index} className={styles.small_img}>
                 <Link href={`/product/${style.id}`}>
                   <Card.Img
                     variant="top"
