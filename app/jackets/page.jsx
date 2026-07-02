@@ -2,7 +2,7 @@
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import { createClientForServer } from "@/utils/supabase";
-import ProductListClient from "../jackets1/jacket-page/singelproduct";
+import ProductListClient from "./singelproduct";
 
 async function getProductsByType() {
   try {
@@ -22,7 +22,6 @@ async function getProductsByType() {
 
 async function Product() {
   const data = await getProductsByType();
-
   return (
     <>
       <ProductListClient initialProducts={data} />

@@ -73,7 +73,7 @@ export default function WishlistButton({ favoriteProduct }) {
         )}
       </button>
       <input type="hidden" name="actiontype" value={actionTypeState || ""} />
-      <input type="hidden" name="id" value={favoriteProduct.id || ""} />
+      <input type="hidden" name="id" value={favoriteProduct?.id || ""} />
     </form>
   );
 }

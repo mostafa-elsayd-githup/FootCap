@@ -1,7 +1,7 @@
 "use client";
-import styles from "@/Components/seingleProduct/page.module.css";
+import styles from "@/Components/singleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
-import SingleProduct from "@/Components/seingleProduct/produc";
+import SingleProduct from "@/Components/singleProduct/produc";
 import { usePathname } from "next/navigation";
 
 const ProductListClient = ({ initialProducts }) => {

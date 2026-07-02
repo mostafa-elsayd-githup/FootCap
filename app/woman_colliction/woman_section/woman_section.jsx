@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Woman_section() {
   return (
     <div className={styles.sectionWrapper}>
-      <h1 className={styles.title}>Man&apos;s section</h1>
+      <h1 className={styles.title}>Woman&apos;s section</h1>
 
       <div className={styles.Containers}>
         <div className={styles.productCard}>

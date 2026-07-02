@@ -10,7 +10,7 @@ function MenCollection() {
         <Card className={styles.man_card}>
           <Link
             className={styles.Button}
-            href="/man_colliction/"
+            href="/man-colliction/"
           >
             Mens
           </Link>

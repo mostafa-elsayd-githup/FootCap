@@ -2,7 +2,7 @@
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import { createClientForServer } from "@/utils/supabase";
-import ProductListClient from "../Hero/singelproduct";
+import ProductListClient from "./SingleProduct";
 
 async function getdata() {
   try {

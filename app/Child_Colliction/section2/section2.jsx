@@ -21,7 +21,7 @@ function Section2() {
         <Card className={styles.kids1}>
           <Card.Body className={styles.card}>
             <Link
-              href="/Components/Collection/Child_Colliction/section2/section2_page?age=0-4"
+              href="/Child_Colliction/section2/section2_page"
               className={styles.Button}
             >
               <span>0 - 4 Y R S</span>
@@ -36,7 +36,7 @@ function Section2() {
         <Card className={styles.kids2}>
           <Card.Body className={styles.card}>
             <Link
-              href="/Components/Collection/Child_Colliction/section2/section2_page?age=4-8"
+              href="/Child_Colliction/section2/section2_page"
               className={styles.Button}
             >
               <span>4 - 8 Y R S</span>
@@ -51,7 +51,7 @@ function Section2() {
         <Card className={styles.kids3}>
           <Card.Body className={styles.card}>
             <Link
-              href="/Components/Collection/Child_Colliction/section2/section2_page?age=8-16"
+              href="/Child_Colliction/section2/section2_page"
               className={styles.Button}
             >
               <span>8 - 16 Y R S</span>
