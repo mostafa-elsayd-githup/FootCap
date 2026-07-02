@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import DeleteButton from "./DeleteButton";
 import { Card } from "react-bootstrap";
-
 function ProductTable({ products }) {
+
   return (
     <div className={styles.adminLayout}>
       <div className={styles.content}>
@@ -23,7 +23,7 @@ function ProductTable({ products }) {
             </p>
           </div>
           <button className={styles.addBtn}>
-            <FontAwesomeIcon icon={faPlus} className="me-2" /> Add New Product
+            <FontAwesomeIcon icon={faPlus} className="me-2" /> Add Product
           </button>
         </div>
 

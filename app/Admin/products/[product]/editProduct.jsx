@@ -1,31 +1,28 @@
 "use client";
-import React, { useState, useRef, useActionState } from "react";
+import { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSave,
-  faArrowLeft,
   faCloudUploadAlt,
   faTags,
-  faBoxes,
   faMoneyBillWave,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./productStyle.module.css";
 import { Card } from "react-bootstrap";
-import EditProduct from "./serverFile";
+import SeveButton from "./SaveProduct";
 export default function EditProductPage({ product }) {
   const [products, setProducts] = useState({
     id: product.id,
-    type: product?.type || "",
-    name: product?.name || "",
-    description: product?.description || "",
-    price: product?.price || "",
-    oldPrice: product?.oldPrice || "",
-    stock: product?.stock || "",
-    image: product?.image || null,
-    image_Hover: product?.image_Hover || null,
-    image3: product?.image3 || null,
-    image4: product?.image4 || null,
-    video: product?.video || null,
+    type: product?.type,
+    title: product?.title,
+    description: product?.description,
+    price: product?.price,
+    oldPrice: product?.oldPrice,
+    stock: product?.stock,
+    image: product?.image,
+    image_Hover: product?.image_Hover,
+    image3: product?.image3,
+    image4: product?.image4,
+    video: product?.video,
   });
 
   const fileInputRef1 = useRef(null);
@@ -56,22 +53,18 @@ export default function EditProductPage({ product }) {
     if (name === "name") {
       if (value.length > 100) return;
     }
-    setProducts((e) => ({
-      ...e,
+    setProducts((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
-  const initialstate = { state: null, message: "" };
-  const [status, formAction, pending] = useActionState(
-    EditProduct,
-    initialstate,
-  );
+
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     currency: "EGP",
     style: "currency",
-    maximumFractionDigits:0,
-  }).format((product.price));
+    maximumFractionDigits: 0,
+  }).format(product.price);
 
   return (
     <div className={styles.container}>
@@ -84,10 +77,9 @@ export default function EditProductPage({ product }) {
           </p>
         </div>
       </div>
-      <form className={styles.gridContainer} action={formAction}>
+      <div className={styles.Columncontainer}>
         <div className={styles.leftColumn}>
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>Product Media</h3>
             <div className={styles.mediaContainerGrid}>
               <div
                 className={styles.imageUploadWrapper}
@@ -229,7 +221,7 @@ export default function EditProductPage({ product }) {
               <input
                 type="text"
                 name="name"
-                value={product?.title || ""}
+                value={products?.title || ""}
                 onChange={hendlenameChange}
                 required
               />
@@ -240,7 +232,7 @@ export default function EditProductPage({ product }) {
 
               <textarea
                 name="description"
-                value={product?.description}
+                value={products?.description}
                 onChange={hendlenameChange}
                 rows="4"
               ></textarea>
@@ -264,7 +256,7 @@ export default function EditProductPage({ product }) {
                 <input
                   type="text"
                   name="price"
-                  value={product?.price}
+                  value={products?.price ?? ""}
                   onChange={hendlenameChange}
                   required
                 />
@@ -276,7 +268,7 @@ export default function EditProductPage({ product }) {
                 <input
                   type="text"
                   name="oldPrice"
-                  value={product?.oldPrice || undefined}
+                  value={products?.oldPrice ?? ""}
                   onChange={hendlenameChange}
                   placeholder="000"
                 />
@@ -288,7 +280,7 @@ export default function EditProductPage({ product }) {
                 <input
                   type="number"
                   name="stock"
-                  value={product?.stock || undefined}
+                  value={products?.stock ?? ""}
                   onChange={hendlenameChange}
                   placeholder="000"
                 />
@@ -296,18 +288,9 @@ export default function EditProductPage({ product }) {
             </div>
           </div>
 
-          <div className={styles.actionRow}>
-            <button
-              type="submit"
-              name="product"
-              className={styles.saveBtn}
-              value={JSON.stringify(products)}
-            >
-              <FontAwesomeIcon icon={faSave} /> Save Product Changes
-            </button>
-          </div>
+          <SeveButton product={products} />
         </div>
-      </form>
+      </div>
     </div>
   );
 }
