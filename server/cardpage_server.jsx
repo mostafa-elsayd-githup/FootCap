@@ -4,8 +4,6 @@ import { revalidatePath } from "next/cache";
 
 const DeleteCart = async (prevstate, formData) => {
   const actionTypeState = formData.get("intent");
-  console.log(actionTypeState);
-
   const id = formData.get("id");
   const supabaseServer = await createClientForServer();
   const {

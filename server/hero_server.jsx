@@ -4,32 +4,6 @@ import { createClientForServer } from "@/utils/supabase";
 export default async function handleAction(prevstate, formData) {
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
-  const image = formData.get("image");
-  const image_Hover = formData.get("image_Hover");
-  const image_url = formData.getAll("image_url");
-  const image3 = formData.get("image3");
-  const video = formData.get("video");
-  const image4 = formData.get("image4");
-  const name = formData.get("name");
-  const price = formData.get("price");
-  const old_price = formData.get("old_price");
-  const category = formData.get("category");
-  const sizes = formData.getAll("sizes");
-
-  const product = {
-    id,
-    image,
-    image_Hover,
-    image_url,
-    image3,
-    video,
-    image4,
-    name,
-    price,
-    old_price,
-    category,
-    sizes,
-  };
   let supabaseServer = await createClientForServer();
   let {
     data: { user },
@@ -40,9 +14,17 @@ export default async function handleAction(prevstate, formData) {
   }
 
   if (actionType === "wishlist") {
-
     try {
-      const supabaseServer = await createClientForServer();
+      const { data: product, error: productError } = await supabaseServer
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .single();
+      if (!product || productError) {
+        return {
+          message: "Prodcut Not Found",
+        };
+      }
       const { data: profile, error: fetchError } = await supabaseServer
         .from("profiles")
         .select("wishlist")
@@ -77,22 +59,6 @@ export default async function handleAction(prevstate, formData) {
         message: "Sorry, the connection to the server failed.",
         status: 500,
       };
-    }
-  } else if (actionType === "eye") {
-    const res = await fetch(
-      `http://localhost:1200/your_sport_start_hear_running/${product.id}`,
-    );
-    const data = await res.json();
-    if (data) {
-      const UPdataWatched = (data.watchde || 0) + 1;
-      await fetch(
-        `http://localhost:1200/your_sport_start_hear_running/${product.id}`,
-        {
-          method: "PATCH",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ watchde: UPdataWatched }),
-        },
-      );
     }
   }
 }
