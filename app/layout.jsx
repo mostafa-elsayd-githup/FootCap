@@ -36,10 +36,10 @@ export default function RootLayout({ children }) {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
+        {/* <link
           href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@200..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Permanent+Marker&display=swap"
           rel="stylesheet"
-        />
+        /> */}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AllProviders>
