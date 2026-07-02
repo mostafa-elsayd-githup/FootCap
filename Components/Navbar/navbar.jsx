@@ -1,149 +1,100 @@
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import style from "./navbar.module.css";
 import ThemeToggle from "@/Components/button/button";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { setInitialCart } from "../../RTK/cardslice";
-import { setInitialWishlist } from "../../RTK/wishlistslice";
+import { setInitialCart } from "@/RTK/cardslice";
+import { setInitialWishlist } from "@/RTK/wishlistslice";
 import MostoreLogo from "../my_logo/logo";
+
 function NavBar({ userdata }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false); 
+  
   const dispatch = useDispatch();
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
 
   useEffect(() => {
-    if (userdata?.wishlist) {
-      dispatch(setInitialWishlist(userdata.wishlist));
-    }
-    if (userdata?.cart) {
-      dispatch(setInitialCart(userdata.cart));
-    } else if (userdata?.card) {
-      dispatch(setInitialCart(userdata.card));
-    }
+    const initialize = () => {
+      setIsMounted(true); 
+
+      if (userdata?.wishlist) {
+        dispatch(setInitialWishlist(userdata.wishlist));
+      }
+      if (userdata?.cart) {
+        dispatch(setInitialCart(userdata.cart));
+      } else if (userdata?.card) {
+        dispatch(setInitialCart(userdata.card));
+      }
+    };
+
+    initialize();
   }, [dispatch, userdata?.card, userdata?.cart, userdata?.wishlist]);
-  const isActive = (path) => (pathname === path ? style.bottom_tab_active : "");
 
   return (
-    <>
-      <nav className={`fixed-top ${style.navbar_container}`}>
-        <div className="container-fluid px-4 px-md-5 d-flex align-items-center justify-content-between">
-          <Link href="/" className="d-flex align-items-center">
-            <MostoreLogo />
-          </Link>
+    <nav className={`fixed-top ${style.navbar_container}`}>
+      <div className="container-fluid px-4 px-md-5 d-flex align-items-center justify-content-between">
+        <Link href="/" className="d-flex align-items-center">
+          <MostoreLogo />
+        </Link>
 
-          <div className={`${style.nav_links} ${style.desktop_only}`}>
-            <Link href="/" className={style.link}>
-              HOME
-            </Link>
-            <Link href="/Collection/man_colliction" className={style.link}>
-              MEN
-            </Link>
-            <Link href="/Collection/woman_colliction" className={style.link}>
-              WOMEN
-            </Link>
-            <Link href="/Collection/Child_Colliction" className={style.link}>
-              KIDS
-            </Link>
-            <Link href="/Admin/dashboard" className={style.link}>
-              ADMIN
-            </Link>
+        <div className={`${style.nav_links} ${style.desktop_menu}`}>
+          <Link href="/" className={style.link}>HOME</Link>
+          <Link href="/Collection/man_colliction" className={style.link}>MEN</Link>
+          <Link href="/Collection/woman_colliction" className={style.link}>WOMEN</Link>
+          <Link href="/Collection/Child_Colliction" className={style.link}>KIDS</Link>
+          <Link href="/Admin/dashboard" className={style.link}>ADMIN</Link>
+        </div>
+
+        <div className={style.hamburger} onClick={() => setIsOpen(!isOpen)}>
+          <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
+        </div>
+
+        <div className={`${style.mobile_menu} ${isOpen ? style.open : ""}`}>
+          <Link href="/" onClick={() => setIsOpen(false)}>HOME</Link>
+          <Link href="/Collection/man_colliction" onClick={() => setIsOpen(false)}>MEN</Link>
+          <Link href="/Collection/woman_colliction" onClick={() => setIsOpen(false)}>WOMEN</Link>
+          <Link href="/Collection/Child_Colliction" onClick={() => setIsOpen(false)}>KIDS</Link>
+          <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>ADMIN</Link>
+        </div>
+
+        <div className={style.right_section}>
+          <div className={style.search_container}>
+            <input type="text" placeholder="Search..." className={style.searchInput} />
+            <i className={`fa-solid fa-magnifying-glass ${style.search_icon}`}></i>
           </div>
 
-          <div className={style.right_section}>
-            <div className={style.search_container}>
-              <input
-                type="text"
-                placeholder="Search products..."
-                className={style.searchInput}
-              />
-              <i
-                className={`fa-solid fa-magnifying-glass ${style.search_icon}`}
-              ></i>
-            </div>
+          <ThemeToggle />
 
-            <ThemeToggle />
-            <div className={`${style.icon_group} ${style.desktop_only}`}>
-              <Link href="/Wishlist" className={style.icon_link}>
-                <i className="fa-regular fa-heart"></i>
+          <div className={style.icon_group}>
+            
+            {/* 🛠️ 3. تعديل الـ Wishlist Badge */}
+            <Link href="/Wishlist" className="relative">
+              <i className="fa-regular fa-heart"></i>
+              {isMounted && wishlist?.length > 0 && (
+                <span className={style.badge}>{wishlist.length}</span>
+              )}
+            </Link>
+            
+            {/* 🛠️ 4. تعديل الـ Card Badge */}
+            <Link href="/CardPage" className="relative">
+              <i className="fa-solid fa-bag-shopping "></i>
+              {isMounted && card?.length > 0 && (
+                <span className={style.badge}>{card.length}</span>
+              )}
+            </Link>
 
-                {wishlist?.length > 0 ? (
-                  <span className={style.badge}>{wishlist.length}</span>
-                ) : null}
-              </Link>
-
-              <Link href="/CardPage" className={style.icon_link}>
-                <i className="fa-solid fa-bag-shopping"></i>
-                {card?.length > 0 ? (
-                  <span className={style.badge}>{card.length}</span>
-                ) : null}
-              </Link>
-
-              <Link href="/Profile" className={style.icon_link}>
-                <i className="fa-regular fa-user"></i>
-              </Link>
-            </div>
+            <Link href="/Profile" >
+              <i className="fa-regular fa-user"></i>
+            </Link>
           </div>
         </div>
-      </nav>
-
-      <div className={style.bottom_nav}>
-        <Link href="/" className={`${style.bottom_tab} ${isActive("/")}`}>
-          <div className={style.icon_wrapper_mobile}>
-            <i className="fa-solid fa-house"></i>
-          </div>
-          <span>Home</span>
-        </Link>
-
-        <Link
-          href="/Components/Collection/man_colliction"
-          className={`${style.bottom_tab} ${isActive("/Components/Collection/man_colliction")}`}
-        >
-          <div className={style.icon_wrapper_mobile}>
-            <i className="fa-solid fa-icons"></i>
-          </div>
-          <span>Shop</span>
-        </Link>
-
-        <Link
-          href="/Wishlist"
-          className={`${style.bottom_tab} ${isActive("/Wishlist")}`}
-        >
-          <div className={style.icon_wrapper_mobile}>
-            <i className="fa-regular fa-heart"></i>
-            {wishlist?.length > 0 ? (
-              <span className={style.badge}>{wishlist.length}</span>
-            ) : null}
-          </div>
-          <span>Wishlist</span>
-        </Link>
-
-        <Link
-          href="/CardPage"
-          className={`${style.bottom_tab} ${isActive("/CardPage")}`}
-        >
-          <div className={style.icon_wrapper_mobile}>
-            <i className="fa-solid fa-bag-shopping"></i>
-            {card?.length > 0 ? (
-              <span className={style.badge}>{card.length}</span>
-            ) : null}
-          </div>
-          <span>Cart</span>
-        </Link>
-
-        <Link
-          href="/Profile"
-          className={`${style.bottom_tab} ${isActive("/Profile")}`}
-        >
-          <div className={style.icon_wrapper_mobile}>
-            <i className="fa-regular fa-user"></i>
-          </div>
-          <span>Profile</span>
-        </Link>
       </div>
-    </>
+    </nav>
   );
 }
 
