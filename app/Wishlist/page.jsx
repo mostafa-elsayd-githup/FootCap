@@ -1,5 +1,4 @@
 "use server";
-import NavAction from "@/Components/Navbar/NavAction";
 import Footer from "@/Components/footer/Footre";
 import Products from "./wiahlist";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
@@ -34,9 +33,9 @@ const getData = async () => {
 };
 async function page() {
   const wishlist = (await getData()) || [];
+  
   return (
     <>
-      <NavAction />
       <MiniDrowp />
       <Products wishlist={wishlist} />
       <DiscoundComponent />

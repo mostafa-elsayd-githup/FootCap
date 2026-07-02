@@ -1,5 +1,4 @@
 "use server";
-import NavAction from "@/Components/Navbar/NavAction";
 import ProfilePage from "./profilepage";
 import { createClientForServer } from "@/utils/supabase";
 
@@ -29,10 +28,5 @@ export async function GetAll_UserData() {
 export default async function products() {
   const user = await GetAll_UserData();
 
-  return (
-    <>
-      <NavAction />
-      <ProfilePage users={user} />
-    </>
-  );
+  return  <ProfilePage users={user} />
 }

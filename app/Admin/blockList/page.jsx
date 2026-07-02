@@ -1,7 +1,6 @@
 "use server";
 import { createClientForServer } from "@/utils/supabase";
 import BlockListClient from "./BlockLIst_clint";
-import NavAction from "@/Components/Navbar/NavAction";
 
 async function getusers() {
   try {
@@ -25,11 +24,6 @@ async function getusers() {
 async function CusotomerServer() {
   const data = await getusers();
 
-  return (
-    <>
-      <NavAction />
-      <BlockListClient blockedUsers={data} />
-    </>
-  );
+  return <BlockListClient blockedUsers={data} />
 }
 export default CusotomerServer;

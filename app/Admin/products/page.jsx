@@ -1,6 +1,5 @@
 "use server";
 import { createClientForServer } from "@/utils/supabase";
-import NavAction from "@/Components/Navbar/NavAction";
 import ProductTable from "./table";
 async function gitdata(section) {
   try {
@@ -19,17 +18,12 @@ async function gitdata(section) {
     throw error;
   }
 }
-async function Product({ searchParams }) {
+async function page({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const section = resolvedSearchParams.section;
   const data = await gitdata(section);
 
-  return (
-    <>
-      <NavAction />
-      <ProductTable products={data} />
-    </>
-  );
+  return <ProductTable products={data} />
 }
 
-export default Product;
+export default page;

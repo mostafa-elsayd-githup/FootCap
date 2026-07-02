@@ -1,8 +1,7 @@
-"use server"
-import NavAction from "@/Components/Navbar/NavAction";
+"use server";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
-import { createClientForServer } from "@/utils/supabase"; 
+import { createClientForServer } from "@/utils/supabase";
 import ProductListClient from "./singelproduct";
 
 async function getProductsByType(categoryKey) {
@@ -11,7 +10,7 @@ async function getProductsByType(categoryKey) {
     const { data, error } = await createClient
       .from("products")
       .select("*")
-      .eq("type", categoryKey);
+      .eq("type", "Running");
 
     if (error) throw error;
     return data || [];
@@ -23,13 +22,12 @@ async function getProductsByType(categoryKey) {
 
 async function Product({ searchParams }) {
   const queryParams = await searchParams;
-  const categoryKey = queryParams.type;
+  const categoryKey = queryParams;
   const data = await getProductsByType(categoryKey);
 
   return (
     <>
-      <NavAction />
-      <ProductListClient initialProducts={data}  />
+      <ProductListClient initialProducts={data} />
       <DiscoundComponent />
       <Footer />
     </>

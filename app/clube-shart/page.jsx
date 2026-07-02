@@ -1,5 +1,4 @@
 "use server"
-import NavAction from "@/Components/Navbar/NavAction";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import { createClientForServer } from "@/utils/supabase"; 
@@ -29,7 +28,6 @@ async function Product({ searchParams }) {
 
   return (
     <>
-      <NavAction />
       <ProductListClient initialProducts={data} type={categoryKey} />
       <DiscoundComponent />
       <Footer />

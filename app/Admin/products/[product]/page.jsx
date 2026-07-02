@@ -1,5 +1,4 @@
 "use server";
-import NavAction from "@/Components/Navbar/NavAction";
 import EditProductPage from "./editProduct";
 import { createClientForServer } from "@/utils/supabase";
 async function getProduct(id) {
@@ -24,10 +23,5 @@ export default async function ProductPage({ params }) {
   const productId = resolvedParams.product;
   const products = await getProduct(productId);
 
-  return (
-    <>
-      <NavAction />
-      <EditProductPage product={products} />
-    </>
-  );
+  return <EditProductPage product={products} />
 }

@@ -1,7 +1,6 @@
 "use server";
 import { createClientForServer } from "@/utils/supabase";
 import AdminCustomers from "./customer";
-import NavAction from "@/Components/Navbar/NavAction";
 
 async function getusers() {
   try {
@@ -19,11 +18,6 @@ async function getusers() {
 }
 async function CusotomerServer() {
   const data = await getusers();
-  return (
-    <>
-      <NavAction />
-      <AdminCustomers users={data} />
-    </>
-  );
+  return <AdminCustomers users={data} />
 }
 export default CusotomerServer;

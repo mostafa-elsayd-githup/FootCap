@@ -13,7 +13,7 @@ function Woman_section() {
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Shoes}`}></div>
           <Link
-            href="/Collection/woman_colliction/woman_section/shop_bras/shop_pade"
+            href="/woman_colliction/woman_section/shop_bras/shop_pade"
             className={styles.Button}
           >
             SHOP BRAS
@@ -25,7 +25,7 @@ function Woman_section() {
           <div className={`${styles.cardBg} ${styles.T_shirt}`}></div>
 
           <Link
-            href="/Collection/woman_colliction/woman_section/shop_tights"
+            href="/woman_colliction/woman_section/shop_tights"
             className={styles.Button}
           >
             SHOP TIGHTS
@@ -36,7 +36,7 @@ function Woman_section() {
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Hoody}`}></div>
           <Link
-            href="/Collection/woman_colliction/woman_section/shop_hoodies"
+            href="/woman_colliction/woman_section/shop_hoodies"
             className={styles.Button}
           >
             SHOP Hoodies
@@ -47,7 +47,7 @@ function Woman_section() {
         <div className={styles.productCard}>
           <div className={`${styles.cardBg} ${styles.Shorts}`}></div>
           <Link
-            href="/Collection/woman_colliction/woman_section/shop_training"
+            href="/woman_colliction/woman_section/shop_training"
             className={styles.Button}
           >
             SHOP TRAINING

@@ -1,7 +1,6 @@
 "use server";
 import { createClientForServer } from "@/utils/supabase";
 import AdminUserProfile from "./clienrtprofile";
-import NavAction from "@/Components/Navbar/NavAction";
 
 async function getusers(user) {
   try {
@@ -26,11 +25,6 @@ async function CusotomerServer({ params }) {
 
   const user = user_id.profileuser;
   const data = await getusers(user);
-  return (
-    <>
-      <NavAction />
-      <AdminUserProfile user={data} />
-    </>
-  );
+  return <AdminUserProfile user={data} />
 }
 export default CusotomerServer;

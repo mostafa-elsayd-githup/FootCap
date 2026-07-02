@@ -1,6 +1,5 @@
 "use server";
 import Dashboard from "./dashboard";
-import NavAction from "@/Components/Navbar/NavAction";
 import { createClientForServer } from "@/utils/supabase";
 
 async function getWishlist() {
@@ -26,16 +25,14 @@ async function getWishlist() {
         }, 0);
         return acc + userSum;
       }
-     
-      return acc;
 
+      return acc;
     }, 0);
-    
+
     const salesByDay = {};
 
     profile.forEach((user) => {
       if (user.orders && Array.isArray(user.orders)) {
-        
         user.orders.forEach((ord) => {
           const day = new Date(ord.createdAt).toLocaleDateString("en-us", {
             weekday: "short",
@@ -71,15 +68,12 @@ async function getWishlist() {
 async function Product() {
   const { users, totalRevenue, orders, finalData } = await getWishlist();
   return (
-    <>
-      <NavAction />
-      <Dashboard
-        total={totalRevenue}
-        allUsers={users}
-        orders={orders}
-        finalData={finalData}
-      />
-    </>
+    <Dashboard
+      total={totalRevenue}
+      allUsers={users}
+      orders={orders}
+      finalData={finalData}
+    />
   );
 }
 
