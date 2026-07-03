@@ -1,4 +1,3 @@
-"use server";
 import CheckoutPage from "./ckeckoutclien";
 import NavAction from "@/Components/Navbar/NavAction";
 import { createClientForServer } from "@/utils/supabase";

@@ -1,4 +1,3 @@
-"use server";
 import CartPage from "./client";
 import Footer from "@/Components/footer/Footre";
 import DiscoundComponent from "@/Components/discound_componente/discounds";

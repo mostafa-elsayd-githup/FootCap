@@ -1,4 +1,3 @@
-"use server";
 import Footer from "@/Components/footer/Footre";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";

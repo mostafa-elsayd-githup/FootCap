@@ -1,4 +1,3 @@
-"use server";
 import Dashboard from "./dashboard";
 import { createClientForServer } from "@/utils/supabase";
 

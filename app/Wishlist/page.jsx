@@ -1,4 +1,3 @@
-"use server";
 import Footer from "@/Components/footer/Footre";
 import Products from "./wiahlist";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";

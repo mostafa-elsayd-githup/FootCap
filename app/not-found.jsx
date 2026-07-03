@@ -1,14 +1,14 @@
 "use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation"; 
 import styles from "./NotFound.module.css";
-import { usePathname } from "next/navigation";
 
 export default function NotFound() {
-  const pathname = usePathname();
+  const pathname = usePathname(); 
 
   return (
     <div className={styles.notFoundWrapper}>
-      {/* دوائر خلفية ناعمة لعمل تأثير الـ Glow */}
       <div className={styles.blurCircle1}></div>
       <div className={styles.blurCircle2}></div>
 
@@ -20,9 +20,9 @@ export default function NotFound() {
         </div>
 
         <p className={styles.noDataMsg}>
-          The requested route {" "}
+          The requested route{" "}
           <span className={styles.pathBadge}>
-            {pathname}
+            {pathname || "this page"}
           </span>{" "}
           is unavailable or has been moved off the pitch.
         </p>

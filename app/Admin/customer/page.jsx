@@ -1,4 +1,3 @@
-"use server";
 import { createClientForServer } from "@/utils/supabase";
 import AdminCustomers from "./customer";
 

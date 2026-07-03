@@ -1,4 +1,4 @@
-
+"use client"
 import { Card } from "react-bootstrap";
 import Link from "next/link";
 import styles from "./Collection.module.css";

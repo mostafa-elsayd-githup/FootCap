@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
-import handelAction from "./miniaction";
+import handelAction from "@/Components/minidrowp/miniaction";
 import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { redirect, useRouter } from "next/navigation";

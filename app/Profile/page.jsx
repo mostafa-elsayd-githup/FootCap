@@ -1,4 +1,3 @@
-"use server";
 import ProfilePage from "./profilepage";
 import { createClientForServer } from "@/utils/supabase";
 

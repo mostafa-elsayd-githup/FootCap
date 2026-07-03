@@ -1,4 +1,4 @@
-"use server";
+"use server"
 import { revalidatePath } from "next/cache";
 import { createClientForServer } from "@/utils/supabase";
 export default async function handelAction(prevstate, formData) {

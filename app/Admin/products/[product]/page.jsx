@@ -1,4 +1,3 @@
-"use server";
 import EditProductPage from "./editProduct";
 import { createClientForServer } from "@/utils/supabase";
 async function getProduct(id) {

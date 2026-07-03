@@ -1,5 +1,3 @@
-"use server";
-
 import NavBar from "./navbar";
 import { createClientForServer } from "@/utils/supabase"; 
 

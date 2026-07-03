@@ -1,4 +1,4 @@
-"use server";
+
 import Hreo from "@/Components/Hero_com/hero";
 import Sport from "@/Components/sport-Componente/Sport";
 import MenCollection from "@/Components/Collection_com/Collection";
