@@ -1,61 +1,50 @@
 @import "tailwindcss";
 :root {
-  --bg-main: #fcfcfb;
-  --bg-primary: #f5f5f3;
+  --bg-main: #fafaf8;
+  --bg-primary: #f4f4f1;
   --bg-card: #ffffff;
-  --bg-navbar: #fcfcfbbf;
-  --bg-searchinput: #f0f0ed;
+  --bg-navbar: #fafaf8bf;
+  --bg-searchinput: #efefec;
   --bg-little: #ffffff;
-  --bg-dis: #f5f5f3cc;
-
+  --bg-dis: #f4f4f1cc;
   --border_card: #0000000d;
   --border-dis: #00000008;
-  --border-color: #e5e5e0;
-
-  --color-primary: #1c1c1a;
-  --color-main: #fcfcfb;
-  --color-sale: #d32f2f;
-  --color-secondary: #6e6e6a;
-  --color-feedback: #6e6e6a;
-
-  --text-fetch: #1c1c1a80;
-  --text-dis: #1c1c1a;
-  --rating-color: #2e7d32;
-
-  --discount-bg: #f7f7f4;
-  --discount-border: #e0e0da;
+  --border-color: #e3e3de;
+  --color-primary: #1a1a18;
+  --color-main: #fafaf8;
+  --color-sale: #b3452f;      
+  --color-secondary: #71716c;
+  --color-feedback: #71716c;
+  --text-fetch: #1a1a1880;
+  --text-dis: #1a1a18;
+  --rating-color: #41b60c;    
+  --discount-bg: #f6f6f2;
+  --discount-border: #ddddd6;
   --discount-pattern: #00000004;
 }
 .dark {
-  --bg-main: #0e0f11;
-  --bg-primary: #15171a;
-  --bg-card: #1a1c1f;
-  --bg-navbar: #0e0f11bf;
+  --bg-main: #101113;
+  --bg-primary: #17181b;
+  --bg-card: #1c1e21;
+  --bg-navbar: #101113bf;
   --bg-searchinput: #ffffff0f;
-  --bg-little: #15171a;
-  --bg-dis: #15171acc;
-
+  --bg-little: #17181b;
+  --bg-dis: #17181bcc;
   --border_card: #ffffff14;
   --border-dis: #ffffff0a;
-  --border-color: #24272c;
-
-  --color-primary: #f3f4f6;
-  --color-main: #0e0f11;
-  --color-secondary: #9ca3af;
-  --color-feedback: #e5e7eb;
-  --color-sale: #ff6b6b;
-
+  --border-color: #26282c;
+  --color-primary: #eceeef;
+  --color-main: #101113;
+  --color-secondary: #9a9da3;
+  --color-feedback: #d8dadd;    
+  --color-sale: #d9836b;       
   --text-fetch: #ffffff66;
-  --text-dis: #f3f4f6;
-  --rating-color: #f59e0b;
-
-  --discount-bg: #111315;
-  --discount-border: #1f2226;
+  --text-dis: #eceeef;
+  --rating-color: #f59e0b;    
+  --discount-bg: #131416;
+  --discount-border: #202226;
   --discount-pattern: #ffffff04;
 }
-/* c62828  احمر */
-/*757575 رمادى  */
-/* 1a1a1a اسود */
 * {
   box-sizing: border-box;
   padding: 0;
