@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { Geist, Geist_Mono } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import AllProviders from "./AllProvider";
 import NavAction from "@/Components/Navbar/NavAction";
 const geistSans = Geist({
@@ -45,7 +46,10 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AllProviders>
           <NavAction />
-          <main>{children}</main>
+          <main>
+            {children}
+            <SpeedInsights />
+          </main>
         </AllProviders>
       </body>
     </html>
