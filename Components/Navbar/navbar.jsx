@@ -44,9 +44,9 @@ function NavBar({ userdata }) {
 
         <div className={`${style.nav_links} ${style.desktop_menu}`}>
           <Link href="/" className={style.link}>HOME</Link>
-          <Link href="/Collection/man_colliction" className={style.link}>MEN</Link>
-          <Link href="/Collection/woman_colliction" className={style.link}>WOMEN</Link>
-          <Link href="/Collection/Child_Colliction" className={style.link}>KIDS</Link>
+          <Link href="/man" className={style.link}>MEN</Link>
+          <Link href="/woman" className={style.link}>WOMEN</Link>
+          <Link href="/Child" className={style.link}>KIDS</Link>
           <Link href="/Admin/dashboard" className={style.link}>ADMIN</Link>
         </div>
 
@@ -56,9 +56,9 @@ function NavBar({ userdata }) {
 
         <div className={`${style.mobile_menu} ${isOpen ? style.open : ""}`}>
           <Link href="/" onClick={() => setIsOpen(false)}>HOME</Link>
-          <Link href="/Collection/man_colliction" onClick={() => setIsOpen(false)}>MEN</Link>
-          <Link href="/Collection/woman_colliction" onClick={() => setIsOpen(false)}>WOMEN</Link>
-          <Link href="/Collection/Child_Colliction" onClick={() => setIsOpen(false)}>KIDS</Link>
+          <Link href="/man" onClick={() => setIsOpen(false)}>MEN</Link>
+          <Link href="/woman" onClick={() => setIsOpen(false)}>WOMEN</Link>
+          <Link href="/Child" onClick={() => setIsOpen(false)}>KIDS</Link>
           <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>ADMIN</Link>
         </div>
 
@@ -71,16 +71,14 @@ function NavBar({ userdata }) {
           <ThemeToggle />
 
           <div className={style.icon_group}>
-            
-            {/* 🛠️ 3. تعديل الـ Wishlist Badge */}
+
             <Link href="/Wishlist" className="relative">
               <i className="fa-regular fa-heart"></i>
               {isMounted && wishlist?.length > 0 && (
                 <span className={style.badge}>{wishlist.length}</span>
               )}
             </Link>
-            
-            {/* 🛠️ 4. تعديل الـ Card Badge */}
+          
             <Link href="/CardPage" className="relative">
               <i className="fa-solid fa-bag-shopping "></i>
               {isMounted && card?.length > 0 && (
