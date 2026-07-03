@@ -9,7 +9,7 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-margin-top: 74px;
+  margin-top: 74px;
 }
 .container_info {
   color: white;
@@ -21,7 +21,6 @@ margin-top: 74px;
   margin-bottom: 15px;
 }
 .p {
-
   line-height: 1.5;
   margin-bottom: 20px;
   letter-spacing: 1.5px;
@@ -40,7 +39,6 @@ margin-top: 74px;
   font-weight: 700;
   letter-spacing: 2px;
   font-family: "AdihausDIN", sans-serif;
-
 }
 .button:hover {
   background-color: #ffffffea;
@@ -66,6 +64,4 @@ margin-top: 74px;
     position: relative;
     margin-left: 20px;
   }
-
 }
-
