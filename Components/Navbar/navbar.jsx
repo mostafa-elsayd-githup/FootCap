@@ -65,7 +65,6 @@ function NavBar({ userdata }) {
         <div className={style.hamburger} onClick={() => setIsOpen(!isOpen)}>
           <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
         </div>
-
         <div className={`${style.mobile_menu} ${isOpen ? style.open : ""}`}>
           <Link href="/" onClick={() => setIsOpen(false)}>
             HOME
@@ -82,6 +81,7 @@ function NavBar({ userdata }) {
           <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>
             ADMIN
           </Link>
+
           <div className={style.search_container}>
             <input
               type="text"
