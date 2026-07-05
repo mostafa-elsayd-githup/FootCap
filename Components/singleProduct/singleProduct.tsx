@@ -11,13 +11,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ShoppingButton from "./buttonShopping";
 import WishlistButton from "./WishlistButton";
-const SingleProduct = ({ productItem }) => {  
+const SingleProduct = ({ productItem }) => {
+  console.log(productItem);
+  
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem?.image || "");
-  if (productItem?.oldPrice) {
-    var discount =
-      ((parseInt(productItem.oldPrice) - parseInt(productItem.price)) /
-        parseInt(productItem.oldPrice)) *
+  let discount = 0;
+  if (productItem?.oldprice && productItem.price) {
+    discount =
+      ((parseInt(productItem.oldprice) - parseInt(productItem.price)) /
+        parseInt(productItem.oldprice)) *
       100;
   }
   const oldprice = Intl.NumberFormat("en", {
@@ -25,7 +28,7 @@ const SingleProduct = ({ productItem }) => {
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(productItem?.oldPrice));
+  }).format(parseInt(productItem?.oldprice));
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
@@ -60,8 +63,8 @@ const SingleProduct = ({ productItem }) => {
             onMouseEnter={() => setCurrentImg(productItem.image_Hover)}
             className={styles.image}
           />
-          {productItem?.oldPrice ? (
-            <span className={styles.dis}>{parseInt(String(discount))} %</span>
+          {discount > 0 ? (
+            <span className={styles.dis}>{Math.round(discount)} %</span>
           ) : null}
         </div>
         {productItem?.url && productItem?.url.length > 0 ? (
@@ -80,23 +83,25 @@ const SingleProduct = ({ productItem }) => {
           </div>
         ) : null}
         <Card.Body className={styles.card_body}>
-          <Link href={`/product/${productItem?.id}`}>
+          <Link href={`/product${productItem?.id}`}>
             <h5 className={styles.name}>{productItem?.title}</h5>
           </Link>
           <span
             className={`${styles.price} ${
-              productItem?.oldPrice ? styles.price_red : ""
+              productItem?.oldprice ? styles.price_red : ""
             }`}
           >
             {price}
           </span>
 
-          {productItem?.oldPrice ? (
+          {productItem?.oldprice ? (
             <span className={styles.old_price}>{oldprice}</span>
           ) : null}
           <p className={styles.category}>{productItem?.category}</p>
           <p className={styles.colors}>
-            {productItem?.url.length ? `Colors: ${productItem?.url.length}` : ""}
+            {productItem?.url.length
+              ? `Colors: ${productItem?.url.length}`
+              : ""}
           </p>
           <p className={styles.made}>
             {productItem?.made ? productItem?.made : ""}

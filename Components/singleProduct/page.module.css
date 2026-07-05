@@ -8,6 +8,13 @@
   padding: 0 10px;
   max-width: 100%;
   color: var(--color-primary);
+  span {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--color-secondary);
+    line-height: 2;
+    letter-spacing: 1px;
+  }
 }
 
 .title {
@@ -111,7 +118,7 @@
 }
 
 .icon:hover {
-  color:#000;
+  color: #000;
   transform: scale(1.1);
 }
 .card_body {
@@ -284,9 +291,6 @@
 @media (max-width: 767px) {
   .Container {
     margin: 6rem auto;
-  }
-  .text {
-    text-align: center;
   }
   .products {
     grid-template-columns: repeat(2, 1fr);

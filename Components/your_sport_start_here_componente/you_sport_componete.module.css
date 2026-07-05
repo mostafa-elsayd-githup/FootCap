@@ -60,11 +60,11 @@ text-transform: uppercase;
     border: none;
   }
   .container {
-    margin-top: 80px; /* تقليل المسافة العلوية في الموبايل */
+    margin-top: 80px; 
   }
 }
 @media (min-width: 769px) and (max-width: 1233px) {
   .card {
-    min-width: 29rem; /* حدد عرض الكارت المناسب لك */
+    min-width: 29rem;
   }
 }

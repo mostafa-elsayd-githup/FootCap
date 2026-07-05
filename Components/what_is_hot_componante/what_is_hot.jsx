@@ -26,7 +26,7 @@ export default function WhatIsHot() {
         >
           <SwiperSlide className={styles.club_item}>
             <div className={styles.card}>
-              <Card.Img className={styles.img} src="/Hot3.svg" alt="Jacket" />
+              <Card.Img className={styles.img} src="/Hot3.WebP" alt="Jacket" />
               <div className={styles.cardBody}>
                 <div>
                   <h3 className={styles.title}>Terrex XPERIOR Jackets</h3>
@@ -44,7 +44,7 @@ export default function WhatIsHot() {
 
           <SwiperSlide className={styles.club_item}>
             <div className={styles.card}>
-              <Card.Img className={styles.img} src="/Hot2.svg" alt="Terrex" />
+              <Card.Img className={styles.img} src="/Hot2.WebP" alt="Terrex" />
               <div className={styles.cardBody}>
                 <div>
                   <h3 className={styles.title}>SKYCHASER AX5 GTX</h3>
@@ -62,7 +62,7 @@ export default function WhatIsHot() {
           
           <SwiperSlide className={styles.club_item}>
             <div className={styles.card}>
-              <Card.Img className={styles.img} src="/Hot1.svg" alt="Simpsons" />
+              <Card.Img className={styles.img} src="/Hot1.WebP" alt="Simpsons" />
               <div className={styles.cardBody}>
                 <div>
                   <h3 className={styles.title}>The Simpsons</h3>

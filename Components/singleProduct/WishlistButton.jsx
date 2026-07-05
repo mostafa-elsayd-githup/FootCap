@@ -1,20 +1,19 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./page.module.css";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
 import { useDispatch, useSelector } from "react-redux";
 import handleAction from "@/server/hero_server";
-import {
-  faHeart as farHeart,
-  faEye,
-} from "@fortawesome/free-regular-svg-icons";
+import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import LoaderTag from "@/Components/loaderFecthing/loaderTofetch";
 import { useOpneing } from "@/RTK/storcontext";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function WishlistButton({ favoriteProduct }) {
+  const Router = useRouter();
   const initialState = { message: "", wishliststate: null };
   const [state, formAction, pending] = useActionState(
     handleAction,
@@ -22,16 +21,16 @@ export default function WishlistButton({ favoriteProduct }) {
   );
   const dispatch = useDispatch();
   const { setisfevorite } = useOpneing();
-  const [actionTypeState, setActionTypeState] = useState("");
-  const handleWishlistSubmit = async () => {
-    setActionTypeState("wishlist");
+  const handleWishlistSubmit = () => {
     dispatch(toggleWishlistOptimistic(favoriteProduct));
   };
+
   const wishlistarray = useSelector((state) => state.wishlist.items);
 
   const isfevorite = wishlistarray.some(
     (item) => Number(item.id) === favoriteProduct.id,
   );
+
   useEffect(() => {
     if (state?.state === 401) {
       toast.error("Login Required", {
@@ -42,7 +41,9 @@ export default function WishlistButton({ favoriteProduct }) {
           Router.replace("/register");
         },
       });
+      return;
     }
+
     if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
       setisfevorite(state.wishliststate);
 
@@ -58,7 +59,7 @@ export default function WishlistButton({ favoriteProduct }) {
         });
       }
     }
-  }, [state.wishliststate, state?.state, setisfevorite]);
+  }, [state?.wishliststate, state?.state, setisfevorite, Router]);
 
   return (
     <form action={formAction}>
@@ -72,7 +73,7 @@ export default function WishlistButton({ favoriteProduct }) {
           />
         )}
       </button>
-      <input type="hidden" name="actiontype" value={actionTypeState || ""} />
+      <input type="hidden" name="actiontype" value="wishlist" />
       <input type="hidden" name="id" value={favoriteProduct?.id || ""} />
     </form>
   );

@@ -7,7 +7,7 @@ import ThemeToggle from "@/Components/button/button";
 import { useSelector, useDispatch } from "react-redux";
 import { setInitialCart } from "@/RTK/cardslice";
 import { setInitialWishlist } from "@/RTK/wishlistslice";
-import MostoreLogo from "../my_logo/logo";
+import MostoreLogo from "@/Components/my_logo/logo";
 
 function NavBar({ userdata }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +34,12 @@ function NavBar({ userdata }) {
 
     initialize();
   }, [dispatch, userdata?.card, userdata?.cart, userdata?.wishlist]);
-
+  const navItems = [
+    { name: "HOME", href: "/" },
+    { name: "MEN", href: "/man" },
+    { name: "WOMEN", href: "/woman" },
+    { name: "KIDS", href: "/Child" },
+  ];
   return (
     <nav className={`fixed-top ${style.navbar_container}`}>
       <div className="container-fluid px-4 px-md-5 d-flex align-items-center justify-content-between">
@@ -43,21 +48,18 @@ function NavBar({ userdata }) {
         </Link>
 
         <div className={`${style.nav_links} ${style.desktop_menu}`}>
-          <Link href="/" className={style.link}>
-            HOME
-          </Link>
-          <Link href="/man" className={style.link}>
-            MEN
-          </Link>
-          <Link href="/woman" className={style.link}>
-            WOMEN
-          </Link>
-          <Link href="/Child" className={style.link}>
-            KIDS
-          </Link>
-          <Link href="/Admin/dashboard" className={style.link}>
-            ADMIN
-          </Link>
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${style.link} ${isActive ? style.activeLink : ""}`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
         </div>
 
         <div className={style.hamburger} onClick={() => setIsOpen(!isOpen)}>

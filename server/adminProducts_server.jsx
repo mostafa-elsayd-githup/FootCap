@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 export default async function ProductSHandle(prvstate, formData) {
   const buttontype = formData.get("productType");
   const productId = Number(formData.get("productId"));
+  
   try {
     if (buttontype) {
       const supabaseServer = await createClientForServer();

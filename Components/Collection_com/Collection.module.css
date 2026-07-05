@@ -57,13 +57,13 @@
 
 
 .man_card {
-  background-image: url("/mancollection_section.svg");
+  background-image: url("/mancollection_section.WebP");
 }
 .woman_card {
-  background-image: url("/images.svg");
+  background-image: url("/images.WebP");
 }
 .child_card {
-  background-image: url("/child_collcition_section.svg");
+  background-image: url("/child_collcition_section.WebP");
 }
 .Button {
   color: var(--color-main); 

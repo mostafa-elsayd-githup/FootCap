@@ -25,7 +25,7 @@ function SportComponete() {
       >
           <SwiperSlide className={styles.club_item}>
             <Card className={styles.product_card}>
-              <Card.Img variant="top" src="/run.svg" alt="Running gear" />
+              <Card.Img variant="top" src="/run.WebP" alt="Running gear" />
             </Card>
               <div>
                 <Link
@@ -38,7 +38,7 @@ function SportComponete() {
           </SwiperSlide>
           <SwiperSlide className={styles.club_item}>
             <Card className={styles.product_card}>
-              <Card.Img variant="top" src="/footbal.svg" alt="FootBall" />
+              <Card.Img variant="top" src="/footbal.WebP" alt="FootBall" />
             </Card>
               <div>
                 <Link
@@ -51,7 +51,7 @@ function SportComponete() {
           </SwiperSlide>
           <SwiperSlide className={styles.club_item}>
             <div className={styles.product_card}>
-              <Card.Img variant="top" src="/gem.svg" alt="Gym"  />
+              <Card.Img variant="top" src="/gem.WebP" alt="Gym"  />
             </div>
               <div>
                 <Link
@@ -64,7 +64,7 @@ function SportComponete() {
           </SwiperSlide>
           <SwiperSlide className={styles.club_item}>
             <div className={styles.product_card}>
-              <Card.Img variant="top" src="/tenes.svg" alt="Tennis" />
+              <Card.Img variant="top" src="/tenes.WebP" alt="Tennis" />
             </div>
               <div>
                 <Link
@@ -77,7 +77,7 @@ function SportComponete() {
           </SwiperSlide>
           <SwiperSlide className={styles.club_item}>
             <Card className={styles.product_card}>
-              <Card.Img variant="top" src="/basctball.svg" alt=" Basket ball" />
+              <Card.Img variant="top" src="/basctball.WebP" alt=" Basket ball" />
             </Card>
               <div>
                 <Link

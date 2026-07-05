@@ -13,11 +13,45 @@
 }
 
 .link {
-  font-weight: 600;
-  font-size: 1rem;
-  color: var(--color-primary) !important;
-  text-transform: uppercase;
+  color: var(--nav-link-color);
   text-decoration: none;
+  padding: 8px 16px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  border-radius: 6px;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
+}
+.link:hover {
+  color: var(--nav-link-hover);
+  background-color: var(--nav-link-bg-hover);
+}
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  background-color: var(--nav-link-active);
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.link:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+.activeLink::after {
+  transform: translateX(-50%) scaleX(1) !important;
+  width: 70%; 
+}
+.activeLink {
+  color: var(--nav-link-active) !important;
+  font-weight: 600;
+  background-color: transparent !important; 
 }
 
 .hamburger {
@@ -44,7 +78,8 @@
   padding: 20px;
   border-bottom: 0 solid #ffffff1a;
   :hover {
-    box-shadow: 0px 2px 6px -3px var(--color-primary);
+   padding-left: 0.5rem;
+   transition: all 0.2s ease-in-out;
   }
 }
 
@@ -86,7 +121,6 @@
   gap: 20px;
   font-size: 19px;
 }
-
 .badge {
   background-color: #eee;
   color: #000;
@@ -97,10 +131,8 @@
   top: -5px;
   right: -8px;
 }
+
 @media (max-width: 991px) {
-  /* .search_container {
-    display: none;
-  } */
   .mobile_menu.open {
     font-size: 16px;
     font-weight: 550;

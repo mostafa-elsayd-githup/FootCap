@@ -1,40 +1,59 @@
 "use server";
 
 import { createClientForServer } from "@/utils/supabase";
+
 export default async function handleAction(prevstate, formData) {
   const actionType = formData.get("actiontype");
   const id = formData.get("id");
-  let supabaseServer = await createClientForServer();
-  let {
-    data: { user },
-    error: authError,
-  } = await supabaseServer.auth.getUser();
-  if (authError || !user) {
-    return { state: 401, message: "Please login to continue" };
-  }
+  const supabaseServer = await createClientForServer();
 
   if (actionType === "wishlist") {
+    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseServer.auth.getUser();
+    if (authError || !user) {
+      return {
+        state: 401,
+        message: "Login Required",
+        wishliststate: null,
+      };
+    }
+
     try {
       const { data: product, error: productError } = await supabaseServer
         .from("products")
         .select("*")
         .eq("id", id)
         .single();
+
       if (!product || productError) {
         return {
-          message: "Prodcut Not Found",
+          state: 404,
+          message: "Product Not Found",
+          wishliststate: null,
         };
       }
+
       const { data: profile, error: fetchError } = await supabaseServer
         .from("profiles")
         .select("wishlist")
         .eq("id", user.id)
         .single();
+
       if (fetchError) {
-        return { error: "Failed to fetch wishlist" };
+        return {
+          state: 400,
+          message: "Failed to fetch wishlist",
+          wishliststate: null,
+        };
       }
+
       let currentWishlist = profile?.wishlist || [];
+
       const exists = currentWishlist.some((item) => item.id === product.id);
+
       if (exists) {
         currentWishlist = currentWishlist.filter(
           (item) => item.id !== product.id,
@@ -46,19 +65,32 @@ export default async function handleAction(prevstate, formData) {
         .from("profiles")
         .update({ wishlist: currentWishlist })
         .eq("id", user.id);
+
       if (updateError) {
         console.error(
           "Error updating wishlist in Supabase:",
           updateError.message,
         );
-        return { error: "Failed to update wishlist" };
+        return {
+          state: 500,
+          message: "Failed to update wishlist",
+          wishliststate: null,
+        };
       }
-      return { wishliststate: !exists, timeStamp: Date.now() };
-    } catch {
+
       return {
+        state: 200,
+        wishliststate: !exists,
+        message: "Success",
+      };
+    } catch (error) {
+      console.error("Catch Error:", error);
+      return {
+        state: 500,
         message: "Sorry, the connection to the server failed.",
-        status: 500,
+        wishliststate: null,
       };
     }
   }
+  return { state: null, message: "", wishliststate: null };
 }
