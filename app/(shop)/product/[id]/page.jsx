@@ -1,6 +1,6 @@
-import Footer from "@/Components/footer/Footre";
+
 import styles from "./page.module.css";
-import { notFound } from "next/navigation";
+
 import ClientComponent from "./client_component";
 import { createClientForServer } from "@/utils/supabase";
 
@@ -31,7 +31,6 @@ export default async function ProductPage({ params }) {
   return (
     <div className={styles.wrapper}>
       <ClientComponent fillWidth={fillWidths} product={products[0]} />
-      <Footer />
     </div>
   );
 }

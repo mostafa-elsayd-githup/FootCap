@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import styles from "./Sport.module.css";
+import styles from "@/Components/Hero_com/hero.module.css";
 
 function Sport() {
   return (

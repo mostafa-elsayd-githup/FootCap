@@ -9,7 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./register.module.css";
 import Link from "next/link";
-import { registerAction } from "./action";
+import { registerAction } from "../../../server/register_server";
 import { useActionState } from "react";
 
 const RegisterPage = () => {

@@ -1,6 +1,4 @@
 import CartPage from "./client";
-import Footer from "@/Components/footer/Footre";
-import DiscoundComponent from "@/Components/discound_componente/discounds";
 import { createClientForServer } from "@/utils/supabase";
 
 export async function getdata() {
@@ -31,12 +29,6 @@ export async function getdata() {
 }
 const page = async () => {
   const data = await getdata();  
-  return (
-    <>
-      <CartPage card={data} />;
-      <DiscoundComponent />
-      <Footer />
-    </>
-  );
+  return <CartPage card={data} />
 };
 export default page;

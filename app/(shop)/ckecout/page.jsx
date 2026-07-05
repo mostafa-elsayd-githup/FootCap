@@ -1,5 +1,4 @@
 import CheckoutPage from "./ckeckoutclien";
-import NavAction from "@/Components/Navbar/NavAction";
 import { createClientForServer } from "@/utils/supabase";
 
 export async function getdata() {
@@ -27,11 +26,6 @@ export async function getdata() {
 }
 const page = async () => {
   const data = await getdata();
-  return (
-    <>
-      <NavAction />
-      <CheckoutPage cartItems={data} />;
-    </>
-  );
+  return  <CheckoutPage cartItems={data} />
 };
 export default page;

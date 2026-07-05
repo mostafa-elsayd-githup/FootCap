@@ -1,5 +1,7 @@
-.hero {
-  background-image: url("/backgroud-hero_section.WebP");
+.hero,
+.Container,
+.head,
+.head2 {
   width: 100%;
   height: 42vw;
   background-repeat: no-repeat;
@@ -11,6 +13,16 @@
   align-content: center;
   margin-top: 74px;
 }
+
+.Container,
+.head2 {
+  position: relative;
+}
+.hero { background-image: url("/backgroud-hero_section.WebP"); }
+.Container { background-image: url("/Gemini_Generated_Image_a0x8gaa0x8gaa0x8.WebP"); }
+.head { background-image: url("/man-collicionback.WebP"); }
+.head2 { background-image: url("/adidas_.WebP"); }
+
 .container_info {
   color: white;
   margin-left: 60px;
@@ -21,14 +33,16 @@
   margin-bottom: 15px;
 }
 .p {
-  line-height: 1.5;
+  line-height: 1.6;
   margin-bottom: 20px;
   letter-spacing: 1.5px;
-  line-height: 1.6;
 }
-.button {
-  background-color: white;
-  color: black;
+.Container .p { font-size: 1.2rem; }
+.head .p { font-size: 1.6rem; }
+.button,
+.Button {
+  background-color: #fff;
+  color: #000;
   display: inline-flex;
   justify-content: center;
   line-height: 50px;
@@ -39,29 +53,137 @@
   font-weight: 700;
   letter-spacing: 2px;
   font-family: "AdihausDIN", sans-serif;
+  border: none;
 }
-.button:hover {
+
+.button:hover,
+.Button:hover {
   background-color: #ffffffea;
 }
-.button::before {
+
+.button::before,
+.Button::before {
   content: "";
+  z-index: -1;
   border: 1px solid #eee;
   width: 100%;
   height: 46px;
   position: absolute;
   bottom: -4px;
   right: -4px;
-  z-index: -1;
+}
+
+.hrader {
+  font-size: 2.1rem;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-transform: none;
+  color: var(--color-primary);
+  font-family: "AdineuePRO", sans-serif;
+  font-weight: 701 !important;
+  letter-spacing: 1.15px;
+  line-height: 38px;
+}
+
+.para {
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+  font-family: AdineuePRO, sans-serif;
+  font-size: 1.2rem;
+  line-height: 28px;
+}
+
+.section {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.clubs_swiper {
+  width: 100%;
+  height: auto;
+}
+
+.club_item {
+  width: auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_card {
+  text-align: center;
+  width: 460px;
+  border: none;
+  background: var(--bg-card, #fff);
+}
+
+.title_clube {
+  font-size: 15px;
+  font-weight: normal;
+  color: var(--color-primary);
+}
+
+.club_item .Button {
+  background: transparent;
+  color: var(--color-primary);
+  width: auto;
+}
+
+.club_item .Button::after {
+  content: "";
+  background: #000;
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: 1px;
+  left: -1px;
 }
 @media (max-width: 768px) {
-  .hero {
-    background-image: url("/backgroud-hero_section_for_mupile.WebP");
-    width: 100%;
+
+  .hero { background-image: url("/backgroud-hero_section_for_mupile.WebP"); }
+  .Container { background-image: url("/Gemini_Generated_Image_4tmmaw4tmmaw4tmm.WebP"); }
+  .head { background-image: url("/media_background_section1.WebP"); }
+  .head2 { background-image: url("/media_background_section2.WebP"); }
+
+  .hero,
+  .Container {
     height: 34rem;
     margin-top: 74px;
+    position: relative;
   }
+
+  .head,
+  .head2 {
+    height: 135vw;
+    margin-bottom: 4.7em;
+  }
+
   .container_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 0px auto;
     position: relative;
     margin-left: 20px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+  .Container .Button {
+    width: 170px;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+}
+
+@media (min-width: 769px) {
+  .Container_shart {
+    position: relative;
   }
 }

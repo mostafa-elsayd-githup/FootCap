@@ -1,7 +1,6 @@
-import Footer from "@/Components/footer/Footre";
 import Products from "./wiahlist";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
-import DiscoundComponent from "@/Components/discound_componente/discounds";
+
 import { createClientForServer } from "@/utils/supabase";
 const getData = async () => {
   try {
@@ -37,8 +36,6 @@ async function page() {
     <>
       <MiniDrowp />
       <Products wishlist={wishlist} />
-      <DiscoundComponent />
-      <Footer />
     </>
   );
 }

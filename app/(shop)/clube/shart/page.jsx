@@ -1,6 +1,5 @@
-import Footer from "@/Components/footer/Footre";
-import DiscoundComponent from "@/Components/discound_componente/discounds";
-import { createClientForServer } from "@/utils/supabase"; 
+
+import { createClientForServer } from "@/utils/supabase";
 import ProductListClient from "./SingleProduct_Liverpool";
 
 async function getProductsByType(categoryKey) {
@@ -22,16 +21,10 @@ async function getProductsByType(categoryKey) {
 async function Product({ searchParams }) {
   const queryParams = await searchParams;
   const categoryKey = queryParams.type;
-  
+
   const data = await getProductsByType(categoryKey);
 
-  return (
-    <>
-      <ProductListClient initialProducts={data} type={categoryKey} />
-      <DiscoundComponent />
-      <Footer />
-    </>
-  );
+  return <ProductListClient initialProducts={data} type={categoryKey} />;
 }
 
 export default Product;

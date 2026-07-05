@@ -18,9 +18,7 @@ const LoginPage = () => {
   const [state, formAction, pending] = useActionState(loginAction, { message: "" , state:null});
   return (
     <div className={styles.mainWrapper}>
-      {/* loader */}
       {pending && <Loader/>}
-
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}

@@ -1,5 +1,4 @@
-import Footer from "@/Components/footer/Footre";
-import DiscoundComponent from "@/Components/discound_componente/discounds";
+
 import { createClientForServer } from "@/utils/supabase";
 import ProductListClient from "./singelproduct";
 
@@ -22,13 +21,8 @@ async function getProductsByType() {
 async function Product() {
   const data = await getProductsByType();
 
-  return (
-    <>
-      <ProductListClient initialProducts={data} />
-      <DiscoundComponent />
-      <Footer />
-    </>
-  );
+
+  return <ProductListClient initialProducts={data} />;
 }
 
 export default Product;

@@ -1,5 +1,5 @@
 "use client"
-import styles from "./man_colliction.module.css";
+import styles from "@/Components/Hero_com/hero.module.css";
 import Link from "next/link";
 import "aos/dist/aos.css";
 import Clube from "./shrat_clube";
