@@ -127,6 +127,9 @@
   }
 }
 @media (max-width: 991px) {
+  .desktop_menu {
+  display: none;
+}
   .right_section .search_container {
     display: none !important;
   }

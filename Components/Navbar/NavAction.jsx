@@ -1,11 +1,14 @@
 import NavBar from "./navbar";
-import { createClientForServer } from "@/utils/supabase"; 
+import { createClientForServer } from "@/utils/supabase";
 
 async function getuser() {
   try {
     const supabaseServer = await createClientForServer();
 
-    const { data: { user }, error: authError } = await supabaseServer.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseServer.auth.getUser();
 
     if (authError || !user) {
       return null;
@@ -13,17 +16,19 @@ async function getuser() {
 
     const { data: profileData, error: profileError } = await supabaseServer
       .from("profiles")
-      .select("wishlist, cart, full_name")
+      .select("wishlist, cart, full_name, role")
       .eq("id", user.id)
       .single();
 
     if (profileError) {
-      console.error("Error fetching profile from Supabase:", profileError.message);
+      console.error(
+        "Error fetching profile from Supabase:",
+        profileError.message,
+      );
       return null;
     }
 
     return profileData;
-
   } catch (error) {
     console.error("Catch error in navbar getuser:", error);
     return null;
@@ -32,7 +37,6 @@ async function getuser() {
 
 export default async function NavAction() {
   const userdata = await getuser();
-
 
   return <NavBar userdata={userdata} />;
 }

@@ -49,7 +49,10 @@ function NavBar({ userdata }) {
 
         <div className={`${style.nav_links} ${style.desktop_menu}`}>
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
@@ -66,21 +69,22 @@ function NavBar({ userdata }) {
           <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
         </div>
         <div className={`${style.mobile_menu} ${isOpen ? style.open : ""}`}>
-          <Link href="/" onClick={() => setIsOpen(false)}>
-            HOME
-          </Link>
-          <Link href="/man" onClick={() => setIsOpen(false)}>
-            MEN
-          </Link>
-          <Link href="/woman" onClick={() => setIsOpen(false)}>
-            WOMEN
-          </Link>
-          <Link href="/Child" onClick={() => setIsOpen(false)}>
-            KIDS
-          </Link>
-          <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>
-            ADMIN
-          </Link>
+          {navItems.map((item) => {
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+          {userdata.role === "user" ? (
+            <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>
+              ADMIN
+            </Link>
+          ) : null}
 
           <div className={style.search_container}>
             <input
