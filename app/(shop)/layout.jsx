@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           precedence="default"
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${cairo.variable} ${montserrat.variable}`}>
         <AllProviders>
           <NavAction />
           <main>
