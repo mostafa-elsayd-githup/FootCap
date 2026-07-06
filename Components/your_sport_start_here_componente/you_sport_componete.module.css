@@ -22,7 +22,7 @@ text-transform: uppercase;
 }
 .product_card {
   text-align: center;
-  width: 454px;
+  width: 450px;
   border: none;
   
 }
@@ -52,7 +52,7 @@ text-transform: uppercase;
 }
 @media (max-width: 768px) {
   .card {
-    min-width: 25rem;
+    min-width: 20rem;
   }
   .product_card {
     text-align: center;
