@@ -6,10 +6,9 @@
 .big_container h1 {
   margin-bottom: 30px;
   margin-left: 5px;
-  text-transform: uppercase; 
   color: var(--color-primary);
   font-family: "AdineuePRO", sans-serif;
-  font-weight: 800 !important; 
+  font-weight: 700 !important; 
   letter-spacing: 1.5px;
   line-height: 42px;
   font-size: 2rem;
@@ -45,14 +44,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 50%); 
+  background: linear-gradient(to top, #00000080 0%, rgba(0, 0, 0, 0) 50%); 
   z-index: 1;
   transition: opacity 0.4s ease;
 }
 
 .child_card:hover, .woman_card:hover, .man_card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px #00000026;
 }
 
 
@@ -72,7 +71,7 @@
   text-align: center;
   border-radius: 50px; 
   min-width: 140px;
-  padding: 12px 24px;
+  padding: 0.7rem 1.4rem;
   position: absolute;
   bottom: 30px;
   left: 50%;
@@ -115,32 +114,7 @@
     border-radius: 12px;
   }
 
-  .Button {
-    bottom: 20px;
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    min-width: 120px;
-  }
-
-  .product_card {
-    min-width: 315px;
-    margin-right: 0px;
-  }
 }
 @media (min-width: 769px) and (max-width: 1024px) {
-  .big_container {
-    margin: 0 20px;
-  }
-
-  .menCollection {
-    gap: 12px;
-  }
-
-  .child_card, .woman_card, .man_card {
-    height: 30vw;
-  }
   
-  .product_card {
-    margin-right: 15px;
-  }
 }

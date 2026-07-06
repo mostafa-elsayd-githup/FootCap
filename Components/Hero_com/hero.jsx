@@ -5,7 +5,7 @@ import "aos/dist/aos.css";
 
 function Hero() {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} >
       <div className={styles.container_info}>
         <h1 className={styles.title}>HOLIDAY GIFTS</h1>
         <p className={styles.p}>Special picks for everyone on your list.</p>
