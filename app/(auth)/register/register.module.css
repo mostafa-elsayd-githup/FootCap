@@ -1,29 +1,23 @@
 .mainWrapper {
-    background: linear-gradient(135deg, #f8f9fa 0%, #3a3b3c 50%, #070707 100%);
-    background-size: 400% 400%; 
-    animation: premiumFlow 12s ease infinite; 
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-@keyframes premiumFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position:  0% 50%; }
+  background:  #3a3b3c 50%;
+  background-size: 400% 400%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .loginCard {
   width: 100%;
   max-width: 440px;
-  background: rgba(255, 255, 255, 0.04) !important;
+  background: #ffffff0a !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid #ffffff14 !important;
   border-radius: 24px !important;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 20px 50px #00000066 !important;
   transform: translateY(10px);
-  opacity: 0;
-  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* opacity: 0; */
+  /* animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; */
 }
 
 .cardBody {
@@ -33,13 +27,13 @@
   width: 64px;
   height: 64px;
   background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid #ffffff26;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px #00000033;
 }
 
 .userIcon {
@@ -48,21 +42,21 @@
 }
 .inputGroupCustom {
   background: 11111 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid #ffffff14 !important;
   border-radius: 12px !important;
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 .inputGroupCustom:focus-within {
-  border-color: rgba(255, 255, 255, 0.4) !important;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.06);
+  border-color: #ffffff66 !important;
+  box-shadow: 0 0 12px #ffffff0f;
 }
 
 .iconBg {
   background: transparent !important;
   border: none !important;
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: #ffffff66 !important;
   padding-left: 16px !important;
   padding-right: 10px !important;
 }
@@ -77,7 +71,7 @@
 }
 
 .customControl::placeholder {
-  color: #ffffff88 
+  color: #ffffff88;
 }
 .loginButton {
   width: 100%;
@@ -140,9 +134,15 @@
   animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
 }
 @keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes cardFadeIn {
@@ -153,5 +153,7 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
