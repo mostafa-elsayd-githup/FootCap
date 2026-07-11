@@ -1,27 +1,16 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClientForServer } from "@/utils/supabase";
-
+import { registerSchema } from "@/app/(auth)/authSchema/registerschema";
 export async function registerAction(prevstate, formData) {
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const password = formData.get("password");
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /^[a-zA-Z\s\u0600-\u06FF]+$/;
-
-  if (!name || !nameRegex.test(name.trim())) {
-    return { message: "Please, enter a valid name" };
+  const dataObject = Object.fromEntries(formData);
+  const result = registerSchema.safeParse(dataObject);
+  if (!result.success) {
+    return { success: false, message: result.error.flatten().fieldErrors };
   }
-  if (!email || email.length < 8 || !emailRegex.test(email)) {
-    return { message: "Please enter a valid email address" };
-  }
-  if (!password || password.length < 8) {
-    return {
-      message: "Please, Enter a strong password (minimum 8 characters)",
-    };
-  }
-
+  const { name, email, password } = result.data;
+  
   try {
     const supabase = await createClientForServer();
 
@@ -35,22 +24,20 @@ export async function registerAction(prevstate, formData) {
     }
 
     if (authData?.user) {
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .upsert(
-          [
-            {
-              id: authData.user.id,
-              full_name: name,
-              email: email,
-              role: "user",
-              wishlist: [],
-              cart: [],
-              orders: [],
-            },
-          ],
-          { onConflict: "id" }
-        );
+      const { error: profileError } = await supabase.from("profiles").upsert(
+        [
+          {
+            id: authData.user.id,
+            full_name: name,
+            email: email,
+            role: "user",
+            wishlist: [],
+            cart: [],
+            orders: [],
+          },
+        ],
+        { onConflict: "id" },
+      );
 
       if (profileError) {
         console.error("Profile creation error:", profileError.message);
