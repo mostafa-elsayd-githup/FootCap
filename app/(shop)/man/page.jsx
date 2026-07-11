@@ -15,7 +15,7 @@ function Man_Colliction() {
           </p>
           <Link
             href="/man/mens-Jerseys"
-            className={styles.button}
+            className={styles.Button}
           >
             SHOP NOW
           </Link>
@@ -31,7 +31,7 @@ function Man_Colliction() {
 
           <Link
             href="/man/Sneakers-for-Men"
-            className={styles.button}
+            className={styles.Button}
           >
             SHOP NOW
           </Link>
