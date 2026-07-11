@@ -82,7 +82,7 @@ const SingleProduct = ({ productItem }) => {
           </div>
         ) : null}
         <Card.Body className={styles.card_body}>
-          <Link href={`/product${productItem?.id}`}>
+          <Link href={`/product/${productItem?.id}`}>
             <h5 className={styles.name}>{productItem?.title}</h5>
           </Link>
           <span
