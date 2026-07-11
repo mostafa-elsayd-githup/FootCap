@@ -8,19 +8,6 @@ export default async function handleAction(prevstate, formData) {
   const supabaseServer = await createClientForServer();
 
   if (actionType === "wishlist") {
-    
-    const {
-      data: { user },
-      error: authError,
-    } = await supabaseServer.auth.getUser();
-    if (authError || !user) {
-      return {
-        state: 401,
-        message: "Login Required",
-        wishliststate: null,
-      };
-    }
-
     try {
       const { data: product, error: productError } = await supabaseServer
         .from("products")
@@ -33,6 +20,19 @@ export default async function handleAction(prevstate, formData) {
           state: 404,
           message: "Product Not Found",
           wishliststate: null,
+        };
+      }
+
+      const {
+        data: { user },
+        error: authError,
+      } = await supabaseServer.auth.getUser();
+      if (authError || !user) {
+        return {
+          state: 201,
+          gurstproduct: product,
+          message: "Login Required",
+          wishliststate: true,
         };
       }
 
