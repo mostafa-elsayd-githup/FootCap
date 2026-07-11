@@ -10,7 +10,7 @@ function Hero() {
         <h1 className={styles.title}>HOLIDAY GIFTS</h1>
         <p className={styles.p}>Special picks for everyone on your list.</p>
 
-        <Link href="/Hero" className={styles.button}>
+        <Link href="/Hero" className={styles.Button}>
           SHOP NOW
         </Link>
       </div>
