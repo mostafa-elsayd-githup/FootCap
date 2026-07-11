@@ -15,7 +15,7 @@ const ProductListClient = ({ initialProducts }) => {
           {pageTitle}
         </span>
         <h1 className={styles.title}>
-          Adidas Running Collection{" "}
+          MEN&apos;S FOOTBALL & TRAINING JERSEYS{" "}
           <span style={{ fontSize: "15px", color: "var(--color-primary)" }}>
             ( {initialProducts?.length || 0} )
           </span>
