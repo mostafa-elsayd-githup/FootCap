@@ -12,9 +12,8 @@ import DeleteCart from "@/server/cardpage_server";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import Loader from "@/Components/loaderFecthing/loader"
+import Loader from "@/Components/loaderFecthing/loader";
 const CartPage = ({ card }) => {
-  
   const intinaldata = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(DeleteCart, intinaldata);
   const [ActionState, setActionState] = useState("");
@@ -52,7 +51,7 @@ const CartPage = ({ card }) => {
   return (
     <>
       <main className={styles.cart_wrapper}>
-        {pending && <Loader/>}
+        {pending && <Loader />}
         <Container>
           <h2 className={styles.bag_title}>
             YOUR BAG
@@ -122,11 +121,11 @@ const CartPage = ({ card }) => {
                                 <span className={styles.unit_price}>
                                   {price}
                                 </span>
-                                {item.quantity > 1 ?(
+                                {item.quantity > 1 ? (
                                   <span className={styles.qty_badge}>
                                     Qty: {item.quantity}
                                   </span>
-                                ):null}
+                                ) : null}
                               </div>
                             </div>
                             {item.quantity > 1 && (
@@ -227,10 +226,7 @@ const CartPage = ({ card }) => {
                     </span>
                   </div>
 
-                  <Link
-                    href="/ckecout/"
-                    className={styles.checkout_button}
-                  >
+                  <Link href="/ckecout/" className={styles.checkout_button}>
                     PROCEED TO CHECKOUT{" "}
                     <FontAwesomeIcon
                       icon={faRightLong}
