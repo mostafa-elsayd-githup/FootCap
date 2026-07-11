@@ -164,7 +164,6 @@ useEffect(() => {
           )}
         </button>
 
-        {/* زرار الـ Wishlist */}
         <button
           className={styles.wishlistBtn}
           type="submit"
