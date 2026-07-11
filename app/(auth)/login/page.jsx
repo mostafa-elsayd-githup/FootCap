@@ -1,6 +1,6 @@
-"use client"; 
+"use client";
 
-import "bootstrap/dist/css/bootstrap.min.css"; 
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Form, Button, Card, InputGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,10 +15,13 @@ import { useActionState } from "react";
 import Loader from "@/Components/loaderFecthing/loader";
 
 const LoginPage = () => {
-  const [state, formAction, pending] = useActionState(loginAction, { message: "" , state:null});
+  const [state, formAction, pending] = useActionState(loginAction, {
+    message: "",
+    state: null,
+  });
   return (
     <div className={styles.mainWrapper}>
-      {pending && <Loader/>}
+      {pending && <Loader />}
       <Container
         className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}
@@ -31,8 +34,8 @@ const LoginPage = () => {
                 className={styles.userIcon}
               />
             </div>
-            <h2 className="text-center mb-4 fw-bold">Sign In</h2>
-            <p className="text-center text-muted mb-4">
+            <h2 className="text-center mb-4 text-white-50 fw-bold">Sign In</h2>
+            <p className="text-center text-white-50 mb-4">
               Enter your details to access your athletic account
             </p>
 
@@ -42,7 +45,9 @@ const LoginPage = () => {
               noValidate
             >
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label style={{color:"#ffffff80"}}>Email Address</Form.Label>
+                <Form.Label style={{ color: "#ffffff80" }}>
+                  Email Address
+                </Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faEnvelope} />
@@ -55,10 +60,15 @@ const LoginPage = () => {
                     className={styles.inputField}
                   />
                 </InputGroup>
+                {state?.message?.email && (
+                  <p className="text-danger small mt-1 JSON_error">
+                    {state.message.email[0]}
+                  </p>
+                )}
               </Form.Group>
 
               <Form.Group className="mb-4" controlId="formBasicPassword">
-                <Form.Label style={{color:"#ffffff80"}}>Password</Form.Label>
+                <Form.Label style={{ color: "#ffffff80" }}>Password</Form.Label>
                 <InputGroup className={styles.inputGroupCustom}>
                   <InputGroup.Text className={styles.iconBg}>
                     <FontAwesomeIcon icon={faLock} />
@@ -71,6 +81,11 @@ const LoginPage = () => {
                     className={styles.inputField}
                   />
                 </InputGroup>
+                {state?.message?.password && (
+                  <p className="text-danger small mt-1 JSON_error">
+                    {state.message.password[0]}
+                  </p>
+                )}
               </Form.Group>
 
               <Button
@@ -81,9 +96,6 @@ const LoginPage = () => {
                 Sign In Now
               </Button>
             </form>
-            {state?.message && (
-              <p className="text-danger text-center mt-3">{state.message}</p>
-            )}
             <div className="text-center mt-4">
               <span className="text-muted">Don&apos;t have an account? </span>
               <Link href="/register" className={styles.signUpLink}>
@@ -94,7 +106,6 @@ const LoginPage = () => {
         </Card>
       </Container>
     </div>
-
   );
 };
 
