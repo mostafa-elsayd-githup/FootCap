@@ -6,7 +6,6 @@ import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import DeleteButton from "./DeleteButton";
 import { Card } from "react-bootstrap";
 function ProductTable({ products }) {
-
   return (
     <div className={styles.adminLayout}>
       <div className={styles.content}>
@@ -18,7 +17,7 @@ function ProductTable({ products }) {
             >
               Inventory Management / {products[0].type} ({products.length})
             </h1>
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 font-semibold">
               Monitor and update your store products
             </p>
           </div>
