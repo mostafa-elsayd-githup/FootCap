@@ -34,12 +34,26 @@ function NavBar({ userdata }) {
 
     initialize();
   }, [dispatch, userdata?.card, userdata?.cart, userdata?.wishlist]);
-  const navItems = [
+
+  const baseNavItems = [
     { name: "HOME", href: "/" },
     { name: "MEN", href: "/man" },
     { name: "WOMEN", href: "/woman" },
     { name: "KIDS", href: "/Child" },
   ];
+
+  const navItems = [...baseNavItems];
+  if (userdata?.role === "admin") {
+    navItems.push({ name: "ADMIN", href: "/Admin" });
+  }  const checkIsActive = (itemHref) => {
+    if (itemHref === "/") {
+      return pathname === "/";
+    }    const currentPath = pathname.toLowerCase();
+    const targetHref = itemHref.toLowerCase();
+    
+    return currentPath.startsWith(targetHref);
+  };
+
   return (
     <nav className={`fixed-top ${style.navbar_container}`}>
       <div className="container-fluid px-4 px-md-5 d-flex align-items-center justify-content-between">
@@ -47,16 +61,14 @@ function NavBar({ userdata }) {
           <MostoreLogo />
         </Link>
 
+      
         <div className={`${style.nav_links} ${style.desktop_menu}`}>
           {navItems.map((item) => {
-            const isActive =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(item.href);
+            const isActive = checkIsActive(item.href); 
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href === "/Admin" ? "/Admin/dashboard" : item.href}
                 className={`${style.link} ${isActive ? style.activeLink : ""}`}
               >
                 {item.name}
@@ -68,23 +80,21 @@ function NavBar({ userdata }) {
         <div className={style.hamburger} onClick={() => setIsOpen(!isOpen)}>
           <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
         </div>
-        <div className={`${style.mobile_menu} ${isOpen ? style.open : ""}`}>
+
+        <div className={`${style.mobile_menu} ${isOpen ? style.open : null}`}>
           {navItems.map((item) => {
+            const isActive = checkIsActive(item.href); 
             return (
               <Link
                 key={item.href}
-                href={item.href}
+                href={item.href === "/Admin" ? "/Admin/dashboard" : item.href}
+                className={`${style.mobilelink} ${isActive ? style.activeLink : ""}`}
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
               </Link>
             );
           })}
-          {userdata.role === "user" ? (
-            <Link href="/Admin/dashboard" onClick={() => setIsOpen(false)}>
-              ADMIN
-            </Link>
-          ) : null}
 
           <div className={style.search_container}>
             <input
@@ -92,9 +102,7 @@ function NavBar({ userdata }) {
               placeholder="Search..."
               className={style.searchInput}
             />
-            <i
-              className={`fa-solid fa-magnifying-glass ${style.search_icon}`}
-            ></i>
+            <i className={`fa-solid fa-magnifying-glass ${style.search_icon}`}></i>
           </div>
         </div>
 
@@ -105,13 +113,9 @@ function NavBar({ userdata }) {
               placeholder="Search..."
               className={style.searchInput}
             />
-            <i
-              className={`fa-solid fa-magnifying-glass ${style.search_icon}`}
-            ></i>
+            <i className={`fa-solid fa-magnifying-glass ${style.search_icon}`}></i>
           </div>
-
           <ThemeToggle />
-
           <div className={style.icon_group}>
             <Link href="/Wishlist" className="relative">
               <i className="fa-regular fa-heart"></i>
@@ -126,7 +130,6 @@ function NavBar({ userdata }) {
                 <span className={style.badge}>{card.length}</span>
               )}
             </Link>
-
             <Link href="/Profile">
               <i className="fa-regular fa-user"></i>
             </Link>
