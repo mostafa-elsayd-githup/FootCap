@@ -6,144 +6,23 @@ import {
   faCreditCard,
   faArrowRotateLeft,
   faLock,
-  faRightLong,
 } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as farHeart,
   faTruck,
 } from "@fortawesome/free-regular-svg-icons";
 import styles from "./page.module.css";
-import { useActionState, useEffect, useMemo } from "react";
-import handelAction from "@/server/dynamicfile_server";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 import { Card } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  toggleWishlistOptimistic,
-  rollbackWishlist,
-} from "@/RTK/wishlistslice";
-import { addToCartOptimistic } from "@/RTK/cardslice";
+import ShoppingButton from "./actionButton";
+import { useOpneing } from "@/RTK/storcontext";
 export default function Products({ fillWidth, product }) {
-  const Router = useRouter();
-  const dispatch = useDispatch();
-  const [lastTimestamp, setLastTimestamp] = useState(null);
-  const initialState = { massage: "", state: null };
-  const [state, formAction, pending] = useActionState(
-    handelAction,
-    initialState,
-  );
-  const [actionTypeState, setActionTypeState] = useState("");
-  const [selectedSize, setselectedSize] = useState("");
-  const [AddToCart, setAddToCart] = useState(false);
-  const wishlist = useSelector((state) => state.wishlist.items);
-  const isfevorite = wishlist.some(
-    (item) => Number(item.id) === Number(product.id),
-  );
-
-  const handleWishlistSubmit = async () => {
-    setActionTypeState("wishlist");
-    dispatch(toggleWishlistOptimistic(product));
-  };
-  const handleaddedtocard = async () => {
-    setActionTypeState("card");
-    setLastTimestamp(Date.now());
-    const productWithCartId = {
-      ...product,
-      id: `${product.id}-${selectedSize}`,
-    };
-    dispatch(addToCartOptimistic(productWithCartId));
-  };
-  useEffect(() => {
-    if (state?.state === 401) {
-      Swal.fire({
-        title: "Login Required",
-        text: "Please log in to continue. Redirecting...",
-        icon: "error",
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-        willClose: () => {
-          // <=callback function
-          Router.replace("/register");
-        },
-      });
-    }
-
-    if (state?.status === 500) {
-      dispatch(rollbackWishlist(product));
-
-      Swal.fire({
-        title: "Error",
-        text: state.message,
-        icon: "error",
-      });
-    }
-    if (state?.wishliststate !== undefined && state?.wishliststate !== null) {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-      });
-
-      Toast.fire({
-        icon: "success",
-        title: state.wishliststate
-          ? "Added to Wishlist"
-          : "Removed from Wishlist",
-      });
-    }
-    if (
-      actionTypeState === "card" &&
-      state?.cardState !== undefined &&
-      state?.cardState !== null &&
-      state?.timeStamp > lastTimestamp
-    ) {
-      setActionTypeState("");
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom-left",
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000,
-      });
-      const isquantityUpdata = state.type === "quantity";
-
-      Toast.fire({
-        icon: "success",
-        title: state.cardState ? "quantity +1" : "Added to Cart",
-      });
-
-      setTimeout(() => {
-        setselectedSize("");
-        setAddToCart(false);
-      }, 200);
-    }
-  }, [
-    state.wishliststate,
-    state?.state,
-    Router,
-    state?.status,
-    state.message,
-    dispatch,
-    product,
-    state?.cardState,
-    state?.timeStamp,
-    state.type,
-    actionTypeState,
-    lastTimestamp,
-  ]);
-
+  const { selectedSize, setselectedSize, setAddToCart } = useOpneing();
   const oldprice = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(product?.oldPrice));
+  }).format(parseInt(product?.oldprice));
 
   const price = Intl.NumberFormat("en", {
     notation: "standard",
@@ -151,15 +30,15 @@ export default function Products({ fillWidth, product }) {
     currency: "EGP",
     minimumFractionDigits: 0,
   }).format(parseInt(product?.price));
-
+  let discount = 0;
+  if (product?.oldprice && product.price) {
+    discount =
+      ((parseInt(product.oldprice) - parseInt(product.price)) /
+        parseInt(product.oldprice)) *
+      100;
+  }
   return (
     <>
-      {/* loader */}
-      {pending && (
-        <div className={styles.overlay}>
-          <div className={styles.halfCircleLoader}></div>
-        </div>
-      )}
       <div className={styles.container}>
         <div className={styles.imageGallery}>
           <div className={styles.imageContainer}>
@@ -212,7 +91,7 @@ export default function Products({ fillWidth, product }) {
         <div className={styles.infoSection}>
           <div className={styles.headerInfo}>
             <h1 className={styles.productName}>{product.title}</h1>
-            {product.oldPrice ? (
+            {product.oldprice ? (
               <span>
                 <span className={styles.price_red}>{price}</span>
                 <span className={styles.old_price}> {oldprice}</span>
@@ -220,6 +99,9 @@ export default function Products({ fillWidth, product }) {
             ) : (
               <p className={styles.price}> {price}</p>
             )}
+            {discount > 0 ? (
+              <span className={styles.dis}>{Math.round(discount)} %</span>
+            ) : null}
             <div className={styles.colors_available}>
               {product?.url?.length} colours available
             </div>
@@ -258,61 +140,10 @@ export default function Products({ fillWidth, product }) {
                   {size}
                 </button>
               ))}
-              <span
-                className={"text-(--color-sale) w-bold w-36  content-center"}
-              >
-                {state?.sizemessage}
-              </span>
             </div>
           </div>
 
-          <div className={styles.actions}>
-            <form
-              className={styles.icons}
-              onClick={(e) => e.stopPropagation()}
-              action={formAction}
-            >
-              <>
-                <input type="hidden" name="id" value={product.id || ""} />
-                <input type="hidden" name="image" value={product.image || ""} />
-                <input type="hidden" name="dis" value={product.dis || ""} />
-                <input type="hidden" name="name" value={product.title || ""} />
-                <input type="hidden" name="price" value={product.price || ""} />
-                <input type="hidden" name="size" value={selectedSize || ""} />
-                <input
-                  type="hidden"
-                  name="category"
-                  value={product.category || ""}
-                />
-                <input
-                  type="hidden"
-                  name="actiontype"
-                  value={actionTypeState || ""}
-                />
-              </>
-              <button
-                className={`${styles.addToCartBtn} ${AddToCart === false ? styles.activeBut : ""}`}
-                type="submit"
-                onClick={handleaddedtocard}
-              >
-                ADD TO BAG
-                <span className={styles.arrowIcon}>
-                  <FontAwesomeIcon icon={faRightLong} />
-                </span>
-              </button>
-              <button
-                className={styles.wishlistBtn}
-                type="submit"
-                disabled={pending}
-                onClick={handleWishlistSubmit}
-              >
-                <FontAwesomeIcon
-                  className={styles.icon}
-                  icon={isfevorite ? fasHeart : farHeart}
-                />
-              </button>
-            </form>
-          </div>
+          <ShoppingButton product={product}  />
 
           <div className={styles.ratingWrapper}>
             <div className={styles.starsContainer}>
