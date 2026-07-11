@@ -141,6 +141,8 @@ export default function EditProductPage({ product }) {
                 ) : (
                   <video
                     autoPlay
+                    loop
+                    playsInline
                     src={product.video}
                     alt={product.name}
                     className={styles.mainImage}
@@ -254,7 +256,7 @@ export default function EditProductPage({ product }) {
                 <label>Sale Price (EGP)</label>
 
                 <input
-                  type="text"
+                  type="number"
                   name="price"
                   value={products?.price ?? ""}
                   onChange={hendlenameChange}
@@ -266,7 +268,7 @@ export default function EditProductPage({ product }) {
                 <label>Regular Price (EGP)</label>
 
                 <input
-                  type="text"
+                  type="number"
                   name="oldprice"
                   value={products?.oldprice ?? ""}
                   onChange={hendlenameChange}
