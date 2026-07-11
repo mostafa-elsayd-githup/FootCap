@@ -260,7 +260,7 @@
     position: fixed;
     width: 420px;
     top: 74px;
-    height: calc(100dvh - 120px);
+
 
     padding: 30px 20px;
     overflow-y: auto;
