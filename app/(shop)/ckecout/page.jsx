@@ -21,7 +21,7 @@ export async function getdata() {
       profileError.message,
     );
     return null;
-  }
+  }  
   return profile.cart;
 }
 const page = async () => {

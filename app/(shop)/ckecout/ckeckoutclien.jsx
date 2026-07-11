@@ -22,10 +22,9 @@ export default function CheckoutPage({ cartItems }) {
     handleOrder,
     initialState,
   );
-
   const subtotal =
     cartItems?.reduce(
-      (acc, item) => acc + item?.price.replace(/[^\d.]/g, "") * item?.quantity,
+      (acc, item) => acc + item?.price * item?.quantity,
       0,
     ) || 0;
 
@@ -222,7 +221,7 @@ export default function CheckoutPage({ cartItems }) {
                     <span className={styles.itemTotalPrice}>
                       Total: EGP{" "}
                       {(
-                        Number(item.price.replace(/,/g, "")) * item.quantity
+                        Number(item.price) * item.quantity
                       ).toLocaleString()}
                     </span>
                   )}
