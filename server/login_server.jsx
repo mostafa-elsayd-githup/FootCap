@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClientForServer } from "@/utils/supabase";
-import { LoginSchema } from "@/app/(auth)/authSchema/loginSchema";
+import { LoginSchema } from "@/schemas/loginSchema";
 
 export async function loginAction(prevstate, formData) {
   const dataobject = Object.fromEntries(formData);

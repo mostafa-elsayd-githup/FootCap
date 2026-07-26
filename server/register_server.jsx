@@ -1,7 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClientForServer } from "@/utils/supabase";
-import { registerSchema } from "@/app/(auth)/authSchema/registerschema";
+import { registerSchema } from "@/schemas/registerschema";
 export async function registerAction(prevstate, formData) {
 
   const dataObject = Object.fromEntries(formData);
