@@ -3,7 +3,8 @@
   --bg-main: #f6f5f2;
   --bg-primary: #f0efec;
   --bg-card: #fbfaf8;
-  --bg-navbar: #f6f5f2bf;
+  --bg-badge: #1f1414;
+  --bg-navbar: #f6f5f2;
   --bg-searchinput: #ecebe7;
   --bg-little: #fbfaf8;
   --bg-dis: #f0efeccc;
@@ -12,7 +13,7 @@
   --border-color: #e1e0da;
   --color-primary: #24241f;
   --color-main: #f6f5f2;
- --color-sale: #9f1239;
+  --color-sale: #9f1239;
   --color-secondary: #6f6e68;
   --color-feedback: #6f6e68;
   --text-fetch: #24241f80;
@@ -27,16 +28,20 @@
   --nav-link-bg-hover: #eeede8;
   --nav-line-glow: #b8c98a;
   --text-normal: #6f6e68;
+  --overlay-bg: #f6f5f2a6;
+  --spinner-track: #e1e0da;
+  --spinner-color: #24241f;
 }
 
 .dark {
   --bg-main: #16181b;
   --bg-primary: #1b1e22;
   --bg-card: #212429;
-  --bg-navbar: #16181bbf;
+  --bg-navbar: #16181b;
   --bg-searchinput: #ffffff0f;
   --bg-little: #212429;
   --bg-dis: #1b1e22cc;
+  --bg-badge: #ddd4d4;
   --border_card: #ffffff14;
   --border-dis: #ffffff0a;
   --border-color: #2b2e33;
@@ -57,6 +62,9 @@
   --nav-link-bg-hover: #1f2226;
   --nav-line-glow: #7c9bb0;
   --text-normal: #8f9195;
+  --overlay-bg: #16181bbf;
+  --spinner-track: #2b2e33;
+  --spinner-color: #e3e4e3;
 }
 * {
   box-sizing: border-box;
@@ -66,8 +74,6 @@
 
 html,
 body {
-  max-width: 100vw;
-
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
