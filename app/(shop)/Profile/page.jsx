@@ -4,7 +4,10 @@ import { createClientForServer } from "@/utils/supabase";
 export async function GetAll_UserData() {
   const supabaseServer = await createClientForServer();
 
-  const { data: { user }, error: Error } = await supabaseServer.auth.getUser();
+  const {
+    data: { user },
+    error: Error,
+  } = await supabaseServer.auth.getUser();
   if (Error || !user) {
     console.log("Auth Error or No User found in Server:", Error?.message);
     return null;
@@ -12,21 +15,23 @@ export async function GetAll_UserData() {
 
   const { data: profileData, error: profileError } = await supabaseServer
     .from("profiles")
-    .select("wishlist, cart, full_name, email, created_at")
+    .select("*")
     .eq("id", user.id)
     .single();
 
   if (profileError) {
-    console.error("Error fetching profile from Supabase:", profileError.message);
+    console.error(
+      "Error fetching profile from Supabase:",
+      profileError.message,
+    );
     return null;
   }
 
-  return profileData; 
+  return profileData;
 }
 
 export default async function products() {
   const user = await GetAll_UserData();
 
-
-  return  <ProfilePage users={user} />
+  return <ProfilePage users={user} />;
 }

@@ -80,7 +80,7 @@ function ProfilePage({ users }) {
                       <div className="ms-3">
                         <span className={styles.statLabel}>Total Orders</span>
                         <h4 className={styles.statValue}>
-                          {users.order?.length || 0}
+                          {users.orders?.length || 0}
                         </h4>
                       </div>
                     </div>
