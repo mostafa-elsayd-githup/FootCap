@@ -16,6 +16,8 @@
     "@fortawesome/react-fontawesome": "^3.1.1",
     "@hookform/resolvers": "^5.4.0",
     "@reduxjs/toolkit": "^2.12.0",
+    "@stripe/react-stripe-js": "^6.8.0",
+    "@stripe/stripe-js": "^9.12.0",
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.106.2",
     "@vercel/speed-insights": "^2.0.0",
@@ -37,6 +39,7 @@
     "recharts": "^3.8.1",
     "server-only": "^0.0.1",
     "sonner": "^2.0.7",
+    "stripe": "^22.3.2",
     "sweetalert2": "^11.26.17",
     "swiper": "^12.0.3"
   },
