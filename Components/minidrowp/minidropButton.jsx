@@ -9,10 +9,14 @@ import { useActionState, useEffect, useState } from "react";
 import { useOpneing } from "@/RTK/storcontext";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartOptimistic, removeFromCartOptimistic } from "@/RTK/cardslice";
-import { toggleWishlistOptimistic } from "@/RTK/wishlistslice";
+import {
+  rollbackWishlist,
+  toggleWishlistOptimistic,
+} from "@/RTK/wishlistslice";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import Loader from "../loaderFecthing/loader";
 export default function Buttons() {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -51,11 +55,6 @@ export default function Buttons() {
     setLastTimestamp(Date.now());
     dispatch(toggleWishlistOptimistic(selectedProduct));
   };
-  //   useEffect(() => {
-  //     setActionTypeState("");
-  //   }, [selectedProduct]);
-  // console.log(state);
-
   useEffect(() => {
     if (
       actionTypeState === "wishlist" &&
@@ -83,18 +82,10 @@ export default function Buttons() {
       state?.cardState !== null &&
       state?.timeStamp > lastTimestamp
     ) {
-      const Toast = Swal.mixin({
-        toast: true,
+      toast.success(state.cardState ? "quantity +1" : "Added to Cart", {
         position: "bottom-left",
-        showConfirmButton: false,
-        timerProgressBar: true,
-        timer: 2000,
+        duration: 2000,
       });
-      Toast.fire({
-        icon: "success",
-        title: state.cardState ? "quantity +1" : "Added to Cart",
-      });
-
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
@@ -109,10 +100,9 @@ export default function Buttons() {
         dispatch(removeFromCartOptimistic(selectedProduct.id));
       }
 
-      Swal.fire({
-        title: "Error",
-        text: state.message || "Something went wrong",
-        icon: "error",
+      toast.error(state.message || "Something went wrong", {
+        position: "bottom-right",
+        duration: 2000,
       });
     }
   }, [
@@ -139,10 +129,16 @@ export default function Buttons() {
         type="submit"
         onClick={handleaddedtocard}
       >
-        ADD TO BAG
-        <span className={styles.arrowIcon}>
-          <FontAwesomeIcon icon={faRightLong} />
-        </span>
+        {pending ? (
+          "ADDing..."
+        ) : (
+          <>
+            ADD TO BAG
+            <span className={styles.arrowIcon}>
+              <FontAwesomeIcon icon={faRightLong} />
+            </span>
+          </>
+        )}
       </button>
       <button
         className={styles.wishlistBtn}
