@@ -11,7 +11,7 @@ const DeleteCart = async (prevstate, formData) => {
     error: userError,
   } = await supabaseServer.auth.getUser();
   if (!user || userError) {
-    return { state: 401 };
+    return { state: 401, message: "Please log in to continue. Redirecting" };
   }
   if (actionTypeState === "delete") {
     const { data: profile, error: userError } = await supabaseServer
@@ -50,7 +50,7 @@ const DeleteCart = async (prevstate, formData) => {
     if (errorprofile) {
       console.error("Error fetching wishlist:", errorprofile.message);
       return { error: "Failed to fetch wishlist" };
-    }    
+    }
     const cartArray = (profile.cart = []);
 
     const { error: UpdataError } = await supabaseServer

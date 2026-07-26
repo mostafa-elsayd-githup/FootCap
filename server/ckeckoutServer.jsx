@@ -2,99 +2,131 @@
 
 import { revalidatePath } from "next/cache";
 import { createClientForServer } from "@/utils/supabase";
+import { formSchema } from "@/schemas/productSchema";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default async function handleOrder(prevstate, formData) {
-  const fullName = formData.get("fullName");
-  const address = formData.get("address");
-  const phone = formData.get("phone");
-  const city = formData.get("city");
-  const card = formData.get("card");
-  const totalprice = formData.get("totalprice");
-  const allProducts = formData.getAll("allProducts");
+  const dataObject = Object.fromEntries(formData);
+  const cheked_data = formSchema.safeParse(dataObject);
 
-  const isInvalid =
-    !fullName.trim() || !address.trim() || !phone.trim() || !city || !card;
-  if (isInvalid)
+  if (!cheked_data.success) {
+    console.error("Zod Validation Error:", cheked_data.error.format());
+    const fieldErrors = cheked_data.error.flatten().fieldErrors;
+    const firstErrorMessage =
+      Object.values(fieldErrors)[0]?.[0] || "Validation Failed";
+
     return {
-      inputState: 100,
+      state: 400,
+      message: firstErrorMessage,
+      errors: fieldErrors,
       timeStamp: Date.now(),
-      message: "Please fill all fields",
-    };
-  const phoneHasLetters = /\D/.test(phone.replace(/\s/g, ""));
-  if (phoneHasLetters) {
-    return {
-      inputState: 101,
-      timeStamp: Date.now(),
-      message: "Phone must contain numbers only",
     };
   }
-  const cardNumbersOnly = card.replace(/\s/g, "");
-  const cardHasLetters = /\D/.test(cardNumbersOnly);
-  if (cardHasLetters) {
-    return {
-      inputState: 102,
-      timeStamp: Date.now(),
-      message: "Card must contain numbers only",
-    };
+
+  const { FullName, phone, address, city } = cheked_data.data;
+  const paymentMethod = formData.get("paymentMethod");
+  const stripeToken = formData.get("stripeToken");
+  const totalprice = Number(formData.get("totalprice")) || 0;
+
+  let allProducts = [];
+  try {
+    allProducts = JSON.parse(formData.get("allProducts") || "[]");
+  } catch {
+    allProducts = [];
   }
-  if (cardNumbersOnly.length < 16) {
-    return {
-      inputState: 103,
-      timeStamp: Date.now(),
-      message: "Card must be 16 Digits",
-    };
-  }
-  const order = {
-    id: Date.now().toString(),
-    fullName,
-    phone,
-    address,
-    city,
-    card,
-    createdAt: new Date().toISOString(),
-    products: allProducts,
-    totalprice: totalprice,
-  };
+
+
   const supabaseServer = await createClientForServer();
   const {
     data: { user },
     error: autheError,
   } = await supabaseServer.auth.getUser();
+
   if (!user || autheError) {
-    return [];
+    return { state: 401, message: "Unauthorized", timeStamp: Date.now() };
   }
+
   try {
+    let paymentDetails = { method: paymentMethod, status: "pending" };
+
+    if (paymentMethod === "card") {
+      if (!stripeToken) {
+        return {
+          state: 400,
+          message: "Payment token is missing.",
+          timeStamp: Date.now(),
+        };
+      }
+      const charge = await stripe.charges.create({
+        amount: Math.round(totalprice * 100), 
+        currency: "egp",
+        source: stripeToken,
+        description: `Order for ${FullName}`,
+      });
+
+      paymentDetails = {
+        method: "card",
+        status: "paid",
+        chargeId: charge.id,
+      };
+    } else if (paymentMethod === "cash") {
+      paymentDetails = {
+        method: "cash",
+        status: "cash_on_delivery",
+      };
+    }
+    const order = {
+      id: Date.now().toString(),
+      fullName: FullName,
+      phone,
+      address,
+      city,
+      totalprice,
+      products: allProducts,
+      payment: paymentDetails,
+      createdAt: new Date().toISOString(),
+    };
+
     const { data: profile, error: profileError } = await supabaseServer
       .from("profiles")
-      .select("*")
-      .eq("id", user.id);
-    if (profileError || !profile || profile.length === 0) {
-      console.error("Error fetching wishlist:", profileError.message);
-      return { error: "Failed to fetch wishlist" };
+      .select("orders")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError || !profile) {
+      console.error("Error fetching profile:", profileError?.message);
+      return { state: 400, message: "Failed to fetch user profile" };
     }
 
-    let updatedOrders = profile[0].orders || [];
+    const updatedOrders = [...(profile.orders || []), order];
 
-    updatedOrders.push(order);
-
-    const { error: UpdataError } = await supabaseServer
+    const { error: updateError } = await supabaseServer
       .from("profiles")
       .update({
         orders: updatedOrders,
-        cart: [],
+        cart: [], 
       })
       .eq("id", user.id);
-    if (UpdataError) {
-      console.error(
-        "Error updating wishlist in Supabase:",
-        UpdataError.message,
-      );
-      return { error: "Failed to update wishlist" };
+
+    if (updateError) {
+      console.error("Error updating profile in Supabase:", updateError.message);
+      return { state: 500, message: "Failed to save order in database" };
     }
+
     revalidatePath("/CardPage");
-    return { success: true, message: "success", timeStamp: Date.now() };
-  } catch {
-    console.error("Fetch Error:", error);
-    return { inputState: 500, message: "Server Error" };
+    return {
+      success: true,
+      message: "Order placed successfully!",
+      timeStamp: Date.now(),
+    };
+  } catch (error) {
+    console.error("Order Processing Error:", error);
+    return {
+      state: 500,
+      message: error.message || "Server Error, please try again later.",
+      timeStamp: Date.now(),
+    };
   }
 }
