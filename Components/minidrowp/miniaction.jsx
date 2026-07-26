@@ -1,21 +1,29 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { createClientForServer } from "@/utils/supabase";
+import { ProductSchema } from "@/schemas/productSchema";
 export default async function handelAction(prevstate, formData) {
-  const actionType = formData.get("actiontype");
-  const id = formData.get("id");
-  const size = formData.get("size");
-  if (actionType === "card") {
-    try {
-      let supabaseServer = await createClientForServer();
+  const dataobject = Object.fromEntries(formData);
+  const ProductResult = ProductSchema.safeParse(dataobject);
+  if (!ProductResult.success) {
+    return {
+      success: false,
+      actionType: dataobject.actiontype,
+      message: ProductResult.error.flatten().fieldErrors,
+    };
+  }
+  const { id, actiontype, size } = ProductResult.data;
+  let supabaseServer = await createClientForServer();
 
-      let {
-        data: { user },
-        error: authError,
-      } = await supabaseServer.auth.getUser();
-      if (authError || !user) {
-        return { state: 401, message: "Please login to continue" };
-      }
+  let {
+    data: { user },
+    error: authError,
+  } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
+    return { state: 401, message: "Please login to continue" };
+  }
+  if (actiontype === "card") {
+    try {
       const { data: product, error: productError } = await supabaseServer
         .from("products")
         .select("*")
@@ -35,7 +43,6 @@ export default async function handelAction(prevstate, formData) {
       if (fetchError) {
         return { error: "Failed to fetch cart" };
       }
-      if (profile) {
         let carts = profile.cart || [];
         const index = carts.findIndex((item) => item.id === cartitemId);
         if (index !== -1) {
@@ -65,19 +72,20 @@ export default async function handelAction(prevstate, formData) {
             timeStamp: Date.now(),
           };
         }
-      }
     } catch {
       return { message: "Please Check internet Connect ", status: 500 };
     }
-  } else if (actionType === "wishlist") {
+  } else if (actiontype === "wishlist") {
     try {
       const supabaseServer = await createClientForServer();
-      const { data: product, error } = await supabaseServer
+      const { data: product, error: productErro } = await supabaseServer
         .from("products")
         .select("*")
         .eq("id", id)
         .single();
-
+      if (!product || productErro) {
+        return { message: "Product not found" };
+      }
       const { data: profile, error: fetchError } = await supabaseServer
         .from("profiles")
         .select("wishlist")
@@ -108,7 +116,11 @@ export default async function handelAction(prevstate, formData) {
         return { error: "Failed to update wishlist" };
       }
       revalidatePath("/", "layout");
-      return { wishliststate: !exists, productId: product.id };
+      return {
+        wishliststate: !exists,
+        productId: product.id,
+        timeStamp: Date.now(),
+      };
     } catch {
       return {
         message: "Sorry, the connection to the server failed.",
