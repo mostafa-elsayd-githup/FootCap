@@ -10,41 +10,24 @@ import {
 import styles from "./CardPage.module.css";
 import DeleteCart from "@/server/cardpage_server";
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import Swal from "sweetalert2";
 import Loader from "@/Components/loaderFecthing/loader";
+import { toast } from "sonner";
 const CartPage = ({ card }) => {
   const intinaldata = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(DeleteCart, intinaldata);
   const [ActionState, setActionState] = useState("");
-  const cart = useSelector((state) => state.card.items);
-
   useEffect(() => {
     if (state.state === 401) {
-      Swal.fire({
-        title: "Login Required",
-        text: "Please log in to continue. Redirecting...",
-        icon: "error",
-        timer: 3000,
-        timerProgressBar: true,
-        showConfirmButton: false,
-        willClose: () => {
-          // <=callback function
-          Router.replace("/register");
-        },
+      toast.error(state.message, {
+        position: "top-center",
+        duration: 2000,
       });
     }
     if (state?.cardstate === 200 || state?.Clearcardstate === 200) {
-      const Toast = Swal.mixin({
-        toast: true,
+      toast.success("Removed from cart", {
+        duration: 2000,
         position: "bottom-right",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
-      Toast.fire({
-        icon: "success",
-        title: "Removed from cart",
+        showConfirmButton: true,
       });
     }
   }, [state, state.cardstate, state.state]);
@@ -56,7 +39,7 @@ const CartPage = ({ card }) => {
           <h2 className={styles.bag_title}>
             YOUR BAG
             <span className={styles.item_count}>
-              ( {cart.length} {cart.length === 1 ? "Item" : "Items"} )
+              ( {card.length} {card.length === 1 ? "Item" : "Items"} )
             </span>
           </h2>
 
@@ -64,8 +47,8 @@ const CartPage = ({ card }) => {
             <Col lg={8} md={12}>
               <div className={styles.products_main_container}>
                 <div className={styles.products_scroll_area}>
-                  {cart && card.length > 0 ? (
-                    cart.map((item) => {
+                  {card && card.length > 0 ? (
+                    card.map((item) => {
                       const price = Intl.NumberFormat("en", {
                         notation: "standard",
                         style: "currency",
