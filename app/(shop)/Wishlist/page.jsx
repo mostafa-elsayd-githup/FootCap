@@ -30,8 +30,8 @@ const getData = async () => {
   }
 };
 async function page() {
-  const wishlist = (await getData()) || [];
-  
+  const result = (await getData()) || [];
+  const wishlist = result.wishlist;
   return (
     <>
       <MiniDrowp />

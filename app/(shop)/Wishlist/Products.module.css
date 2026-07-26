@@ -390,6 +390,8 @@
 .shop_now_btn:hover svg {
   transform: translateX(4px);
 }
+
+
 @media (max-width: 1200px) {
   .wishlist_grid {
     grid-template-columns: repeat(3, 1fr);
