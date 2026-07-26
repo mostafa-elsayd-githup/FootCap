@@ -40,17 +40,20 @@ function NavBar({ userdata }) {
     { name: "MEN", href: "/man" },
     { name: "WOMEN", href: "/woman" },
     { name: "KIDS", href: "/Child" },
+    { name: "PROFILE", href: "/Profile" },
   ];
-
   const navItems = [...baseNavItems];
   if (userdata?.role === "admin") {
     navItems.push({ name: "ADMIN", href: "/Admin" });
-  }  const checkIsActive = (itemHref) => {
+  }
+  const checkIsActive = (itemHref) => {
+    if (!pathname) return false;
     if (itemHref === "/") {
       return pathname === "/";
-    }    const currentPath = pathname.toLowerCase();
+    }
+    const currentPath = pathname.toLowerCase();
     const targetHref = itemHref.toLowerCase();
-    
+
     return currentPath.startsWith(targetHref);
   };
 
@@ -60,22 +63,53 @@ function NavBar({ userdata }) {
         <Link href="/" className="d-flex align-items-center">
           <MostoreLogo />
         </Link>
+        <>
+          <div className={`${style.nav_links} ${style.desktop_menu}`}>
+            {navItems.map((item) => {
+              const isActive = checkIsActive(item.href);
+              const targetHref =
+                item.href === "/Admin" ? "/Admin/dashboard" : item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={targetHref}
+                  className={`${style.link} ${isActive ? style.activeLink : ""}`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
 
-      
-        <div className={`${style.nav_links} ${style.desktop_menu}`}>
-          {navItems.map((item) => {
-            const isActive = checkIsActive(item.href); 
-            return (
-              <Link
-                key={item.href}
-                href={item.href === "/Admin" ? "/Admin/dashboard" : item.href}
-                className={`${style.link} ${isActive ? style.activeLink : ""}`}
-              >
-                {item.name}
+          <div className={style.right_section}>
+            <div className={style.search_container}>
+              <input
+                type="text"
+                placeholder="Search..."
+                className={style.searchInput}
+              />
+              <i
+                className={`fa-solid fa-magnifying-glass ${style.search_icon}`}
+              ></i>
+            </div>
+            <ThemeToggle />
+            <div className={style.icon_group}>
+              <Link href="/Wishlist" className="relative">
+                <i className="fa-regular fa-heart"></i>
+                {isMounted && wishlist?.length > 0 && (
+                  <span className={style.badge}>{wishlist.length}</span>
+                )}
               </Link>
-            );
-          })}
-        </div>
+
+              <Link href="/CardPage" className="relative">
+                <i className="fa-solid fa-bag-shopping "></i>
+                {isMounted && card?.length > 0 && (
+                  <span className={style.badge}>{card.length}</span>
+                )}
+              </Link>
+            </div>
+          </div>
+        </>
 
         <div className={style.hamburger} onClick={() => setIsOpen(!isOpen)}>
           <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
@@ -83,7 +117,7 @@ function NavBar({ userdata }) {
 
         <div className={`${style.mobile_menu} ${isOpen ? style.open : null}`}>
           {navItems.map((item) => {
-            const isActive = checkIsActive(item.href); 
+            const isActive = checkIsActive(item.href);
             return (
               <Link
                 key={item.href}
@@ -95,44 +129,15 @@ function NavBar({ userdata }) {
               </Link>
             );
           })}
-
           <div className={style.search_container}>
             <input
               type="text"
               placeholder="Search..."
               className={style.searchInput}
             />
-            <i className={`fa-solid fa-magnifying-glass ${style.search_icon}`}></i>
-          </div>
-        </div>
-
-        <div className={style.right_section}>
-          <div className={style.search_container}>
-            <input
-              type="text"
-              placeholder="Search..."
-              className={style.searchInput}
-            />
-            <i className={`fa-solid fa-magnifying-glass ${style.search_icon}`}></i>
-          </div>
-          <ThemeToggle />
-          <div className={style.icon_group}>
-            <Link href="/Wishlist" className="relative">
-              <i className="fa-regular fa-heart"></i>
-              {isMounted && wishlist?.length > 0 && (
-                <span className={style.badge}>{wishlist.length}</span>
-              )}
-            </Link>
-
-            <Link href="/CardPage" className="relative">
-              <i className="fa-solid fa-bag-shopping "></i>
-              {isMounted && card?.length > 0 && (
-                <span className={style.badge}>{card.length}</span>
-              )}
-            </Link>
-            <Link href="/Profile">
-              <i className="fa-regular fa-user"></i>
-            </Link>
+            <i
+              className={`fa-solid fa-magnifying-glass ${style.search_icon}`}
+            ></i>
           </div>
         </div>
       </div>

@@ -73,10 +73,9 @@
 }
 .mobilelink:hover {
   color: var(--text-active);
-  text-shadow: 0 0 10px #ffffff26; 
+  text-shadow: 0 0 10px #ffffff26;
   padding-left: 1rem;
 }
-
 
 .mobile_menu.open {
   display: flex;
@@ -111,14 +110,16 @@
   font-size: 19px;
 }
 .badge {
-  background-color: #eee;
-  color: #000;
+  background-color: var(--bg-badge);
+  color: var(--color-main);
   border-radius: 50%;
-  font-size: 10px;
-  padding: 2px 6px;
+  font-size: 0.7rem;
   position: absolute;
-  top: -5px;
-  right: -8px;
+  top: -3px;
+  right: -10px;
+  width: 1rem;
+  text-align: center;
+  font-weight: 700;
 }
 @media (min-width: 992px) {
   .mobile_menu {
@@ -127,18 +128,16 @@
 }
 @media (max-width: 991px) {
   .desktop_menu {
-  display: none;
-}
+    display: none;
+  }
   .right_section .search_container {
     display: none !important;
   }
   .right_section {
-    margin-right: 3.5rem;
-    gap: 15px;
-  }
+    margin-right: 1.9rem;
+     }
   .icon_group {
-    gap: 15px;
-    font-size: 17px;
+    font-size: 1.1rem;
   }
   .hamburger {
     display: block;
@@ -158,7 +157,7 @@
     font-weight: 550;
     line-height: 2;
     letter-spacing: 1.5px;
-    max-height: 400px; 
+    max-height: 400px;
     opacity: 1;
   }
 }
