@@ -5,6 +5,8 @@ import { createClientForServer } from "@/utils/supabase";
 import { formSchema } from "@/schemas/productSchema";
 import Stripe from "stripe";
 
+// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 export default async function handleOrder(prevstate, formData) {
   const dataObject = Object.fromEntries(formData);
   const cheked_data = formSchema.safeParse(dataObject);
@@ -58,10 +60,12 @@ export default async function handleOrder(prevstate, formData) {
       }
       const secretKey = process.env.STRIPE_SECRET_KEY;
       if (!secretKey) {
-        console.error("Missing STRIPE_SECRET_KEY in environment variables.");
+        console.error(
+          "STRIPE_SECRET_KEY is missing on Vercel Environment Variables",
+        );
         return {
           state: 500,
-          message: "Payment configuration error on server.",
+          message: "Payment server configuration error.",
           timeStamp: Date.now(),
         };
       }

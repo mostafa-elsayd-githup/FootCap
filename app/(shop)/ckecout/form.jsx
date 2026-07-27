@@ -7,11 +7,10 @@ import handleOrder from "@/server/ckeckoutServer";
 import ErrorMessage from "./errorMessge";
 import { toast } from "sonner";
 import ProcessingOverlay from "./Processing";
+
 export default function Form({ cartItems }) {
   const stripe = useStripe();
   const elements = useElements();
-  const [stripeToken, setStripeToken] = useState();
-
   const router = useRouter();
 
   const initialState = {
@@ -20,9 +19,10 @@ export default function Form({ cartItems }) {
     success: null,
     inputState: null,
   };
+
   const [state, formAction, pending] = useActionState(
     handleOrder,
-    initialState,
+    initialState
   );
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
@@ -40,8 +40,9 @@ export default function Form({ cartItems }) {
     "Dakahlia",
     "Red Sea",
   ];
+
   useEffect(() => {
-    if (state?.inputState) {
+    if (state?.message && !state?.success) {
       toast.error(state?.message);
     } else if (state?.success) {
       toast.success("Your order has been received successfully");
@@ -59,49 +60,48 @@ export default function Form({ cartItems }) {
       }, 3000);
     }
   }, [state, router]);
+
   const subtotal =
-    cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0) ||
-    0;
+    cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0) || 0;
   const shipping = 50;
   const total = subtotal + shipping;
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (paymentMethod === "cash") {
-      return;
+    e.preventDefault(); 
+
+    const formData = new FormData(e.currentTarget);
+
+    if (paymentMethod === "card") {
+      if (!stripe || !elements) {
+        toast.error("Stripe is not loaded yet");
+        return;
+      }
+
+      const cardElement = elements.getElement(CardElement);
+      const { token, error } = await stripe.createToken(cardElement);
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
+      formData.set("stripeToken", token.id);
     }
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const formElement = e.currentTarget;
-    const cardElement = elements.getElement(CardElement);
-
-    const { token, error } = await stripe.createToken(cardElement);
-
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-
-    const formData = new FormData(formElement);
-    formData.set("stripeToken", token.id);
 
     startTransition(() => {
       formAction(formData);
     });
   };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      action={formAction}
-      className={styles.formGrid}
-    >
+    <form onSubmit={handleSubmit} className={styles.formGrid}>
       <ProcessingOverlay isopen={pending} />
+      
       <div className={styles.formGroup}>
         <label>Full Name</label>
         <input
           type="text"
+          name="fullName"
           value={FormDataClient.fullName}
           className={styles.inputField}
           placeholder="Enter your full name"
@@ -119,6 +119,7 @@ export default function Form({ cartItems }) {
         <label>Phone Number</label>
         <input
           type="tel"
+          name="phone"
           value={FormDataClient.phone}
           className={styles.inputField}
           placeholder="01xxxxxxxxx"
@@ -137,6 +138,7 @@ export default function Form({ cartItems }) {
         <label>Detailed Address</label>
         <input
           type="text"
+          name="address"
           value={FormDataClient.address}
           className={styles.inputField}
           placeholder="Building, Street, Area"
@@ -154,6 +156,7 @@ export default function Form({ cartItems }) {
         <label>City</label>
         <input
           list="egypt-cities"
+          name="city"
           value={FormDataClient.city}
           className={styles.inputField}
           placeholder="Select city...."
@@ -208,9 +211,7 @@ export default function Form({ cartItems }) {
                       fontSize: "16px",
                       color: "#32325d",
                       fontFamily: "inherit",
-                      "::placeholder": {
-                        color: "#aab7c4",
-                      },
+                      "::placeholder": { color: "#aab7c4" },
                     },
                     invalid: {
                       color: "#fa755a",
@@ -223,19 +224,12 @@ export default function Form({ cartItems }) {
           </div>
         </div>
       )}
-      <button type="submit" className={styles.orderBtn}>
-        CONFIRM ORDER
+
+      <button type="submit" disabled={pending} className={styles.orderBtn}>
+        {pending ? "PROCESSING..." : "CONFIRM ORDER"}
       </button>
 
-      <input type="hidden" name="fullName" value={FormDataClient.fullName} />
-      <input type="hidden" name="address" value={FormDataClient.address} />
-      <input type="hidden" name="phone" value={FormDataClient.phone} />
-      <input type="hidden" name="city" value={FormDataClient.city} />
-      <input type="hidden" name="paymentMethod" value={paymentMethod} />
-
-      <input type="hidden" name="stripeToken" value={stripeToken || ""} />
       <input type="hidden" name="totalprice" value={total} />
-
       <input
         type="hidden"
         name="allProducts"
