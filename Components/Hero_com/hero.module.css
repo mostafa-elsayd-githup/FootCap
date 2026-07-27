@@ -151,10 +151,6 @@
   }
 
   .container_info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
     margin: 0px auto;
     position: relative;
     margin-left: 20px;
