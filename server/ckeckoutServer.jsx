@@ -5,8 +5,6 @@ import { createClientForServer } from "@/utils/supabase";
 import { formSchema } from "@/schemas/productSchema";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
 export default async function handleOrder(prevstate, formData) {
   const dataObject = Object.fromEntries(formData);
   const cheked_data = formSchema.safeParse(dataObject);
@@ -37,7 +35,6 @@ export default async function handleOrder(prevstate, formData) {
     allProducts = [];
   }
 
-
   const supabaseServer = await createClientForServer();
   const {
     data: { user },
@@ -59,8 +56,18 @@ export default async function handleOrder(prevstate, formData) {
           timeStamp: Date.now(),
         };
       }
+      const secretKey = process.env.STRIPE_SECRET_KEY;
+      if (!secretKey) {
+        console.error("Missing STRIPE_SECRET_KEY in environment variables.");
+        return {
+          state: 500,
+          message: "Payment configuration error on server.",
+          timeStamp: Date.now(),
+        };
+      }
+      const stripe = new Stripe(secretKey);
       const charge = await stripe.charges.create({
-        amount: Math.round(totalprice * 100), 
+        amount: Math.round(totalprice * 100),
         currency: "egp",
         source: stripeToken,
         description: `Order for ${FullName}`,
@@ -106,7 +113,7 @@ export default async function handleOrder(prevstate, formData) {
       .from("profiles")
       .update({
         orders: updatedOrders,
-        cart: [], 
+        cart: [],
       })
       .eq("id", user.id);
 
