@@ -6,6 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import ProcessingOverlay from "./Processing";
 import { useMemo } from "react";
+
 export default function CheckoutPage({ cartItems }) {
   const subtotal =
     cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0) ||
