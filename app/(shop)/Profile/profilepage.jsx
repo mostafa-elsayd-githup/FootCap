@@ -6,19 +6,15 @@ import { useActionState } from "react";
 import Loader from "@/Components/loaderFecthing/loader";
 
 function ProfilePage({ users }) {
-  const date = users?.created_at
-    ? new Date(users.created_at).toLocaleDateString("eg-EG", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
-    : "N/A";
+  const date = new Date(users?.created_at).toLocaleDateString("eg-EG", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   const [buttontype, setbuttontype] = useState("");
   const initialstate = { message: "", state: null };
   const [state, formAction, pending] = useActionState(logoutfun, initialstate);
-  if (!users) {
-    return <Loader />;
-  }
+
   return (
     <>
       <div className={styles.profileWrapper}>
@@ -48,7 +44,7 @@ function ProfilePage({ users }) {
                     <input
                       type="hidden"
                       name="joinDate"
-                      value={users?.joinDate || ""}
+                      value={users?.joinDate}
                     />
                     <input type="hidden" name="email" value={users?.email} />
 
@@ -115,12 +111,12 @@ function ProfilePage({ users }) {
                   <div className={styles.infoList}>
                     <div className={styles.infoRow}>
                       <div className={styles.infoLabel}>Full Name</div>
-                      <div className={styles.infoValue}>{users?.full_name}</div>
+                      <div className={styles.infoValue}>{users?.full_name || ""}</div>
                     </div>
 
                     <div className={styles.infoRow}>
                       <div className={styles.infoLabel}>Email Address</div>
-                      <div className={styles.infoValue}>{users?.email}</div>
+                      <div className={styles.infoValue}>{users?.email || ""}</div>
                     </div>
 
                     <div className={styles.infoRow}>
