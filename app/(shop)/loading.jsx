@@ -2,18 +2,18 @@
 
 export default function Loader() {
   return (
-    <div 
+    <div
       className="w-full min-h-screen flex flex-col items-center justify-center transition-colors duration-300"
-      style={{ backgroundColor: "var(--bg-main)", color: "var(--color-primary)" }}
+      style={{
+        backgroundColor: "var(--bg-main)",
+        color: "var(--color-primary)",
+      }}
     >
       <div className="relative flex flex-col items-center justify-center">
-        <div 
-          className="absolute blur-3xl rounded-full w-36 h-36 animate-pulse"
-          style={{ backgroundColor: "var(--color-sale)", opacity: 0.15 }}
-        ></div>
+        <div className="absolute blur-3xl rounded-full w-36 h-36 animate-pulse"></div>
 
         <div className="relative">
-          <div 
+          <div
             className="w-12 h-12 rounded-full border-4 animate-spin"
             style={{
               borderColor: "var(--border_card)",
@@ -23,11 +23,11 @@ export default function Loader() {
           ></div>
         </div>
 
-        <p 
+        <p
           className="mt-5 text-xs font-bold tracking-[0.2em] uppercase animate-pulse"
-          style={{ 
+          style={{
             fontFamily: "'Bebas Neue', 'Montserrat', sans-serif",
-            color: "var(--color-secondary)" 
+            color: "var(--color-secondary)",
           }}
         >
           Loading...
