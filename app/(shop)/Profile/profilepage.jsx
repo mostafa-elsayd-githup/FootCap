@@ -6,15 +6,19 @@ import { useActionState } from "react";
 import Loader from "@/Components/loaderFecthing/loader";
 
 function ProfilePage({ users }) {
-  const date = new Date(users?.created_at).toLocaleDateString("eg-EG", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const date = users?.created_at
+    ? new Date(users.created_at).toLocaleDateString("eg-EG", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "N/A";
   const [buttontype, setbuttontype] = useState("");
   const initialstate = { message: "", state: null };
   const [state, formAction, pending] = useActionState(logoutfun, initialstate);
-
+  if (!users) {
+    return <Loader />;
+  }
   return (
     <>
       <div className={styles.profileWrapper}>
@@ -44,7 +48,7 @@ function ProfilePage({ users }) {
                     <input
                       type="hidden"
                       name="joinDate"
-                      value={users.joinDate}
+                      value={users?.joinDate || ""}
                     />
                     <input type="hidden" name="email" value={users?.email} />
 
@@ -80,7 +84,7 @@ function ProfilePage({ users }) {
                       <div className="ms-3">
                         <span className={styles.statLabel}>Total Orders</span>
                         <h4 className={styles.statValue}>
-                          {users.orders?.length || 0}
+                          {users?.orders?.length || 0}
                         </h4>
                       </div>
                     </div>
