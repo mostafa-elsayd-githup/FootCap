@@ -39,14 +39,14 @@ function ProfilePage({ users }) {
                     <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
-                    <input type="hidden" name="id" value={users.id} />
-                    <input type="hidden" name="name" value={users.name} />
+                    <input type="hidden" name="id" value={users?.id} />
+                    <input type="hidden" name="name" value={users?.name} />
                     <input
                       type="hidden"
                       name="joinDate"
                       value={users.joinDate}
                     />
-                    <input type="hidden" name="email" value={users.email} />
+                    <input type="hidden" name="email" value={users?.email} />
 
                     <div className={styles.actionButtons}>
                       <button
@@ -96,7 +96,7 @@ function ProfilePage({ users }) {
                       <div className="ms-3">
                         <span className={styles.statLabel}>Saved Items</span>
                         <h4 className={styles.statValue}>
-                          {users.wishlist?.length || 0}
+                          {users?.wishlist?.length || 0}
                         </h4>
                       </div>
                     </div>
