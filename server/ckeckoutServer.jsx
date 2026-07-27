@@ -56,6 +56,8 @@ export default async function handleOrder(prevstate, formData) {
           timeStamp: Date.now(),
         };
       }
+
+      // 🛑 فحص مفتاح Stripe وتأمين التهيئة هنا بدلاً من أعلى الملف
       const secretKey = process.env.STRIPE_SECRET_KEY;
       if (!secretKey) {
         console.error("Missing STRIPE_SECRET_KEY in environment variables.");
@@ -65,7 +67,9 @@ export default async function handleOrder(prevstate, formData) {
           timeStamp: Date.now(),
         };
       }
+
       const stripe = new Stripe(secretKey);
+
       const charge = await stripe.charges.create({
         amount: Math.round(totalprice * 100),
         currency: "egp",
@@ -84,6 +88,7 @@ export default async function handleOrder(prevstate, formData) {
         status: "cash_on_delivery",
       };
     }
+
     const order = {
       id: Date.now().toString(),
       fullName: FullName,
