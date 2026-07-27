@@ -35,7 +35,7 @@ function ProfilePage({ users }) {
                       <div className={styles.onlineBadge}></div>
                     </div>
 
-                    <h3 className={styles.userName}>{users.full_name}</h3>
+                    <h3 className={styles.userName}>{users?.full_name}</h3>
                     <p className={styles.userRole}>Premium Member</p>
 
                     <input type="hidden" name="buttontype" value={buttontype} />
@@ -111,12 +111,12 @@ function ProfilePage({ users }) {
                   <div className={styles.infoList}>
                     <div className={styles.infoRow}>
                       <div className={styles.infoLabel}>Full Name</div>
-                      <div className={styles.infoValue}>{users.full_name}</div>
+                      <div className={styles.infoValue}>{users?.full_name}</div>
                     </div>
 
                     <div className={styles.infoRow}>
                       <div className={styles.infoLabel}>Email Address</div>
-                      <div className={styles.infoValue}>{users.email}</div>
+                      <div className={styles.infoValue}>{users?.email}</div>
                     </div>
 
                     <div className={styles.infoRow}>
