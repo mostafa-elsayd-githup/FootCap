@@ -11,12 +11,14 @@ export default function CheckoutPage({ cartItems }) {
     0;
   const shipping = 50;
   const total = subtotal + shipping;
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-  );
+  const stripePromise = useMemo(() => {
+    const key = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+    if (!key) return null;
+    return loadStripe(key);
+  }, []);
   return (
     <div className={styles.checkoutContainer}>
-      <ProcessingOverlay/>
+      <ProcessingOverlay />
       <div className={styles.shippingSection}>
         <h2 className={styles.title}>Shipping Information</h2>
         <Elements stripe={stripePromise}>

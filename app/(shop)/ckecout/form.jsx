@@ -65,11 +65,10 @@ export default function Form({ cartItems }) {
   const shipping = 50;
   const total = subtotal + shipping;
   const handleSubmit = async (e) => {
+    e.preventDefault();
     if (paymentMethod === "cash") {
       return;
     }
-
-    e.preventDefault();
 
     if (!stripe || !elements) {
       return;
@@ -98,7 +97,7 @@ export default function Form({ cartItems }) {
       action={formAction}
       className={styles.formGrid}
     >
-      <ProcessingOverlay isopen={pending}/>
+      <ProcessingOverlay isopen={pending} />
       <div className={styles.formGroup}>
         <label>Full Name</label>
         <input
@@ -191,8 +190,7 @@ export default function Form({ cartItems }) {
               value="card"
               checked={paymentMethod === "card"}
               onChange={() => setPaymentMethod("card")}
-            />
-            {" "}
+            />{" "}
             💳 Credit / Debit Card
           </label>
         </div>
