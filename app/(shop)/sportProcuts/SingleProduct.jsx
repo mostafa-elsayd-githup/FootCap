@@ -3,6 +3,7 @@ import styles from "@/Components/singleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
 import SingleProduct from "@/Components/singleProduct/singleProduct";
 import { usePathname } from "next/navigation";
+import NoProducts from "../not_Foundproduct";
 
 const ProductListClient = ({ initialProducts }) => {
   const pageTitle = usePathname();
@@ -10,9 +11,7 @@ const ProductListClient = ({ initialProducts }) => {
   return (
     <div className={styles.Container}>
       <div className={styles.text}>
-        <span className="font-bold text-4xl ">
-          {pageTitle}
-        </span>
+        <span className="font-bold text-4xl ">{pageTitle}</span>
         <h1 className={styles.title}>
           Adidas Running Collection{" "}
           <span style={{ fontSize: "15px", color: "var(--color-primary)" }}>
@@ -27,7 +26,7 @@ const ProductListClient = ({ initialProducts }) => {
             <SingleProduct key={item.id} productItem={item} />
           ))
         ) : (
-          <p>No products found for this category.</p>
+          <NoProducts />
         )}
       </div>
     </div>

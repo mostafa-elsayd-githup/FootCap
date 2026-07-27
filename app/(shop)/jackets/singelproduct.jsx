@@ -3,9 +3,9 @@ import styles from "@/Components/singleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
 import SingleProduct from "@/Components/singleProduct/singleProduct";
 import { usePathname } from "next/navigation";
+import NoProducts from "../not_Foundproduct";
 
 const ProductListClient = ({ initialProducts }) => {
-
   const pageTitle = usePathname();
   return (
     <div className={styles.Container}>
@@ -25,7 +25,7 @@ const ProductListClient = ({ initialProducts }) => {
             <SingleProduct key={item.id} productItem={item} />
           ))
         ) : (
-          <p>No products found for this category.</p>
+          <NoProducts />
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import styles from "@/Components/singleProduct/page.module.css";
 import MiniDrowp from "@/Components/minidrowp/minidrowp";
 import SingleProduct from "@/Components/singleProduct/singleProduct";
 import { usePathname } from "next/navigation";
+import NoProducts from "../not_Foundproduct";
 
 const ProductListClient = ({ initialProducts }) => {
   const pageTitle = usePathname();
@@ -19,12 +20,12 @@ const ProductListClient = ({ initialProducts }) => {
       </div>
       <MiniDrowp />
       <div className={styles.products}>
-        { initialProducts.length > 0 ? (
+        {initialProducts.length > 0 ? (
           initialProducts.map((item) => (
             <SingleProduct key={item.id} productItem={item} />
           ))
         ) : (
-          <p>No products found for this category.</p>
+          <NoProducts />
         )}
       </div>
     </div>

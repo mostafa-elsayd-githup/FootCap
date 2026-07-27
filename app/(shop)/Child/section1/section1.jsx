@@ -16,7 +16,7 @@ function Section1() {
       <div className={styles.container_info}>
         <h1 className={styles.title}>HOLIDAY GIFTS</h1>
         <p className={styles.p}> Special picks for everyone on your list. </p>
-        <Link className={styles.Button} href="/Child_Colliction/section1/section1_page">
+        <Link className={styles.Button} href="Child/section1/section1_page/">
           SHOP NOW
         </Link>
       </div>
