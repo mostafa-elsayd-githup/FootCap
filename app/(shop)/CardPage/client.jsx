@@ -175,9 +175,9 @@ const CartPage = ({ card }) => {
                           (acc, item) =>
                             acc +
                             parseFloat(
-                              item.price.toString().replace(/[^\d.]/g, ""),
+                              item?.price.toString().replace(/[^\d.]/g, ""),
                             ) *
-                              item.quantity,
+                              item?.quantity,
                           0,
                         )
                         .toLocaleString()}
