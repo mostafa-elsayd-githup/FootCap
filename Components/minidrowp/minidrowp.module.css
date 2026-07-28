@@ -24,12 +24,12 @@
   border-left: 1px solid var(--border-color);
   flex-direction: column;
   width: 420px;
-  height: calc(100vh - 60px);
+  height: 100%;
   padding: 24px 20px;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   position: fixed;
-  top: 74px;
+  top: 64px;
   right: 0;
   transform: translateX(100%);
   box-shadow: -10px 0 35px #00000014;
@@ -74,7 +74,7 @@
   width: 100%;
   position: relative;
   margin-bottom: 20px;
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -132,14 +132,12 @@
   font-size: 18px;
   font-weight: 800;
   color: var(--color-primary);
-  margin-right: 8px;
   display: inline-block;
 }
 .price_red {
   color: var(--color-sale);
   font-size: 1rem;
   font-weight: 800;
-  margin-right: 8px;
   display: inline-block;
 }
 .oldPrice {
@@ -149,10 +147,6 @@
   text-decoration: line-through;
   display: inline-block;
 }
-.sizeSection {
-  margin-top: 14px;
-}
-
 .sectionTitle {
   font-size: 13px;
   font-weight: 700;
@@ -165,7 +159,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
   gap: 6px;
-  margin-bottom: 12px;
   align-items: center;
 }
 .sizeBox {
@@ -196,14 +189,14 @@
   font-size: 13px;
   color: var(--color-primary);
   font-weight: 700;
+  margin-bottom: 0.7rem;
   text-transform: uppercase;
-  margin-top: 6px;
 }
 .actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 1.5rem;
 }
 
 .icons {
@@ -298,15 +291,15 @@
   font-size: 13px;
   color: var(--color-secondary);
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .container {
     background: var(--bg-card);
     color: var(--color-primary);
     box-sizing: border-box;
     position: fixed;
-    width: 420px;
+    width: 320px;
     height: calc(100% - 60px);
-    top: 74px;
+    top: 64px;
     overflow-y: auto;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
   }

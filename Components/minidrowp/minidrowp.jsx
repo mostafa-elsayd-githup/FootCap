@@ -17,7 +17,7 @@ export default function MiniDrowp() {
     style: "currency",
     currency: "EGP",
     minimumFractionDigits: 0,
-  }).format(parseInt(selectedProduct?.oldPrice));
+  }).format(parseInt(selectedProduct?.oldprice));
   const price = Intl.NumberFormat("en", {
     notation: "standard",
     style: "currency",
@@ -28,9 +28,11 @@ export default function MiniDrowp() {
     <>
       {selectedProduct && (
         <div
-          className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
-          onClick={() => setIsOpen(false)}
+        className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
+        onClick={() => setIsOpen(false)}
         >
+          {console.log(selectedProduct)
+          }
           <div
             key={selectedProduct.id}
             className={styles.container}
@@ -85,9 +87,9 @@ export default function MiniDrowp() {
             </div>
             <div className={styles.infoSection}>
               <div className={styles.headerInfo}>
-                <h1 className={styles.productName}>{selectedProduct.name}</h1>
-                {selectedProduct.oldPrice ? (
-                  <span>
+                <h1 className={styles.productName}>{selectedProduct.title}</h1>
+                {selectedProduct.oldprice ? (
+                  <span className="flex items-center gap-2 w-full mb-2.5">
                     <span className={styles.price_red}>{price}</span>
                     <span className={styles.oldPrice}>{oldprice}</span>
                   </span>
@@ -98,7 +100,7 @@ export default function MiniDrowp() {
                   {selectedProduct.url?.length} colours available
                 </div>
               </div>
-              <div className={styles.sizeSection}>
+              <div className="mt">
                 <h3 className={styles.sectionTitle}>Select Size</h3>
                 <div className={styles.sizeGrid}>
                   {selectedProduct.sizes.map((size) => (
