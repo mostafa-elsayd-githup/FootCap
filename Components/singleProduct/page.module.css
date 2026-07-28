@@ -268,9 +268,6 @@
   .price {
     font-size: 14px;
   }
-  .icons {
-    right: 8px;
-  }
 }
 @media (max-width: 380px) {
   .products {
