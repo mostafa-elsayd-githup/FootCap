@@ -39,25 +39,20 @@ export default function ShoppingButton({ product }) {
   };
 
   const handleaddedtocard = () => {
-    if (!selectedSize || selectedSize.trim() === "") {
-      setActionTypeState("card");
-      setlastTimestamp(Date.now());
-      return;
-    }
     setActionTypeState("card");
     setlastTimestamp(Date.now());
-    const productWithCartId = {
-      ...product,
-      id: `${product.id}-${selectedSize}`,
-    };
-    dispatch(addToCartOptimistic(productWithCartId));
+    if (!selectedSize || selectedSize.trim() === "") {
+      const productWithCartId = {
+        ...product,
+        id: `${product.id}-${selectedSize}`,
+      };
+      dispatch(addToCartOptimistic(productWithCartId));
+    }
   };
-  console.log(state);
-
   useEffect(() => {
     if (state?.success === false && state?.timeStamp > LastTimestamp) {
       const sizeError = state?.message?.size?.[0] || "Please select a size";
-      toast.error(sizeError, { position: "bottom-right", duration: 2000 });
+      toast.error(sizeError, { position: "bottom-left", duration: 1500 });
       return;
     }
     if (
@@ -67,7 +62,10 @@ export default function ShoppingButton({ product }) {
       if (actionTypeState === "wishlist") {
         dispatch(rollbackWishlist(product));
       }
-      toast.error(state.message || "Connection to the server failed.");
+      toast.error(state.message || "Connection to the server failed", {
+        position: "bottom-left",
+        duration: 1500,
+      });
       return;
     }
     if (
@@ -78,6 +76,7 @@ export default function ShoppingButton({ product }) {
     ) {
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Removed from Wishlist",
+        { position: "bottom-left", duration: 1500 },
       );
       return;
     }
@@ -89,6 +88,7 @@ export default function ShoppingButton({ product }) {
     ) {
       toast.success(
         state.cardState ? "Quantity updated (+1)" : "Added to Cart",
+        { position: "bottom-left", duration: 1500 },
       );
 
       setTimeout(() => {
