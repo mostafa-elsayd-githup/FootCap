@@ -297,6 +297,7 @@
     color: var(--color-primary);
     box-sizing: border-box;
     position: fixed;
+    padding: 0.7rem;
     width: 320px;
     height: calc(100% - 60px);
     top: 64px;
