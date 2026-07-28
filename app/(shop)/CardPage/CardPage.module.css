@@ -41,7 +41,7 @@
 }
 
 .products_scroll_area {
-  max-height: 640px;
+  max-height: 44rem;
   padding-right: 8px;
   overflow-y: auto;
 }
@@ -347,7 +347,7 @@
   .product_img_wrapper {
     width: 100%;
   }
-  
+
   .product_card {
     position: relative;
     display: flex;
