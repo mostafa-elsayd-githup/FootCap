@@ -31,8 +31,6 @@ export default function MiniDrowp() {
         className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
         onClick={() => setIsOpen(false)}
         >
-          {console.log(selectedProduct)
-          }
           <div
             key={selectedProduct.id}
             className={styles.container}

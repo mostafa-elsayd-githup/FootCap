@@ -14,9 +14,7 @@ import {
   toggleWishlistOptimistic,
 } from "@/RTK/wishlistslice";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
 import { toast } from "sonner";
-import Loader from "../loaderFecthing/loader";
 export default function Buttons() {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -55,6 +53,7 @@ export default function Buttons() {
     setLastTimestamp(Date.now());
     dispatch(toggleWishlistOptimistic(selectedProduct));
   };
+
   useEffect(() => {
     if (
       actionTypeState === "wishlist" &&
@@ -64,17 +63,14 @@ export default function Buttons() {
     ) {
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Remove From Wishlist",
-        {
-          position: "bottom-left",
-          duration: 2000,
-        },
+        { position: "bottom-left", duration: 2000 },
       );
 
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
-      }, state.wishliststate);
+      }, 1500);
     }
     if (
       actionTypeState === "card" &&
@@ -82,15 +78,23 @@ export default function Buttons() {
       state?.cardState !== null &&
       state?.timeStamp > lastTimestamp
     ) {
-      toast.success(state.cardState ? "quantity +1" : "Added to Cart", {
+      toast.success(state.cardState ? "Quantity +1" : "Added to Cart", {
         position: "bottom-left",
         duration: 2000,
       });
+
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
-      }, state.wishliststate);
+      }, 1500);
+    }
+    if (state?.success === false && state?.timeStamp > lastTimestamp) {
+      const sizeError = state?.message?.size?.[0];
+      toast.error(sizeError || "Please select a size", {
+        position: "bottom-right",
+        duration: 2000,
+      });
     }
 
     if (state?.status === 500) {
@@ -99,26 +103,14 @@ export default function Buttons() {
       } else if (actionTypeState === "card") {
         dispatch(removeFromCartOptimistic(selectedProduct.id));
       }
-
-      toast.error(state.message || "Something went wrong", {
-        position: "bottom-right",
-        duration: 2000,
-      });
     }
   }, [
-    state.tokenstate,
-    state.wishliststate,
-    state.cardState,
-    state?.status,
-    state.productId,
-    state.message,
+    state,
     actionTypeState,
-    setIsOpen,
-    selectedProduct,
     lastTimestamp,
-    Router,
     dispatch,
-    state?.timeStamp,
+    selectedProduct,
+    setIsOpen,
     setAddToCart,
     setselectedSize,
   ]);

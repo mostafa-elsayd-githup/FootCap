@@ -10,6 +10,7 @@ export default async function handelAction(prevstate, formData) {
       success: false,
       actionType: dataobject.actiontype,
       message: ProductResult.error.flatten().fieldErrors,
+      timeStamp: Date.now(),
     };
   }
   const { id, actiontype, size } = ProductResult.data;
@@ -43,35 +44,35 @@ export default async function handelAction(prevstate, formData) {
       if (fetchError) {
         return { error: "Failed to fetch cart" };
       }
-        let carts = profile.cart || [];
-        const index = carts.findIndex((item) => item.id === cartitemId);
-        if (index !== -1) {
-          carts[index].quantity += 1;
-        } else {
-          carts.push({ ...product, id: cartitemId, sizes: size, quantity: 1 });
-        }
-        const { error: updateError } = await supabaseServer
-          .from("profiles")
-          .update({ cart: carts })
-          .eq("id", user.id);
-        if (updateError) {
-          console.error(
-            "Error updating wishlist in Supabase:",
-            updateError.message,
-          );
-          return { error: "Failed to update wishlist" };
-        }
-        if (index !== -1) {
-          return {
-            cardState: true,
-            timeStamp: Date.now(),
-          };
-        } else if (index === -1) {
-          return {
-            cardState: false,
-            timeStamp: Date.now(),
-          };
-        }
+      let carts = profile.cart || [];
+      const index = carts.findIndex((item) => item.id === cartitemId);
+      if (index !== -1) {
+        carts[index].quantity += 1;
+      } else {
+        carts.push({ ...product, id: cartitemId, sizes: size, quantity: 1 });
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ cart: carts })
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+      if (index !== -1) {
+        return {
+          cardState: true,
+          timeStamp: Date.now(),
+        };
+      } else if (index === -1) {
+        return {
+          cardState: false,
+          timeStamp: Date.now(),
+        };
+      }
     } catch {
       return { message: "Please Check internet Connect ", status: 500 };
     }
