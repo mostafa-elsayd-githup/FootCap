@@ -42,11 +42,13 @@ export default function Buttons() {
   const handleaddedtocard = async () => {
     setActionTypeState("card");
     setLastTimestamp(Date.now());
-    const productWithCartId = {
-      ...selectedProduct,
-      id: `${selectedProduct.id}-${selectedSize}`,
-    };
-    dispatch(addToCartOptimistic(productWithCartId));
+    if (selectedSize && selectedSize?.trim() !== "") {
+      const productWithCartId = {
+        ...selectedProduct,
+        id: `${selectedProduct.id}-${selectedSize}`,
+      };
+      dispatch(addToCartOptimistic(productWithCartId));
+    }
   };
   const handlewishlist = async () => {
     setActionTypeState("wishlist");
@@ -63,7 +65,7 @@ export default function Buttons() {
     ) {
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Remove From Wishlist",
-        { position: "bottom-left", duration: 2000 },
+        { position: "bottom-left", duration: 1500 },
       );
 
       setTimeout(() => {
@@ -80,7 +82,7 @@ export default function Buttons() {
     ) {
       toast.success(state.cardState ? "Quantity +1" : "Added to Cart", {
         position: "bottom-left",
-        duration: 2000,
+        duration: 1500,
       });
 
       setTimeout(() => {
@@ -92,8 +94,8 @@ export default function Buttons() {
     if (state?.success === false && state?.timeStamp > lastTimestamp) {
       const sizeError = state?.message?.size?.[0];
       toast.error(sizeError || "Please select a size", {
-        position: "bottom-right",
-        duration: 2000,
+        position: "bottom-left",
+        duration: 1500,
       });
     }
 
