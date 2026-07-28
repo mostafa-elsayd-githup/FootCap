@@ -11,7 +11,7 @@ export const ProductSchema = z
   .refine(
     (data) => {
       if (data.actiontype === "card") {
-        return data.size !== undefined && data.size.trim().length > 0;
+        return Boolean(data.size && data.size.trim().length > 0);
       }
       return true;
     },
@@ -25,14 +25,14 @@ export const formSchema = z.object({
     .string()
     .min(1, { message: "Full Name is required" })
     .min(4, { message: "Full Name must be at least 4 characters" }),
-    phone: z
-      .string()
-      .trim()
-      .min(1, { message: "Phone number is required" })
-      .regex(/^01[0125][0-9]{8}$/, {
-        message:
-          "Please enter a valid 11-digit Egyptian phone number (e.g., 010xxxxxxx)",
-      }),
+  phone: z
+    .string()
+    .trim()
+    .min(1, { message: "Phone number is required" })
+    .regex(/^01[0125][0-9]{8}$/, {
+      message:
+        "Please enter a valid 11-digit Egyptian phone number (e.g., 010xxxxxxx)",
+    }),
   address: z
     .string()
     .trim()
