@@ -39,7 +39,7 @@ function Products({ wishlist }) {
         )}
       </div>
 
-      {wishlist.length > 0 ? (
+      {wishlist?.length > 0 ? (
         <div className={styles.wishlist_grid}>
           {wishlist?.map((product) => {    
                     
