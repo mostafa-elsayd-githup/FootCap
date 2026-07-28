@@ -52,32 +52,18 @@ export default function ShoppingButton({ product }) {
     };
     dispatch(addToCartOptimistic(productWithCartId));
   };
-useEffect(() => {
-    if (actionTypeState === "card" && (!selectedSize || selectedSize.trim() === "")) {
-      toast.error("Please select a size"); 
-      setActionTypeState("");
+  console.log(state);
+
+  useEffect(() => {
+    if (state?.success === false && state?.timeStamp > LastTimestamp) {
+      const sizeError = state?.message?.size?.[0] || "Please select a size";
+      toast.error(sizeError, { position: "bottom-right", duration: 2000 });
       return;
     }
-
-    if (state?.message) {
-      const currentAction = state?.actionType || actionTypeState;
-      const currentClickTime = currentAction === "card" ? LastTimestamp : LastWishlistTimestamp;
-
-      if (state?.timeStamp > currentClickTime) {
-        if (currentAction === "wishlist") {
-          dispatch(rollbackWishlist(product));
-        }
-        
-        const errorMsg =
-          state?.message?.size?.[0] ||
-          state?.message?.actiontype?.[0] ||
-          "Validation Error";
-          
-        toast.error(errorMsg);
-      }
-      return;
-    }
-    if (state?.status === 500) {
+    if (
+      state?.status === 500 &&
+      state?.timeStamp > Math.max(LastTimestamp, LastWishlistTimestamp)
+    ) {
       if (actionTypeState === "wishlist") {
         dispatch(rollbackWishlist(product));
       }
@@ -90,11 +76,9 @@ useEffect(() => {
       state?.wishliststate !== null &&
       state?.timeStamp > LastWishlistTimestamp
     ) {
-      if (state.wishliststate) {
-        toast.success("Added to Wishlist");
-      } else {
-        toast.info("Removed from Wishlist");
-      }
+      toast.success(
+        state.wishliststate ? "Added to Wishlist" : "Removed from Wishlist",
+      );
       return;
     }
     if (
@@ -103,11 +87,9 @@ useEffect(() => {
       state?.cardState !== null &&
       state?.timeStamp > LastTimestamp
     ) {
-      if (state.cardState) {
-        toast.success("Quantity updated (+1)");
-      } else {
-        toast.success("Added to Cart");
-      }
+      toast.success(
+        state.cardState ? "Quantity updated (+1)" : "Added to Cart",
+      );
 
       setTimeout(() => {
         setselectedSize("");
@@ -115,15 +97,14 @@ useEffect(() => {
       }, 200);
     }
   }, [
-    state, 
-    actionTypeState, 
-    LastTimestamp, 
-    LastWishlistTimestamp, 
-    selectedSize,
-    dispatch, 
-    product, 
-    setselectedSize, 
-    setAddToCart
+    state,
+    actionTypeState,
+    LastTimestamp,
+    LastWishlistTimestamp,
+    dispatch,
+    product,
+    setselectedSize,
+    setAddToCart,
   ]);
   const wishlistarray = useSelector((state) => state.wishlist.items);
   const isfev = wishlistarray.some(
@@ -132,7 +113,6 @@ useEffect(() => {
   useEffect(() => {
     setisfevorite(isfev);
   }, [isfev]);
-
 
   return (
     <div className={styles.actions}>
