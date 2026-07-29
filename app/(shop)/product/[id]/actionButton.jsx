@@ -49,6 +49,7 @@ export default function ShoppingButton({ product }) {
       dispatch(addToCartOptimistic(productWithCartId));
     }
   };
+  
   useEffect(() => {
     if (state?.success === false && state?.timeStamp > LastTimestamp) {
       const sizeError = state?.message?.size?.[0] || "Please select a size";

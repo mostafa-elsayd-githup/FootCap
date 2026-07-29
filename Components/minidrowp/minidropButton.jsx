@@ -56,6 +56,7 @@ export default function Buttons() {
     dispatch(toggleWishlistOptimistic(selectedProduct));
   };
 
+  
   useEffect(() => {
     if (
       actionTypeState === "wishlist" &&
