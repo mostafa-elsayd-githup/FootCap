@@ -5,7 +5,7 @@ import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import handelAction from "@/Components/minidrowp/miniaction";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useOpneing } from "@/RTK/storcontext";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCartOptimistic, removeFromCartOptimistic } from "@/RTK/cardslice";
@@ -32,7 +32,6 @@ export default function Buttons() {
     initialState,
   );
   const [actionTypeState, setActionTypeState] = useState("");
-  const [lastTimestamp, setLastTimestamp] = useState(null);
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const isfevorite = wishlistItems.some(
@@ -41,7 +40,6 @@ export default function Buttons() {
 
   const handleaddedtocard = async () => {
     setActionTypeState("card");
-    setLastTimestamp(Date.now());
     if (selectedSize && selectedSize?.trim() !== "") {
       const productWithCartId = {
         ...selectedProduct,
@@ -52,52 +50,63 @@ export default function Buttons() {
   };
   const handlewishlist = async () => {
     setActionTypeState("wishlist");
-    setLastTimestamp(Date.now());
     dispatch(toggleWishlistOptimistic(selectedProduct));
   };
+  const processedRequestId = useRef(null);
 
-  
   useEffect(() => {
+    if (!state?.requestId || state.requestId === processedRequestId.current) {
+      return;
+    }
+
     if (
       actionTypeState === "wishlist" &&
       state?.wishliststate !== undefined &&
-      state?.wishliststate !== null &&
-      state?.timeStamp > lastTimestamp
+      state?.wishliststate !== null
     ) {
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Remove From Wishlist",
         { position: "bottom-left", duration: 1500 },
       );
+      processedRequestId.current = state.requestId;
 
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
       }, 1500);
+      return;
     }
+
     if (
       actionTypeState === "card" &&
       state?.cardState !== undefined &&
-      state?.cardState !== null &&
-      state?.timeStamp > lastTimestamp
+      state?.cardState !== null
     ) {
       toast.success(state.cardState ? "Quantity +1" : "Added to Cart", {
         position: "bottom-left",
         duration: 1500,
       });
 
+      processedRequestId.current = state.requestId;
+
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
         setAddToCart(false);
       }, 1500);
+      return;
     }
-    if (state?.success === false && state?.timeStamp > lastTimestamp) {
+
+    if (state?.success === false) {
       const sizeError = state?.message?.size?.[0];
       toast.error(sizeError || "Please select a size", {
         position: "bottom-left",
         duration: 1500,
       });
+
+      processedRequestId.current = state.requestId;
+      return;
     }
 
     if (state?.status === 500) {
@@ -106,11 +115,11 @@ export default function Buttons() {
       } else if (actionTypeState === "card") {
         dispatch(removeFromCartOptimistic(selectedProduct.id));
       }
+      processedRequestId.current = state.requestId;
     }
   }, [
     state,
     actionTypeState,
-    lastTimestamp,
     dispatch,
     selectedProduct,
     setIsOpen,

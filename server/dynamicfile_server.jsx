@@ -5,12 +5,13 @@ import { ProductSchema } from "@/schemas/productSchema";
 export default async function handelAction(prevstate, formData) {
   const dataobject = Object.fromEntries(formData);
   const ProductResult = ProductSchema.safeParse(dataobject);
+  const requestId = crypto.randomUUID();
   if (!ProductResult.success) {
     return {
       success: false,
       actionType: dataobject.actiontype,
       message: ProductResult.error.flatten().fieldErrors,
-      timeStamp: Date.now(),
+      requestId,
     };
   }
   const { id, actiontype, size } = ProductResult.data;
@@ -70,12 +71,12 @@ export default async function handelAction(prevstate, formData) {
       if (index !== -1) {
         return {
           cardState: true,
-          timeStamp: Date.now(),
+          requestId,
         };
       } else if (index === -1) {
         return {
           cardState: false,
-          timeStamp: Date.now(),
+          requestId,
         };
       }
     } catch {
@@ -100,7 +101,6 @@ export default async function handelAction(prevstate, formData) {
       } else {
         currentWishlist.push(getproduct);
       }
-      console.log("3");
       const { error: updateError } = await supabaseServer
         .from("profiles")
         .update({ wishlist: currentWishlist })
@@ -112,14 +112,13 @@ export default async function handelAction(prevstate, formData) {
         );
         return { error: "Failed to update wishlist" };
       }
-      console.log("4");
-
       revalidatePath("/");
-      return { wishliststate: !exists, timeStamp: Date.now() };
+      return { wishliststate: !exists, requestId };
     } catch {
       return {
         message: "Sorry, the connection to the server failed.",
         status: 500,
+        requestId,
       };
     }
   }
