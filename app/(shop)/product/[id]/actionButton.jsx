@@ -11,7 +11,7 @@ import styles from "./page.module.css";
 import { addToCartOptimistic } from "@/RTK/cardslice";
 import handelAction from "@/server/dynamicfile_server";
 import { useDispatch, useSelector } from "react-redux";
-import { useActionState, useState, useEffect } from "react";
+import { useActionState, useState, useEffect, useRef } from "react";
 import { useOpneing } from "@/RTK/storcontext";
 import { toast } from "sonner";
 import LoaderTag from "@/Components/loaderFecthing/loaderTofetch";
@@ -19,10 +19,7 @@ import LoaderTag from "@/Components/loaderFecthing/loaderTofetch";
 export default function ShoppingButton({ product }) {
   const [isfevorite, setisfevorite] = useState(false);
   const [actionTypeState, setActionTypeState] = useState("");
-  const [LastTimestamp, setlastTimestamp] = useState(null);
-  const [LastWishlistTimestamp, setLastWishlistTimestamp] = useState(null);
-
-  const { setselectedSize, selectedSize } = useOpneing();
+  const { setselectedSize, selectedSize, selectedProduct } = useOpneing();
   const { AddToCart, setAddToCart } = useOpneing();
 
   const initialState = { message: "", state: null };
@@ -33,33 +30,32 @@ export default function ShoppingButton({ product }) {
 
   const dispatch = useDispatch();
   const handleWishlistSubmit = () => {
-    setLastWishlistTimestamp(Date.now());
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(product));
   };
 
-  const handleaddedtocard = () => {
+  const handleaddedtocard = async () => {
     setActionTypeState("card");
-    setlastTimestamp(Date.now());
-    if (!selectedSize || selectedSize.trim() === "") {
+    if (selectedSize && selectedSize?.trim() !== "") {
       const productWithCartId = {
-        ...product,
-        id: `${product.id}-${selectedSize}`,
+        ...selectedProduct,
+        id: `${selectedProduct.id}-${selectedSize}`,
       };
       dispatch(addToCartOptimistic(productWithCartId));
     }
   };
-  
+  const processedRequestId = useRef(null);
   useEffect(() => {
-    if (state?.success === false && state?.timeStamp > LastTimestamp) {
+    if (!state.requestId || state.requestId === processedRequestId.current) {
+      return;
+    }
+    if (state?.success === false) {
       const sizeError = state?.message?.size?.[0] || "Please select a size";
       toast.error(sizeError, { position: "bottom-left", duration: 1500 });
       return;
     }
-    if (
-      state?.status === 500 &&
-      state?.timeStamp > Math.max(LastTimestamp, LastWishlistTimestamp)
-    ) {
+    processedRequestId.current === state.requestId;
+    if (state?.status === 500) {
       if (actionTypeState === "wishlist") {
         dispatch(rollbackWishlist(product));
       }
@@ -69,11 +65,11 @@ export default function ShoppingButton({ product }) {
       });
       return;
     }
+    processedRequestId.current === state.requestId;
     if (
       actionTypeState === "wishlist" &&
       state?.wishliststate !== undefined &&
-      state?.wishliststate !== null &&
-      state?.timeStamp > LastWishlistTimestamp
+      state?.wishliststate !== null
     ) {
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Removed from Wishlist",
@@ -81,11 +77,11 @@ export default function ShoppingButton({ product }) {
       );
       return;
     }
+    processedRequestId.current === state.requestId;
     if (
       actionTypeState === "card" &&
       state?.cardState !== undefined &&
-      state?.cardState !== null &&
-      state?.timeStamp > LastTimestamp
+      state?.cardState !== null
     ) {
       toast.success(
         state.cardState ? "Quantity updated (+1)" : "Added to Cart",
@@ -97,11 +93,10 @@ export default function ShoppingButton({ product }) {
         setAddToCart(false);
       }, 200);
     }
+    processedRequestId.current === state.requestId;
   }, [
     state,
     actionTypeState,
-    LastTimestamp,
-    LastWishlistTimestamp,
     dispatch,
     product,
     setselectedSize,
