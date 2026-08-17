@@ -2,15 +2,12 @@
 import Wishlist_Action from "@/server/wishliest_server";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useActionState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
 import styles from "./Products.module.css";
 import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "sonner";
 import Loader from "@/Components/loaderFecthing/loaderTofetch";
 
 export default function Button({ product }) {
-  const dispatch = useDispatch();
-
   const intialstate = { state: null, message: "", timeStamp: null };
   const [state, formAction, pending] = useActionState(
     Wishlist_Action,
@@ -18,7 +15,6 @@ export default function Button({ product }) {
   );
 
   const lastProcessedTime = useRef(null);
-
   useEffect(() => {
     if (!state || !state.timeStamp) return;
 
@@ -32,17 +28,26 @@ export default function Button({ product }) {
         duration: 2000,
       });
     } else if (state.state === 401) {
-      toast.error(state.message || "Please login to continue", {
-        position: "bottom-right",
-        duration: 2000,
-      });
+      const localData = localStorage.getItem("guest_wishlist");
+      let currentlocal = localData ? JSON.parse(localData) : [];
+
+      const exists = currentlocal.some((item) => item.id === product.id);
+      if (exists) {
+        currentlocal = currentlocal.filter((item) => item.id !== product.id);
+        toast.success("Removed from local wishlist", {
+          position: "bottom-right",
+        });
+      }
+      localStorage.setItem("guest_wishlist", JSON.stringify(currentlocal));
+
+      window.dispatchEvent(new Event("guest_wishlist_updated"));
     } else if (state.state >= 400) {
       toast.error(state.message || "Something went wrong", {
         position: "bottom-right",
         duration: 2000,
       });
     }
-  }, [state]);
+  }, [product, state]);
 
   return (
     <form action={formAction}>

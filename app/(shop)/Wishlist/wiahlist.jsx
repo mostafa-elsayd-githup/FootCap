@@ -7,9 +7,11 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useOpneing } from "@/RTK/storcontext";
 import Button from "./wishlistButton";
+import { useEffect, useState } from "react";
 
 function Products({ wishlist }) {
   const { setIsOpen, setSelectedProduct } = useOpneing();
+  const [items, setItems] = useState(wishlist);
   const formatPrice = (amount, currency = "EGP", decimals = 0) =>
     Intl.NumberFormat("en", {
       notation: "standard",
@@ -17,18 +19,45 @@ function Products({ wishlist }) {
       currency,
       minimumFractionDigits: decimals,
     }).format(parseInt(amount));
+  useEffect(() => {
+    if (!wishlist || wishlist === 0) {
+      const localData = localStorage.getItem("guest_wishlist");
+      if (localData) {
+        queueMicrotask(() => {
+          setItems(JSON.parse(localData));
+        });
+      }
+    }
+  }, [wishlist]);
+  useEffect(() => {
+    const handleGuestWishlistUpdate = () => {
+      const localData = localStorage.getItem("guest_wishlist");
+      setItems(localData ? JSON.parse(localData) : []);
+    };
 
+    window.addEventListener(
+      "guest_wishlist_updated",
+      handleGuestWishlistUpdate,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "guest_wishlist_updated",
+        handleGuestWishlistUpdate,
+      );
+    };
+  }, []);
   return (
     <div className={styles.wishlist_page}>
       <div className={styles.header}>
         <div>
           <h2 className={styles.bag_title}>Wishlist</h2>
           <span className={styles.item_count}>
-            {wishlist?.length} {wishlist?.length === 1 ? "Item" : "Items"} saved
+            {items?.length} {items?.length === 1 ? "Item" : "Items"} saved
           </span>
         </div>
 
-        {wishlist?.length > 0 && (
+        {items?.length > 0 && (
           <div className={styles.header_actions}>
             <select className={styles.sort_select} defaultValue="newest">
               <option value="newest">Newest First</option>
@@ -39,10 +68,9 @@ function Products({ wishlist }) {
         )}
       </div>
 
-      {wishlist?.length > 0 ? (
+      {items?.length > 0 ? (
         <div className={styles.wishlist_grid}>
-          {wishlist?.map((product) => {    
-                    
+          {items?.map((product) => {
             const price = formatPrice(product.price);
             const oldprice = product.oldPrice
               ? formatPrice(product.oldPrice, "EGP", 2)
@@ -91,7 +119,7 @@ function Products({ wishlist }) {
                     href={`/product/${product.id}`}
                     className={styles.name_link}
                   >
-                    <h5 className={styles.name}>{product.name}</h5>
+                    <h5 className={styles.name}>{product.title}</h5>
                   </Link>
 
                   <p className={styles.category}>{product.category}</p>
