@@ -11,7 +11,7 @@
   flex-direction: row;
   align-items: center;
   align-content: center;
-  margin-top: 74px;
+  margin-top: 64px;
 }
 .hero,
 .Container,
@@ -140,7 +140,7 @@
   .hero,
   .Container {
     height: 34rem;
-    margin-top: 74px;
+    margin-top: 64px;
     position: relative;
   }
 
