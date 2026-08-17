@@ -19,10 +19,8 @@ export default async function handleAction(prevstate, formData) {
         return {
           state: 404,
           message: "Product Not Found",
-          wishliststate: null,
         };
       }
-
       const {
         data: { user },
         error: authError,
@@ -30,9 +28,7 @@ export default async function handleAction(prevstate, formData) {
       if (authError || !user) {
         return {
           state: 201,
-          gurstproduct: product,
-          message: "Login Required",
-          wishliststate: true,
+          guestProduct: product,
         };
       }
 
