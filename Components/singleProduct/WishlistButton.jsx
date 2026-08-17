@@ -10,7 +10,6 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import LoaderTag from "@/Components/loaderFecthing/loaderTofetch";
 import { toast } from "sonner";
 
-
 export default function WishlistButton({ favoriteProduct }) {
   const [isfevorite, setisfevorite] = useState(false);
   const initialState = { message: "", wishliststate: null };
@@ -31,7 +30,7 @@ export default function WishlistButton({ favoriteProduct }) {
   useEffect(() => {
     if (!state) return;
     if (state?.state === 201) {
-      const productData = state.guestproduct;
+      const productData = state.guestProduct;
       if (productData) {
         let localWishlist =
           JSON.parse(localStorage.getItem("guest_wishlist")) || [];
@@ -41,10 +40,19 @@ export default function WishlistButton({ favoriteProduct }) {
           localWishlist = localWishlist.filter(
             (item) => item.id !== productData.id,
           );
+          toast.success("Removed from Wishlist", {
+            position: "bottom-right",
+            duration: 2000,
+          });
         } else {
           localWishlist = [...localWishlist, productData];
+          toast.success("Added to Wishlist", {
+            position: "bottom-right",
+            duration: 2000,
+          });
         }
         localStorage.setItem("guest_wishlist", JSON.stringify(localWishlist));
+        window.dispatchEvent(new Event("guest_wishlist_updated"));
       }
     }
 
@@ -61,7 +69,7 @@ export default function WishlistButton({ favoriteProduct }) {
         });
       }
     }
-  }, [state]);
+  }, [state, state.wishliststate]);
 
   useEffect(() => {
     setisfevorite(isfev);
