@@ -20,18 +20,10 @@ export default async function Wishlist_Action(prevstate, formData) {
     error: authError,
   } = await supabaseServer.auth.getUser();
 
-  if (!user && !authError) {
-    return {
-      state: 401,
-      message: "Please login to continue",
-      timeStamp: Date.now(),
-    };
-  }
-
-  if (authError) {
+  if (!user || authError) {
     console.error("Auth Error:", authError.message);
     return {
-      state: 503,
+      state: 401,
       message: "Connection lost. Please check your internet and try again.",
       timeStamp: Date.now(),
     };
