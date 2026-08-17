@@ -24,16 +24,34 @@ function NavBar({ userdata }) {
 
       if (userdata?.wishlist) {
         dispatch(setInitialWishlist(userdata.wishlist));
+      } else {
+        const localWishlist =
+          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        dispatch(setInitialWishlist(localWishlist));
       }
       if (userdata?.cart) {
         dispatch(setInitialCart(userdata.cart));
-      } else if (userdata?.card) {
-        dispatch(setInitialCart(userdata.card));
+      }else {
+        const localCard = JSON.parse(localStorage.getItem("guest_cart")) || [];
+        dispatch(setInitialCart(localCard));
       }
     };
 
     initialize();
-  }, [dispatch, userdata?.card, userdata?.cart, userdata?.wishlist]);
+    const syncGuestWishlist = () => {
+      if (!userdata) {
+        const localWishlist =
+          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        dispatch(setInitialWishlist(localWishlist));
+      }
+    };
+
+    window.addEventListener("guest_wishlist_updated", syncGuestWishlist);
+
+    return () => {
+      window.removeEventListener("guest_wishlist_updated", syncGuestWishlist);
+    };
+  }, [dispatch, userdata, userdata?.cart, userdata?.wishlist]);
 
   const baseNavItems = [
     { name: "HOME", href: "/" },
