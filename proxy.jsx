@@ -37,6 +37,10 @@ export async function proxy(request) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  if (user) {
+    request.headers.set("x-user-id", user.id);
+  }
+
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin")) {
@@ -56,6 +60,8 @@ export async function proxy(request) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/admin/:path*",
+    "/checkout/:path*",
+    "/account/:path*",
   ],
 };
