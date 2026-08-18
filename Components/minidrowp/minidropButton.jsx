@@ -15,6 +15,7 @@ import {
 } from "@/RTK/wishlistslice";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+
 export default function Buttons() {
   const Router = useRouter();
   const dispatch = useDispatch();
@@ -26,20 +27,21 @@ export default function Buttons() {
     selectedSize,
     setselectedSize,
   } = useOpneing();
-  const initialState = { massage: "", wishliststate: null };
+
+  const initialState = { message: "", wishliststate: null, requestId: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
-    initialState,
+    initialState
   );
-  const [actionTypeState, setActionTypeState] = useState("");
+  const [actiontypeState, setActiontypeState] = useState("");
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const isfevorite = wishlistItems.some(
-    (item) => Number(item.id) === Number(selectedProduct?.id),
+    (item) => Number(item.id) === Number(selectedProduct?.id)
   );
 
-  const handleaddedtocard = async () => {
-    setActionTypeState("card");
+  const handleaddedtocard = () => {
+    setActiontypeState("card");
     if (selectedSize && selectedSize?.trim() !== "") {
       const productWithCartId = {
         ...selectedProduct,
@@ -48,84 +50,129 @@ export default function Buttons() {
       dispatch(addToCartOptimistic(productWithCartId));
     }
   };
-  const handlewishlist = async () => {
-    setActionTypeState("wishlist");
+
+  const handlewishlist = () => {
+    setActiontypeState("wishlist");
     dispatch(toggleWishlistOptimistic(selectedProduct));
   };
+
   const processedRequestId = useRef(null);
 
   useEffect(() => {
-    if (!state?.requestId || state.requestId === processedRequestId.current) {
-      return;
-    }
+    if (!state || !state.requestId) return;
 
-    if (
-      actionTypeState === "wishlist" &&
-      state?.wishliststate !== undefined &&
-      state?.wishliststate !== null
-    ) {
-      toast.success(
-        state.wishliststate ? "Added to Wishlist" : "Remove From Wishlist",
-        { position: "bottom-left", duration: 1500 },
-      );
-      processedRequestId.current = state.requestId;
-
-      setTimeout(() => {
-        setIsOpen(false);
-        setselectedSize("");
-        setAddToCart(false);
-      }, 1500);
-      return;
-    }
-
-    if (
-      actionTypeState === "card" &&
-      state?.cardState !== undefined &&
-      state?.cardState !== null
-    ) {
-      toast.success(state.cardState ? "Quantity +1" : "Added to Cart", {
-        position: "bottom-left",
-        duration: 1500,
-      });
-
-      processedRequestId.current = state.requestId;
-
-      setTimeout(() => {
-        setIsOpen(false);
-        setselectedSize("");
-        setAddToCart(false);
-      }, 1500);
-      return;
-    }
+    if (processedRequestId.current === state.requestId) return;
 
     if (state?.success === false) {
+      processedRequestId.current = state.requestId;
       const sizeError = state?.message?.size?.[0];
       toast.error(sizeError || "Please select a size", {
         position: "bottom-left",
         duration: 1500,
       });
+      return;
+    }
 
+    if (state?.state === 401) {
       processedRequestId.current = state.requestId;
+      const productData = state.guestProduct;
+
+      if (state.actiontype === "card" && productData) {
+        let localcard = JSON.parse(localStorage.getItem("guest_cart")) || [];
+        const exists = localcard.some((item) => item.id === productData.id);
+
+        if (exists) {
+          localcard = localcard.map((item) =>
+            item.id === productData.id
+              ? { ...item, quantity: (item.quantity || 1) + 1 }
+              : item
+          );
+          toast.success("Quantity +1", { position: "bottom-left", duration: 2000 });
+        } else {
+          localcard = [...localcard, { ...productData, quantity: 1, sizes: selectedSize }];
+          toast.success("Added to Cart", { position: "bottom-left", duration: 2000 });
+        }
+        localStorage.setItem("guest_cart", JSON.stringify(localcard));
+        window.dispatchEvent(new Event("guest_cart_updated"));
+      } else if (state.actiontype === "wishlist" && productData) {
+        let localWishlist = JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        const exists = localWishlist.some((item) => item.id === productData.id);
+
+        if (exists) {
+          localWishlist = localWishlist.filter((item) => item.id !== productData.id);
+          toast.success("Removed from Wishlist", { position: "bottom-left", duration: 2000 });
+        } else {
+          localWishlist.push(productData);
+          toast.success("Added to Wishlist", { position: "bottom-left", duration: 2000 });
+        }
+        localStorage.setItem("guest_wishlist", JSON.stringify(localWishlist));
+        window.dispatchEvent(new Event("guest_wishlist_updated"));
+      }
+
+      setTimeout(() => {
+        setIsOpen(false);
+        setselectedSize("");
+        setAddToCart(false);
+      }, 1200);
+      return;
+    }
+
+    if (
+      state.actiontype === "wishlist" &&
+      state?.wishliststate !== undefined &&
+      state?.wishliststate !== null
+    ) {
+      processedRequestId.current = state.requestId;
+      toast.success(
+        state.wishliststate ? "Added to Wishlist" : "Removed from Wishlist",
+        { position: "bottom-left", duration: 1500 }
+      );
+
+      setTimeout(() => {
+        setIsOpen(false);
+        setselectedSize("");
+        setAddToCart(false);
+      }, 1500);
+      return;
+    }
+
+    if (
+      state.actiontype === "card" &&
+      state?.cardState !== undefined &&
+      state?.cardState !== null
+    ) {
+      processedRequestId.current = state.requestId;
+      toast.success(state.cardState ? "Quantity +1" : "Added to Cart", {
+        position: "bottom-left",
+        duration: 1500,
+      });
+
+      setTimeout(() => {
+        setIsOpen(false);
+        setselectedSize("");
+        setAddToCart(false);
+      }, 1500);
       return;
     }
 
     if (state?.status === 500) {
-      if (actionTypeState === "wishlist") {
+      processedRequestId.current = state.requestId;
+      if (state.actiontype === "wishlist") {
         dispatch(rollbackWishlist(selectedProduct));
-      } else if (actionTypeState === "card") {
+      } else if (state.actiontype === "card") {
         dispatch(removeFromCartOptimistic(selectedProduct.id));
       }
-      processedRequestId.current = state.requestId;
     }
   }, [
     state,
-    actionTypeState,
     dispatch,
     selectedProduct,
+    selectedSize,
     setIsOpen,
     setAddToCart,
     setselectedSize,
   ]);
+
   return (
     <form className={styles.icons} action={formAction}>
       <button
@@ -133,8 +180,8 @@ export default function Buttons() {
         type="submit"
         onClick={handleaddedtocard}
       >
-        {pending ? (
-          "ADDing..."
+        {pending && actiontypeState === "card" ? (
+          "Adding..."
         ) : (
           <>
             ADD TO BAG
@@ -156,8 +203,8 @@ export default function Buttons() {
           icon={isfevorite ? fasHeart : farHeart}
         />
       </button>
-      <input type="hidden" name="actiontype" value={actionTypeState || ""} />
-      <input type="hidden" name="id" value={selectedProduct.id || ""} />
+      <input type="hidden" name="actiontype" value={actiontypeState || ""} />
+      <input type="hidden" name="id" value={selectedProduct?.id || ""} />
       <input type="hidden" name="size" value={selectedSize || ""} />
     </form>
   );
