@@ -4,12 +4,10 @@ import MenCollection from "@/Components/Collection_com/Collection";
 import SportComponete from "@/Components/your_sport_start_here_componente/you_sport_componete";
 import DiscoundComponent from "@/Components/discound_componente/discounds";
 import HotCOMPONANTE from "@/Components/what_is_hot_componante/what_is_hot";
-import Feedback from "@/Components/feedback_component/feedback";
 
 export default async function Home() {
   return (
     <>
-      <Feedback />
       <Hreo />
       <Sport />
       <MenCollection />
