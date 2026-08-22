@@ -29,11 +29,11 @@ export default function ShoppingButton({ product }) {
   );
 
   const dispatch = useDispatch();
+
   const handleWishlistSubmit = () => {
     setActionTypeState("wishlist");
     dispatch(toggleWishlistOptimistic(product));
   };
-
   const handleaddedtocard = async () => {
     setActionTypeState("card");
     if (selectedSize && selectedSize?.trim() !== "") {
@@ -45,7 +45,35 @@ export default function ShoppingButton({ product }) {
     }
   };
   const processedRequestId = useRef(null);
+
   useEffect(() => {
+    if (state?.state === 401 && state?.type === "card") {
+      let productData = state.guestProduct;
+      let size = state.size;
+      let localcard = JSON.parse(localStorage.getItem("guest_cart")) || [];
+      const exsist = localcard.some(
+        (item) => item.id === productData.id && item.sizes === size,
+      );
+
+      if (exsist) {
+        localcard = localcard.map((item) =>
+          item.id === productData.id && item.sizes === size
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
+            : item,
+        );
+        toast.success("Quantity +1", {
+          position: "bottom-left",
+          duration: 2000,
+        });
+      } else {
+        localcard.push({ ...productData, quantity: 1, sizes: size });
+        toast.success("Add To Cart", {
+          position: "bottom-left",
+          duration: 2000,
+        });
+      }
+      localStorage.setItem("guest_cart", JSON.stringify(localcard));
+    }
     if (!state.requestId || state.requestId === processedRequestId.current) {
       return;
     }
@@ -93,6 +121,7 @@ export default function ShoppingButton({ product }) {
         setAddToCart(false);
       }, 200);
     }
+
     processedRequestId.current === state.requestId;
   }, [
     state,
