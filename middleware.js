@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse } from "next/server";
 
-export async function proxy(request) {
+export async function middleware(request) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -36,7 +36,6 @@ export async function proxy(request) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
   if (user) {
     request.headers.set("x-user-id", user.id);
   }
@@ -54,6 +53,13 @@ export async function proxy(request) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+  console.log(pathname);
+
+  if (pathname.startsWith("/Profile")) {
+    if (!user) {
+      return NextResponse.redirect(new URL("/register", request.url));
+    }
+  }
 
   return response;
 }
@@ -63,5 +69,7 @@ export const config = {
     "/admin/:path*",
     "/checkout/:path*",
     "/account/:path*",
+    "/Profile",
+    "/Profile/:path*",
   ],
 };
