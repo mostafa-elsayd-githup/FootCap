@@ -94,7 +94,7 @@ body {
   color: var(--color-primary);
 
   font-family: " IBM Plex Sans Arabic", sans-serif;
-  /* font-family: 'Readex Pro', sans-serif; */
+  font-family: 'Readex Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

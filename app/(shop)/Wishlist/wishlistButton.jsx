@@ -51,7 +51,7 @@ export default function Button({ product }) {
 
   return (
     <form action={formAction}>
-      <input type="hidden" name="id" value={product.id || ""} />
+      <input type="hidden" name="id" value={product?.id || ""} />
       <input type="hidden" name="actiontype" value="wishlist" />
       <button
         type="submit"

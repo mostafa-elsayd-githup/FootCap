@@ -1,11 +1,11 @@
 import { Cairo, Montserrat, Bebas_Neue } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./globals.css";
+import "@/app/(shop)/globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import AllProviders from "./AllProvider";
 import NavAction from "@/Components/Navbar/NavAction";
 import Footer from "@/Components/footer/Footre";
-
+import Feedback from "@/Components/feedback_component/feedback";
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["200", "400", "700", "1000"],
@@ -36,6 +36,7 @@ export default function RootLayout({ children }) {
         <AllProviders>
           <NavAction />
           <main className="min-h-[calc(100vh-100px)]">
+            <Feedback />
             {children}
             <SpeedInsights />
           </main>
