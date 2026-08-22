@@ -10,16 +10,17 @@ import {
   faChevronUp,
   faUsers,
   faBan,
+  faMessage,
 } from "@fortawesome/free-solid-svg-icons";
-import styles from "./sidbar.module.css"; 
+import styles from "./sidbar.module.css";
 
 export default function Sidebar() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
-
+  const [isopen, setisopen] = useState(false);
   const toggleProducts = () => setIsProductsOpen(!isProductsOpen);
 
   const product = [
-   { id: "Running", label: "Running" },
+    { id: "Running", label: "Running" },
     { id: "GEM", label: "Sport" },
     { id: "Football", label: "FootBall" },
     { id: "gym", label: "Gym" },
@@ -42,59 +43,77 @@ export default function Sidebar() {
     { id: "Sneakers_for_Men", label: "Sneakers for Men" },
   ];
 
-  
   return (
-    <aside className={styles.sidebar}>
-      <h2>ADMIN PANEL</h2>
-      <nav>
+   
+  <aside className={`${styles.sidebar} ${isopen ? styles.sidebarOpen : ""}`}>
+  <button
+    className={styles.opneButton}
+    type="button"
+    onClick={() => setisopen(!isopen)}
+    aria-label="Toggle Sidebar"
+  >
+    ADMIN PANEL
+  </button>
 
-        <Link href="/Components/dashboard" className={styles.navLink}>
-          <span>
-            <FontAwesomeIcon icon={faChartLine} className={styles.iconMargin} />
-            Dashboard
-          </span>
-        </Link>
+  <div className={styles.sidebarContent}>
+    <h2>ADMIN PANEL</h2>
+    <nav>
+      <Link href="/Admin/dashboard" className={styles.navLink}>
+        <span>
+          <FontAwesomeIcon icon={faChartLine} className={styles.iconMargin} />
+          Dashboard
+        </span>
+      </Link>
 
-        <div
-          className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
-          onClick={toggleProducts}
-          style={{ cursor: "pointer" }}
-        >
-          <span>
-            <FontAwesomeIcon icon={faBoxOpen} className={styles.iconMargin} />
-            Products
-          </span>
-          <FontAwesomeIcon
-            icon={isProductsOpen ? faChevronUp : faChevronDown}
-            size="xs"
-            className={styles.chevron}
-          />
-        </div>
+      <div
+        className={`${styles.navLink} ${isProductsOpen ? styles.activeLink : ""}`}
+        onClick={toggleProducts}
+        style={{ cursor: "pointer" }}
+      >
+        <span>
+          <FontAwesomeIcon icon={faBoxOpen} className={styles.iconMargin} />
+          Products
+        </span>
+        <FontAwesomeIcon
+          icon={isProductsOpen ? faChevronUp : faChevronDown}
+          size="xs"
+          className={styles.chevron}
+        />
+      </div>
 
-        <div className={`${styles.subMenu} ${isProductsOpen ? styles.open : ""}`}>
-          {product.map((sec) => (
-            <Link
-              key={sec.id}
-              href={`/Admin/products/?section=${sec.id}`}
-              className={styles.subNavLink}
-            >
-              {sec.label}
-            </Link>
-          ))}
-        </div>
+      <div className={`${styles.subMenu} ${isProductsOpen ? styles.open : ""}`}>
+        {product.map((sec) => (
+          <Link
+            key={sec.id}
+            href={`/Admin/products/?section=${sec.id}`}
+            className={styles.subNavLink}
+          >
+            {sec.label}
+          </Link>
+        ))}
+      </div>
 
-        <Link href="/dashboard/customer" className={styles.navLink}>
-          <span>
-            <FontAwesomeIcon icon={faUsers} className={styles.iconMargin} />
-            Customers
-          </span>
-        </Link>
+      <Link href="/Admin/customer/" className={styles.navLink}>
+        <span>
+          <FontAwesomeIcon icon={faUsers} className={styles.iconMargin} />
+          Customers
+        </span>
+      </Link>
 
-        <Link href="/dashboard/blockList" className={styles.bolckLink}>
-          <FontAwesomeIcon icon={faBan} />
-          Block List
-        </Link>
-      </nav>
-    </aside>
+      <Link href="/Admin/feedback" className={styles.navLink}>
+        <span>
+          <FontAwesomeIcon icon={faMessage} className={styles.iconMargin} />
+          FeedBack
+        </span>
+      </Link>
+
+      <Link href="/Admin/blockList" className={styles.bolckLink}>
+        <FontAwesomeIcon icon={faBan} />
+        Block List
+      </Link>
+    </nav>
+  </div>
+</aside>
+  
   );
 }

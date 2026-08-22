@@ -1,19 +1,71 @@
 .sidebar {
-  width: 280px; 
-  height: calc(100vh - 74px); 
-  background-color: var(--bg-card); 
-  border-right: 1px solid var(--border-color); 
-  padding: 2.5rem 1.2rem;
+  position: relative;
+  width: 0;
+  height: calc(100vh - 74px);
+  border-right: 1px solid transparent;
+  padding: 2.5rem 0;
   display: flex;
   flex-direction: column;
-  margin-top: 74px;
-  position: relative;
-  top: 0;
-  left: 0;
   box-sizing: border-box;
-  overflow-y: auto;
   z-index: 90;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  overflow: visible;
+  flex-shrink: 0;
+  top: 65px;
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.sidebarOpen {
+  width: 320px;
+  padding: 2.5rem 1.2rem;
+  border-right-color: var(--border-color);
+}
+
+.sidebarContent {
+  width: 280px;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.sidebarOpen .sidebarContent {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.3s ease 0.15s,
+    visibility 0.3s ease 0.15s;
+}
+
+.opneButton {
+  position: absolute;
+  right: -92px;
+  top: 50%;
+  width: 140px;
+  height: 42px;
+  border-radius: 4px 4px 0 0;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  border: 1px solid var(--border-color);
+  color: var(--color-secondary);
+  cursor: pointer;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-50%) rotate(-90deg);
+  z-index: 100;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.opneButton:hover {
+  color: var(--color-primary);
+  background-color: var(--bg-primary);
 }
 .sidebar::-webkit-scrollbar {
   width: 4px;
@@ -30,7 +82,7 @@
   padding-left: 12px;
   color: var(--color-primary);
   letter-spacing: 3px;
-  opacity: 0.7; 
+  opacity: 0.7;
 }
 
 .sidebar nav {
@@ -72,21 +124,21 @@
 }
 
 .navLink:hover .iconMargin {
-  transform: scale(1.08); 
+  transform: scale(1.08);
 }
 
 .bolckLink {
   padding: 12px 16px;
   border-radius: 14px;
-  color: var(--color-sale) !important; 
+  color: var(--color-sale) !important;
   text-decoration: none !important;
   font-weight: 500;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  margin-top: 2rem; 
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: rgba(227, 43, 43, 0.04); 
+  background-color: rgba(227, 43, 43, 0.04);
   border: 1px solid rgba(227, 43, 43, 0.1);
 }
 
@@ -97,28 +149,28 @@
   transform: translateY(-1px);
 }
 
-
 .subMenu {
-  background-color: var(--bg-primary); 
+  background-color: var(--bg-primary);
   border-radius: 14px;
   margin: 2px 0 8px 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr); 
+  grid-template-columns: repeat(2, 1fr);
   gap: 4px;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.3s ease, 
-              padding 0.3s ease;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease,
+    padding 0.3s ease;
   padding: 0 8px;
 }
 
 .subMenu.open {
-  max-height: 380px; 
+  max-height: 380px;
   opacity: 1;
   padding: 10px 8px;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 .subNavLink {
   padding: 8px 10px;
@@ -137,7 +189,7 @@
 .subNavLink:hover {
   color: var(--color-primary);
   background-color: rgba(120, 120, 120, 0.08);
-  padding-left: 14px; 
+  padding-left: 14px;
 }
 
 .chevron {
@@ -146,7 +198,7 @@
 }
 
 .activeLink .chevron {
-  transform: rotate(180deg); 
+  transform: rotate(180deg);
   color: var(--color-primary);
 }
 
@@ -174,7 +226,7 @@
 }
 
 .nestedSubMenu {
-  background-color: rgba(0, 0, 0, 0.03); 
+  background-color: rgba(0, 0, 0, 0.03);
   margin-left: 10px;
   border-left: 1px dashed var(--border-color);
   padding-left: 8px;
@@ -183,7 +235,9 @@
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease;
 }
 
 .nestedSubMenu.nestedOpen {
@@ -195,4 +249,23 @@
 .nestedActive {
   color: var(--color-primary);
   font-weight: 600;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 65px;
+    left: 0;
+      background-color: var(--bg-card);
+    height: calc(100vh - 74px);
+  }
+
+  .sidebarOpen {
+    width: 250px;
+    padding: 2rem 1rem;
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebarContent {
+    width: 220px;
+  }
 }
