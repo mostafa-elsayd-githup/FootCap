@@ -157,7 +157,7 @@
     font-weight: 550;
     line-height: 2;
     letter-spacing: 1.5px;
-    max-height: 400px;
+    max-height: fit-content;
     opacity: 1;
   }
 }
