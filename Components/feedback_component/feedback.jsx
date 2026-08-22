@@ -1,10 +1,12 @@
 "use client";
-import React, { useActionState, useState, useRef, useEffect } from "react";
+import { useActionState, useState, useRef, useEffect } from "react";
 import styles from "./feedback.module.css";
 import { useOpneing } from "@/RTK/storcontext";
 import FeedbackAction from "@/server/feedback_server";
 import Swal from "sweetalert2";
-import MostoreLogo from "../my_logo/logo"; 
+import MostoreLogo from "../my_logo/logo";
+import { usePathname } from "next/navigation";
+
 export default function Feedback() {
   const formRef = useRef(null);
   const [rating, setRating] = useState(null);
@@ -18,11 +20,11 @@ export default function Feedback() {
 
   const { isOpenfeedback, setIsOpenfeedback } = useOpneing();
   const [isOpenminidrop, setOpenminidrop] = useState("");
-  const [feedbackation, setfeedbackaction] = useState("");
+  const [feedbackaction, setFeedbackaction] = useState("");
 
   const handleRatingSubmit = (num) => {
     setRating(num);
-    setfeedbackaction("rating_update");
+    setFeedbackaction("rating_update");
 
     setTimeout(() => {
       if (formRef.current) {
@@ -34,7 +36,7 @@ export default function Feedback() {
   const handleOpenMinidrop = () => {
     setIsOpenfeedback(!isOpenfeedback);
     setOpenminidrop("openminidrop");
-    setfeedbackaction("open_dropdown_action");
+    setFeedbackaction("open_dropdown_action");
 
     setTimeout(() => {
       if (formRef.current) {
@@ -64,10 +66,14 @@ export default function Feedback() {
   }, [
     setIsOpenfeedback,
     state?.FeedbackMessage,
-    state.feedbackState,
-    state.timeStamp,
+    state?.feedbackState,
+    state?.timeStamp,
   ]);
-const  ta= true
+  const path = usePathname();
+  const exsist = path.startsWith("/Admin");
+  if (exsist) {
+    return null;
+  }
   return (
     <div
       className={`${styles.overlay} ${isOpenfeedback ? styles.activeOverlay : ""}`}
@@ -86,7 +92,7 @@ const  ta= true
         </button>
 
         <div className={styles.logoArea}>
-          <MostoreLogo className={styles.logoArea}/>
+          <MostoreLogo className={styles.logoArea} />
         </div>
 
         {pending ? (
@@ -108,8 +114,14 @@ const  ta= true
 
             <div>
               <p className={styles.questionText}>
-                How likely are you to recommend <strong>Mo<span style={{fontSize:"15px",fontWeight:"normal"}}>store</span></strong> to
-                a friend? *
+                How likely are you to recommend{" "}
+                <strong>
+                  Mo
+                  <span style={{ fontSize: "15px", fontWeight: "normal" }}>
+                    store
+                  </span>
+                </strong>{" "}
+                to a friend? *
               </p>
               <div className={styles.questionSection}>
                 <span>Very unlikely</span> <span>Very likely</span>
@@ -121,7 +133,6 @@ const  ta= true
                     <input
                       type="radio"
                       id={`rating-${num}`}
-                      name="rating"
                       value={num}
                       checked={rating === num}
                       className={styles.radioInput}
@@ -137,25 +148,31 @@ const  ta= true
                   </div>
                 ))}
               </div>
+              {state?.state === 400 && (
+                <span className="text-red-600">{state.message}</span>
+              )}
             </div>
-
-            <input type="hidden" name="ratimgNum" value={rating || ""} />
-            <input
-              type="hidden"
-              name="feedbackation"
-              value={feedbackation || ""}
-            />
+            <input type="hidden" name="rating" value={rating ?? ""} />
+            <input type="hidden" name="intent" value={feedbackaction || ""} />
             <input
               type="hidden"
               name="isOpenminidrop"
               value={isOpenminidrop || ""}
             />
-            {(state.state === 201 ||
-              state.state === 202 ||
-              state.state === 203) && (
+
+            {(state?.state === 201 ||
+              state?.state === 202 ||
+              state?.state === 203) && (
               <div className={styles.feedbackSection}>
                 <p className={styles.questionText}>
-                  {state?.message} <strong>Mo<span style={{fontSize:"15px",fontWeight:"normal"}}>store</span>.com</strong>
+                  {state?.message}{" "}
+                  <strong>
+                    Mo
+                    <span style={{ fontSize: "15px", fontWeight: "normal" }}>
+                      store
+                    </span>
+                    .com
+                  </strong>
                 </p>
                 <textarea
                   name="comment"
@@ -168,7 +185,7 @@ const  ta= true
             <button
               className={styles.nextButton}
               type="submit"
-              onClick={() => setfeedbackaction("feedback")}
+              onClick={() => setFeedbackaction("feedback")}
             >
               Submit
             </button>
