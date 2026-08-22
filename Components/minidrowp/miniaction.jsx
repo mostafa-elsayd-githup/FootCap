@@ -27,7 +27,6 @@ export default async function handelAction(prevstate, formData) {
       message: "Product Not Found",
     };
   }
-
   let {
     data: { user },
     error: authError,
@@ -38,6 +37,7 @@ export default async function handelAction(prevstate, formData) {
       message: "Please login to continue",
       guestProduct: product,
       actiontype: dataobject.actiontype,
+      size: dataobject.size,
       requestId,
     };
   }
@@ -91,7 +91,7 @@ export default async function handelAction(prevstate, formData) {
       if (index !== -1) {
         return {
           cardState: true,
-          actiontype: "card", // 👈 إضافة نوع الأكشن صراحة
+          actiontype: "card",
           requestId,
         };
       } else {

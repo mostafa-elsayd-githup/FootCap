@@ -31,13 +31,13 @@ export default function Buttons() {
   const initialState = { message: "", wishliststate: null, requestId: null };
   const [state, formAction, pending] = useActionState(
     handelAction,
-    initialState
+    initialState,
   );
   const [actiontypeState, setActiontypeState] = useState("");
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const isfevorite = wishlistItems.some(
-    (item) => Number(item.id) === Number(selectedProduct?.id)
+    (item) => Number(item.id) === Number(selectedProduct?.id),
   );
 
   const handleaddedtocard = () => {
@@ -76,39 +76,57 @@ export default function Buttons() {
     if (state?.state === 401) {
       processedRequestId.current = state.requestId;
       const productData = state.guestProduct;
-
+      const size = state.size;
       if (state.actiontype === "card" && productData) {
         let localcard = JSON.parse(localStorage.getItem("guest_cart")) || [];
-        const exists = localcard.some((item) => item.id === productData.id);
-
+        const exists = localcard.some(
+          (item) => item.id === productData.id && item.sizes === size,
+        );
         if (exists) {
           localcard = localcard.map((item) =>
-            item.id === productData.id
+            item.id === productData.id && item.sizes === size
               ? { ...item, quantity: (item.quantity || 1) + 1 }
-              : item
+              : item,
           );
-          toast.success("Quantity +1", { position: "bottom-left", duration: 2000 });
+          toast.success("Quantity +1", {
+            position: "bottom-left",
+            duration: 2000,
+          });
         } else {
-          localcard = [...localcard, { ...productData, quantity: 1, sizes: selectedSize }];
-          toast.success("Added to Cart", { position: "bottom-left", duration: 2000 });
+          localcard = [
+            ...localcard,
+            { ...productData, quantity: 1, sizes: selectedSize },
+          ];
+          toast.success("Added to Cart", {
+            position: "bottom-left",
+            duration: 2000,
+          });
         }
         localStorage.setItem("guest_cart", JSON.stringify(localcard));
         window.dispatchEvent(new Event("guest_cart_updated"));
       } else if (state.actiontype === "wishlist" && productData) {
-        let localWishlist = JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        let localWishlist =
+          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
         const exists = localWishlist.some((item) => item.id === productData.id);
 
         if (exists) {
-          localWishlist = localWishlist.filter((item) => item.id !== productData.id);
-          toast.success("Removed from Wishlist", { position: "bottom-left", duration: 2000 });
+          localWishlist = localWishlist.filter(
+            (item) => item.id !== productData.id,
+          );
+          toast.success("Removed from Wishlist", {
+            position: "bottom-left",
+            duration: 2000,
+          });
         } else {
           localWishlist.push(productData);
-          toast.success("Added to Wishlist", { position: "bottom-left", duration: 2000 });
+          toast.success("Added to Wishlist", {
+            position: "bottom-left",
+            duration: 2000,
+          });
         }
         localStorage.setItem("guest_wishlist", JSON.stringify(localWishlist));
         window.dispatchEvent(new Event("guest_wishlist_updated"));
       }
-
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
@@ -116,7 +134,6 @@ export default function Buttons() {
       }, 1200);
       return;
     }
-
     if (
       state.actiontype === "wishlist" &&
       state?.wishliststate !== undefined &&
@@ -125,7 +142,7 @@ export default function Buttons() {
       processedRequestId.current = state.requestId;
       toast.success(
         state.wishliststate ? "Added to Wishlist" : "Removed from Wishlist",
-        { position: "bottom-left", duration: 1500 }
+        { position: "bottom-left", duration: 1500 },
       );
 
       setTimeout(() => {
@@ -135,7 +152,6 @@ export default function Buttons() {
       }, 1500);
       return;
     }
-
     if (
       state.actiontype === "card" &&
       state?.cardState !== undefined &&
@@ -146,7 +162,6 @@ export default function Buttons() {
         position: "bottom-left",
         duration: 1500,
       });
-
       setTimeout(() => {
         setIsOpen(false);
         setselectedSize("");
@@ -154,7 +169,6 @@ export default function Buttons() {
       }, 1500);
       return;
     }
-
     if (state?.status === 500) {
       processedRequestId.current = state.requestId;
       if (state.actiontype === "wishlist") {
