@@ -1,40 +1,134 @@
 "use server";
-import { redirect } from "next/navigation";
 import { createClientForServer } from "@/utils/supabase";
-import { LoginSchema } from "@/schemas/loginSchema";
-
-export async function loginAction(prevstate, formData) {
+import { revalidatePath } from "next/cache";
+import { ProductSchema } from "@/schemas/productSchema";
+export default async function handelAction(prevstate, formData) {
   const dataobject = Object.fromEntries(formData);
-  const loginResult = LoginSchema.safeParse(dataobject);
-  if (!loginResult.success) {
-    return { success: false, message: loginResult.error.flatten().fieldErrors };
-  }
-  const { email, password } = loginResult.data;
+  const ProductResult = ProductSchema.safeParse(dataobject);
+  const requestId = crypto.randomUUID();
+  console.log(dataobject);
 
-  try {
-    const supabaseServer = await createClientForServer();
-    const { error } = await supabaseServer.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (error) {
-      console.error("Supabase Login Error:", error.message);
-
-      if (error.message.includes("Invalid login credentials")) {
-        return {
-          message: "Incorrect password or this account does not exist.",
-        };
-      }
-
-      return { message: error.message };
-    }
-  } catch (error) {
-    console.error("Server Catch Error:", error);
+  if (!ProductResult.success) {
     return {
-      message: "A technical server error occurred. Please try again later.",
+      success: false,
+      actionType: dataobject.actiontype,
+      message: ProductResult.error.flatten().fieldErrors,
+      requestId,
+    };
+  }
+  const { id, actiontype, size } = ProductResult.data;
+
+  let supabaseServer = await createClientForServer();
+  const { data: getproduct, error: productError } = await supabaseServer
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (!getproduct || productError) {
+    return { message: "Product Not Found" };
+  }
+  let {
+    data: { user },
+    error: authError,
+  } = await supabaseServer.auth.getUser();
+  if (authError || !user) {
+    return {
+      state: 401,
+      message: "Please login to continue",
+      guestProduct: getproduct,
+      type: dataobject.actiontype,
+      size: dataobject.size,
     };
   }
 
-  redirect("/");
+  if (actiontype === "card") {
+    try {
+      const cartitemId = `${id}-${size}`;
+      const { data: profile, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("cart")
+        .eq("id", user.id)
+        .single();
+      if (!profile || fetchError) {
+        return { error: "Failed to fetch cart" };
+      }
+      let carts = profile.cart || [];
+
+      const index = carts.findIndex((item) => item.id === cartitemId);
+      if (index !== -1) {
+        carts[index].quantity += 1;
+      } else {
+        carts.push({
+          ...getproduct,
+          id: cartitemId,
+          sizes: size,
+          quantity: 1,
+        });
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ cart: carts })
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+
+      if (index !== -1) {
+        return {
+          cardState: true,
+          requestId,
+        };
+      } else if (index === -1) {
+        return {
+          cardState: false,
+          requestId,
+        };
+      }
+    } catch {
+      return { message: "Please Check internet Connect ", status: 500 };
+    }
+  } else if (actiontype === "wishlist") {
+    try {
+      const { data: profile, error: fetchError } = await supabaseServer
+        .from("profiles")
+        .select("wishlist")
+        .eq("id", user.id)
+        .single();
+      if (fetchError) {
+        return { error: "Failed to fetch wishlist" };
+      }
+      let currentWishlist = profile?.wishlist || [];
+      const exists = currentWishlist.some((item) => item.id === getproduct.id);
+      if (exists) {
+        currentWishlist = currentWishlist.filter(
+          (item) => item.id !== getproduct.id,
+        );
+      } else {
+        currentWishlist.push(getproduct);
+      }
+      const { error: updateError } = await supabaseServer
+        .from("profiles")
+        .update({ wishlist: currentWishlist })
+        .eq("id", user.id);
+      if (updateError) {
+        console.error(
+          "Error updating wishlist in Supabase:",
+          updateError.message,
+        );
+        return { error: "Failed to update wishlist" };
+      }
+      revalidatePath("/");
+      return { wishliststate: !exists, requestId };
+    } catch {
+      return {
+        message: "Sorry, the connection to the server failed.",
+        status: 500,
+        requestId,
+      };
+    }
+  }
 }
