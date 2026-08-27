@@ -109,7 +109,7 @@ export default function Sidebar() {
 
       <Link href="/Admin/blockList" className={styles.bolckLink}>
         <FontAwesomeIcon icon={faBan} />
-        Block List
+        Black List
       </Link>
     </nav>
   </div>

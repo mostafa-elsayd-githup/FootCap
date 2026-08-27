@@ -138,21 +138,20 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background-color: rgba(227, 43, 43, 0.04);
-  border: 1px solid rgba(227, 43, 43, 0.1);
+  background-color: #e32b2b0a;
+  border: 1px solid #e32b2b1a;
 }
 
 .bolckLink:hover {
   background-color: var(--color-sale);
   color: var(--color-main) !important;
-  box-shadow: 0 8px 20px rgba(227, 43, 43, 0.15);
+  box-shadow: 0 8px 20px #e32b2b26;
   transform: translateY(-1px);
 }
 
 .subMenu {
   background-color: var(--bg-primary);
   border-radius: 14px;
-  margin: 2px 0 8px 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 4px;
