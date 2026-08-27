@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import ShoppingButton from "./buttonShopping";
 import WishlistButton from "./WishlistButton";
 const SingleProduct = ({ productItem }) => {
+  console.log(productItem);
   
   const Router = useRouter();
   const [currentImg, setCurrentImg] = useState(productItem?.image || "");

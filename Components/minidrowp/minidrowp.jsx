@@ -1,16 +1,26 @@
 "use client";
 import styles from "./minidrowp.module.css";
 import { Card } from "react-bootstrap";
+import { memo } from "react";
 import { useOpneing } from "@/RTK/storcontext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Buttons from "./minidropButton";
-export default function MiniDrowp() {
-  const { isOpen, setIsOpen, selectedProduct, setAddToCart, setselectedSize, selectedSize } = useOpneing();
-  const handleViewProductButton = async () => {
-    redirect(`/product/${selectedProduct.id}`);
+const MiniDrowp = memo(function MiniDrowp() {
+  const {
+    isOpen,
+    setIsOpen,
+    selectedProduct,
+    setAddToCart,
+    setselectedSize,
+    selectedSize,
+  } = useOpneing();
+  const router = useRouter();
+  const handleViewProductButton = async (e) => {
+    e.preventDefault();
+    router.push(`/product/${selectedProduct.id}`);
   };
   const oldprice = Intl.NumberFormat("en", {
     notation: "standard",
@@ -28,8 +38,8 @@ export default function MiniDrowp() {
     <>
       {selectedProduct && (
         <div
-        className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
-        onClick={() => setIsOpen(false)}
+          className={`${styles.overlay} ${isOpen ? styles.activeOverlay : ""}`}
+          onClick={() => setIsOpen(false)}
         >
           <div
             key={selectedProduct.id}
@@ -101,7 +111,7 @@ export default function MiniDrowp() {
               <div className="mt">
                 <h3 className={styles.sectionTitle}>Select Size</h3>
                 <div className={styles.sizeGrid}>
-                  {selectedProduct.sizes.map((size) => (
+                  {selectedProduct?.sizes?.map((size) => (
                     <button
                       key={size}
                       className={`${styles.sizeBox} 
@@ -142,4 +152,5 @@ export default function MiniDrowp() {
       )}
     </>
   );
-}
+});
+export default MiniDrowp;
