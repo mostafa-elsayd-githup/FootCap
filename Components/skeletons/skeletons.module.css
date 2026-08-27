@@ -1,41 +1,31 @@
-/* الأنميشن الأساسي (تأثير الشيمر الفخم) */
 .shimmer_item {
-  background: linear-gradient(
-    90deg,
-    #f2f2f2 25%,
-    #e6e6e6 50%,
-    #f2f2f2 75%
-  );
+  background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 50%, #f2f2f2 75%);
   background-size: 200% 100%;
   animation: loadingShimmer 1.6s infinite linear;
   border-radius: 6px;
 }
 
-/* التوافق التلقائي مع الـ Dark Mode الفخم بتاعك */
 :global(.dark) .shimmer_item {
-  background: linear-gradient(
-    90deg,
-    #1f1f1f 25%,
-    #2d2d2d 50%,
-    #1f1f1f 75%
-  );
+  background: linear-gradient(90deg, #1f1f1f 25%, #2d2d2d 50%, #1f1f1f 75%);
   background-size: 200% 100%;
 }
 
 @keyframes loadingShimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
-/* ========================================== */
-/* 📦 1. ستايل صفحة المنتجات والـ Wishlist (Grid) */
-/* ========================================== */
 .products_grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
   width: 100%;
   padding: 20px 0;
+  margin-top: 150px;
 }
 
 .product_card {
@@ -47,14 +37,24 @@
   gap: 14px;
 }
 
-.img_placeholder { width: 100%; height: 260px; border-radius: 12px; }
-.title_placeholder { width: 75%; height: 22px; }
-.price_placeholder { width: 35%; height: 18px; }
-.btn_placeholder { width: 100%; height: 46px; border-radius: 30px; }
-
-/* ========================================== */
-/* 📊 2. ستايل صفحة الـ Dashboard */
-/* ========================================== */
+.img_placeholder {
+  width: 100%;
+  height: 260px;
+  border-radius: 12px;
+}
+.title_placeholder {
+  width: 75%;
+  height: 22px;
+}
+.price_placeholder {
+  width: 35%;
+  height: 18px;
+}
+.btn_placeholder {
+  width: 100%;
+  height: 46px;
+  border-radius: 30px;
+}
 .dashboard_layout {
   display: flex;
   flex-direction: column;
@@ -85,9 +85,6 @@
   padding: 24px;
 }
 
-/* ========================================== */
-/* 📝 3. ستايل صفحة الـ Blog (المقالات) */
-/* ========================================== */
 .blog_grid {
   display: flex;
   flex-direction: column;
@@ -101,12 +98,53 @@
   align-items: center;
 }
 
-.blog_img { width: 320px; height: 200px; border-radius: 12px; flex-shrink: 0; }
-.blog_meta { width: 150px; height: 14px; }
-.blog_title { width: 85%; height: 26px; }
-.blog_desc { width: 100%; height: 16px; }
+.blog_img {
+  width: 320px;
+  height: 200px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.blog_meta {
+  width: 150px;
+  height: 14px;
+}
+.blog_title {
+  width: 85%;
+  height: 26px;
+}
+.blog_desc {
+  width: 100%;
+  height: 16px;
+}
 
-@media (max-width: 768px) {
-  .blog_post { flex-direction: column; align-items: flex-start; }
-  .blog_img { width: 100%; height: 220px; }
+@media (max-width: 1200px) {
+  .products_grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .products_grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .products_grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+  .img_placeholder {
+    height: 180px;
+  }
+  .btn_placeholder {
+    height: 38px;
+  }
+}
+
+@media (max-width: 380px) {
+  .products_grid {
+    grid-template-columns: 1fr;
+  }
 }
