@@ -1,4 +1,3 @@
-
 "use client";
 import { useTheme } from "next-themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,10 +10,8 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
+    queueMicrotask(() => setMounted(true));
   }, []);
-
   if (!mounted) return <div className={styles.placeholder_btn}></div>;
 
   const isDark = theme === "dark";
@@ -30,8 +27,10 @@ export default function ThemeToggle() {
         <div className={`${styles.icon_box} ${isDark ? styles.sun_hide : ""}`}>
           <FontAwesomeIcon icon={faSun} className={styles.sun_icon} />
         </div>
-        
-        <div className={`${styles.icon_box} ${!isDark ? styles.moon_hide : ""}`}>
+
+        <div
+          className={`${styles.icon_box} ${!isDark ? styles.moon_hide : ""}`}
+       >
           <FontAwesomeIcon icon={faMoon} className={styles.moon_icon} />
         </div>
       </div>
