@@ -2,7 +2,7 @@
 import { useActionState, useState, useRef, useEffect } from "react";
 import styles from "./feedback.module.css";
 import { useOpneing } from "@/RTK/storcontext";
-import FeedbackAction from "@/server/feedback_server";
+import FeedbackAction from "@/server/feedbackmessages_server";
 import Swal from "sweetalert2";
 import MostoreLogo from "../my_logo/logo";
 import { usePathname } from "next/navigation";
@@ -61,6 +61,7 @@ export default function Feedback() {
       });
       setTimeout(() => {
         setIsOpenfeedback(false);
+        setRating(false)
       }, 800);
     }
   }, [
