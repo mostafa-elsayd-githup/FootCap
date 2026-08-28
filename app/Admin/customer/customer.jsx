@@ -24,8 +24,7 @@ export default function AdminCustomers({ users }) {
     initialstate,
   );
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsClient(true);
+    queueMicrotask(() => setIsClient(true));
   }, []);
   const displayUsers = state.users?.length > 0 ? state.users : users;
 
@@ -182,11 +181,12 @@ export default function AdminCustomers({ users }) {
                       <td>
                         <div className={styles.actionContainer}>
                           <Link
-                            href={`/dashboard/customer/${user.id}`}
+                            href={`/Admin/customer/${user.id}`}
                             className={`${styles.actionBtn} ${styles.viewBtn}`}
                             title="View Profile"
                           >
                             <FontAwesomeIcon icon={faEye} />
+                            
                           </Link>
                           <button
                             className={`${styles.actionBtn} ${styles.emailBtn}`}
