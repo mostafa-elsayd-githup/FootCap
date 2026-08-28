@@ -1,0 +1,151 @@
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton {
+  background-color: var(--border_card, #ffffff14);
+  border-radius: 8px;
+  animation: pulse 1.8s ease-in-out infinite;
+  margin-top: 2rem;
+}
+
+.container {
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  width: 260px;
+  height: 28px;
+}
+
+.subTitle {
+  width: 100px;
+  height: 14px;
+}
+.mainGrid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1.5rem;
+}
+.imagesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.imageBox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+}
+
+.statsPreviewBox {
+  width: 100%;
+  height: 70px;
+  border-radius: 14px;
+}
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--bg-card, #212429);
+  border: 1px solid var(--border_card, #ffffff14);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+}
+
+.sectionTitle {
+  width: 140px;
+  height: 20px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  width: 120px;
+  height: 14px;
+}
+
+.input {
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+}
+
+.textarea {
+  width: 100%;
+  height: 100px;
+  border-radius: 10px;
+}
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitBtn {
+  width: 180px;
+  height: 44px;
+  border-radius: 12px;
+}
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .imagesSection {
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .submitBtn {
+    width: 100%;
+  }
+}
