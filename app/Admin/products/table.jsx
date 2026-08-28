@@ -21,9 +21,12 @@ function ProductTable({ products }) {
               Monitor and update your store products
             </p>
           </div>
-          <button className={styles.addBtn}>
+          <Link
+            href={`/Admin/products/add_Product?section=${products[0].type}`}
+            className={styles.addBtn}
+          >
             <FontAwesomeIcon icon={faPlus} className="me-2" /> Add Product
-          </button>
+          </Link>
         </div>
 
         <div className={styles.tableContainer}>

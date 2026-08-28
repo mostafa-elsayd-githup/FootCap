@@ -64,12 +64,12 @@
 .addBtn {
   background-color: var(--color-primary);
   color: var(--bg-main);
-  border: none;
   padding: 10px 0;
   border-radius: 6px;
   font-weight: 700;
   transition: 0.3s;
   width: 15rem;
+  text-align: center;
 }
 
 .addBtn:hover {
