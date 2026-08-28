@@ -11,10 +11,10 @@ const geistMono = Geist_Mono({
 });
 export default function AuthLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+    // <html lang="en" suppressHydrationWarning>
+       //<body className={`${geistSans.variable} ${geistMono.variable}`}>
         <div className="auth-container">{children}</div>
-      </body>
-    </html>
+      //</body>
+    //</html>
   );
 }
