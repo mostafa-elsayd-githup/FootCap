@@ -15,7 +15,7 @@ import styles from "./page.module.css";
 import { Card } from "react-bootstrap";
 import ShoppingButton from "./actionButton";
 import { useOpneing } from "@/RTK/storcontext";
-export default function Products({ fillWidth, product }) {
+export default function Products({ fillWidth, product }) {   
   const { selectedSize, setselectedSize, setAddToCart } = useOpneing();
   const oldprice = Intl.NumberFormat("en", {
     notation: "standard",
@@ -105,7 +105,7 @@ export default function Products({ fillWidth, product }) {
             {product?.url?.length} colours available
           </div>
           <div className={styles.smil_image}>
-            {product?.url.map((item) => {
+            {product?.url?.map((item) => {
               return (
                 <span key={item.id}>
                   <Image src={item.img_url} alt="Logo" width={70} height={70} />
