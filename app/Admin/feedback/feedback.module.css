@@ -3,17 +3,15 @@
 }
 .card {
   background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  border-color: var(--border-color);
 }
-
 .card:hover {
   border-color: var(--text-muted);
 }
 
 .subCard {
   background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
+  border-color: var(--border-color);
 }
 
 .headerBorder {
@@ -30,22 +28,22 @@
 
 .iconBox {
   background-color: var(--bg-sub);
+  border-color: var(--border-color);
   color: var(--text-secondary);
 }
 
 .commentText {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .footerBorder {
-  border-top: 1px solid var(--border-color);
-  color: var(--text-muted);
+  border-color: var(--border-color);
 }
 
 .badge {
   background-color: var(--bg-sub);
   border: 1px solid var(--border-color);
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 @media (max-width: 996px) {
   .box{
