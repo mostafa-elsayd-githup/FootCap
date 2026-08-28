@@ -1,6 +1,6 @@
 import { Cairo, Montserrat, Bebas_Neue } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "@/app/(shop)/globals.css";
+import "@/app/globals.css"
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import AllProviders from "./AllProvider";
 import NavAction from "@/Components/Navbar/NavAction";

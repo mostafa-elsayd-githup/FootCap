@@ -13,7 +13,6 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* تأثير الإضاءة الخلفية الناعمة */
 .blurCircle1, .blurCircle2 {
   position: absolute;
   width: 300px;
