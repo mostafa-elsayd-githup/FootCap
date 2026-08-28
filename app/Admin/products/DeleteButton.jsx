@@ -36,7 +36,7 @@ export default function DeleteButton({ id }) {
           (setbuttontype("Delete"), setproductId(productId));
         }}
       >
-        {pending ? <LoaderTag /> : <FontAwesomeIcon icon={faTrash} />}
+        {true ? <LoaderTag width={19} higth={19}  /> : <FontAwesomeIcon icon={faTrash} />}
       </button>
     </form>
   );
