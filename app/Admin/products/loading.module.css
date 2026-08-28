@@ -1,0 +1,140 @@
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton {
+  background-color: var(--border_card, #ffffff14);
+  border-radius: 8px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.container {
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  width: 280px;
+  height: 28px;
+}
+
+.subtitle {
+  width: 220px;
+  height: 14px;
+}
+
+.addBtn {
+  width: 130px;
+  height: 40px;
+  border-radius: 10px;
+}
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: var(--bg-card, #212429);
+  border: 1px solid var(--border_card, #ffffff14);
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr 1.5fr 1fr;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border_card, #ffffff14);
+  gap: 1rem;
+  min-width: 700px;
+}
+
+.colHeader {
+  height: 14px;
+  width: 50%;
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 700px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.5fr 2fr 1.5fr 1.5fr 1fr;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-dis, #ffffff0a);
+  gap: 1rem;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+.productCol {
+  display: flex;
+  align-items: center;
+}
+
+.thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+.categoryText {
+  width: 110px;
+  height: 16px;
+}
+
+.priceText {
+  width: 80px;
+  height: 16px;
+}
+
+.stockBadge {
+  width: 90px;
+  height: 26px;
+  border-radius: 20px;
+}
+
+.actionsCol {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.actionBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+}

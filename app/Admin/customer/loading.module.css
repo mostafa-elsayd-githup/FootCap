@@ -1,0 +1,146 @@
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.skeleton {
+  background-color: var(--border_card, #ffffff14);
+  border-radius: 8px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.container {
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  width: 220px;
+  height: 28px;
+}
+
+.subtitle {
+  width: 280px;
+  height: 14px;
+}
+
+.searchBar {
+  width: 260px;
+  height: 38px;
+  border-radius: 12px;
+}
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: var(--bg-card, #212429);
+  border: 1px solid var(--border_card, #ffffff14);
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border_card, #ffffff14);
+  gap: 1rem;
+  min-width: 650px;
+}
+
+.colHeader {
+  height: 14px;
+  width: 60%;
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+  min-width: 650px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-dis, #ffffff0a);
+  gap: 1rem;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+.customerCol {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.name {
+  width: 120px;
+  height: 16px;
+}
+
+.statusBadge {
+  width: 60px;
+  height: 22px;
+  border-radius: 20px;
+}
+
+.textShort {
+  width: 30px;
+  height: 16px;
+}
+
+.textMedium {
+  width: 70px;
+  height: 16px;
+}
+
+.actionsCol {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .searchBar {
+    width: 100%;
+  }
+}
