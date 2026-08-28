@@ -12,7 +12,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-export default function Dashboard({ total, allUsers, orders, finalData }) {
+export default function Dashboard({ total, allUsers, orders, finalData, Donut_Char }) {
 
   
   const totalmoney = new Intl.NumberFormat("en", {
@@ -22,11 +22,6 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
     
   }).format(total);
 
-  const data = [
-    { name: "Shoes", value: 20, color: "#3b82f6" },
-    { name: "Jerseys", value: 25, color: "#10b981" }, 
-    { name: "Jackets", value: 15, color: "#f59e0b" }, 
-  ];
   return (
     <div className={styles.adminLayout}>
       <main className={styles.content}>
@@ -34,16 +29,6 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
           <h1 className="fw-bold" style={{ color: "var(--color-primary)" }}>
             Analytics Overview
           </h1>
-          <button
-            className="btn btn-primary"
-            style={{
-              backgroundColor: "var(--color-primary)",
-              border: "none",
-              color: "var(--color-main)",
-            }}
-          >
-            Export Report
-          </button>
         </div>
 
         <div className={styles.topCards}>
@@ -117,44 +102,43 @@ export default function Dashboard({ total, allUsers, orders, finalData }) {
        <div className={styles.glassCard}>
       <h3 className={styles.cardTitle}>Top Categories</h3>
       
-      <ResponsiveContainer width="100%" height="70%">
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={65}   
-            outerRadius={85}
-            paddingAngle={6}   
-            cornerRadius={8}   
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.color}
-                style={{
-                  filter: `drop-shadow(0px 0px 8px ${entry.color})`, 
-                  cursor: 'pointer'
-                }}
-              />
-            ))}
-          </Pie>
-          
-          <Tooltip 
-            contentStyle={{ 
-              backgroundColor: "rgba(30, 30, 30, 0.85)", 
-              backdropFilter: "blur(8px)",
-              borderRadius: "12px", 
-              border: "1px solid rgba(255, 255, 255, 0.1)", 
-              color: "#fff",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.4)"
-            }} 
-          />
-        </PieChart>
-      </ResponsiveContainer>
+     <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={Donut_Char}
+              cx="50%"
+              cy="50%"
+              innerRadius={55}
+              outerRadius={75}
+              paddingAngle={6}
+              dataKey="value"
+              cornerRadius={8}
+              stroke="none"
+            >
+              {Donut_Char.map((entry, index) => (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={entry.color} 
+                  style={{
+                    filter: `drop-shadow(0px 0px 6px ${entry.color}80)`
+                  }}
+                />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--bg-card, #212429)",
+                borderColor: "var(--border-color, #2b2e33)",
+                color: "var(--color-primary, #fff)",
+                borderRadius: "10px",
+                fontSize: "12px"
+              }}
+              formatter={(value) => [`${value} Sales`, "Quantity"]}
+            />
+          </PieChart>
+        </ResponsiveContainer>
       <div className={styles.legendContainer}>
-        {data.map((entry, index) => (
+        {Donut_Char.map((entry, index) => (
           <div key={index} className={styles.legendItem}>
             <span 
               className={styles.legendDot} 

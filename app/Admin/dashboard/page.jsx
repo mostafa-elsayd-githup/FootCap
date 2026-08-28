@@ -10,17 +10,18 @@ async function getWishlist() {
     if (profileError) {
       return [];
     }
-    const totalOrdersCount = profile.reduce((acc, user) => {
-      if (user.orders && Array.isArray(user.orders)) {
+
+    const totalOrdersCount = profile?.reduce((acc, user) => {
+      if (user.orders && Array.isArray(user?.orders)) {
         return acc + user.orders.length;
       }
       return acc;
     }, 0);
 
-    const totalRevenue = profile.reduce((acc, user) => {
+    const totalRevenue = profile?.reduce((acc, user) => {
       if (user.orders && Array.isArray(user.orders)) {
-        const userSum = user.orders.reduce((sum, ord) => {
-          return sum + (parseFloat(ord.totalprice) || 0);
+        const userSum = user?.orders?.reduce((sum, ord) => {
+          return sum + (parseFloat(ord?.totalprice) || 0);
         }, 0);
         return acc + userSum;
       }
@@ -53,11 +54,42 @@ async function getWishlist() {
       name: day,
       sales: salesByDay[day] || 0,
     }));
+    const categoryMap = {};
+
+    profile.forEach((user) => {
+      if (Array.isArray(user?.orders)) {
+        user.orders.forEach((ord) => {      
+          const items = ord.items || ord.cartItems || ord.products || [];
+          if (Array.isArray(items)) {
+            items.forEach((product) => {
+              const category =
+                product.product_type ||
+                product.category ||
+                product.type ||
+                "Other";
+              const quantity = Number(product.quantity) || 1;
+
+              categoryMap[category] = (categoryMap[category] || 0) + quantity;
+            });
+          }
+        });
+      }
+    });
+    const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6"];
+
+    const topCategoriesData = Object.entries(categoryMap).map(
+      ([name, value], index) => ({
+        name,
+        value,
+        color: COLORS[index % COLORS.length],
+      }),
+    );  
     return {
       users: profile,
       totalRevenue: totalRevenue,
       orders: totalOrdersCount,
       finalData: finalData,
+      ProductsData: topCategoriesData,
     };
   } catch {
     return { users: [], totalRevenue: 0 };
@@ -65,13 +97,14 @@ async function getWishlist() {
 }
 
 async function Product() {
-  const { users, totalRevenue, orders, finalData } = await getWishlist();
+  const { users, totalRevenue, orders, finalData , ProductsData} = await getWishlist();
   return (
     <Dashboard
       total={totalRevenue}
       allUsers={users}
       orders={orders}
       finalData={finalData}
+      Donut_Char={ProductsData}
     />
   );
 }
