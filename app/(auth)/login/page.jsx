@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./login.module.css";
 import Link from "next/link";
-import { loginAction } from "@/server/login_server";
+import loginAction from "@/server/login_server";
 import { useActionState } from "react";
 import Loader from "@/Components/loaderFecthing/loader";
 
