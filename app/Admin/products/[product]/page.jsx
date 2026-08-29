@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import EditProductPage from "./editProduct";
 import { createClientForServer } from "@/utils/supabase";
 async function getProduct(id) {

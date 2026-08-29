@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import EditProductPage from "./editProduct";
 export default async function ProductPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;
