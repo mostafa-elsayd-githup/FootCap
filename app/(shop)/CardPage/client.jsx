@@ -179,7 +179,7 @@ const CartPage = ({ card }) => {
                   <span className={styles.row_label}>SUBTOTAL</span>
                   <span className={styles.row_value}>
                     EGP{" "}
-                    {/* {card
+                    {card
                         ?.reduce(
                           (acc, item) =>
                             acc +
@@ -189,7 +189,7 @@ const CartPage = ({ card }) => {
                               item?.quantity,
                           0,
                         )
-                        .toLocaleString()} */}
+                        .toLocaleString()}
                   </span>
                 </div>
 
@@ -204,7 +204,7 @@ const CartPage = ({ card }) => {
                   <span className={styles.total_label}>TOTAL INCL. VAT</span>
                   <span className={styles.total_value}>
                     EGP{" "}
-                    {/* {card
+                    {card
                         .reduce(
                           (acc, item) =>
                             acc +
@@ -214,7 +214,7 @@ const CartPage = ({ card }) => {
                               item.quantity,
                           0,
                         )
-                        .toLocaleString()} */}
+                        .toLocaleString()}
                   </span>
                 </div>
 
