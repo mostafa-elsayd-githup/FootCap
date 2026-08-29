@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Dashboard from "./dashboard";
 import { createClientForServer } from "@/utils/supabase";
 
@@ -31,9 +32,9 @@ async function getWishlist() {
 
     const salesByDay = {};
 
-    profile.forEach((user) => {
+    profile?.forEach((user) => {
       if (user.orders && Array.isArray(user.orders)) {
-        user.orders.forEach((ord) => {
+        user?.orders?.forEach((ord) => {
           const day = new Date(ord.createdAt).toLocaleDateString("en-us", {
             weekday: "short",
           });
@@ -56,16 +57,16 @@ async function getWishlist() {
     }));
     const categoryMap = {};
 
-    profile.forEach((user) => {
+    profile?.forEach((user) => {
       if (Array.isArray(user?.orders)) {
-        user.orders.forEach((ord) => {      
+        user.orders?.forEach((ord) => {      
           const items = ord.items || ord.cartItems || ord.products || [];
           if (Array.isArray(items)) {
-            items.forEach((product) => {
+            items?.forEach((product) => {
               const category =
-                product.product_type ||
-                product.category ||
-                product.type ||
+                product?.product_type ||
+                product?.category ||
+                product?.type ||
                 "Other";
               const quantity = Number(product.quantity) || 1;
 
@@ -77,7 +78,7 @@ async function getWishlist() {
     });
     const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ec4899", "#8b5cf6"];
 
-    const topCategoriesData = Object.entries(categoryMap).map(
+    const topCategoriesData = Object.entries(categoryMap)?.map(
       ([name, value], index) => ({
         name,
         value,
