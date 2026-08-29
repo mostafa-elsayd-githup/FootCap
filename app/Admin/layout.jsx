@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Sidebar from "@/Components/dashboardSidbar/sidbar";
 import styles from "./layout.module.css";
 import NavAction from "@/Components/Navbar/NavAction";
