@@ -10,15 +10,65 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./login.module.css";
 import Link from "next/link";
-import loginAction from "@/server/login_server";
-import { useActionState } from "react";
+import { useState } from "react";
 import Loader from "@/Components/loaderFecthing/loader";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import loginAction from "@/server/login_server";
+// import { syncGuestDataToSupabase } from "@/server/sync_user_data";
+import { setInitialWishlist } from "@/RTK/wishlistslice";
+import { setInitialCart } from "@/RTK/cardslice";
 
 const LoginPage = () => {
-  const [state, formAction, pending] = useActionState(loginAction, {
-    message: "",
-    state: null,
-  });
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const [pending, setPending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    setPending(true);
+    setErrorMessage(null);
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const loginRes = await loginAction(null, formData);
+      if (loginRes && !loginRes.success) {
+        setErrorMessage(loginRes.message);
+        setPending(false);
+        return;
+      }
+
+      const localWishlist =
+        JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+      const localCart = JSON.parse(localStorage.getItem("guest_cart")) || [];
+
+      if (localWishlist.length > 0 || localCart.length > 0) {
+        const syncRes = await syncGuestDataToSupabase({
+          localWishlist,
+          localCart,
+        });
+        if (syncRes?.success) {
+          localStorage.removeItem("guest_wishlist");
+          localStorage.removeItem("guest_cart");
+          if (syncRes.updatedWishlist)
+            dispatch(setInitialWishlist(syncRes.updatedWishlist));
+          if (syncRes.updatedCart)
+            dispatch(setInitialCart(syncRes.updatedCart));
+        }
+      }
+
+      router.refresh();
+      router.push("/");
+    } catch (error) {
+      console.error("Login Submission Error:", error);
+      setErrorMessage("Something woring Please try again later");
+      setPending(false);
+    }
+  };
+
   return (
     <div className={styles.mainWrapper}>
       {pending && <Loader />}
@@ -39,11 +89,7 @@ const LoginPage = () => {
               Enter your details to access your athletic account
             </p>
 
-            <form
-              action={formAction}
-              onClick={(e) => e.stopPropagation()}
-              noValidate
-            >
+            <Form onSubmit={handleLoginSubmit} noValidate>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label style={{ color: "#ffffff80" }}>
                   Email Address
@@ -60,9 +106,11 @@ const LoginPage = () => {
                     className={styles.inputField}
                   />
                 </InputGroup>
-                {state?.message?.email && (
+                {errorMessage?.email && (
                   <p className="text-danger small mt-1 JSON_error">
-                    {state.message.email[0]}
+                    {Array.isArray(errorMessage.email)
+                      ? errorMessage.email[0]
+                      : errorMessage.email}
                   </p>
                 )}
               </Form.Group>
@@ -81,9 +129,16 @@ const LoginPage = () => {
                     className={styles.inputField}
                   />
                 </InputGroup>
-                {state?.message?.password && (
+                {errorMessage?.password && (
                   <p className="text-danger small mt-1 JSON_error">
-                    {state.message.password[0]}
+                    {Array.isArray(errorMessage.password)
+                      ? errorMessage.password[0]
+                      : errorMessage.password}
+                  </p>
+                )}
+                {typeof errorMessage === "string" && (
+                  <p className="text-danger small mt-1 JSON_error">
+                    {errorMessage}
                   </p>
                 )}
               </Form.Group>
@@ -91,11 +146,13 @@ const LoginPage = () => {
               <Button
                 variant="dark"
                 type="submit"
+                disabled={pending}
                 className={styles.loginButton}
               >
-                Sign In Now
+                {pending ? "Signing In..." : "Sign In Now"}
               </Button>
-            </form>
+            </Form>
+
             <div className="text-center mt-4">
               <span className="text-muted">Don&apos;t have an account? </span>
               <Link href="/register" className={styles.signUpLink}>
