@@ -29,9 +29,9 @@ export default function WishlistButton({ favoriteProduct }) {
 
       if (res?.state === 201 && res?.guestProduct) {
         let localWishlist =
-          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+          JSON.parse(localStorage.getItem("guest_wishlist")) || []; 
         const exists = localWishlist.some(
-          (item) => item.id === res.guestProduct.id
+          (item) => item.id === Number(res.guestProduct.id)
         );
 
         if (exists) {
