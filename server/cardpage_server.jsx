@@ -11,7 +11,12 @@ const DeleteCart = async (prevstate, formData) => {
     error: userError,
   } = await supabaseServer.auth.getUser();
   if (!user || userError) {
-    return { state: 401, message: "Please log in to continue. Redirecting" };
+    return {
+      state: 401,
+      aCtiontype: actionTypeState,
+      itemId: id,
+      message: "Please log in to continue. Redirecting",
+    };
   }
   if (actionTypeState === "delete") {
     const { data: profile, error: userError } = await supabaseServer
@@ -21,11 +26,9 @@ const DeleteCart = async (prevstate, formData) => {
       .single();
 
     let cart = profile.cart || [];
-
-    const exiest = cart.some((item) => item.id === id);
-
+    const exiest = cart.some((item) => item.id === Number(id));
     if (exiest) {
-      cart = cart.filter((item) => item.id !== id);
+      cart = cart.filter((item) => item.id !== Number(id));
     }
     const { error: UpdataError } = await supabaseServer
       .from("profiles")
