@@ -57,7 +57,12 @@ export async function middleware(request) {
 
   if (pathname.startsWith("/Profile")) {
     if (!user) {
-      return NextResponse.redirect(new URL("/register", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  }
+  if (pathname.startsWith("/checkout")) {
+    if (!user) {
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
