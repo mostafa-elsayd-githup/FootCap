@@ -92,7 +92,7 @@ export default async function Wishlist_Action(prevstate, formData) {
 
       return {
         state: 200,
-        message: "Updated Wishlist successfully",
+        message: "remove Wishlist successfully",
         timeStamp: Date.now(),
       };
     } catch (error) {
