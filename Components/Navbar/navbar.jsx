@@ -1,13 +1,75 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createBrowserClient } from "@supabase/ssr";
 import style from "./navbar.module.css";
 import ThemeToggle from "@/Components/button/button";
 import { useSelector, useDispatch } from "react-redux";
 import { setInitialCart } from "@/RTK/cardslice";
 import { setInitialWishlist } from "@/RTK/wishlistslice";
 import MostoreLogo from "@/Components/my_logo/logo";
+
+const getGuestItems = (key) => {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const storedValue = JSON.parse(localStorage.getItem(key) || "null");
+    return Array.isArray(storedValue) ? storedValue : [];
+  } catch {
+    return [];
+  }
+};
+
+const normalizeCartKey = (item) => {
+  const rawId = String(item?.id ?? "");
+  const size = item?.sizes ?? item?.size ?? "";
+
+  if (!rawId) return "";
+  if (rawId.includes("-")) return rawId;
+  if (size !== "") return `${rawId}-${String(size)}`;
+
+  return rawId;
+};
+
+const mergeCartItems = (savedCart = [], guestCart = []) => {
+  const merged = Array.isArray(savedCart) ? [...savedCart] : [];
+
+  guestCart.forEach((item) => {
+    const key = normalizeCartKey(item);
+    const guestQuantity = Number(item?.quantity || 1);
+    const existingIndex = merged.findIndex(
+      (savedItem) => normalizeCartKey(savedItem) === key,
+    );
+
+    if (existingIndex !== -1) {
+      merged[existingIndex].quantity =
+        Number(merged[existingIndex].quantity || 1) + guestQuantity;
+      return;
+    }
+
+    merged.push({ ...item, quantity: guestQuantity });
+  });
+
+  return merged;
+};
+
+const mergeWishlistItems = (savedWishlist = [], guestWishlist = []) => {
+  const merged = Array.isArray(savedWishlist) ? [...savedWishlist] : [];
+
+  guestWishlist.forEach((item) => {
+    const itemId = String(item?.id ?? "");
+    const alreadyExists = merged.some(
+      (savedItem) => String(savedItem?.id ?? "") === itemId,
+    );
+
+    if (!alreadyExists) {
+      merged.push(item);
+    }
+  });
+
+  return merged;
+};
 
 function NavBar({ userdata }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +79,7 @@ function NavBar({ userdata }) {
   const pathname = usePathname();
   const wishlist = useSelector((state) => state.wishlist.items);
   const card = useSelector((state) => state.card.items);
+  const syncGuestDataRef = useRef(false);
 
   useEffect(() => {
     const initialize = () => {
@@ -25,14 +88,13 @@ function NavBar({ userdata }) {
       if (userdata?.wishlist) {
         dispatch(setInitialWishlist(userdata.wishlist));
       } else {
-        const localWishlist =
-          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        const localWishlist = getGuestItems("guest_wishlist");
         dispatch(setInitialWishlist(localWishlist));
       }
       if (userdata?.cart) {
         dispatch(setInitialCart(userdata.cart));
-      }else {
-        const localCard = JSON.parse(localStorage.getItem("guest_cart")) || [];
+      } else {
+        const localCard = getGuestItems("guest_cart");
         dispatch(setInitialCart(localCard));
       }
     };
@@ -40,11 +102,70 @@ function NavBar({ userdata }) {
     initialize();
     const syncGuestWishlist = () => {
       if (!userdata) {
-        const localWishlist =
-          JSON.parse(localStorage.getItem("guest_wishlist")) || [];
+        const localWishlist = getGuestItems("guest_wishlist");
         dispatch(setInitialWishlist(localWishlist));
       }
     };
+
+    if (userdata && !syncGuestDataRef.current) {
+      const syncGuestData = async () => {
+        const guestCart = getGuestItems("guest_cart");
+        const guestWishlist = getGuestItems("guest_wishlist");
+
+        if (!guestCart.length && !guestWishlist.length) {
+          syncGuestDataRef.current = true;
+          return;
+        }
+
+        try {
+          const supabase = createBrowserClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+          );
+
+          const {
+            data: { user },
+            error: userError,
+          } = await supabase.auth.getUser();
+
+          if (userError || !user) return;
+
+          const { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("cart, wishlist")
+            .eq("id", user.id)
+            .single();
+
+          if (profileError) return;
+
+          const mergedCart = mergeCartItems(profile?.cart || [], guestCart);
+          const mergedWishlist = mergeWishlistItems(
+            profile?.wishlist || [],
+            guestWishlist,
+          );
+
+          const { error: updateError } = await supabase
+            .from("profiles")
+            .update({ cart: mergedCart, wishlist: mergedWishlist })
+            .eq("id", user.id);
+
+          if (!updateError) {
+            localStorage.removeItem("guest_cart");
+            localStorage.removeItem("guest_wishlist");
+            dispatch(setInitialCart(mergedCart));
+            dispatch(setInitialWishlist(mergedWishlist));
+            window.dispatchEvent(new Event("guest_cart_updated"));
+            window.dispatchEvent(new Event("guest_wishlist_updated"));
+          }
+        } catch (error) {
+          console.error("Failed to merge guest data:", error);
+        } finally {
+          syncGuestDataRef.current = true;
+        }
+      };
+
+      syncGuestData();
+    }
 
     window.addEventListener("guest_wishlist_updated", syncGuestWishlist);
 
