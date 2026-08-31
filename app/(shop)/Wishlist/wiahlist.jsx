@@ -20,12 +20,19 @@ function Products({ wishlist }) {
       minimumFractionDigits: decimals,
     }).format(parseInt(amount));
   useEffect(() => {
-    if (!wishlist || wishlist === 0) {
+    if (Array.isArray(wishlist) && wishlist.length > 0) {
+      queueMicrotask(() => setItems(wishlist));
+    } else {
       const localData = localStorage.getItem("guest_wishlist");
       if (localData) {
-        queueMicrotask(() => {
-          setItems(JSON.parse(localData));
-        });
+        try {
+          const parsed = JSON.parse(localData);
+          queueMicrotask(() => setItems(parsed));
+        } catch (e) {
+          queueMicrotask(() => setItems([]));
+        }
+      } else {
+        queueMicrotask(() => setItems([]));
       }
     }
   }, [wishlist]);
