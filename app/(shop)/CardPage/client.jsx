@@ -12,7 +12,10 @@ import DeleteCart from "@/server/cardpage_server";
 import Link from "next/link";
 import Loader from "@/Components/loaderFecthing/loader";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setInitialCart } from "@/RTK/cardslice";
 const CartPage = ({ card }) => {
+  const dispatch = useDispatch();
   const [cardItem, setCardItem] = useState(Array.isArray(card) ? card : []);
   useEffect(() => {
     if (card.state === 401) {
@@ -24,16 +27,26 @@ const CartPage = ({ card }) => {
       queueMicrotask(() => setCardItem(card));
     }
   }, [card]);
-
   const intinaldata = { massage: "", state: null };
   const [state, formAction, pending] = useActionState(DeleteCart, intinaldata);
+
   const [ActionState, setActionState] = useState("");
   useEffect(() => {
     if (state.state === 401) {
-      toast.error(state.message, {
-        position: "top-center",
-        duration: 2000,
-      });
+      if (state.aCtiontype === "delete") {
+        let localcart = JSON.parse(localStorage?.getItem("guest_cart"));
+        localcart = localcart.filter(
+          (item) => item.id !== Number(state.itemId),
+        );
+        localStorage.setItem("guest_cart", JSON.stringify(localcart));
+        queueMicrotask(() => setCardItem(localcart));
+        dispatch(setInitialCart(cardItem.length));
+      } else if (state.aCtiontype === "clear") {
+        localcart = [];
+        localStorage.setItem("guest_cart", JSON.stringify(localcart));
+        queueMicrotask(() => setCardItem(localcart));
+        dispatch(setInitialCart(cardItem.length));
+      }
     }
     if (state?.cardstate === 200 || state?.Clearcardstate === 200) {
       toast.success("Removed from cart", {
@@ -42,7 +55,41 @@ const CartPage = ({ card }) => {
         showConfirmButton: true,
       });
     }
-  }, [state, state.cardstate, state.state]);
+  }, [
+    dispatch,
+    card.state,
+    state,
+    state?.cardstate,
+    state.state,
+    cardItem.length,
+  ]);
+  const TOTAL_INCL = (cardItem) => {
+    return cardItem
+      .reduce(
+        (acc, item) =>
+          acc +
+          parseFloat(item.price.toString().replace(/[^\d.]/g, "")) *
+            item.quantity,
+        0,
+      )
+      .toLocaleString();
+  };
+  const Subtotalquantity = (item) => {
+    return (
+      parseFloat(item.price.toString().replace(/[^\d.]/g, "")) * item.quantity
+    ).toLocaleString();
+  };
+  const SUBTOTAL = (cardItem) => {
+   return cardItem
+      ?.reduce(
+        (acc, item) =>
+          acc +
+          parseFloat(item?.price.toString().replace(/[^\d.]/g, "")) *
+            item?.quantity,
+        0,
+      )
+      .toLocaleString();
+  };
   return (
     <main className={styles.cart_wrapper}>
       {pending && <Loader />}
@@ -50,7 +97,8 @@ const CartPage = ({ card }) => {
         <h2 className={styles.bag_title}>
           YOUR BAG
           <span className={styles.item_count}>
-            ( {cardItem.length} {cardItem.length === 1 ? "Item" : "Items"} )
+            ( {cardItem.length || 0} {cardItem.length === 1 ? "Item" : "Items"}{" "}
+            )
           </span>
         </h2>
 
@@ -59,7 +107,7 @@ const CartPage = ({ card }) => {
             <div className={styles.products_main_container}>
               <div className={styles.products_scroll_area}>
                 {cardItem && cardItem.length > 0 ? (
-                  cardItem.map((item) => {
+                  cardItem?.map((item) => {
                     const price = Intl.NumberFormat("en", {
                       notation: "standard",
                       style: "currency",
@@ -68,7 +116,10 @@ const CartPage = ({ card }) => {
                     }).format(parseInt(item.price));
 
                     return (
-                      <div key={item.id} className={styles.product_card}>
+                      <div
+                        key={item.id + item.sizes}
+                        className={styles.product_card}
+                      >
                         <form action={formAction}>
                           <button
                             className={styles.delete_btn}
@@ -124,14 +175,7 @@ const CartPage = ({ card }) => {
                             <div className={styles.card_footer_total}>
                               <span>Subtotal for this item:</span>
                               <span className={styles.total_price_text}>
-                                EGP{" "}
-                                {(
-                                  parseFloat(
-                                    item.price
-                                      .toString()
-                                      .replace(/[^\d.]/g, ""),
-                                  ) * item.quantity
-                                ).toLocaleString()}
+                                EGP {Subtotalquantity(item)}
                               </span>
                             </div>
                           )}
@@ -149,7 +193,7 @@ const CartPage = ({ card }) => {
                   </div>
                 )}
               </div>
-              {card.length >= 2 && (
+              {cardItem.length >= 2 && (
                 <div className={styles.sticky_clear_container}>
                   <form action={formAction}>
                     <input type="hidden" name="intent" value={ActionState} />
@@ -178,18 +222,7 @@ const CartPage = ({ card }) => {
                 <div className={styles.summary_row}>
                   <span className={styles.row_label}>SUBTOTAL</span>
                   <span className={styles.row_value}>
-                    EGP{" "}
-                    {card
-                        ?.reduce(
-                          (acc, item) =>
-                            acc +
-                            parseFloat(
-                              item?.price.toString().replace(/[^\d.]/g, ""),
-                            ) *
-                              item?.quantity,
-                          0,
-                        )
-                        .toLocaleString()}
+                    EGP {SUBTOTAL(cardItem)}
                   </span>
                 </div>
 
@@ -203,22 +236,11 @@ const CartPage = ({ card }) => {
                 <div className={`${styles.summary_row} ${styles.total_row}`}>
                   <span className={styles.total_label}>TOTAL INCL. VAT</span>
                   <span className={styles.total_value}>
-                    EGP{" "}
-                    {card
-                        .reduce(
-                          (acc, item) =>
-                            acc +
-                            parseFloat(
-                              item.price.toString().replace(/[^\d.]/g, ""),
-                            ) *
-                              item.quantity,
-                          0,
-                        )
-                        .toLocaleString()}
+                    EGP {TOTAL_INCL(cardItem)}
                   </span>
                 </div>
 
-                <Link href="/ckecout/" className={styles.checkout_button}>
+                <Link href="/checkout/" className={styles.checkout_button}>
                   PROCEED TO CHECKOUT{" "}
                   <FontAwesomeIcon
                     icon={faRightLong}

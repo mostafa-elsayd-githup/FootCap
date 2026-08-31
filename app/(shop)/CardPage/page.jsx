@@ -9,7 +9,7 @@ export async function getdata() {
       error: userError,
     } = await createServer.auth.getUser();
     if (!user || userError) {
-      return { state: 401, message: "Please first Create profile" };
+      return { state: 401, message: "Please Create profile" };
     }
     const { data: profileData, error: dataError } = await createServer
       .from("profiles")
